@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="application"
+         point="org.eclipse.core.runtime.applications">
+         <application>
+         <run
+               class="ca.uwaterloo.eclipse.refactoring.Application">
+         </run>
+         </application>
+   </extension>
+   <extension
+         id="jrproduct"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="ca.uwaterloo.eclipse.refactoring-template.application"
+            name="JRefactoring-Template-Product-Configuration">
+         <property
+               name="appName"
+               value="JRefactoring-Template-Product-Configuration">
+         </property>
+      </product>
+   </extension>
+
+</plugin>
