@@ -14,8 +14,11 @@ import java.util.List;
 import java.util.Set;
 
 import ca.uwaterloo.eclipse.refactoring.parsers.CloneToolParser;
+import ca.uwaterloo.eclipse.refactoring.visitor.DiffVisitor;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.TypeLiteral;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -238,10 +241,12 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 
 				for (ASTNodeDifference diff: pdgNodeMapping.getNodeDifferences()) {
 					//System.out.println("diff: " + diff.getDifferences().toString());
-					Expression expr1 = diff.getExpression1().getExpression();
 
-					System.out.println("expr1 location in parent: " + expr1.getLocationInParent());
-					System.out.println("expr1 location in parent'parent: " + expr1.getParent().getLocationInParent());
+					Expression expr1 = diff.getExpression1().getExpression();
+					expr1.accept(new DiffVisitor());
+
+					//System.out.println("expr1 location in parent: " + expr1.getLocationInParent());
+					//System.out.println("expr1 location in parent'parent: " + expr1.getParent().getLocationInParent());
 				    //System.out.println("expr1: " + expr1);
 				    //System.out.println(expr1.resolveTypeBinding());
 
