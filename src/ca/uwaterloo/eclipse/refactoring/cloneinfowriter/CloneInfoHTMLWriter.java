@@ -243,6 +243,7 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 					//System.out.println("diff: " + diff.getDifferences().toString());
 
 					Expression expr1 = diff.getExpression1().getExpression();
+					System.out.println("expr1: " + expr1);
 					expr1.accept(new DiffVisitor());
 
 					//System.out.println("expr1 location in parent: " + expr1.getLocationInParent());
