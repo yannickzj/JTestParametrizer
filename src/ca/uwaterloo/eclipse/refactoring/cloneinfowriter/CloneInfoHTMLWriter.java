@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Set;
 
 import ca.uwaterloo.eclipse.refactoring.parsers.CloneToolParser;
-import ca.uwaterloo.eclipse.refactoring.visitor.DiffVisitor;
+import ca.uwaterloo.eclipse.refactoring.rf.build.RFStatementBuilder;
+import ca.uwaterloo.eclipse.refactoring.rf.dom.RFStatement;
+import ca.uwaterloo.eclipse.refactoring.rf.visitor.DiffVisitor;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.TypeLiteral;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -231,7 +231,25 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 			System.out.println("root!!!");
 		}
 		if (root.getMapping() != null) {
+
 			NodeMapping nodeMapping = root.getMapping();
+
+			/*
+			RFStatement rfStatement = RFStatementBuilder.getInstance().build(nodeMapping);
+			if (rfStatement != null && rfStatement.getMapping().size() > 0) {
+
+				for (RFNodeDifference difference: rfStatement.getMapping()) {
+				    Expression expr1 = difference.getExpr1();
+				    if (expr1 instanceof SimpleName) {
+				        SimpleName simpleName = (SimpleName) expr1;
+				        simpleName.setIdentifier(simpleName.getIdentifier() + "_rf");
+					}
+				}
+
+				rfStatement.describe();
+			}
+			*/
+
 			if (nodeMapping instanceof PDGNodeMapping) {
 				PDGNodeMapping pdgNodeMapping = (PDGNodeMapping) nodeMapping;
 				System.out.println("NodeG1: " + pdgNodeMapping.getNodeG1());
@@ -255,7 +273,6 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 					//System.out.println(diff);
 				}
 			}
-			//System.out.println(root.getMapping().toString());
 		}
 
 		Set<CloneStructureNode> children = root.getChildren();
@@ -327,12 +344,10 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 			}
 		}
 		else if(node.getMapping() instanceof PDGElseMapping) {
-			System.out.println("PDGElseMapping");
 			styledString = new StyledString();
 			styledString.append("else", new StyledStringStyler(StyledStringVisitor.initializeKeywordStyle()));
 		}
 		else if(node.getMapping() instanceof PDGNodeGap) {
-			System.out.println("PDGNodeGap");
 			styledString = generateStyledStringForGap(node, position);
 			if ((position == CloneDiffSide.LEFT && node.getMapping().getNodeG1() != null) ||
 					(position == CloneDiffSide.RIGHT && node.getMapping().getNodeG2() != null)) {
@@ -344,7 +359,6 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 			}
 		}
 		else if(node.getMapping() instanceof PDGElseGap) {
-			System.out.println("PDGElseGap");
 			styledString = generateStyledStringForElseGap((PDGElseGap)node.getMapping(), position);
 			if ((position == CloneDiffSide.LEFT && ((PDGElseGap)node.getMapping()).getId1() != 0) ||
 					(position == CloneDiffSide.RIGHT && ((PDGElseGap)node.getMapping()).getId2() != 0)) {
