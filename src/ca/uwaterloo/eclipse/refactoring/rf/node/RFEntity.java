@@ -1,4 +1,4 @@
-package ca.uwaterloo.eclipse.refactoring.rf.dom;
+package ca.uwaterloo.eclipse.refactoring.rf.node;
 
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.RFVisitor;
 

@@ -1,6 +1,6 @@
 package ca.uwaterloo.eclipse.refactoring.rf.build;
 
-import ca.uwaterloo.eclipse.refactoring.rf.dom.*;
+import ca.uwaterloo.eclipse.refactoring.rf.node.*;
 import gr.uom.java.ast.decomposition.StatementType;
 import gr.uom.java.ast.decomposition.cfg.mapping.*;
 import gr.uom.java.ast.decomposition.matching.ASTNodeDifference;

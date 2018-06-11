@@ -15,7 +15,7 @@ import java.util.Set;
 
 import ca.uwaterloo.eclipse.refactoring.parsers.CloneToolParser;
 import ca.uwaterloo.eclipse.refactoring.rf.build.RFStatementBuilder;
-import ca.uwaterloo.eclipse.refactoring.rf.dom.RFStatement;
+import ca.uwaterloo.eclipse.refactoring.rf.node.RFStatement;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.TestVisitor;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jface.viewers.StyledString;

@@ -1,8 +1,8 @@
 package ca.uwaterloo.eclipse.refactoring.rf.visitor;
 
-import ca.uwaterloo.eclipse.refactoring.rf.dom.RFEntity;
-import ca.uwaterloo.eclipse.refactoring.rf.dom.RFNodeDifference;
-import ca.uwaterloo.eclipse.refactoring.rf.dom.RFStatement;
+import ca.uwaterloo.eclipse.refactoring.rf.node.RFEntity;
+import ca.uwaterloo.eclipse.refactoring.rf.node.RFNodeDifference;
+import ca.uwaterloo.eclipse.refactoring.rf.node.RFStatement;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
 import org.slf4j.Logger;
 

@@ -1,6 +1,6 @@
 package ca.uwaterloo.eclipse.refactoring.rf.visitor;
 
-import ca.uwaterloo.eclipse.refactoring.rf.dom.RFNodeDifference;
+import ca.uwaterloo.eclipse.refactoring.rf.node.RFNodeDifference;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.SimpleName;
