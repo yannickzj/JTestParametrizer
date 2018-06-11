@@ -16,10 +16,8 @@ import java.util.Set;
 import ca.uwaterloo.eclipse.refactoring.parsers.CloneToolParser;
 import ca.uwaterloo.eclipse.refactoring.rf.build.RFStatementBuilder;
 import ca.uwaterloo.eclipse.refactoring.rf.dom.RFStatement;
-import ca.uwaterloo.eclipse.refactoring.rf.visitor.DiffVisitor;
-import ca.uwaterloo.eclipse.refactoring.rf.visitor.RFTestVisitor;
+import ca.uwaterloo.eclipse.refactoring.rf.visitor.TestVisitor;
 import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
@@ -227,7 +225,7 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 	
 	private void recursiveGetMappedTableRows(StringBuilder builder, CloneStructureNode root, int numberOfTabs, List<CloneStructureNode> returnedNodes) {
 
-		System.out.println(numberOfTabs + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		System.out.println("\n" + numberOfTabs + "----------------------------------------------------------------------");
 		if (root.isRoot()) {
 			System.out.println("root!!!");
 		}
@@ -248,7 +246,7 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 				}
 				*/
 
-			    rfStatement.accept(new RFTestVisitor());
+			    rfStatement.accept(new TestVisitor());
 				//rfStatement.describe();
 			}
 
@@ -278,6 +276,8 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 			}
 			*/
 		}
+
+		System.out.println();
 
 		Set<CloneStructureNode> children = root.getChildren();
 		

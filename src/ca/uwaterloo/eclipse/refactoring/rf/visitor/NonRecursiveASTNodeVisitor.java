@@ -2,9 +2,9 @@ package ca.uwaterloo.eclipse.refactoring.rf.visitor;
 
 import org.eclipse.jdt.core.dom.*;
 
-public abstract class DefaultVisitor extends ASTVisitor {
+public abstract class NonRecursiveASTNodeVisitor extends ASTVisitor {
 
-    public DefaultVisitor() {}
+    public NonRecursiveASTNodeVisitor() {}
 
     @Override
     public boolean visit(AnnotationTypeDeclaration node) {

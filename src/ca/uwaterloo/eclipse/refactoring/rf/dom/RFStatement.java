@@ -1,13 +1,20 @@
 package ca.uwaterloo.eclipse.refactoring.rf.dom;
 
+import ca.uwaterloo.eclipse.refactoring.rf.visitor.ExpressionStmtVisitor;
+import ca.uwaterloo.eclipse.refactoring.rf.visitor.IfStmtVisitor;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.RFVisitor;
+import ca.uwaterloo.eclipse.refactoring.rf.visitor.VariableDeclarationStmtVisitor;
+import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.StatementType;
 import org.eclipse.jdt.core.dom.Statement;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class RFStatement {
+public class RFStatement extends RFEntity {
+
+    private static Logger log = FileLogger.getLogger(RFStatement.class);
 
     private StatementType statementType;
     private Statement statement1;
@@ -60,6 +67,19 @@ public abstract class RFStatement {
         this.mapping = mapping;
     }
 
+    public RFVisitor selectVisitor() {
+        switch (statementType) {
+            case VARIABLE_DECLARATION:
+                return new VariableDeclarationStmtVisitor();
+            case EXPRESSION:
+                return new ExpressionStmtVisitor();
+            case IF:
+                return new IfStmtVisitor();
+            default:
+                throw new IllegalStateException();
+        }
+    }
+
     public void describe() {
         System.out.println("Describing current RFStatement: ");
         System.out.println("\ttype: " + statementType);
@@ -71,18 +91,12 @@ public abstract class RFStatement {
         }
     }
 
-    public final void accept(RFVisitor visitor) {
-        if (visitor == null) {
-            throw new IllegalArgumentException();
+    void accept0(RFVisitor visitor) {
+        boolean visitChildren = visitor.visit(this);
+        if (visitChildren) {
+            // visit children
+            log.info("doing nothing for RFVariableDeclarationStatement");
         }
-        // begin with the generic pre-visit
-        if (visitor.preVisit2(this)) {
-            // dynamic dispatch to internal method for type-specific visit/endVisit
-            accept0(visitor);
-        }
-        // end with the generic post-visit
-        visitor.postVisit(this);
+        visitor.endVisit(this);
     }
-
-    abstract void accept0(RFVisitor visitor);
 }

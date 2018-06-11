@@ -4,6 +4,7 @@ import ca.uwaterloo.eclipse.refactoring.rf.dom.*;
 import gr.uom.java.ast.decomposition.StatementType;
 import gr.uom.java.ast.decomposition.cfg.mapping.*;
 import gr.uom.java.ast.decomposition.matching.ASTNodeDifference;
+import gr.uom.java.ast.decomposition.matching.Difference;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 
@@ -51,7 +52,8 @@ public class RFStatementBuilder {
         for (ASTNodeDifference astNodeDifference: nodeMapping.getNodeDifferences()) {
             Expression expr1 = astNodeDifference.getExpression1().getExpression();
             Expression expr2 = astNodeDifference.getExpression2().getExpression();
-            mapping.add(new RFNodeDifference(expr1, expr2));
+            List<Difference> differences = astNodeDifference.getDifferences();
+            mapping.add(new RFNodeDifference(expr1, expr2, differences));
         }
 
         Statement statement1 = nodeMapping.getNodeG1().getASTStatement();
@@ -59,26 +61,7 @@ public class RFStatementBuilder {
 
         StatementType statementType = nodeMapping.getNodeG1().getStatement().getType();
 
-        return createRFStatement(statementType, statement1, statement2, mapping);
-    }
-
-    private RFStatement createRFStatement(
-            StatementType statementType,
-            Statement statement1,
-            Statement statement2,
-            List<RFNodeDifference> mapping) {
-
-        switch(statementType) {
-            case VARIABLE_DECLARATION:
-                return new RFVariableDeclarationStatement(statementType, statement1, statement2, mapping);
-            case EXPRESSION:
-                return new RFExpressionStatement(statementType, statement1, statement2, mapping);
-            case IF:
-                return new RFIfStatement(statementType, statement1, statement2, mapping);
-            default:
-                System.out.println("unknown statement type");
-                return null;
-        }
+        return new RFStatement(statementType, statement1, statement2, mapping);
     }
 
 }
