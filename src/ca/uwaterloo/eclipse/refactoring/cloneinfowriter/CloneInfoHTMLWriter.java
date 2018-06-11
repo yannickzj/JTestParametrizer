@@ -17,6 +17,7 @@ import ca.uwaterloo.eclipse.refactoring.parsers.CloneToolParser;
 import ca.uwaterloo.eclipse.refactoring.rf.build.RFStatementBuilder;
 import ca.uwaterloo.eclipse.refactoring.rf.dom.RFStatement;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.DiffVisitor;
+import ca.uwaterloo.eclipse.refactoring.rf.visitor.RFTestVisitor;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jface.viewers.StyledString;
@@ -234,10 +235,10 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 
 			NodeMapping nodeMapping = root.getMapping();
 
-			/*
 			RFStatement rfStatement = RFStatementBuilder.getInstance().build(nodeMapping);
 			if (rfStatement != null && rfStatement.getMapping().size() > 0) {
 
+			    /*
 				for (RFNodeDifference difference: rfStatement.getMapping()) {
 				    Expression expr1 = difference.getExpr1();
 				    if (expr1 instanceof SimpleName) {
@@ -245,11 +246,13 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 				        simpleName.setIdentifier(simpleName.getIdentifier() + "_rf");
 					}
 				}
+				*/
 
-				rfStatement.describe();
+			    rfStatement.accept(new RFTestVisitor());
+				//rfStatement.describe();
 			}
-			*/
 
+			/*
 			if (nodeMapping instanceof PDGNodeMapping) {
 				PDGNodeMapping pdgNodeMapping = (PDGNodeMapping) nodeMapping;
 				System.out.println("NodeG1: " + pdgNodeMapping.getNodeG1());
@@ -273,6 +276,7 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 					//System.out.println(diff);
 				}
 			}
+			*/
 		}
 
 		Set<CloneStructureNode> children = root.getChildren();

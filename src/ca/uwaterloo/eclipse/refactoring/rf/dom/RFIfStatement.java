@@ -1,9 +1,14 @@
 package ca.uwaterloo.eclipse.refactoring.rf.dom;
 
+import ca.uwaterloo.eclipse.refactoring.rf.visitor.RFVisitor;
+import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.StatementType;
 import org.eclipse.jdt.core.dom.Statement;
+import org.slf4j.Logger;
 
 public class RFIfStatement extends RFStatement {
+
+    private static Logger log = FileLogger.getLogger(RFIfStatement.class);
 
     public RFIfStatement(
             StatementType statementType,
@@ -13,4 +18,12 @@ public class RFIfStatement extends RFStatement {
         super(statementType, statement1, statement2, mapping);
     }
 
+    void accept0(RFVisitor visitor) {
+        boolean visitChildren = visitor.visit(this);
+        if (visitChildren) {
+            // visit children
+            log.info("doing nothing for RFIfStatement");
+        }
+        visitor.endVisit(this);
+    }
 }
