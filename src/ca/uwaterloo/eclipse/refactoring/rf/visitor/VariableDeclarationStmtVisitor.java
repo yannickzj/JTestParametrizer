@@ -2,6 +2,7 @@ package ca.uwaterloo.eclipse.refactoring.rf.visitor;
 
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFNodeDifference;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.SimpleType;
@@ -19,11 +20,28 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
         Expression expr1 = diff.getExpr1();
         Expression expr2 = diff.getExpr2();
 
-        expr1.accept(this);
-        expr2.accept(this);
+        assert expr1.getNodeType() == expr2.getNodeType();
+
+        ASTNode contextNode1 = getContextNode(expr1);
+        ASTNode contextNode2 = getContextNode(expr2);
+
+        assert contextNode1.getNodeType() == contextNode2.getNodeType();
+
+        int nodeType = contextNode1.getNodeType();
+
+        log.info("contextNode: " + ASTNode.nodeClassForType(nodeType).getName());
 
         return false;
     }
+
+    private ASTNode getContextNode(Expression expr) {
+        ASTNode contextNode = expr.getParent();
+        while(contextNode.getNodeType() == ASTNode.SIMPLE_NAME || contextNode.getNodeType() == ASTNode.SIMPLE_TYPE) {
+            contextNode = contextNode.getParent();
+        }
+        return contextNode;
+    }
+
 
     @Override
     public boolean visit(SimpleName node) {
