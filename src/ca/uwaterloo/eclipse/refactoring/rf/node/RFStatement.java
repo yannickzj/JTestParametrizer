@@ -1,5 +1,6 @@
 package ca.uwaterloo.eclipse.refactoring.rf.node;
 
+import ca.uwaterloo.eclipse.refactoring.rf.template.RFTemplate;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.ExpressionStmtVisitor;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.IfStmtVisitor;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.RFVisitor;
@@ -20,19 +21,30 @@ public class RFStatement extends RFEntity {
     private Statement statement1;
     private Statement statement2;
     private List<RFNodeDifference> mapping;
+    private RFTemplate template;
 
     public RFStatement() {
         statementType = StatementType.EMPTY;
         statement1 = null;
         statement2 = null;
         mapping = new ArrayList<>();
+        template = null;
     }
 
-    public RFStatement(StatementType statementType, Statement statement1, Statement statement2, List<RFNodeDifference> mapping) {
+    public RFStatement(StatementType statementType,
+                       Statement statement1,
+                       Statement statement2,
+                       List<RFNodeDifference> mapping,
+                       RFTemplate template) {
         this.statementType = statementType;
         this.statement1 = statement1;
         this.statement2 = statement2;
         this.mapping = mapping;
+        this.template = template;
+
+        for (RFNodeDifference diff: this.mapping) {
+            diff.setRfStatement(this);
+        }
     }
 
     public StatementType getStatementType() {
@@ -51,6 +63,10 @@ public class RFStatement extends RFEntity {
         return mapping;
     }
 
+    public RFTemplate getTemplate() {
+        return template;
+    }
+
     public void setStatementType(StatementType statementType) {
         this.statementType = statementType;
     }
@@ -65,6 +81,10 @@ public class RFStatement extends RFEntity {
 
     public void setMapping(List<RFNodeDifference> mapping) {
         this.mapping = mapping;
+    }
+
+    public void setTemplate(RFTemplate template) {
+        this.template = template;
     }
 
     public RFVisitor selectVisitor() {

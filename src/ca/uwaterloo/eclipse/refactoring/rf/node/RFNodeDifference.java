@@ -1,5 +1,6 @@
 package ca.uwaterloo.eclipse.refactoring.rf.node;
 
+import ca.uwaterloo.eclipse.refactoring.rf.template.RFTemplate;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.RFVisitor;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.matching.Difference;
@@ -15,6 +16,7 @@ public class RFNodeDifference extends RFEntity {
     private final Expression expr1;
     private final Expression expr2;
     private final List<Difference> differences;
+    private RFStatement rfStatement;
 
     public RFNodeDifference(Expression expr1, Expression expr2, List<Difference> differences) {
         this.expr1 = expr1;
@@ -32,6 +34,18 @@ public class RFNodeDifference extends RFEntity {
 
     public List<Difference> getDifferences() {
         return differences;
+    }
+
+    public RFStatement getRfStatement() {
+        return rfStatement;
+    }
+
+    public void setRfStatement(RFStatement rfStatement) {
+        this.rfStatement = rfStatement;
+    }
+
+    public RFTemplate getTemplate() {
+        return rfStatement.getTemplate();
     }
 
     void accept0(RFVisitor visitor) {

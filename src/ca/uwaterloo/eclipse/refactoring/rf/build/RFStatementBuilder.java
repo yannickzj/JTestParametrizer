@@ -1,6 +1,7 @@
 package ca.uwaterloo.eclipse.refactoring.rf.build;
 
 import ca.uwaterloo.eclipse.refactoring.rf.node.*;
+import ca.uwaterloo.eclipse.refactoring.rf.template.RFTemplate;
 import gr.uom.java.ast.decomposition.StatementType;
 import gr.uom.java.ast.decomposition.cfg.mapping.*;
 import gr.uom.java.ast.decomposition.matching.ASTNodeDifference;
@@ -24,10 +25,10 @@ public class RFStatementBuilder {
         return builder;
     }
 
-    public RFStatement build(NodeMapping nodeMapping) {
+    public RFStatement build(NodeMapping nodeMapping, RFTemplate template) {
 
         if (nodeMapping instanceof PDGNodeMapping) {
-            return buildFromPDGNodeMapping(nodeMapping);
+            return buildFromPDGNodeMapping(nodeMapping, template);
 
         } else if (nodeMapping instanceof PDGElseMapping) {
             System.out.println("PDG else mapping");
@@ -47,7 +48,7 @@ public class RFStatementBuilder {
         }
     }
 
-    private RFStatement buildFromPDGNodeMapping(NodeMapping nodeMapping) {
+    private RFStatement buildFromPDGNodeMapping(NodeMapping nodeMapping, RFTemplate template) {
         List<RFNodeDifference> mapping = new ArrayList<>();
         for (ASTNodeDifference astNodeDifference: nodeMapping.getNodeDifferences()) {
             Expression expr1 = astNodeDifference.getExpression1().getExpression();
@@ -61,7 +62,7 @@ public class RFStatementBuilder {
 
         StatementType statementType = nodeMapping.getNodeG1().getStatement().getType();
 
-        return new RFStatement(statementType, statement1, statement2, mapping);
+        return new RFStatement(statementType, statement1, statement2, mapping, template);
     }
 
 }

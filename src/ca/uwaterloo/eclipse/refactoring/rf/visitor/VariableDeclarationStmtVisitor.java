@@ -22,14 +22,14 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
 
         assert expr1.getNodeType() == expr2.getNodeType();
 
+        // search context node
         ASTNode contextNode1 = getContextNode(expr1);
         ASTNode contextNode2 = getContextNode(expr2);
-
         assert contextNode1.getNodeType() == contextNode2.getNodeType();
-
         int nodeType = contextNode1.getNodeType();
-
         log.info("contextNode: " + ASTNode.nodeClassForType(nodeType).getName());
+
+        //log.info("template: " + diff.getTemplate());
 
         return false;
     }

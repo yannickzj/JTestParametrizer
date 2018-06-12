@@ -16,6 +16,8 @@ import java.util.Set;
 import ca.uwaterloo.eclipse.refactoring.parsers.CloneToolParser;
 import ca.uwaterloo.eclipse.refactoring.rf.build.RFStatementBuilder;
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFStatement;
+import ca.uwaterloo.eclipse.refactoring.rf.template.GenericManager;
+import ca.uwaterloo.eclipse.refactoring.rf.template.RFTemplate;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.TestVisitor;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jface.viewers.StyledString;
@@ -218,12 +220,15 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 	 */
 	private String getMappedTableRows(CloneStructureNode root, List<CloneStructureNode> returnedNodes) {
 		StringBuilder builder = new StringBuilder();
-		if (root != null)
-			recursiveGetMappedTableRows(builder, root, 0, returnedNodes);
+		if (root != null) {
+			RFTemplate template = new RFTemplate(new GenericManager());
+			recursiveGetMappedTableRows(builder, root, 0, returnedNodes, template);
+		}
 		return builder.toString();
 	}
 	
-	private void recursiveGetMappedTableRows(StringBuilder builder, CloneStructureNode root, int numberOfTabs, List<CloneStructureNode> returnedNodes) {
+	private void recursiveGetMappedTableRows(StringBuilder builder, CloneStructureNode root, int numberOfTabs,
+											 List<CloneStructureNode> returnedNodes, RFTemplate template) {
 
 		System.out.println("\n" + numberOfTabs + "----------------------------------------------------------------------");
 		if (root.isRoot()) {
@@ -233,7 +238,7 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 
 			NodeMapping nodeMapping = root.getMapping();
 
-			RFStatement rfStatement = RFStatementBuilder.getInstance().build(nodeMapping);
+			RFStatement rfStatement = RFStatementBuilder.getInstance().build(nodeMapping, template);
 			if (rfStatement != null && rfStatement.getMapping().size() > 0) {
 
 			    /*
@@ -319,7 +324,7 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 			builder.append(String.format("<tr class=\"child ID%s\">%s<td class=\"mappedimage\">%s</td>%s</tr>", parentID, leftStatementHTML, getInformationDialogHTML(node), rightStatementHTML));
 						
 			numberOfTabs++;
-			recursiveGetMappedTableRows(builder, node, numberOfTabs, returnedNodes);
+			recursiveGetMappedTableRows(builder, node, numberOfTabs, returnedNodes, template);
 			numberOfTabs--;
 		}
 	}
