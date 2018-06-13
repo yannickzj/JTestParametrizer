@@ -2,10 +2,7 @@ package ca.uwaterloo.eclipse.refactoring.rf.visitor;
 
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFNodeDifference;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.Expression;
-import org.eclipse.jdt.core.dom.SimpleName;
-import org.eclipse.jdt.core.dom.SimpleType;
+import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
 public class VariableDeclarationStmtVisitor extends RFVisitor {
@@ -29,6 +26,19 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
         int nodeType = contextNode1.getNodeType();
         log.info("contextNode: " + ASTNode.nodeClassForType(nodeType).getName());
 
+        /*
+        AST ast = AST.newAST(expr1.getAST().apiLevel());
+        ASTNode newExpr = ASTNode.copySubtree(ast, expr1);
+
+        if (expr1 instanceof SimpleName) {
+            SimpleName name = (SimpleName) expr1;
+            name.setIdentifier(name.getIdentifier() + "_hahaha");
+        }
+
+        expr1.accept(this);
+        newExpr.accept(this);
+        */
+
         //log.info("template: " + diff.getTemplate());
 
         return false;
@@ -46,13 +56,15 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
     @Override
     public boolean visit(SimpleName node) {
         System.out.println("SimpleName location [" + node + "] in parent: " + node.getLocationInParent());
+        //System.out.println("SimpleName: " + node);
+        //System.out.println("Start position: " + node.getStartPosition());
         node.getParent().accept(this);
         return false;
     }
 
     @Override
     public boolean visit(SimpleType node) {
-        System.out.println("SimpleType location [" + node + "] in parent: " + node.getLocationInParent());
+        //System.out.println("SimpleType location [" + node + "] in parent: " + node.getLocationInParent());
         node.getParent().accept(this);
         return false;
     }

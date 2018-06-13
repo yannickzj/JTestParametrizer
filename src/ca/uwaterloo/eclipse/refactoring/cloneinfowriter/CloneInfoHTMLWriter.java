@@ -19,6 +19,7 @@ import ca.uwaterloo.eclipse.refactoring.rf.node.RFStatement;
 import ca.uwaterloo.eclipse.refactoring.rf.template.GenericManager;
 import ca.uwaterloo.eclipse.refactoring.rf.template.RFTemplate;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.TestVisitor;
+import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.SWT;
@@ -221,8 +222,10 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 	private String getMappedTableRows(CloneStructureNode root, List<CloneStructureNode> returnedNodes) {
 		StringBuilder builder = new StringBuilder();
 		if (root != null) {
-			RFTemplate template = new RFTemplate(new GenericManager());
+			int apilevel = AST.JLS4;
+			RFTemplate template = new RFTemplate(apilevel, new GenericManager());
 			recursiveGetMappedTableRows(builder, root, 0, returnedNodes, template);
+			System.out.println(template);
 		}
 		return builder.toString();
 	}
