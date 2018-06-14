@@ -17,18 +17,22 @@ public class RFStatement extends RFEntity {
 
     private static Logger log = FileLogger.getLogger(RFStatement.class);
 
+    private RFStatement parent;
+    private List<RFStatement> children;
     private StatementType statementType;
     private Statement statement1;
     private Statement statement2;
     private List<RFNodeDifference> mapping;
     private RFTemplate template;
 
-    public RFStatement() {
-        statementType = StatementType.EMPTY;
+    public RFStatement(RFTemplate template) {
+        parent = null;
+        statementType = null;
         statement1 = null;
         statement2 = null;
+        this.template = template;
         mapping = new ArrayList<>();
-        template = null;
+        children = new ArrayList<>();
     }
 
     public RFStatement(StatementType statementType,
@@ -36,19 +40,44 @@ public class RFStatement extends RFEntity {
                        Statement statement2,
                        List<RFNodeDifference> mapping,
                        RFTemplate template) {
+        this.parent = null;
         this.statementType = statementType;
         this.statement1 = statement1;
         this.statement2 = statement2;
         this.mapping = mapping;
         this.template = template;
+        this.children = new ArrayList<>();
 
-        for (RFNodeDifference diff: this.mapping) {
+        for (RFNodeDifference diff : this.mapping) {
             diff.setRfStatement(this);
         }
     }
 
+    public void setParent(RFStatement parent) {
+        this.parent = parent;
+    }
+
+    public void addChild(RFStatement child) {
+        if (child == null) {
+            throw new IllegalArgumentException();
+        }
+        children.add(child);
+    }
+
+    public boolean isRoot() {
+        return this.parent == null;
+    }
+
     public StatementType getStatementType() {
         return statementType;
+    }
+
+    public String getStatementTypeString() {
+        if (isRoot()) {
+            return "root";
+        } else {
+            return statementType == null ? "else" : statementType.toString();
+        }
     }
 
     public Statement getStatement1() {
@@ -101,13 +130,26 @@ public class RFStatement extends RFEntity {
     }
 
     public void describe() {
-        System.out.println("Describing current RFStatement: ");
-        System.out.println("\ttype: " + statementType);
-        System.out.println("\tstatement1: " + statement1);
-        System.out.println("\tstatement2: " + statement2);
-        System.out.println("\tmapping: ");
-        for(RFNodeDifference difference: mapping) {
-            System.out.println("\t\t" + difference);
+        System.out.println("-----------------------------------------------------------");
+        describeStatements();
+        describeDifference();
+    }
+
+    public void describeStatements() {
+        System.out.println("Describing RFStatement [Type: " + getStatementTypeString() + "]:");
+        System.out.println("\t\tStatement1: " + (statement1 == null ? "null" : statement1.toString()));
+        System.out.println("\t\tStatement2: " + (statement2 == null ? "null" : statement2.toString()));
+    }
+
+    public void describeDifference() {
+        if (mapping.size() > 0) {
+            System.out.println("Describing RFStatement differences: ");
+            System.out.println("\tDifferences: ");
+            for (RFNodeDifference difference : mapping) {
+                System.out.println("\t\t" + difference);
+            }
+        } else {
+            System.out.println("Current RFStatement has no difference");
         }
     }
 
@@ -115,7 +157,10 @@ public class RFStatement extends RFEntity {
         boolean visitChildren = visitor.visit(this);
         if (visitChildren) {
             // visit children
-            log.info("doing nothing for RFVariableDeclarationStatement");
+            for (RFStatement child: children) {
+                child.accept(visitor);
+            }
+            //log.info("doing nothing for RFVariableDeclarationStatement");
         }
         visitor.endVisit(this);
     }

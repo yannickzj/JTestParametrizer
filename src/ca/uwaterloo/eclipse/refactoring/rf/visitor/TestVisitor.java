@@ -3,6 +3,7 @@ package ca.uwaterloo.eclipse.refactoring.rf.visitor;
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFNodeDifference;
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFStatement;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
+import gr.uom.java.ast.decomposition.StatementType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
@@ -16,6 +17,7 @@ public class TestVisitor extends RFVisitor {
     public boolean visit(RFStatement node) {
         node.describe();
 
+        /*
         System.out.println();
         log.info("start to navigate the difference");
 
@@ -32,13 +34,14 @@ public class TestVisitor extends RFVisitor {
         System.out.println();
         log.info("finish navigating the difference");
         System.out.println();
+        */
 
-        return false;
+        return true;
     }
 
     @Override
     public void endVisit(RFStatement node) {
-        log.info("finish visiting RFVariableDeclarationStatement");
+        log.info("finish visiting RFStatement [Type: " + node.getStatementTypeString() + "]");
     }
 
     @Override

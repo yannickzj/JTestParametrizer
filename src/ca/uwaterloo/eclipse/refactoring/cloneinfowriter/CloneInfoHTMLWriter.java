@@ -224,15 +224,40 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 		if (root != null) {
 			int apilevel = AST.JLS4;
 			RFTemplate template = new RFTemplate(apilevel, new GenericManager());
+
+			RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);
+			rfRoot.accept(new TestVisitor());
+
 			recursiveGetMappedTableRows(builder, root, 0, returnedNodes, template);
 			System.out.println(template);
 		}
 		return builder.toString();
 	}
+
+	private void visitClone(CloneStructureNode root) {
+
+		if (!root.isRoot()) {
+		    System.out.println("----------------------------------------------------------");
+		    if(root.getMapping() != null) {
+		    	if (root.getMapping().getNodeG1() != null) {
+					System.out.println(root.getMapping().getNodeG1().getASTStatement());
+				} else {
+		    		System.out.println("empty node1");
+				}
+			} else {
+		    	System.out.println("empty mapping");
+			}
+		}
+
+		for (CloneStructureNode child: root.getChildren()) {
+			visitClone(child);
+		}
+	}
 	
 	private void recursiveGetMappedTableRows(StringBuilder builder, CloneStructureNode root, int numberOfTabs,
 											 List<CloneStructureNode> returnedNodes, RFTemplate template) {
 
+	    /*
 		System.out.println("\n" + numberOfTabs + "----------------------------------------------------------------------");
 		if (root.isRoot()) {
 			System.out.println("root!!!");
@@ -241,10 +266,10 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 
 			NodeMapping nodeMapping = root.getMapping();
 
-			RFStatement rfStatement = RFStatementBuilder.getInstance().build(nodeMapping, template);
+			RFStatement rfStatement = RFStatementBuilder.getInstance().buildCurrent(nodeMapping, template);
 			if (rfStatement != null && rfStatement.getMapping().size() > 0) {
 
-			    /*
+				///////////////////////////////////////////////////
 				for (RFNodeDifference difference: rfStatement.getMapping()) {
 				    Expression expr1 = difference.getExpr1();
 				    if (expr1 instanceof SimpleName) {
@@ -252,13 +277,12 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 				        simpleName.setIdentifier(simpleName.getIdentifier() + "_rf");
 					}
 				}
-				*/
 
 			    rfStatement.accept(new TestVisitor());
 				//rfStatement.describe();
 			}
 
-			/*
+			//////////////////////////////////
 			if (nodeMapping instanceof PDGNodeMapping) {
 				PDGNodeMapping pdgNodeMapping = (PDGNodeMapping) nodeMapping;
 				System.out.println("NodeG1: " + pdgNodeMapping.getNodeG1());
@@ -282,10 +306,9 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 					//System.out.println(diff);
 				}
 			}
-			*/
 		}
+		*/
 
-		System.out.println();
 
 		Set<CloneStructureNode> children = root.getChildren();
 		
