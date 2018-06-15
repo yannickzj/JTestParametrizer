@@ -25,6 +25,7 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
     @Override
     public boolean visit(RFStatement node) {
         if (node.hasDifference()) {
+            System.out.println("-----------------------------------------------------------");
             node.describeStatements();
             for (RFNodeDifference diff: node.getNodeDifferences()) {
                 diff.accept(this);
@@ -44,20 +45,6 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
         refactor(diff);
 
         System.out.println();
-
-        /*
-        AST ast = AST.newAST(expr1.getAST().apiLevel());
-        ASTNode newExpr = ASTNode.copySubtree(ast, expr1);
-
-        if (expr1 instanceof SimpleName) {
-            SimpleName name = (SimpleName) expr1;
-            name.setIdentifier(name.getIdentifier() + "_hahaha");
-        }
-
-        expr1.accept(this);
-        newExpr.accept(this);
-        */
-
         return false;
     }
 
