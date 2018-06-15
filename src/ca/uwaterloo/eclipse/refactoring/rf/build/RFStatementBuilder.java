@@ -65,7 +65,6 @@ public class RFStatementBuilder {
             return buildFromPDGNodeMapping(nodeMapping, template);
 
         } else if (nodeMapping instanceof PDGElseMapping) {
-            System.out.println("PDG else mapping");
             return buildFromPDGElseMapping(nodeMapping, template);
 
         } else if (nodeMapping instanceof PDGNodeGap) {
@@ -80,18 +79,18 @@ public class RFStatementBuilder {
             return null;
 
         } else {
-            System.out.println("unknown nodeMapping");
+            System.out.println("Unknown nodeMapping");
             return null;
         }
     }
 
     private RFStatement buildFromPDGNodeMapping(NodeMapping nodeMapping, RFTemplate template) {
-        List<RFNodeDifference> mapping = new ArrayList<>();
+        List<RFNodeDifference> nodeDifferences = new ArrayList<>();
         for (ASTNodeDifference astNodeDifference : nodeMapping.getNodeDifferences()) {
             Expression expr1 = astNodeDifference.getExpression1().getExpression();
             Expression expr2 = astNodeDifference.getExpression2().getExpression();
             List<Difference> differences = astNodeDifference.getDifferences();
-            mapping.add(new RFNodeDifference(expr1, expr2, differences));
+            nodeDifferences.add(new RFNodeDifference(expr1, expr2, differences));
         }
 
         Statement statement1 = nodeMapping.getNodeG1().getASTStatement();
@@ -100,18 +99,7 @@ public class RFStatementBuilder {
         assert nodeMapping.getNodeG1().getStatement().getType() == nodeMapping.getNodeG2().getStatement().getType();
         StatementType statementType = nodeMapping.getNodeG1().getStatement().getType();
 
-        /*
-        System.out.println("building RFStatement: ");
-        System.out.println("\ttype: " + statementType);
-        System.out.println("\tstatement1: " + statement1);
-        System.out.println("\tstatement2: " + statement2);
-        System.out.println("\tmapping: ");
-        for(RFNodeDifference difference: mapping) {
-            System.out.println("\t\t" + difference);
-        }
-        */
-
-        return new RFStatement(statementType, statement1, statement2, mapping, template);
+        return new RFStatement(statementType, statement1, statement2, nodeDifferences, template);
     }
 
     private RFStatement buildFromPDGElseMapping(NodeMapping nodeMapping, RFTemplate template) {

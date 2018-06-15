@@ -1,9 +1,19 @@
 package ca.uwaterloo.eclipse.refactoring.rf.visitor;
 
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFNodeDifference;
+import ca.uwaterloo.eclipse.refactoring.rf.node.RFStatement;
+import ca.uwaterloo.eclipse.refactoring.rf.strategy.*;
+import ca.uwaterloo.eclipse.refactoring.rf.utility.ContextUtil;
+import ca.uwaterloo.eclipse.refactoring.rf.utility.DiffUtil;
+import ca.uwaterloo.eclipse.refactoring.rf.utility.Transformer;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
+import gr.uom.java.ast.decomposition.matching.DifferenceType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class VariableDeclarationStmtVisitor extends RFVisitor {
 
@@ -13,18 +23,27 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
     }
 
     @Override
+    public boolean visit(RFStatement node) {
+        if (node.hasDifference()) {
+            node.describeStatements();
+            for (RFNodeDifference diff: node.getNodeDifferences()) {
+                diff.accept(this);
+            }
+            System.out.println("variableDeclarationStmtVisitor finish visiting");
+        }
+        return true;
+    }
+
+    @Override
     public boolean visit(RFNodeDifference diff) {
-        Expression expr1 = diff.getExpr1();
-        Expression expr2 = diff.getExpr2();
 
-        assert expr1.getNodeType() == expr2.getNodeType();
+        // validate node difference
+        ContextUtil.validateNodeDiff(diff);
 
-        // search context node
-        ASTNode contextNode1 = getContextNode(expr1);
-        ASTNode contextNode2 = getContextNode(expr2);
-        assert contextNode1.getNodeType() == contextNode2.getNodeType();
-        int nodeType = contextNode1.getNodeType();
-        log.info("contextNode: " + ASTNode.nodeClassForType(nodeType).getName());
+        // refactor node difference
+        refactor(diff);
+
+        System.out.println();
 
         /*
         AST ast = AST.newAST(expr1.getAST().apiLevel());
@@ -39,19 +58,49 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
         newExpr.accept(this);
         */
 
-        //log.info("template: " + diff.getTemplate());
-
         return false;
     }
 
-    private ASTNode getContextNode(Expression expr) {
-        ASTNode contextNode = expr.getParent();
-        while(contextNode.getNodeType() == ASTNode.SIMPLE_NAME || contextNode.getNodeType() == ASTNode.SIMPLE_TYPE) {
-            contextNode = contextNode.getParent();
+    private List<Strategy> selectStrategies(int contextNodyType, Set<DifferenceType> differenceTypes) {
+
+        List<Strategy> strategies = new ArrayList<>();
+
+        if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)) {
+            if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                strategies.add(new CreateMethodInvocationAction());
+            } else {
+                strategies.add(new ResolveName());
+            }
+        } else {
+            if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                if (contextNodyType == ASTNode.CLASS_INSTANCE_CREATION) {
+                    strategies.add(new CreateClassInstance());
+                }
+                strategies.add(new ResolveTypeParameter());
+            }
         }
-        return contextNode;
+
+        return strategies;
     }
 
+    private void refactor(RFNodeDifference diff) {
+        log.info("refactor difference: " + DiffUtil.displayNodeDiff(diff));
+
+        // search context node
+        int nodeType = ContextUtil.getContextNodeType(diff);
+        log.info("contextNode: " + ASTNode.nodeClassForType(nodeType).getName());
+
+        Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
+
+        // select refactoring strategy based on difference types and context node
+        List<Strategy> strategies = selectStrategies(nodeType, differenceTypes);
+
+        // take refactoring actions
+        for(Strategy strategy: strategies) {
+            Transformer.setStrategy(strategy);
+            Transformer.transform(diff);
+        }
+    }
 
     @Override
     public boolean visit(SimpleName node) {

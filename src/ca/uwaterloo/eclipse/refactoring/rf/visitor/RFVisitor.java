@@ -4,6 +4,10 @@ import ca.uwaterloo.eclipse.refactoring.rf.node.RFEntity;
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFNodeDifference;
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFStatement;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
+import org.eclipse.jdt.core.dom.AST;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.Statement;
 import org.slf4j.Logger;
 
 public abstract class RFVisitor extends NonRecursiveASTNodeVisitor {
@@ -35,7 +39,11 @@ public abstract class RFVisitor extends NonRecursiveASTNodeVisitor {
     }
 
     public void endVisit(RFStatement node) {
-        log.info("finish visiting RFStatement");
+        if (node.isTopStmt()) {
+            //log.info("copy current RFStatement");
+            AST ast = node.getTemplate().getAst();
+            node.getTemplate().addStatement((Statement)ASTNode.copySubtree(ast, node.getStatement1()));
+        }
     }
 
     public void endVisit(RFNodeDifference node) {

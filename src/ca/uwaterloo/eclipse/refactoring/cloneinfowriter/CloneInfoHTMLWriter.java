@@ -18,7 +18,7 @@ import ca.uwaterloo.eclipse.refactoring.rf.build.RFStatementBuilder;
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFStatement;
 import ca.uwaterloo.eclipse.refactoring.rf.template.GenericManager;
 import ca.uwaterloo.eclipse.refactoring.rf.template.RFTemplate;
-import ca.uwaterloo.eclipse.refactoring.rf.visitor.TestVisitor;
+import ca.uwaterloo.eclipse.refactoring.rf.visitor.ChildrenVisitor;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jface.viewers.StyledString;
@@ -189,8 +189,8 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 //		
 //		int i = 0;
 //		for (CloneStructureNode node : nodes) {
-//			if (node.getMapping() != null && node.getMapping().getPreconditionViolations().size() > 0)
-//				for (PreconditionViolation violation : node.getMapping().getPreconditionViolations())
+//			if (node.getNodeDifferences() != null && node.getNodeDifferences().getPreconditionViolations().size() > 0)
+//				for (PreconditionViolation violation : node.getNodeDifferences().getPreconditionViolations())
 //					builder.append(String.format("<tr><td class=\"id\">%s</td><td>%s</td></tr>", ++i, getHTMLFromStyledString(violation.getStyledViolation())));
 //		}
 //		
@@ -226,9 +226,11 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 			RFTemplate template = new RFTemplate(apilevel, new GenericManager());
 
 			RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);
-			rfRoot.accept(new TestVisitor());
+			rfRoot.accept(new ChildrenVisitor());
 
 			recursiveGetMappedTableRows(builder, root, 0, returnedNodes, template);
+
+			System.out.println("----------------------------------------------------------");
 			System.out.println(template);
 		}
 		return builder.toString();
@@ -262,15 +264,15 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 		if (root.isRoot()) {
 			System.out.println("root!!!");
 		}
-		if (root.getMapping() != null) {
+		if (root.getNodeDifferences() != null) {
 
-			NodeMapping nodeMapping = root.getMapping();
+			NodeMapping nodeMapping = root.getNodeDifferences();
 
 			RFStatement rfStatement = RFStatementBuilder.getInstance().buildCurrent(nodeMapping, template);
-			if (rfStatement != null && rfStatement.getMapping().size() > 0) {
+			if (rfStatement != null && rfStatement.getNodeDifferences().size() > 0) {
 
 				///////////////////////////////////////////////////
-				for (RFNodeDifference difference: rfStatement.getMapping()) {
+				for (RFNodeDifference difference: rfStatement.getNodeDifferences()) {
 				    Expression expr1 = difference.getExpr1();
 				    if (expr1 instanceof SimpleName) {
 				        SimpleName simpleName = (SimpleName) expr1;
@@ -278,7 +280,7 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 					}
 				}
 
-			    rfStatement.accept(new TestVisitor());
+			    rfStatement.accept(new ChildrenVisitor());
 				//rfStatement.describe();
 			}
 
@@ -322,7 +324,7 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 			returnedNodes.add(node);
 
 			/*
-			for (ASTNodeDifference astNodeDifference: node.getMapping().getNodeDifferences()) {
+			for (ASTNodeDifference astNodeDifference: node.getNodeDifferences().getNodeDifferences()) {
 				for (Difference difference: astNodeDifference.getDifferences()) {
 					System.out.println(difference);
 					System.out.println("=====================================================");
@@ -331,14 +333,14 @@ public class CloneInfoHTMLWriter extends CloneInfoWriter {
 			*/
 
 			/*
-			if (node.getMapping().getNodeG1() != null) {
-				System.out.println(node.getMapping().getNodeG1().toString());
+			if (node.getNodeDifferences().getNodeG1() != null) {
+				System.out.println(node.getNodeDifferences().getNodeG1().toString());
 			} else {
 				System.out.println("missing G1");
 			}
 
-			if (node.getMapping().getNodeG2() != null) {
-				System.out.println(node.getMapping().getNodeG2().toString());
+			if (node.getNodeDifferences().getNodeG2() != null) {
+				System.out.println(node.getNodeDifferences().getNodeG2().toString());
 			} else {
 				System.out.println("missing G2");
 			}

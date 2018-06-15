@@ -1,10 +1,7 @@
 package ca.uwaterloo.eclipse.refactoring.rf.node;
 
 import ca.uwaterloo.eclipse.refactoring.rf.template.RFTemplate;
-import ca.uwaterloo.eclipse.refactoring.rf.visitor.ExpressionStmtVisitor;
-import ca.uwaterloo.eclipse.refactoring.rf.visitor.IfStmtVisitor;
-import ca.uwaterloo.eclipse.refactoring.rf.visitor.RFVisitor;
-import ca.uwaterloo.eclipse.refactoring.rf.visitor.VariableDeclarationStmtVisitor;
+import ca.uwaterloo.eclipse.refactoring.rf.visitor.*;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.StatementType;
 import org.eclipse.jdt.core.dom.Statement;
@@ -22,7 +19,7 @@ public class RFStatement extends RFEntity {
     private StatementType statementType;
     private Statement statement1;
     private Statement statement2;
-    private List<RFNodeDifference> mapping;
+    private List<RFNodeDifference> nodeDifferences;
     private RFTemplate template;
 
     public RFStatement(RFTemplate template) {
@@ -31,24 +28,24 @@ public class RFStatement extends RFEntity {
         statement1 = null;
         statement2 = null;
         this.template = template;
-        mapping = new ArrayList<>();
+        nodeDifferences = new ArrayList<>();
         children = new ArrayList<>();
     }
 
     public RFStatement(StatementType statementType,
                        Statement statement1,
                        Statement statement2,
-                       List<RFNodeDifference> mapping,
+                       List<RFNodeDifference> nodeDifferences,
                        RFTemplate template) {
         this.parent = null;
         this.statementType = statementType;
         this.statement1 = statement1;
         this.statement2 = statement2;
-        this.mapping = mapping;
+        this.nodeDifferences = nodeDifferences;
         this.template = template;
         this.children = new ArrayList<>();
 
-        for (RFNodeDifference diff : this.mapping) {
+        for (RFNodeDifference diff : this.nodeDifferences) {
             diff.setRfStatement(this);
         }
     }
@@ -80,6 +77,14 @@ public class RFStatement extends RFEntity {
         }
     }
 
+    public RFStatement getParent() {
+        return parent;
+    }
+
+    public boolean isTopStmt() {
+        return parent != null && parent.isRoot();
+    }
+
     public Statement getStatement1() {
         return statement1;
     }
@@ -88,8 +93,8 @@ public class RFStatement extends RFEntity {
         return statement2;
     }
 
-    public List<RFNodeDifference> getMapping() {
-        return mapping;
+    public List<RFNodeDifference> getNodeDifferences() {
+        return nodeDifferences;
     }
 
     public RFTemplate getTemplate() {
@@ -108,8 +113,8 @@ public class RFStatement extends RFEntity {
         this.statement2 = statement2;
     }
 
-    public void setMapping(List<RFNodeDifference> mapping) {
-        this.mapping = mapping;
+    public void setNodeDifferences(List<RFNodeDifference> nodeDifferences) {
+        this.nodeDifferences = nodeDifferences;
     }
 
     public void setTemplate(RFTemplate template) {
@@ -117,6 +122,10 @@ public class RFStatement extends RFEntity {
     }
 
     public RFVisitor selectVisitor() {
+        if (statementType == null) {
+            return new ChildrenVisitor();
+        }
+
         switch (statementType) {
             case VARIABLE_DECLARATION:
                 return new VariableDeclarationStmtVisitor();
@@ -133,6 +142,7 @@ public class RFStatement extends RFEntity {
         System.out.println("-----------------------------------------------------------");
         describeStatements();
         describeDifference();
+        System.out.println();
     }
 
     public void describeStatements() {
@@ -142,10 +152,10 @@ public class RFStatement extends RFEntity {
     }
 
     public void describeDifference() {
-        if (mapping.size() > 0) {
+        if (nodeDifferences.size() > 0) {
             System.out.println("Describing RFStatement differences: ");
             System.out.println("\tDifferences: ");
-            for (RFNodeDifference difference : mapping) {
+            for (RFNodeDifference difference : nodeDifferences) {
                 System.out.println("\t\t" + difference);
             }
         } else {
@@ -153,14 +163,22 @@ public class RFStatement extends RFEntity {
         }
     }
 
+    public boolean hasChildren() {
+        return children.size() > 0;
+    }
+
+    public boolean hasDifference() {
+        return nodeDifferences.size() > 0;
+    }
+
     void accept0(RFVisitor visitor) {
         boolean visitChildren = visitor.visit(this);
         if (visitChildren) {
             // visit children
-            for (RFStatement child: children) {
-                child.accept(visitor);
+            for (RFStatement child : children) {
+                RFVisitor childVisitor = child.selectVisitor();
+                child.accept(childVisitor);
             }
-            //log.info("doing nothing for RFVariableDeclarationStatement");
         }
         visitor.endVisit(this);
     }

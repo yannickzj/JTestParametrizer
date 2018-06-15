@@ -1,21 +1,20 @@
 package ca.uwaterloo.eclipse.refactoring.rf.visitor;
 
-import ca.uwaterloo.eclipse.refactoring.rf.node.RFNodeDifference;
 import ca.uwaterloo.eclipse.refactoring.rf.node.RFStatement;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
-import gr.uom.java.ast.decomposition.StatementType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
-public class TestVisitor extends RFVisitor {
+public class ChildrenVisitor extends RFVisitor {
 
-    private static Logger log = FileLogger.getLogger(TestVisitor.class);
+    private static Logger log = FileLogger.getLogger(ChildrenVisitor.class);
 
-    public TestVisitor() {}
+    public ChildrenVisitor() {}
 
     @Override
     public boolean visit(RFStatement node) {
-        node.describe();
+        //node.describe();
+        //System.out.println("childrenVisitor finish visiting");
 
         /*
         System.out.println();
@@ -23,7 +22,7 @@ public class TestVisitor extends RFVisitor {
 
         RFVisitor visitor = node.selectVisitor();
         int i = 0;
-        for (RFNodeDifference diff: node.getMapping()) {
+        for (RFNodeDifference diff: node.getNodeDifferences()) {
             System.out.println();
             log.info("difference " + ++i);
             diff.accept(visitor);
@@ -41,7 +40,8 @@ public class TestVisitor extends RFVisitor {
 
     @Override
     public void endVisit(RFStatement node) {
-        log.info("finish visiting RFStatement [Type: " + node.getStatementTypeString() + "]");
+        super.endVisit(node);
+        //log.info("finish visiting RFStatement [Type: " + node.getStatementTypeString() + "]");
     }
 
     @Override

@@ -1,13 +1,17 @@
 package ca.uwaterloo.eclipse.refactoring.rf.node;
 
 import ca.uwaterloo.eclipse.refactoring.rf.template.RFTemplate;
+import ca.uwaterloo.eclipse.refactoring.rf.utility.DiffUtil;
 import ca.uwaterloo.eclipse.refactoring.rf.visitor.RFVisitor;
 import ca.uwaterloo.eclipse.refactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.matching.Difference;
+import gr.uom.java.ast.decomposition.matching.DifferenceType;
 import org.eclipse.jdt.core.dom.Expression;
 import org.slf4j.Logger;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class RFNodeDifference extends RFEntity {
 
@@ -57,16 +61,16 @@ public class RFNodeDifference extends RFEntity {
         visitor.endVisit(this);
     }
 
+    public Set<DifferenceType> getDifferenceTypes() {
+        Set<DifferenceType> differenceTypes = new HashSet<>();
+        for (Difference diff: differences) {
+            differenceTypes.add(diff.getType());
+        }
+        return differenceTypes;
+    }
+
     @Override
     public String toString() {
-        StringBuffer sb = new StringBuffer();
-        for (Difference diff: differences) {
-            sb.append(diff.getType().name());
-            sb.append(", ");
-        }
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 2);
-        }
-        return expr1.toString() + "  <--->  " + expr2.toString() + "  (" + sb.toString() +  ")";
+        return DiffUtil.displayNodeDiff(this);
     }
 }
