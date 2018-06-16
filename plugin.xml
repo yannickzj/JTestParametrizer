@@ -6,7 +6,7 @@
          point="org.eclipse.core.runtime.applications">
          <application>
          <run
-               class="ca.uwaterloo.refactoring.Main">
+               class="ca.uwaterloo.jrefactoring.Main">
          </run>
          </application>
    </extension>
@@ -14,11 +14,11 @@
          id="jrproduct"
          point="org.eclipse.core.runtime.products">
       <product
-            application="ca.uwaterloo.refactoring-template.application"
-            name="JRefactoring-Template-Product-Configuration">
+            application="ca.uwaterloo.jrefactoring.application"
+            name="JRefactoring-Product-Configuration">
          <property
                name="appName"
-               value="JRefactoring-Template-Product-Configuration">
+               value="JRefactoring-Product-Configuration">
          </property>
       </product>
    </extension>
