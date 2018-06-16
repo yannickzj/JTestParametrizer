@@ -61,16 +61,16 @@ public class Main implements IApplication {
                 IProjectDescription projectDescription = ResourcesPlugin.getWorkspace().
                         loadProjectDescription(new Path(cliParser.getProjectDescritionFile()));
 
-                IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectDescription.getName());
                 projectName = projectDescription.getName();
+                IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 
-                if(!project.exists()) {
+                if (!project.exists()) {
                     project.create(projectDescription, null);
                 }
                 if (!project.isOpen()) {
                     project.open(null);
                 }
-                if(project.hasNature(JavaCore.NATURE_ID)) {
+                if (project.hasNature(JavaCore.NATURE_ID)) {
                     jProject = JavaCore.create(project);
                 }
 
@@ -91,9 +91,17 @@ public class Main implements IApplication {
             // get excel file
             File excelFile = new File(cliParser.getExcelFilePath());
 
+            if (!excelFile.exists()) {
+                throw new FileNotFoundException("Excel file " + excelFile.getAbsolutePath() + " was not found.");
+            } else {
+                log.info("Excel file found: " + excelFile.getAbsolutePath());
+            }
+
             // add log file
             if (cliParser.hasLogToFile()) {
-                FileLogger.addFileAppender(excelFile.getParentFile().getAbsolutePath() + "/log.log", false);
+                String logPath = excelFile.getParentFile().getAbsolutePath() + "/log.log";
+                FileLogger.addFileAppender(logPath, false);
+                log.info("log file in " + logPath);
             }
 
             int startFrom = cliParser.getStartingRow();
@@ -102,10 +110,6 @@ public class Main implements IApplication {
             int[] cloneGroupIdsToAnalyze = cliParser.getCloneGroupIDsToAnalyze();
             String[] testPackages = cliParser.getTestPackages();
             String[] testSourceFolders = cliParser.getTestSourceFolders();
-
-            if (!excelFile.exists()) {
-                throw new FileNotFoundException("Excel file " + excelFile.getAbsolutePath() + " was not found.");
-            }
 
             //testRefactoring(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip, cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
 
@@ -116,11 +120,8 @@ public class Main implements IApplication {
 
     private IJavaProject findJavaProjectInWorkspace(String projectName) throws CoreException {
         IJavaProject jProject = null;
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IWorkspaceRoot root = workspace.getRoot();
-        IProject[] projects = root.getProjects();
-        for(IProject project : projects) {
-            if(project.isOpen() && project.hasNature(JavaCore.NATURE_ID) && project.getName().equals(projectName)) {
+        for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
+            if (project.isOpen() && project.hasNature(JavaCore.NATURE_ID) && project.getName().equals(projectName)) {
                 jProject = JavaCore.create(project);
                 log.info("Project " + projectName + " was found in the workspace");
                 break;
@@ -132,13 +133,12 @@ public class Main implements IApplication {
     private void parseJavaProject(IJavaProject jProject) {
         log.info("Now parsing the project");
         try {
-            if(ASTReader.getSystemObject() != null && jProject.equals(ASTReader.getExaminedProject())) {
+            if (ASTReader.getSystemObject() != null && jProject.equals(ASTReader.getExaminedProject())) {
                 new ASTReader(jProject, ASTReader.getSystemObject(), null);
-            }
-            else {
+            } else {
                 new ASTReader(jProject, null);
             }
-        } catch(CompilationErrorDetectedException e) {
+        } catch (CompilationErrorDetectedException e) {
             log.info("Project contains compilation errors");
         }
         log.info("Finished parsing");
@@ -154,7 +154,7 @@ public class Main implements IApplication {
 
         log.info("Testing refactorabiliy of clones in " + originalExcelFile.getAbsolutePath());
 
-        TestReportResults originalTestReport = null;
+        //TestReportResults originalTestReport = null;
         /*
         if (cliParser.runTests()) {
             originalTestReport = runUnitTests(iJavaProject, ApplicationRunner.TestReportFileType.ORIGINAL);
@@ -231,7 +231,7 @@ public class Main implements IApplication {
                             cloneGroupStartingRowNumber = numberOfRows;
                             continue;
                         } else {
-                            if(cloneGroupStartingRowNumber + cloneGroupSize == numberOfRows) {
+                            if (cloneGroupStartingRowNumber + cloneGroupSize == numberOfRows) {
                                 cloneGroupStartingRowNumber = numberOfRows;
                             } else {
                                 cloneGroupStartingRowNumber = cloneGroupStartingRowNumber + cloneGroupSize - 1;
@@ -252,7 +252,7 @@ public class Main implements IApplication {
                     int numberOfBlankMethods = 0;
                     for (int cloneIndex = 0; cloneIndex < cloneGroupSize; cloneIndex++) {
                         String methodStr = originalSheet.getCell(ExcelFileColumns.METHOD_NAME.getColumnNumber(), cloneGroupStartingRowNumber + cloneIndex).getContents();
-                        if(methodStr.equals("")) {
+                        if (methodStr.equals("")) {
                             numberOfBlankMethods++;
                         }
                     }
@@ -266,14 +266,14 @@ public class Main implements IApplication {
 
                     if (userSkippedGroup)
                         status = "user has marked this clone group to be skipped";
-                    else if(repeatedCloneGroup)
+                    else if (repeatedCloneGroup)
                         status = "this is a repeated clone";
                     else if (classLevelClone)
                         status = "this is a class-level clone group";
 
                     log.warn(String.format("%s%%: Skipping clone group %s (row %s to %s), since %s",
-                            Math.round(100 * (float)cloneGroupStartingRowNumber / numberOfRows),
-                            cloneGroupID ,
+                            Math.round(100 * (float) cloneGroupStartingRowNumber / numberOfRows),
+                            cloneGroupID,
                             cloneGroupStartingRowNumber + 1,
                             cloneGroupStartingRowNumber + cloneGroupSize,
                             status));
@@ -342,7 +342,7 @@ public class Main implements IApplication {
 
                     int firstCloneRow = cloneGroupStartingRowNumber + firstCloneNumber;
                     log.info(String.format("%s%%: Reading information from row %s (Clone group ID %s, clone #%s)",
-                            Math.round(100 * (float)firstCloneRow / numberOfRows),
+                            Math.round(100 * (float) firstCloneRow / numberOfRows),
                             firstCloneRow + 1, cloneGroupID, firstCloneNumber + 1));
 
                     String firstClassName = originalSheet.getCell(ExcelFileColumns.CLASS_NAME.getColumnNumber(), firstCloneRow).getContents();
@@ -377,7 +377,7 @@ public class Main implements IApplication {
                     firstEndOffset = getMethodEndPosition(firstIMethod);
 
 
-                    if(firstIMethod == null) {
+                    if (firstIMethod == null) {
                         log.info(String.format("IMethod could not be retrieved for method %s in %s, skipping clone at row %s",
                                 firstMethodName, firstFullName, firstCloneRow + 1));
                         continue;
@@ -385,7 +385,7 @@ public class Main implements IApplication {
 
                     if (pdgArray[firstCloneNumber] == null) {
                         log.info(String.format("%s%%: Generating PDG for method \"%s\" in \"%s\"",
-                                Math.round(100 * (float)cloneGroupStartingRowNumber / numberOfRows),
+                                Math.round(100 * (float) cloneGroupStartingRowNumber / numberOfRows),
                                 firstMethodName, firstFullName));
                         pdgArray[firstCloneNumber] = getPDG(firstIMethod);
                     }
@@ -396,7 +396,7 @@ public class Main implements IApplication {
 
                         int secondCloneRow = cloneGroupStartingRowNumber + secondCloneNumber;
                         log.info(String.format("%s%%: Reading information from row %s (Clone group ID %s, clone #%s)",
-                                Math.round(100 * (float)firstCloneRow / numberOfRows),
+                                Math.round(100 * (float) firstCloneRow / numberOfRows),
                                 secondCloneRow + 1, cloneGroupID, firstCloneNumber + secondCloneNumber + 1));
 
                         String secondClassName = originalSheet.getCell(ExcelFileColumns.CLASS_NAME.getColumnNumber(), secondCloneRow).getContents();
@@ -453,17 +453,16 @@ public class Main implements IApplication {
 
                         PDG pdg2;
 
-                        if(!firstIMethod.equals(secondIMethod)) {
+                        if (!firstIMethod.equals(secondIMethod)) {
                             if (pdgArray[secondCloneNumber] == null) {
                                 log.info(String.format("%s%%: Generating PDG for method \"%s\" in \"%s\"",
-                                        Math.round(100 * (float)cloneGroupStartingRowNumber / numberOfRows),
+                                        Math.round(100 * (float) cloneGroupStartingRowNumber / numberOfRows),
                                         secondMethodName, secondFullName));
                                 pdgArray[secondCloneNumber] = getPDG(secondIMethod);
                             }
 
                             pdg2 = pdgArray[secondCloneNumber];
-                        }
-                        else
+                        } else
                             pdg2 = pdg1;
 
 
@@ -488,9 +487,9 @@ public class Main implements IApplication {
                         clonePairInfo.setTestPackages(testPackages);
                         clonePairInfo.setTestSourceFolders(testSourceFolders);
 
-                        if(firstIMethod != null && secondIMethod != null) {
+                        if (firstIMethod != null && secondIMethod != null) {
                             log.info(String.format("%s%%: Analyzing Clone #%s (Group %s, Pair %s-%s): %s#%s (row %s) and %s#%s (row %s)",
-                                    Math.round(100 * (float)firstCloneRow / numberOfRows), cloneNumber,
+                                    Math.round(100 * (float) firstCloneRow / numberOfRows), cloneNumber,
                                     cloneGroupID, firstCloneNumber + 1, secondCloneNumber + 1,
                                     firstFullName, firstMethodName, firstCloneRow + 1,
                                     secondFullName, secondMethodName, secondCloneRow + 1));
@@ -626,7 +625,7 @@ public class Main implements IApplication {
                 Number number = new Number(ExcelFileColumns.NUMBER_OF_REFACTORABLE_PAIRS.getColumnNumber(), cloneGroupStartingRowNumber, numberOfRefactorablePairs);
                 copySheet.addCell(number);
 
-                if(cloneGroupStartingRowNumber + cloneGroupSize == numberOfRows)
+                if (cloneGroupStartingRowNumber + cloneGroupSize == numberOfRows)
                     cloneGroupStartingRowNumber = numberOfRows;
                 else
                     cloneGroupStartingRowNumber = cloneGroupStartingRowNumber + cloneGroupSize - 1;
@@ -636,12 +635,9 @@ public class Main implements IApplication {
                 for (CloneInfoWriter cloneInfoWriter : infoWriters)
                     cloneInfoWriter.closeMedia(appendResults);
             }
-        }
-
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             copyWorkbook.write();
             copyWorkbook.close();
             iJavaProject.getProject().getWorkspace().save(true, new NullProgressMonitor());
@@ -654,15 +650,15 @@ public class Main implements IApplication {
     private ICompilationUnit getICompilationUnit(IJavaProject iJavaProject, String fullName1) {
         try {
             IClasspathEntry[] classpathEntries = iJavaProject.getResolvedClasspath(true);
-            for(int i = 0; i < classpathEntries.length; i++){
+            for (int i = 0; i < classpathEntries.length; i++) {
                 IClasspathEntry entry = classpathEntries[i];
 
-                if(entry.getContentKind() == IPackageFragmentRoot.K_SOURCE){
+                if (entry.getContentKind() == IPackageFragmentRoot.K_SOURCE) {
                     IPath path = entry.getPath();
                     if (path.toString().length() > iJavaProject.getProject().getName().length() + 2) {
                         String fullPath = path.toString().substring(iJavaProject.getProject().getName().length() + 2) + "/" + fullName1;
 
-                        ICompilationUnit iCompilationUnit = (ICompilationUnit)JavaCore.create(iJavaProject.getProject().getFile(fullPath));
+                        ICompilationUnit iCompilationUnit = (ICompilationUnit) JavaCore.create(iJavaProject.getProject().getFile(fullPath));
                         if (iCompilationUnit != null && iCompilationUnit.exists())
                             return iCompilationUnit;
                     }
@@ -676,24 +672,10 @@ public class Main implements IApplication {
 
     private IMethod recursiveGetIMethod(IType type, IJavaProject jProject, String methodName, String methodSignature, int start, int end) throws JavaModelException {
         IMethod innerMethod = null;
-		/*	for(IType innerType:type.getCompilationUnit().getTypes()) {
-				if(!methodSignature.equals("")) {
-					innerMethod = getIMethodWithSignature(jProject, innerType, methodName, methodSignature, start, end);
-					if(innerMethod != null)
-						return innerMethod;
-				}
-			}
-			for (IType innerType:type.getCompilationUnit().getTypes()) {
-				innerMethod = recursiveGetIMethod(innerType, jProject, methodName, methodSignature, start, end);
-				if(innerMethod != null) {
-					return innerMethod;
-				}
-			}
-			return null;*/
-        for(IType innerType:type.getCompilationUnit().getAllTypes()) {
-            if(!methodSignature.equals("")) {
+        for (IType innerType : type.getCompilationUnit().getAllTypes()) {
+            if (!methodSignature.equals("")) {
                 innerMethod = getIMethodWithSignature(jProject, innerType, methodName, methodSignature, start, end);
-                if(innerMethod != null)
+                if (innerMethod != null)
                     return innerMethod;
             }
         }
@@ -703,20 +685,20 @@ public class Main implements IApplication {
     private IMethod getIMethod(IJavaProject jProject, String typeName, String methodName, String methodSignature, int start, int end)
             throws JavaModelException {
         IType type = jProject.findType(typeName);
-        if(type == null) {
+        if (type == null) {
             IPath path = new Path("/" + jProject.getElementName() + "/" + typeName.substring(0, typeName.lastIndexOf(".")));
             IPackageFragment packageFragment = jProject.findPackageFragment(path);
             if (packageFragment != null)
-                type = jProject.findPackageFragment(path).getCompilationUnit(typeName.substring(typeName.lastIndexOf(".")+1)+".java").findPrimaryType();
+                type = jProject.findPackageFragment(path).getCompilationUnit(typeName.substring(typeName.lastIndexOf(".") + 1) + ".java").findPrimaryType();
             else
                 return null;
         }
         IMethod iMethod = null;
-        if(!methodSignature.equals("")) {
+        if (!methodSignature.equals("")) {
             iMethod = getIMethodWithSignature(jProject, type, methodName, methodSignature, start, end);
         }
 
-        if(iMethod == null) {
+        if (iMethod == null) {
             iMethod = recursiveGetIMethod(type, jProject, methodName, methodSignature, start, end);
         }
         return iMethod;
@@ -727,58 +709,46 @@ public class Main implements IApplication {
 
         SystemObject systemObject = ASTReader.getSystemObject();
         List<IMethod> methods = new ArrayList<IMethod>();
-        if(type.exists()) {
-            for(IMethod method : type.getMethods()) {
+        if (type.exists()) {
+            for (IMethod method : type.getMethods()) {
                 methods.add(method);
             }
-        }
-        else {
+        } else {
             IJavaElement typeParent = type.getParent();
-            if(typeParent != null && typeParent instanceof ICompilationUnit) {
-                ICompilationUnit iCompilationUnit = (ICompilationUnit)typeParent;
+            if (typeParent != null && typeParent instanceof ICompilationUnit) {
+                ICompilationUnit iCompilationUnit = (ICompilationUnit) typeParent;
                 IType[] allTypes = iCompilationUnit.getAllTypes();
-                for(IType iType : allTypes) {
-                    for(IMethod iMethod : iType.getMethods()) {
+                for (IType iType : allTypes) {
+                    for (IMethod iMethod : iType.getMethods()) {
                         methods.add(iMethod);
                     }
                 }
             }
         }
         IMethod iMethod = null;
-        for(IMethod method : methods) {
+        for (IMethod method : methods) {
             SourceMethod sm = (SourceMethod) method;
             IJavaElement[] smChildren = sm.getChildren();
-            if(smChildren.length != 0) {
-                if(method.getSignature().equals(methodSignature) && method.getElementName().equals(methodName)) {
+            if (smChildren.length != 0) {
+                if (method.getSignature().equals(methodSignature) && method.getElementName().equals(methodName)) {
                     iMethod = method;
                     break;
                 }
 
-                for(int i=0; i<smChildren.length; i++) {
-                    if(smChildren[i] instanceof SourceType) {
+                for (int i = 0; i < smChildren.length; i++) {
+                    if (smChildren[i] instanceof SourceType) {
                         SourceType st = (SourceType) smChildren[i];
-                        for(IMethod im : st.getMethods()) {
-                            if(im.getSignature().equals(methodSignature) && im.getElementName().equals(methodName)) {
+                        for (IMethod im : st.getMethods()) {
+                            if (im.getSignature().equals(methodSignature) && im.getElementName().equals(methodName)) {
                                 iMethod = im;
                                 return iMethod;
                             }
                         }
                     }
                 }
-            }
-            else if(method.getSignature().equals(methodSignature) && method.getElementName().equals(methodName)) {
+            } else if (method.getSignature().equals(methodSignature) && method.getElementName().equals(methodName)) {
                 iMethod = method;
                 break;
-				/*
-				AbstractMethodDeclaration abstractMethodDeclaration = systemObject.getMethodObject(method);
-				MethodDeclaration methodAST = abstractMethodDeclaration.getMethodDeclaration();
-				int methodStartPosition = methodAST.getStartPosition();
-				int methodEndPosition = methodStartPosition + methodAST.getLength();
-				if(methodStartPosition <= start && methodEndPosition >= end) {
-					iMethod = method;
-					break;
-				}
-				*/
             }
         }
         return iMethod;
@@ -805,8 +775,7 @@ public class Main implements IApplication {
 
         if (iMethod.getDeclaringType().isAnonymous()) {
             classObject = systemObject.getAnonymousClassDeclaration(iMethod.getDeclaringType());
-        }
-        else {
+        } else {
             classObject = systemObject.getClassObject(methodObject.getClassName());
         }
 
