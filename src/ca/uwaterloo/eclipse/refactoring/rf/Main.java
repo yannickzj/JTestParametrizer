@@ -111,7 +111,7 @@ public class Main implements IApplication {
             String[] testPackages = cliParser.getTestPackages();
             String[] testSourceFolders = cliParser.getTestSourceFolders();
 
-            //testRefactoring(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip, cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
+            testRefactoring(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip, cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
 
         }
 
@@ -200,10 +200,14 @@ public class Main implements IApplication {
         String projectName = iJavaProject.getElementName();
 
         // Object used to create HTML reports and CSV files
+        CloneInfoWriter htmlWriter = new CloneInfoHTMLWriter(originalExcelFile.getParentFile().getAbsolutePath(), projectName, originalExcelFileName);
+
+        /*
         List<CloneInfoWriter> infoWriters = new ArrayList<>();
 
         infoWriters.add(new CloneInfoHTMLWriter(originalExcelFile.getParentFile().getAbsolutePath(), projectName, originalExcelFileName));
         infoWriters.add(new CloneInfoCSVWriter(originalExcelFile.getParentFile().getAbsolutePath(), projectName, originalExcelFileName));
+        */
 
         int numberOfRows = originalSheet.getRows();
 
@@ -316,7 +320,8 @@ public class Main implements IApplication {
                             clonePairInfo.setEndOffsetOfSecondCodeFragment(secondEndOffset);
 
                             // Only write information to the HTML report, not the CSV files
-                            infoWriters.get(0).writeCloneInfo(clonePairInfo);
+                            htmlWriter.writeCloneInfo(clonePairInfo);
+                            //infoWriters.get(0).writeCloneInfo(clonePairInfo);
 
                             /*
                             addHyperlinkToTheExcelFile(copySheet,
