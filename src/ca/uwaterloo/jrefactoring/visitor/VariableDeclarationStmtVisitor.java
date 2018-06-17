@@ -27,7 +27,7 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
         if (node.hasDifference()) {
             System.out.println("-----------------------------------------------------------");
             node.describeStatements();
-            for (RFNodeDifference diff: node.getNodeDifferences()) {
+            for (RFNodeDifference diff : node.getNodeDifferences()) {
                 diff.accept(this);
             }
             System.out.println("variableDeclarationStmtVisitor finish visiting");
@@ -58,13 +58,11 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
             } else {
                 strategies.add(new ResolveName());
             }
-        } else {
-            if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
-                if (contextNodyType == ASTNode.CLASS_INSTANCE_CREATION) {
-                    strategies.add(new CreateClassInstance());
-                } else {
-                    strategies.add(new ResolveTypeParameter());
-                }
+        } else if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+            if (contextNodyType == ASTNode.CLASS_INSTANCE_CREATION) {
+                strategies.add(new CreateClassInstance());
+            } else {
+                strategies.add(new ResolveTypeParameter());
             }
         }
 
@@ -84,7 +82,7 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
         List<Strategy> strategies = selectStrategies(nodeType, differenceTypes);
 
         // take refactoring actions
-        for(Strategy strategy: strategies) {
+        for (Strategy strategy : strategies) {
             Transformer.setStrategy(strategy);
             Transformer.transform(diff);
         }
