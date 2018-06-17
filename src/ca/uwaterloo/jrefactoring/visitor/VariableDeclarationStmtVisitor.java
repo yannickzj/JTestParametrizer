@@ -62,8 +62,9 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
             if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
                 if (contextNodyType == ASTNode.CLASS_INSTANCE_CREATION) {
                     strategies.add(new CreateClassInstance());
+                } else {
+                    strategies.add(new ResolveTypeParameter());
                 }
-                strategies.add(new ResolveTypeParameter());
             }
         }
 

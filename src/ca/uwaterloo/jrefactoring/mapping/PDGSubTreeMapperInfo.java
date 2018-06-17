@@ -1,6 +1,5 @@
 package ca.uwaterloo.jrefactoring.mapping;
 
-//import ca.uwaterloo.eclipse.refactoring.coverage.TestReportResults.TestReportDifference;
 import gr.uom.java.ast.decomposition.cfg.mapping.DivideAndConquerMatcher;
 
 import java.util.HashSet;
@@ -11,7 +10,6 @@ public class PDGSubTreeMapperInfo {
 	private long timeElapsedToCalculate;
 	
 	private long wallNanoTimeElapsedForMapping;
-	//private List<TestReportDifference> testResultsDifferences = new ArrayList<>();
 	private Set<String> filesHavingCompileErrors = new HashSet<>();
 	private boolean refactoringWasOk;
 	
@@ -77,9 +75,4 @@ public class PDGSubTreeMapperInfo {
 		return filesHavingCompileErrors.size() > 0;
 	}
 
-	/*
-	public boolean testsFailedAfterRefactoring() {
-		return testResultsDifferences.size() > 0;
-	}
-	*/
 }
