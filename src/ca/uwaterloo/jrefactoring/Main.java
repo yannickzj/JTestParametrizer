@@ -1,6 +1,6 @@
 package ca.uwaterloo.jrefactoring;
 
-import ca.uwaterloo.jrefactoring.ast.ASTReader;
+import gr.uom.java.ast.ASTReader;
 import ca.uwaterloo.jrefactoring.cli.CLIParser;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.mapping.RefactoringMapper;
@@ -113,7 +113,6 @@ public class Main implements IApplication {
     private void parseJavaProject(IJavaProject jProject) {
         log.info("Now parsing the project");
         try {
-            ASTReader.JLS = AST.JLS8;
             if (ASTReader.getSystemObject() != null && jProject.equals(ASTReader.getExaminedProject())) {
                 new ASTReader(jProject, ASTReader.getSystemObject(), null);
             } else {
