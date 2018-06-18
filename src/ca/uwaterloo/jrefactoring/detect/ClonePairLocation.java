@@ -1,4 +1,4 @@
-package ca.uwaterloo.jrefactoring.mapping;
+package ca.uwaterloo.jrefactoring.detect;
 
 public enum ClonePairLocation {
 	SAME_METHOD ("Clones are in the same method"),

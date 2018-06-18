@@ -2,8 +2,6 @@ package ca.uwaterloo.jrefactoring.node;
 
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.template.TypePair;
-import ca.uwaterloo.jrefactoring.utility.ContextUtil;
-import ca.uwaterloo.jrefactoring.utility.DiffUtil;
 import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.matching.Difference;
@@ -58,7 +56,7 @@ public class RFNodeDifference extends RFEntity {
         boolean visitChildren = visitor.visit(this);
         if (visitChildren) {
             // visit children
-            log.info("doing nothing for RFVariableDeclarationStatement");
+            log.info("doing nothing for RFNodeDifference children!");
         }
         visitor.endVisit(this);
     }
@@ -86,6 +84,14 @@ public class RFNodeDifference extends RFEntity {
 
     @Override
     public String toString() {
-        return DiffUtil.displayNodeDiff(this);
+        StringBuffer sb = new StringBuffer();
+        for (Difference diff: differences) {
+            sb.append(diff.getType().name());
+            sb.append(", ");
+        }
+        if (sb.length() > 0) {
+            sb.setLength(sb.length() - 2);
+        }
+        return expr1.toString() + "  <--->  " + expr2.toString() + "  (" + sb.toString() +  ")";
     }
 }

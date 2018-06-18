@@ -15,15 +15,6 @@ public class ContextUtil {
         return contextNode;
     }
 
-    public static String getContextNodeTypeName(RFNodeDifference diff) {
-        int nodeType = getContextNodeType(diff);
-        return getContextNodeTypeName(nodeType);
-    }
-
-    public static String getContextNodeTypeName(int nodeType) {
-        return ASTNode.nodeClassForType(nodeType).getName();
-    }
-
     public static int getContextNodeType(RFNodeDifference diff) {
         Expression expr1 = diff.getExpr1();
         Expression expr2 = diff.getExpr2();

@@ -17,9 +17,12 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
     @Override
     public boolean visit(RFStatement node) {
         if (node.hasDifference()) {
+            node.describe();
+            /*
             System.out.println("-----------------------------------------------------------");
             node.describeStatements();
             node.describeDifference();
+            */
             for (RFNodeDifference diff : node.getNodeDifferences()) {
                 diff.accept(this);
             }
@@ -27,34 +30,4 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
         }
         return true;
     }
-
-    @Override
-    public boolean visit(RFNodeDifference diff) {
-
-        // validate node difference
-        ContextUtil.validateNodeDiff(diff);
-
-        // refactor node difference
-        refactor(diff);
-
-        System.out.println();
-        return false;
-    }
-
-    @Override
-    public boolean visit(SimpleName node) {
-        System.out.println("SimpleName location [" + node + "] in parent: " + node.getLocationInParent());
-        //System.out.println("SimpleName: " + node);
-        //System.out.println("Start position: " + node.getStartPosition());
-        node.getParent().accept(this);
-        return false;
-    }
-
-    @Override
-    public boolean visit(SimpleType node) {
-        //System.out.println("SimpleType location [" + node + "] in parent: " + node.getLocationInParent());
-        node.getParent().accept(this);
-        return false;
-    }
-
 }

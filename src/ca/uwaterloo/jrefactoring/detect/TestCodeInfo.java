@@ -1,4 +1,4 @@
-package ca.uwaterloo.jrefactoring.mapping;
+package ca.uwaterloo.jrefactoring.detect;
 
 public enum TestCodeInfo {
 	NONE_IS_TEST_CODE,

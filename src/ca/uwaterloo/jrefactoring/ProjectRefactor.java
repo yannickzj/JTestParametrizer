@@ -1,9 +1,11 @@
-package ca.uwaterloo.jrefactoring.mapping;
+package ca.uwaterloo.jrefactoring;
 
+import ca.uwaterloo.jrefactoring.detect.ClonePairInfo;
+import ca.uwaterloo.jrefactoring.detect.InputMethods;
+import ca.uwaterloo.jrefactoring.detect.PDGSubTreeMapperInfo;
 import ca.uwaterloo.jrefactoring.diff.TextDiff;
 import ca.uwaterloo.jrefactoring.utility.ExcelFileColumns;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
-import ca.uwaterloo.jrefactoring.utility.TemplateRefactor;
 import gr.uom.java.ast.*;
 import gr.uom.java.ast.decomposition.cfg.CFG;
 import gr.uom.java.ast.decomposition.cfg.PDG;
@@ -39,22 +41,22 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 
-public class RefactoringMapper {
+public class ProjectRefactor {
 
-    private static Logger log = FileLogger.getLogger(RefactoringMapper.class);
-    private static RefactoringMapper mapper;
+    private static Logger log = FileLogger.getLogger(ProjectRefactor.class);
+    private static ProjectRefactor mapper;
 
-    private RefactoringMapper() {
+    private ProjectRefactor() {
     }
 
-    public static RefactoringMapper getInstance() {
+    public static ProjectRefactor getInstance() {
         if (mapper == null) {
-            mapper = new RefactoringMapper();
+            mapper = new ProjectRefactor();
         }
         return mapper;
     }
 
-    public void testRefactoring(IJavaProject iJavaProject,
+    public void refactor(IJavaProject iJavaProject,
                                 File originalExcelFile,
                                 int startFromRow,
                                 boolean appendResults,
@@ -230,7 +232,7 @@ public class RefactoringMapper {
                             clonePairInfo.setEndOffsetOfSecondCodeFragment(secondEndOffset);
 
                             // Only write information to the HTML report, not the CSV files
-                            TemplateRefactor.refactor(clonePairInfo);
+                            CloneRefactor.refactor(clonePairInfo);
                             //htmlWriter.writeCloneInfo(clonePairInfo);
                             //infoWriters.get(0).writeCloneInfo(clonePairInfo);
 
@@ -522,7 +524,7 @@ public class RefactoringMapper {
 
 
                         // Write the stuff to the HTML files and CSV files
-                        TemplateRefactor.refactor(clonePairInfo);
+                        CloneRefactor.refactor(clonePairInfo);
                         //htmlWriter.writeCloneInfo(clonePairInfo);
                         /*
                         for (CloneInfoWriter cloneInfoWriter : infoWriters)

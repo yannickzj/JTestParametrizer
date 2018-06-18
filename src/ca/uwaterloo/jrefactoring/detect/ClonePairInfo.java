@@ -1,4 +1,4 @@
-package ca.uwaterloo.jrefactoring.mapping;
+package ca.uwaterloo.jrefactoring.detect;
 
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.filebuffers.ITextFileBuffer;

@@ -3,14 +3,12 @@ package ca.uwaterloo.jrefactoring;
 import gr.uom.java.ast.ASTReader;
 import ca.uwaterloo.jrefactoring.cli.CLIParser;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
-import ca.uwaterloo.jrefactoring.mapping.RefactoringMapper;
 import gr.uom.java.ast.CompilationErrorDetectedException;
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jdt.core.*;
-import org.eclipse.jdt.core.dom.AST;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -83,18 +81,18 @@ public class Main implements IApplication {
                 log.info("log file in " + logPath);
             }
 
+            // refactor the clone candidates
             int startFrom = cliParser.getStartingRow();
             boolean appendResults = cliParser.getAppendResults();
             int[] cloneGroupIDsToSkip = cliParser.getCloneGroupIDsToSkip();
             int[] cloneGroupIdsToAnalyze = cliParser.getCloneGroupIDsToAnalyze();
             String[] testPackages = cliParser.getTestPackages();
             String[] testSourceFolders = cliParser.getTestSourceFolders();
+            ProjectRefactor projectRefactor = ProjectRefactor.getInstance();
 
-            RefactoringMapper mapper = RefactoringMapper.getInstance();
-            mapper.testRefactoring(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip, cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
-
+            projectRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
+                    cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
         }
-
         return IApplication.EXIT_OK;
     }
 

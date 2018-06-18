@@ -317,7 +317,7 @@ public class CLIParser {
 	/**
 	 * Returns the values for "otherargs" option as an array of Strings
 	 * 
-	 * @param key
+	 * @param
 	 * @return
 	 */
 	public String[] getOtherArgs() {

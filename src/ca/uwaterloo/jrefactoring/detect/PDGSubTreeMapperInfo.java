@@ -1,4 +1,4 @@
-package ca.uwaterloo.jrefactoring.mapping;
+package ca.uwaterloo.jrefactoring.detect;
 
 import gr.uom.java.ast.decomposition.cfg.mapping.DivideAndConquerMatcher;
 

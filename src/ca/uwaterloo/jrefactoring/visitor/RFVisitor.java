@@ -5,7 +5,6 @@ import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 import ca.uwaterloo.jrefactoring.node.RFStatement;
 import ca.uwaterloo.jrefactoring.action.*;
 import ca.uwaterloo.jrefactoring.utility.ContextUtil;
-import ca.uwaterloo.jrefactoring.utility.DiffUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.Transformer;
 import gr.uom.java.ast.decomposition.matching.DifferenceType;
@@ -38,15 +37,17 @@ public abstract class RFVisitor extends NonRecursiveASTNodeVisitor {
     }
 
     public boolean visit(RFStatement node) {
-        log.info("visiting RFStatement");
         return false;
     }
 
-    public boolean visit(RFNodeDifference node) {
+    public boolean visit(RFNodeDifference diff) {
+        // refactor node difference
+        refactor(diff);
+        //System.out.println();
         return false;
     }
 
-    List<Action> selectActions(int contextNodyType, Set<DifferenceType> differenceTypes) {
+    protected List<Action> selectActions(int contextNodyType, Set<DifferenceType> differenceTypes) {
 
         List<Action> strategies = new ArrayList<>();
 
@@ -67,13 +68,16 @@ public abstract class RFVisitor extends NonRecursiveASTNodeVisitor {
         return strategies;
     }
 
-    void refactor(RFNodeDifference diff) {
-        log.info("refactor difference: " + DiffUtil.displayNodeDiff(diff));
+    protected void refactor(RFNodeDifference diff) {
+        // validate node difference
+        ContextUtil.validateNodeDiff(diff);
 
         // search context node
         int nodeType = ContextUtil.getContextNodeType(diff);
-        log.info("contextNode: " + ASTNode.nodeClassForType(nodeType).getName());
+        //log.info("refactor difference: " + diff.toString());
+        //log.info("contextNode: " + ASTNode.nodeClassForType(nodeType).getName());
 
+        // collect all the difference types in the diff node
         Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
 
         // select refactoring strategy based on difference types and context node
@@ -87,8 +91,8 @@ public abstract class RFVisitor extends NonRecursiveASTNodeVisitor {
     }
 
     public void endVisit(RFStatement node) {
+        // if current node is the top level statement, copy the refactored node to the template
         if (node.isTopStmt()) {
-            //log.info("copy current RFStatement");
             AST ast = node.getTemplate().getAst();
             node.getTemplate().addStatement((Statement)ASTNode.copySubtree(ast, node.getStatement1()));
         }
