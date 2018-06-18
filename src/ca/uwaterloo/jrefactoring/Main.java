@@ -1,14 +1,16 @@
 package ca.uwaterloo.jrefactoring;
 
+import ca.uwaterloo.jrefactoring.ast.ASTReader;
 import ca.uwaterloo.jrefactoring.cli.CLIParser;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.mapping.RefactoringMapper;
-import gr.uom.java.ast.*;
+import gr.uom.java.ast.CompilationErrorDetectedException;
 import org.eclipse.core.resources.*;
 import org.eclipse.core.runtime.*;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jdt.core.*;
+import org.eclipse.jdt.core.dom.AST;
 import org.slf4j.Logger;
 
 import java.io.File;
@@ -111,6 +113,7 @@ public class Main implements IApplication {
     private void parseJavaProject(IJavaProject jProject) {
         log.info("Now parsing the project");
         try {
+            ASTReader.JLS = AST.JLS8;
             if (ASTReader.getSystemObject() != null && jProject.equals(ASTReader.getExaminedProject())) {
                 new ASTReader(jProject, ASTReader.getSystemObject(), null);
             } else {

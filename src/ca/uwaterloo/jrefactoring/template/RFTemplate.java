@@ -15,6 +15,7 @@ public class RFTemplate {
     private static final String CLASS_NAME = "Class";
     private static final String NEW_INSTANCE_METHOD_NAME = "newInstance";
     private static final String GET_DECLARED_CONSTRUCTOR_METHOD_NAME = "getDeclaredConstructor";
+    private static final String EXCEPTION_NAME = "Exception";
 
     private AST ast;
     //private GenericManager genericManager;
@@ -43,6 +44,7 @@ public class RFTemplate {
         templateMethod.modifiers().add(privateModifier);
         templateMethod.setBody(ast.newBlock());
         templateMethod.setName(ast.newSimpleName("template1"));
+        templateMethod.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
     }
 
     public void addStatement(Statement statement) {
