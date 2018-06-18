@@ -4,11 +4,11 @@ import ca.uwaterloo.jrefactoring.build.RFStatementBuilder;
 import ca.uwaterloo.jrefactoring.mapping.ClonePairInfo;
 import ca.uwaterloo.jrefactoring.mapping.PDGSubTreeMapperInfo;
 import ca.uwaterloo.jrefactoring.node.RFStatement;
-import ca.uwaterloo.jrefactoring.template.GenericManager;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.visitor.ChildrenVisitor;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneStructureNode;
 import gr.uom.java.ast.decomposition.cfg.mapping.DivideAndConquerMatcher;
+import org.eclipse.jdt.core.dom.AST;
 import org.slf4j.Logger;
 
 public class TemplateRefactor {
@@ -27,7 +27,7 @@ public class TemplateRefactor {
         if (root != null) {
             int apilevel = getAPILevel(root);
             log.info("AST API level: " + apilevel);
-            RFTemplate template = new RFTemplate(apilevel, new GenericManager());
+            RFTemplate template = new RFTemplate(getAST(root));
 
             RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);
             rfRoot.accept(new ChildrenVisitor());
@@ -50,6 +50,21 @@ public class TemplateRefactor {
             }
         }
         return apilevel;
+    }
+
+    private static AST getAST(CloneStructureNode root) {
+        AST ast = null;
+        if (root.getMapping() != null && root.getMapping().getNodeG1() != null) {
+            return root.getMapping().getNodeG1().getASTStatement().getAST();
+        } else {
+            for (CloneStructureNode child: root.getChildren()) {
+                ast = getAST(child);
+                if (ast != null) {
+                    return ast;
+                }
+            }
+        }
+        return ast;
     }
 
 }

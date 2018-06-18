@@ -7,7 +7,9 @@ import org.eclipse.jdt.core.dom.Expression;
 public class ContextUtil {
     public static ASTNode getContextNode(Expression expr) {
         ASTNode contextNode = expr.getParent();
-        while(contextNode.getNodeType() == ASTNode.SIMPLE_NAME || contextNode.getNodeType() == ASTNode.SIMPLE_TYPE) {
+        while(contextNode.getNodeType() == ASTNode.SIMPLE_NAME
+                || contextNode.getNodeType() == ASTNode.SIMPLE_TYPE
+                || contextNode.getNodeType() == ASTNode.PARAMETERIZED_TYPE) {
             contextNode = contextNode.getParent();
         }
         return contextNode;

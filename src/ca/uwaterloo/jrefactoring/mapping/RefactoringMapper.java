@@ -1,14 +1,9 @@
 package ca.uwaterloo.jrefactoring.mapping;
 
-import ca.uwaterloo.jrefactoring.build.RFStatementBuilder;
 import ca.uwaterloo.jrefactoring.diff.TextDiff;
-import ca.uwaterloo.jrefactoring.node.RFStatement;
-import ca.uwaterloo.jrefactoring.template.GenericManager;
-import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.utility.ExcelFileColumns;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.TemplateRefactor;
-import ca.uwaterloo.jrefactoring.visitor.ChildrenVisitor;
 import gr.uom.java.ast.*;
 import gr.uom.java.ast.decomposition.cfg.CFG;
 import gr.uom.java.ast.decomposition.cfg.PDG;

@@ -1,7 +1,7 @@
-package ca.uwaterloo.jrefactoring.strategy;
+package ca.uwaterloo.jrefactoring.action;
 
 import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 
-public interface Strategy {
+public interface Action {
     void execute(RFNodeDifference diff);
 }

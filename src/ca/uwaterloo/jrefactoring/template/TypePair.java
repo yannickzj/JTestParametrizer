@@ -34,4 +34,9 @@ public class TypePair {
         TypePair other = (TypePair) o;
         return type1.equals(other.type1) && type2.equals(other.type2);
     }
+
+    @Override
+    public String toString() {
+        return "TypePair: " + type1 + ", " + type2;
+    }
 }

@@ -1,8 +1,8 @@
-package ca.uwaterloo.jrefactoring.strategy;
+package ca.uwaterloo.jrefactoring.action;
 
 import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 
-public class CreateTypeParameter implements Strategy {
+public class UpdateGenericTypeExtension implements Action {
     public void execute(RFNodeDifference diff) {
 
     }

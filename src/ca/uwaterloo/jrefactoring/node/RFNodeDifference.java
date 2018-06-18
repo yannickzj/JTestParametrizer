@@ -1,12 +1,14 @@
 package ca.uwaterloo.jrefactoring.node;
 
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
+import ca.uwaterloo.jrefactoring.template.TypePair;
+import ca.uwaterloo.jrefactoring.utility.ContextUtil;
 import ca.uwaterloo.jrefactoring.utility.DiffUtil;
 import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.matching.Difference;
 import gr.uom.java.ast.decomposition.matching.DifferenceType;
-import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
 import java.util.HashSet;
@@ -61,12 +63,25 @@ public class RFNodeDifference extends RFEntity {
         visitor.endVisit(this);
     }
 
+    public TypePair getTypePair() {
+        return new TypePair(expr1.resolveTypeBinding().getQualifiedName(), expr2.resolveTypeBinding().getQualifiedName());
+    }
+
     public Set<DifferenceType> getDifferenceTypes() {
         Set<DifferenceType> differenceTypes = new HashSet<>();
         for (Difference diff: differences) {
             differenceTypes.add(diff.getType());
         }
         return differenceTypes;
+    }
+
+    public void renameExpr1(String newIdentifier) {
+        if (expr1 instanceof SimpleName) {
+            SimpleName name = (SimpleName) expr1;
+            name.setIdentifier(newIdentifier);
+        } else {
+            throw new IllegalStateException("renaming unexpected expression: " + expr1 + "[Type: " + expr1.getNodeType() + "]");
+        }
     }
 
     @Override
