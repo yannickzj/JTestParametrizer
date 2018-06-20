@@ -1,6 +1,7 @@
 package ca.uwaterloo.jrefactoring.template;
 
 import ca.uwaterloo.jrefactoring.utility.ContextUtil;
+import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import ca.uwaterloo.jrefactoring.utility.Transformer;
 import org.eclipse.jdt.core.dom.*;
 
@@ -22,6 +23,8 @@ public class RFTemplate {
     private MethodDeclaration templateMethod;
     private Map<TypePair, String> typeMap;
     private Map<String, String> clazzInstanceMap;
+    private Map<String, String> nameMap1;
+    private Map<String, String> nameMap2;
     private int clazzCount;
     private int typeCount;
 
@@ -29,6 +32,8 @@ public class RFTemplate {
         this.ast = ast;
         typeMap = new HashMap<>();
         clazzInstanceMap = new HashMap<>();
+        nameMap1 = new HashMap<>();
+        nameMap2 = new HashMap<>();
         clazzCount = 1;
         typeCount = 1;
         initTemplate();
@@ -91,6 +96,22 @@ public class RFTemplate {
         return typeMap.get(typePair);
     }
 
+    public String resolveVariableName(String name1, String name2) {
+        String resolvedName1 = nameMap1.getOrDefault(name1, "");
+        String resolvedName2 = nameMap2.getOrDefault(name2, "");
+        assert resolvedName1.equals(resolvedName2);
+
+        if (resolvedName1.equals("")) {
+            String commonName = RenameUtil.rename(name1, name2);
+            nameMap1.put(name1, commonName);
+            nameMap2.put(name2, commonName);
+            return commonName;
+
+        } else {
+            return resolvedName1;
+        }
+    }
+
     public boolean containsGenericType(String type) {
         return clazzInstanceMap.containsKey(type);
     }
@@ -108,6 +129,7 @@ public class RFTemplate {
         return clazzInstanceMap.get(genericType);
     }
 
+    /*
     public void createClazzInstance(Expression expr, String clazzName) {
         ASTNode contextNode = ContextUtil.getContextNode(expr);
         if (contextNode.getNodeType() == ASTNode.CLASS_INSTANCE_CREATION) {
@@ -141,6 +163,7 @@ public class RFTemplate {
                     + "] for expression [" + expr + "]");
         }
     }
+    */
 
     @Override
     public String toString() {

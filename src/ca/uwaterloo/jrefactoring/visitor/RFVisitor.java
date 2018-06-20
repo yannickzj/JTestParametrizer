@@ -4,24 +4,25 @@ import ca.uwaterloo.jrefactoring.node.RFEntity;
 import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 import ca.uwaterloo.jrefactoring.node.RFStatement;
 import ca.uwaterloo.jrefactoring.action.*;
-import ca.uwaterloo.jrefactoring.utility.ContextUtil;
-import ca.uwaterloo.jrefactoring.utility.FileLogger;
-import ca.uwaterloo.jrefactoring.utility.Transformer;
+import ca.uwaterloo.jrefactoring.template.RFTemplate;
+import ca.uwaterloo.jrefactoring.template.TypePair;
+import ca.uwaterloo.jrefactoring.utility.*;
 import gr.uom.java.ast.decomposition.matching.DifferenceType;
-import org.eclipse.jdt.core.dom.AST;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public abstract class RFVisitor extends NonRecursiveASTNodeVisitor {
+public abstract class RFVisitor extends ASTVisitor {
 
     private static Logger log = FileLogger.getLogger(RFVisitor.class);
+    private static final String NEW_INSTANCE_METHOD_NAME = "newInstance";
+    private static final String GET_DECLARED_CONSTRUCTOR_METHOD_NAME = "getDeclaredConstructor";
 
-    public RFVisitor() {}
+    public RFVisitor() {
+    }
 
     public void preVisit(RFEntity node) {
         // default implementation: do nothing
@@ -42,11 +43,12 @@ public abstract class RFVisitor extends NonRecursiveASTNodeVisitor {
 
     public boolean visit(RFNodeDifference diff) {
         // refactor node difference
-        refactor(diff);
+        //refactor(diff);
         //System.out.println();
         return false;
     }
 
+    /*
     protected List<Action> selectActions(int contextNodyType, Set<DifferenceType> differenceTypes) {
 
         List<Action> strategies = new ArrayList<>();
@@ -67,7 +69,9 @@ public abstract class RFVisitor extends NonRecursiveASTNodeVisitor {
 
         return strategies;
     }
+    */
 
+    /*
     protected void refactor(RFNodeDifference diff) {
         // validate node difference
         ContextUtil.validateNodeDiff(diff);
@@ -89,12 +93,148 @@ public abstract class RFVisitor extends NonRecursiveASTNodeVisitor {
             Transformer.transform(diff);
         }
     }
+    */
+
+    @Override
+    public boolean visit(SimpleName node) {
+        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodePropertyName.DIFF);
+        if (diff != null) {
+
+            RFTemplate template = diff.getTemplate();
+            AST ast = template.getAst();
+            Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
+
+            if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)) {
+                String name1 = node.getFullyQualifiedName();
+                String name2 = ((Name) diff.getExpr2()).getFullyQualifiedName();
+                String resolvedName = template.resolveVariableName(name1, name2);
+                replaceNode(node, ast.newSimpleName(resolvedName));
+
+            } else if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                String genericTypeName = template.resolveTypePair(diff.getTypePair());
+                replaceNode(node, ast.newSimpleName(genericTypeName));
+
+            } else {
+                throw new IllegalStateException("unexpected name mismatch!");
+            }
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean visit(QualifiedName node) {
+        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodePropertyName.DIFF);
+        if (diff != null) {
+            log.info("TO DO: refactor QualifiedName: " + node.getFullyQualifiedName());
+        }
+        //log.info("type binding: " + Transformer.typeFromBinding(node.getAST(), node.resolveTypeBinding()));
+        return false;
+    }
+
+    protected RFNodeDifference retrieveDiffInTypeNode(Type type) {
+        if (type.isSimpleType()) {
+            SimpleType simpleType = (SimpleType) type;
+            return (RFNodeDifference) simpleType.getName().getProperty(ASTNodePropertyName.DIFF);
+
+        } else {
+            throw new IllegalStateException("unexpected Type type when retrieving diff!");
+        }
+    }
+
+    protected void replaceNode(ASTNode oldNode, ASTNode newNode) {
+        StructuralPropertyDescriptor structuralPropertyDescriptor = oldNode.getLocationInParent();
+        oldNode.getParent().setStructuralProperty(structuralPropertyDescriptor, newNode);
+    }
+
+    @Override
+    public boolean visit(ClassInstanceCreation node) {
+
+        // visit arguments
+        List<Expression> arguments = node.arguments();
+        for (Expression argument : arguments) {
+            argument.accept(this);
+        }
+
+        RFNodeDifference diff = retrieveDiffInTypeNode(node.getType());
+        if (diff != null) {
+
+            // resolve generic type
+            RFTemplate template = diff.getTemplate();
+            String genericTypeName = template.resolveTypePair(diff.getTypePair());
+            String clazzName = template.resolveGenericType(genericTypeName);
+
+            // replace initializer
+            AST ast = template.getAst();
+            MethodInvocation newInstanceMethodInvocation = ast.newMethodInvocation();
+            MethodInvocation getDeclaredConstructorMethodInvocation = ast.newMethodInvocation();
+            newInstanceMethodInvocation.setName(ast.newSimpleName(NEW_INSTANCE_METHOD_NAME));
+            getDeclaredConstructorMethodInvocation.setName(ast.newSimpleName(GET_DECLARED_CONSTRUCTOR_METHOD_NAME));
+
+            if (arguments.size() > 0) {
+                newInstanceMethodInvocation.setExpression(getDeclaredConstructorMethodInvocation);
+                getDeclaredConstructorMethodInvocation.setExpression(ast.newSimpleName(clazzName));
+            } else {
+                newInstanceMethodInvocation.setExpression(ast.newSimpleName(clazzName));
+            }
+            replaceNode(node, newInstanceMethodInvocation);
+
+            // copy parameters
+            for (Expression argument : arguments) {
+                TypeLiteral typeLiteral = ast.newTypeLiteral();
+                Type type = Transformer.typeFromBinding(ast, argument.resolveTypeBinding());
+                typeLiteral.setType(type);
+                getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
+                Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
+                newInstanceMethodInvocation.arguments().add(newArg);
+            }
+
+        }
+
+        return false;
+    }
+
+    protected boolean containsDiff(Expression node) {
+        if (node instanceof Name) {
+            return node.getProperty(ASTNodePropertyName.DIFF) != null;
+        } else if (node instanceof MethodInvocation) {
+            return containsDiff(((MethodInvocation) node).getExpression())
+                    || containsDiff(((MethodInvocation) node).getName());
+        } else {
+            throw new IllegalStateException("unexpected expression node: " + node);
+        }
+    }
+
+    @Override
+    public boolean visit(MethodInvocation node) {
+
+        // visit arguments
+        List<Expression> arguments = node.arguments();
+        for (Expression argument : arguments) {
+            argument.accept(this);
+        }
+
+        Expression expr = node.getExpression();
+        SimpleName name = node.getName();
+        if (containsDiff(expr) || containsDiff(name)) {
+            log.info("add new action in adapter");
+            expr.accept(this);
+            log.info("first arg: " + node.getExpression());
+            for (Expression argument: arguments) {
+                log.info("arg: " + argument);
+            }
+
+        } else {
+        }
+
+        return false;
+    }
 
     public void endVisit(RFStatement node) {
         // if current node is the top level statement, copy the refactored node to the template
         if (node.isTopStmt()) {
             AST ast = node.getTemplate().getAst();
-            node.getTemplate().addStatement((Statement)ASTNode.copySubtree(ast, node.getStatement1()));
+            node.getTemplate().addStatement((Statement) ASTNode.copySubtree(ast, node.getStatement1()));
         }
     }
 

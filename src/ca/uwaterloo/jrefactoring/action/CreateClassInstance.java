@@ -14,7 +14,7 @@ public class CreateClassInstance implements Action {
         String clazzName = template.resolveGenericType(genericTypeName);
 
         //System.out.println("clazz instance: " + clazzName);
-        template.createClazzInstance(diff.getExpr1(), clazzName);
+        //template.createClazzInstance(diff.getExpr1(), clazzName);
 
     }
 }
