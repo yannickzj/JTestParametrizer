@@ -126,9 +126,21 @@ public abstract class RFVisitor extends ASTVisitor {
     public boolean visit(QualifiedName node) {
         RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodePropertyName.DIFF);
         if (diff != null) {
-            log.info("TO DO: refactor QualifiedName: " + node.getFullyQualifiedName());
+
+            RFTemplate template = diff.getTemplate();
+            AST ast = template.getAst();
+            Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
+
+            if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)
+                    && differenceTypes.size() == 1) {
+                Type type = Transformer.typeFromBinding(ast, node.resolveTypeBinding());
+                String variableParameter = template.addVariableParameter(type);
+                replaceNode(node, ast.newSimpleName(variableParameter));
+
+            } else {
+                throw new IllegalStateException("unexpected qualified name mismatch!");
+            }
         }
-        //log.info("type binding: " + Transformer.typeFromBinding(node.getAST(), node.resolveTypeBinding()));
         return false;
     }
 
@@ -144,7 +156,14 @@ public abstract class RFVisitor extends ASTVisitor {
 
     protected void replaceNode(ASTNode oldNode, ASTNode newNode) {
         StructuralPropertyDescriptor structuralPropertyDescriptor = oldNode.getLocationInParent();
-        oldNode.getParent().setStructuralProperty(structuralPropertyDescriptor, newNode);
+        if (structuralPropertyDescriptor.isChildListProperty()) {
+            List<ASTNode> arguments = (List<ASTNode>) oldNode.getParent().getStructuralProperty(structuralPropertyDescriptor);
+            arguments.remove(oldNode);
+            arguments.add(newNode);
+
+        } else {
+            oldNode.getParent().setStructuralProperty(structuralPropertyDescriptor, newNode);
+        }
     }
 
     @Override
@@ -205,6 +224,25 @@ public abstract class RFVisitor extends ASTVisitor {
         }
     }
 
+    protected RFNodeDifference retrieveDiffInMethodInvacation(Expression node) {
+        if (node instanceof Name) {
+            return (RFNodeDifference) node.getProperty(ASTNodePropertyName.DIFF);
+        } else if (node instanceof MethodInvocation) {
+            RFNodeDifference diff = retrieveDiffInMethodInvacation(((MethodInvocation) node).getExpression());
+            if (diff != null) {
+                return diff;
+            } else {
+                return retrieveDiffInMethodInvacation(((MethodInvocation) node).getName());
+            }
+        } else {
+            throw new IllegalStateException("unexpected expression node: " + node);
+        }
+    }
+
+    protected RFNodeDifference retrieveDiffInName(Name name) {
+        return (RFNodeDifference) name.getProperty(ASTNodePropertyName.DIFF);
+    }
+
     @Override
     public boolean visit(MethodInvocation node) {
 
@@ -214,17 +252,33 @@ public abstract class RFVisitor extends ASTVisitor {
             argument.accept(this);
         }
 
-        Expression expr = node.getExpression();
-        SimpleName name = node.getName();
-        if (containsDiff(expr) || containsDiff(name)) {
-            log.info("add new action in adapter");
-            expr.accept(this);
-            log.info("first arg: " + node.getExpression());
-            for (Expression argument: arguments) {
-                log.info("arg: " + argument);
+        RFNodeDifference diffInExpr = retrieveDiffInMethodInvacation(node.getExpression());
+        RFNodeDifference diffInName = retrieveDiffInName(node.getName());
+        if (diffInExpr != null || diffInName != null) {
+
+            node.getExpression().accept(this);
+
+            RFTemplate template;
+            if (diffInExpr != null) {
+                template = diffInExpr.getTemplate();
+            } else {
+                template = diffInName.getTemplate();
             }
 
-        } else {
+            AST ast = template.getAst();
+            MethodInvocation newNode = ast.newMethodInvocation();
+            newNode.setName(ast.newSimpleName("action1"));
+            newNode.setExpression(ast.newSimpleName("adapter"));
+            List<Expression> newNodeArgs = newNode.arguments();
+
+            newNodeArgs.add((Expression) ASTNode.copySubtree(ast, node.getExpression()));
+            for (Expression argument: arguments) {
+                Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
+                newNodeArgs.add(newArg);
+            }
+
+            replaceNode(node, newNode);
+
         }
 
         return false;

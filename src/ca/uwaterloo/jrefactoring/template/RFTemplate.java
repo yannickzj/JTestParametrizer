@@ -25,6 +25,7 @@ public class RFTemplate {
     private Map<String, String> clazzInstanceMap;
     private Map<String, String> nameMap1;
     private Map<String, String> nameMap2;
+    private Map<Type, Integer> parameterMap;
     private int clazzCount;
     private int typeCount;
 
@@ -34,6 +35,7 @@ public class RFTemplate {
         clazzInstanceMap = new HashMap<>();
         nameMap1 = new HashMap<>();
         nameMap2 = new HashMap<>();
+        parameterMap = new HashMap<>();
         clazzCount = 1;
         typeCount = 1;
         initTemplate();
@@ -72,11 +74,14 @@ public class RFTemplate {
         ParameterizedType classTypeWithGenericType = ast.newParameterizedType(classType);
         classTypeWithGenericType.typeArguments().add(genericType);
 
-        SingleVariableDeclaration clazz= ast.newSingleVariableDeclaration();
+        //SingleVariableDeclaration clazz= ast.newSingleVariableDeclaration();
         SimpleName clazzName = ast.newSimpleName(resolveGenericType(genericTypeName));
+        addVariableParameter(classTypeWithGenericType, clazzName);
+        /*
         clazz.setType(classTypeWithGenericType);
         clazz.setName(clazzName);
         templateMethod.parameters().add(clazz);
+        */
     }
 
     public boolean containsTypePair(TypePair typePair) {
@@ -110,6 +115,21 @@ public class RFTemplate {
         } else {
             return resolvedName1;
         }
+    }
+
+    public String addVariableParameter(Type type) {
+        int count = parameterMap.getOrDefault(type, 0) + 1;
+        parameterMap.put(type, count);
+        String variableParameter = type.toString().toLowerCase() + count;
+        addVariableParameter(type, ast.newSimpleName(variableParameter));
+        return variableParameter;
+    }
+
+    public void addVariableParameter(Type type, SimpleName name) {
+        SingleVariableDeclaration variableParameter = ast.newSingleVariableDeclaration();
+        variableParameter.setType(type);
+        variableParameter.setName(name);
+        templateMethod.parameters().add(variableParameter);
     }
 
     public boolean containsGenericType(String type) {
