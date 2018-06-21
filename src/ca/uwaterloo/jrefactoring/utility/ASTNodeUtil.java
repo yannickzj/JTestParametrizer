@@ -1,27 +1,13 @@
 package ca.uwaterloo.jrefactoring.utility;
 
-import ca.uwaterloo.jrefactoring.action.Action;
-import ca.uwaterloo.jrefactoring.action.DefaultAction;
-import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 import org.eclipse.jdt.core.dom.*;
 
 import java.util.List;
 
-public class Transformer {
+public class ASTNodeUtil {
 
-    private static Action action = new DefaultAction();
-
-    public static Action getAction() {
-        return action;
-    }
-
-    public static void setAction(Action action) {
-        Transformer.action = action;
-    }
-
-    public static void transform(RFNodeDifference diff) {
-        action.execute(diff);
-    }
+    public static final String PROPERTY_DIFF = "diff";
+    public static final String PROPERTY_TYPE_BINDING = "type";
 
     public static Type typeFromBinding(AST ast, ITypeBinding typeBinding) {
         if( ast == null )

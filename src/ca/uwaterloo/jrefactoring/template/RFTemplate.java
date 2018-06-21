@@ -1,57 +1,90 @@
 package ca.uwaterloo.jrefactoring.template;
 
-import ca.uwaterloo.jrefactoring.utility.ContextUtil;
+import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
+import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
-import ca.uwaterloo.jrefactoring.utility.Transformer;
 import org.eclipse.jdt.core.dom.*;
+import org.slf4j.Logger;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class RFTemplate {
 
+    private static Logger log = FileLogger.getLogger(RFTemplate.class);
     private static final String TYPE_NAME_PREFIX = "T";
     private static final String CLAZZ_NAME_PREFIX = "clazz";
     private static final String CLASS_NAME = "Class";
-    private static final String NEW_INSTANCE_METHOD_NAME = "newInstance";
-    private static final String GET_DECLARED_CONSTRUCTOR_METHOD_NAME = "getDeclaredConstructor";
     private static final String EXCEPTION_NAME = "Exception";
+    private static final String DEFAULT_TEMPLATE_NAME = "template1";
+    private static final String DEFAULT_ADAPTER_TYPE_NAME = "Adapter1";
+    private static final String DEFAULT_ADAPTER_VARIABLE_NAME = "adapter";
+    private static final String DEFAULT_ADAPTER_METHOD_NAME = "action";
 
     private AST ast;
-    //private GenericManager genericManager;
     private MethodDeclaration templateMethod;
+    private TypeDeclaration adapter;
     private Map<TypePair, String> typeMap;
     private Map<String, String> clazzInstanceMap;
     private Map<String, String> nameMap1;
     private Map<String, String> nameMap2;
     private Map<Type, Integer> parameterMap;
+    private SingleVariableDeclaration adapterVariable;
     private int clazzCount;
     private int typeCount;
+    private int actionCount;
 
     public RFTemplate(AST ast) {
+        init(ast, DEFAULT_TEMPLATE_NAME, DEFAULT_ADAPTER_TYPE_NAME);
+    }
+
+    public RFTemplate(AST ast, String templateName, String adapterName) {
+        init(ast, templateName, adapterName);
+    }
+
+    private void init(AST ast, String templateName, String adapterName) {
         this.ast = ast;
-        typeMap = new HashMap<>();
-        clazzInstanceMap = new HashMap<>();
-        nameMap1 = new HashMap<>();
-        nameMap2 = new HashMap<>();
-        parameterMap = new HashMap<>();
-        clazzCount = 1;
-        typeCount = 1;
-        initTemplate();
+        this.typeMap = new HashMap<>();
+        this.clazzInstanceMap = new HashMap<>();
+        this.nameMap1 = new HashMap<>();
+        this.nameMap2 = new HashMap<>();
+        this.parameterMap = new HashMap<>();
+        this.clazzCount = 1;
+        this.typeCount = 1;
+        this.actionCount = 1;
+        initTemplate(templateName);
+        initAdapter(adapterName);
     }
 
     public AST getAst() {
         return ast;
     }
 
-    private void initTemplate() {
+    private void initTemplate(String templateName) {
         templateMethod = ast.newMethodDeclaration();
         Modifier privateModifier = ast.newModifier(Modifier.ModifierKeyword.PRIVATE_KEYWORD);
         templateMethod.modifiers().add(privateModifier);
         templateMethod.setBody(ast.newBlock());
-        templateMethod.setName(ast.newSimpleName("template1"));
+        templateMethod.setName(ast.newSimpleName(templateName));
         templateMethod.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
+    }
+
+    private void initAdapter(String adapterName) {
+        // init Adapter interface
+        adapter = ast.newTypeDeclaration();
+        Modifier publicModifier = ast.newModifier(Modifier.ModifierKeyword.PUBLIC_KEYWORD);
+        adapter.modifiers().add(publicModifier);
+        adapter.setInterface(true);
+        adapter.setName(ast.newSimpleName(adapterName));
+
+        // init adapter variable
+        this.adapterVariable = ast.newSingleVariableDeclaration();
+        Type type = ast.newSimpleType((SimpleName) ASTNode.copySubtree(ast, adapter.getName()));
+        adapterVariable.setType(type);
+        adapterVariable.setName(ast.newSimpleName(DEFAULT_ADAPTER_VARIABLE_NAME));
+
     }
 
     public void addStatement(Statement statement) {
@@ -74,14 +107,8 @@ public class RFTemplate {
         ParameterizedType classTypeWithGenericType = ast.newParameterizedType(classType);
         classTypeWithGenericType.typeArguments().add(genericType);
 
-        //SingleVariableDeclaration clazz= ast.newSingleVariableDeclaration();
         SimpleName clazzName = ast.newSimpleName(resolveGenericType(genericTypeName));
         addVariableParameter(classTypeWithGenericType, clazzName);
-        /*
-        clazz.setType(classTypeWithGenericType);
-        clazz.setName(clazzName);
-        templateMethod.parameters().add(clazz);
-        */
     }
 
     public boolean containsTypePair(TypePair typePair) {
@@ -126,10 +153,14 @@ public class RFTemplate {
     }
 
     public void addVariableParameter(Type type, SimpleName name) {
+        addVariableParameter(type, name, templateMethod.parameters().size());
+    }
+
+    public void addVariableParameter(Type type, SimpleName name, int index) {
         SingleVariableDeclaration variableParameter = ast.newSingleVariableDeclaration();
         variableParameter.setType(type);
         variableParameter.setName(name);
-        templateMethod.parameters().add(variableParameter);
+        templateMethod.parameters().add(index, variableParameter);
     }
 
     public boolean containsGenericType(String type) {
@@ -147,6 +178,85 @@ public class RFTemplate {
             addClazzInParameter(genericType);
         }
         return clazzInstanceMap.get(genericType);
+    }
+
+    private void addAdapterVariableTypeParameter(Type type) {
+        Type adapterType = adapterVariable.getType();
+        if (adapterType.isSimpleType()) {
+            ParameterizedType parameterizedType = ast.newParameterizedType((Type) ASTNode.copySubtree(ast, adapterType));
+            parameterizedType.typeArguments().add(ASTNode.copySubtree(ast, type));
+            adapterVariable.setType(parameterizedType);
+
+        } else if (adapterType.isParameterizedType()) {
+            ((ParameterizedType) adapterType).typeArguments().add(ASTNode.copySubtree(ast, type));
+        } else {
+            throw new IllegalStateException("unexpected adapter type");
+        }
+    }
+
+    private Type resolveAdapterActionArgumentType(Expression expr) {
+        ITypeBinding typeBinding = expr.resolveTypeBinding();
+        Type exprType;
+        if (typeBinding != null) {
+            exprType = ASTNodeUtil.typeFromBinding(ast, typeBinding);
+        } else {
+            exprType = (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+            if (typeMap.values().contains(exprType.toString())) {
+                TypeParameter typeParameter = ast.newTypeParameter();
+                typeParameter.setName(ast.newSimpleName(exprType.toString()));
+                adapter.typeParameters().add(typeParameter);
+                addAdapterVariableTypeParameter(exprType);
+            }
+        }
+        return exprType;
+    }
+
+    private void addMethodInAdapterInterface(SimpleName name, List<Type> argTypes) {
+        MethodDeclaration methodDeclaration = ast.newMethodDeclaration();
+        methodDeclaration.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
+        methodDeclaration.setName((SimpleName) ASTNode.copySubtree(ast, name));
+        Map<String, Integer> argMap = new HashMap<>();
+        for (Type argType: argTypes) {
+            SingleVariableDeclaration arg = ast.newSingleVariableDeclaration();
+            arg.setType((Type) ASTNode.copySubtree(ast, argType));
+            String argName = argType.toString().toLowerCase();
+            int argCount = argMap.getOrDefault(argName, 1);
+            argMap.getOrDefault(argName, argCount + 1);
+            arg.setName(ast.newSimpleName(argName + "_" + argCount));
+            methodDeclaration.parameters().add(arg);
+        }
+
+        adapter.bodyDeclarations().add(methodDeclaration);
+    }
+
+    public MethodInvocation addMethodInvocationInAdapter(Expression expr, List<Expression> arguments) {
+
+        if (adapter.bodyDeclarations().size() == 0) {
+            templateMethod.parameters().add(0, adapterVariable);
+        }
+
+        // create new method invocation
+        MethodInvocation newMethod = ast.newMethodInvocation();
+        newMethod.setName(ast.newSimpleName(DEFAULT_ADAPTER_METHOD_NAME + actionCount++));
+        newMethod.setExpression(ast.newSimpleName(DEFAULT_ADAPTER_VARIABLE_NAME));
+
+        List<Expression> newArgs = newMethod.arguments();
+        List<Type> argTypes = new ArrayList<>();
+
+        // copy and resolve method expr
+        newArgs.add((Expression) ASTNode.copySubtree(ast, expr));
+        argTypes.add(resolveAdapterActionArgumentType(expr));
+
+        // copy and resolve arguments
+        for (Expression argument: arguments) {
+            newArgs.add((Expression) ASTNode.copySubtree(ast, argument));
+            argTypes.add(resolveAdapterActionArgumentType(argument));
+        }
+
+        // add method in adapter interface
+        addMethodInAdapterInterface(newMethod.getName(), argTypes);
+
+        return newMethod;
     }
 
     /*
@@ -171,7 +281,7 @@ public class RFTemplate {
             List<Expression> arguments = classInstanceCreation.arguments();
             for (Expression argument: arguments) {
                 TypeLiteral typeLiteral = ast.newTypeLiteral();
-                Type type = Transformer.typeFromBinding(ast, argument.resolveTypeBinding());
+                Type type = ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding());
                 typeLiteral.setType(type);
                 getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
                 Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
@@ -187,7 +297,7 @@ public class RFTemplate {
 
     @Override
     public String toString() {
-        return templateMethod.toString();
+        return templateMethod.toString() + "\n" + adapter.toString();
     }
 
 }

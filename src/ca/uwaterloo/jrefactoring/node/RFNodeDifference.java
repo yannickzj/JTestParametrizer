@@ -2,7 +2,7 @@ package ca.uwaterloo.jrefactoring.node;
 
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.template.TypePair;
-import ca.uwaterloo.jrefactoring.utility.ASTNodePropertyName;
+import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.matching.Difference;
@@ -27,7 +27,7 @@ public class RFNodeDifference extends RFEntity {
         this.expr1 = expr1;
         this.expr2 = expr2;
         this.differences = differences;
-        expr1.setProperty(ASTNodePropertyName.DIFF, this);
+        expr1.setProperty(ASTNodeUtil.PROPERTY_DIFF, this);
     }
 
     public Expression getExpr1() {

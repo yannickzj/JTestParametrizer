@@ -3,15 +3,12 @@ package ca.uwaterloo.jrefactoring.visitor;
 import ca.uwaterloo.jrefactoring.node.RFEntity;
 import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 import ca.uwaterloo.jrefactoring.node.RFStatement;
-import ca.uwaterloo.jrefactoring.action.*;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
-import ca.uwaterloo.jrefactoring.template.TypePair;
 import ca.uwaterloo.jrefactoring.utility.*;
 import gr.uom.java.ast.decomposition.matching.DifferenceType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -89,15 +86,15 @@ public abstract class RFVisitor extends ASTVisitor {
 
         // take refactoring actions
         for (Action action : actions) {
-            Transformer.setAction(action);
-            Transformer.transform(diff);
+            ASTNodeUtil.setAction(action);
+            ASTNodeUtil.transform(diff);
         }
     }
     */
 
     @Override
     public boolean visit(SimpleName node) {
-        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodePropertyName.DIFF);
+        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         if (diff != null) {
 
             RFTemplate template = diff.getTemplate();
@@ -108,11 +105,22 @@ public abstract class RFVisitor extends ASTVisitor {
                 String name1 = node.getFullyQualifiedName();
                 String name2 = ((Name) diff.getExpr2()).getFullyQualifiedName();
                 String resolvedName = template.resolveVariableName(name1, name2);
-                replaceNode(node, ast.newSimpleName(resolvedName));
+                SimpleName newNode = ast.newSimpleName(resolvedName);
+
+                Type type;
+                if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                    String genericTypeName = template.resolveTypePair(diff.getTypePair());
+                    type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+
+                } else {
+                    type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
+                }
+                replaceNode(node, newNode, type);
 
             } else if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
                 String genericTypeName = template.resolveTypePair(diff.getTypePair());
-                replaceNode(node, ast.newSimpleName(genericTypeName));
+                Type type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+                replaceNode(node, ast.newSimpleName(genericTypeName), type);
 
             } else {
                 throw new IllegalStateException("unexpected name mismatch!");
@@ -124,7 +132,7 @@ public abstract class RFVisitor extends ASTVisitor {
 
     @Override
     public boolean visit(QualifiedName node) {
-        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodePropertyName.DIFF);
+        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         if (diff != null) {
 
             RFTemplate template = diff.getTemplate();
@@ -133,9 +141,10 @@ public abstract class RFVisitor extends ASTVisitor {
 
             if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)
                     && differenceTypes.size() == 1) {
-                Type type = Transformer.typeFromBinding(ast, node.resolveTypeBinding());
+                Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
                 String variableParameter = template.addVariableParameter(type);
-                replaceNode(node, ast.newSimpleName(variableParameter));
+                SimpleName newNode = ast.newSimpleName(variableParameter);
+                replaceNode(node, newNode, type);
 
             } else {
                 throw new IllegalStateException("unexpected qualified name mismatch!");
@@ -147,15 +156,16 @@ public abstract class RFVisitor extends ASTVisitor {
     protected RFNodeDifference retrieveDiffInTypeNode(Type type) {
         if (type.isSimpleType()) {
             SimpleType simpleType = (SimpleType) type;
-            return (RFNodeDifference) simpleType.getName().getProperty(ASTNodePropertyName.DIFF);
+            return (RFNodeDifference) simpleType.getName().getProperty(ASTNodeUtil.PROPERTY_DIFF);
 
         } else {
             throw new IllegalStateException("unexpected Type type when retrieving diff!");
         }
     }
 
-    protected void replaceNode(ASTNode oldNode, ASTNode newNode) {
+    protected void replaceNode(ASTNode oldNode, ASTNode newNode, Type newNodeType) {
         StructuralPropertyDescriptor structuralPropertyDescriptor = oldNode.getLocationInParent();
+        newNode.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, newNodeType);
         if (structuralPropertyDescriptor.isChildListProperty()) {
             List<ASTNode> arguments = (List<ASTNode>) oldNode.getParent().getStructuralProperty(structuralPropertyDescriptor);
             arguments.remove(oldNode);
@@ -196,12 +206,12 @@ public abstract class RFVisitor extends ASTVisitor {
             } else {
                 newInstanceMethodInvocation.setExpression(ast.newSimpleName(clazzName));
             }
-            replaceNode(node, newInstanceMethodInvocation);
+            replaceNode(node, newInstanceMethodInvocation, ast.newSimpleType(ast.newSimpleName(genericTypeName)));
 
             // copy parameters
             for (Expression argument : arguments) {
                 TypeLiteral typeLiteral = ast.newTypeLiteral();
-                Type type = Transformer.typeFromBinding(ast, argument.resolveTypeBinding());
+                Type type = ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding());
                 typeLiteral.setType(type);
                 getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
                 Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
@@ -215,7 +225,7 @@ public abstract class RFVisitor extends ASTVisitor {
 
     protected boolean containsDiff(Expression node) {
         if (node instanceof Name) {
-            return node.getProperty(ASTNodePropertyName.DIFF) != null;
+            return node.getProperty(ASTNodeUtil.PROPERTY_DIFF) != null;
         } else if (node instanceof MethodInvocation) {
             return containsDiff(((MethodInvocation) node).getExpression())
                     || containsDiff(((MethodInvocation) node).getName());
@@ -226,7 +236,7 @@ public abstract class RFVisitor extends ASTVisitor {
 
     protected RFNodeDifference retrieveDiffInMethodInvacation(Expression node) {
         if (node instanceof Name) {
-            return (RFNodeDifference) node.getProperty(ASTNodePropertyName.DIFF);
+            return (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         } else if (node instanceof MethodInvocation) {
             RFNodeDifference diff = retrieveDiffInMethodInvacation(((MethodInvocation) node).getExpression());
             if (diff != null) {
@@ -240,7 +250,7 @@ public abstract class RFVisitor extends ASTVisitor {
     }
 
     protected RFNodeDifference retrieveDiffInName(Name name) {
-        return (RFNodeDifference) name.getProperty(ASTNodePropertyName.DIFF);
+        return (RFNodeDifference) name.getProperty(ASTNodeUtil.PROPERTY_DIFF);
     }
 
     @Override
@@ -256,28 +266,39 @@ public abstract class RFVisitor extends ASTVisitor {
         RFNodeDifference diffInName = retrieveDiffInName(node.getName());
         if (diffInExpr != null || diffInName != null) {
 
+            // refactor the method invocation expression
             node.getExpression().accept(this);
 
+            // get the template
             RFTemplate template;
             if (diffInExpr != null) {
                 template = diffInExpr.getTemplate();
             } else {
                 template = diffInName.getTemplate();
             }
+            AST ast = template.getAst();
 
+            // create new method invocation in adapter
+            MethodInvocation newMethod = template.addMethodInvocationInAdapter(node.getExpression(), arguments);
+
+            /*
             AST ast = template.getAst();
             MethodInvocation newNode = ast.newMethodInvocation();
             newNode.setName(ast.newSimpleName("action1"));
             newNode.setExpression(ast.newSimpleName("adapter"));
-            List<Expression> newNodeArgs = newNode.arguments();
 
+            // copy parameters to new node
+            List<Expression> newNodeArgs = newNode.arguments();
             newNodeArgs.add((Expression) ASTNode.copySubtree(ast, node.getExpression()));
             for (Expression argument: arguments) {
                 Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
                 newNodeArgs.add(newArg);
             }
+            */
 
-            replaceNode(node, newNode);
+            // replace the old node
+            Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
+            replaceNode(node, newMethod, type);
 
         }
 
