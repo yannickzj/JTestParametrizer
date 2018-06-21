@@ -56,4 +56,13 @@ public class ASTNodeUtil {
         }
         return ast.newSimpleType(ast.newName(name));
     }
+
+    public static Type typeFromExpr(AST ast, Expression expr) {
+        ITypeBinding typeBinding = expr.resolveTypeBinding();
+        if (typeBinding != null) {
+            return typeFromBinding(ast, typeBinding);
+        } else {
+            return (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+        }
+    }
 }

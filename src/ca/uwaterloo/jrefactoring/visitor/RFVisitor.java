@@ -10,6 +10,7 @@ import gr.uom.java.ast.decomposition.matching.DifferenceType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -206,28 +207,54 @@ public abstract class RFVisitor extends ASTVisitor {
         return (RFNodeDifference) name.getProperty(ASTNodeUtil.PROPERTY_DIFF);
     }
 
+    private List<String> getArgTypeNames(List<Expression> arguments) {
+        List<String> argTypeNames = new ArrayList<>();
+        for (Expression argument: arguments) {
+            Type type = ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding());
+            argTypeNames.add(type.toString());
+        }
+        return argTypeNames;
+    }
+
     @Override
     public boolean visit(MethodInvocation node) {
 
+        List<Expression> arguments1 = node.arguments();
+        List<String> argTypeNames1 = getArgTypeNames(arguments1);
+
         // refactor arguments
-        List<Expression> arguments = node.arguments();
-        for (Expression argument : arguments) {
+        for (Expression argument : arguments1) {
             argument.accept(this);
         }
 
-        RFNodeDifference diffInExpr = retrieveDiffInMethodInvacation(node.getExpression());
-        RFNodeDifference diffInName = retrieveDiffInName(node.getName());
+        Expression expr1 = node.getExpression();
+        Type exprType1 = ASTNodeUtil.typeFromExpr(ast, expr1);
+        SimpleName name1 = node.getName();
+        RFNodeDifference diffInExpr = retrieveDiffInMethodInvacation(expr1);
+        RFNodeDifference diffInName = retrieveDiffInName(name1);
         if (diffInExpr != null || diffInName != null) {
 
+            // retrieve paired method invocation node
+            MethodInvocation pairedNode;
+            if (diffInExpr != null) {
+                pairedNode = (MethodInvocation) diffInExpr.getExpr2().getParent();
+            } else {
+                pairedNode = (MethodInvocation) diffInName.getExpr2().getParent();
+            }
+
             // construct method invocation pair
-            // TO DO SOMETHING
-            MethodInvocationPair methodInvocationPair = new MethodInvocationPair();
+            Type exprType2 = ASTNodeUtil.typeFromExpr(ast, pairedNode.getExpression());
+            SimpleName name2 = pairedNode.getName();
+            List<String> argTypeNames2 = getArgTypeNames(pairedNode.arguments());
+            MethodInvocationPair methodInvocationPair = new MethodInvocationPair(exprType1.toString(), name1.getIdentifier(), argTypeNames1,
+                    exprType2.toString(), name2.getIdentifier(), argTypeNames2);
+            log.info("create new method invocation pair: " + methodInvocationPair.toString());
 
             // refactor the method invocation expression
-            node.getExpression().accept(this);
+            expr1.accept(this);
 
             // create new method invocation in adapter
-            MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments, methodInvocationPair);
+            MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments1, methodInvocationPair);
 
             // replace the old method
             Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());

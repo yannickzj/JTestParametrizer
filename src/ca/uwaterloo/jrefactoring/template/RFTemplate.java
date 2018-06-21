@@ -24,6 +24,7 @@ public class RFTemplate {
     private MethodDeclaration templateMethod;
     private TypeDeclaration adapter;
     private Map<TypePair, String> typeMap;
+    private Map<MethodInvocationPair, String> methodInvocationMap;
     private Map<String, String> clazzInstanceMap;
     private Map<String, String> nameMap1;
     private Map<String, String> nameMap2;
@@ -45,6 +46,7 @@ public class RFTemplate {
     private void init(AST ast, String templateName, String adapterName) {
         this.ast = ast;
         this.typeMap = new HashMap<>();
+        this.methodInvocationMap = new HashMap<>();
         this.clazzInstanceMap = new HashMap<>();
         this.nameMap1 = new HashMap<>();
         this.nameMap2 = new HashMap<>();
@@ -223,7 +225,7 @@ public class RFTemplate {
             String argName = argType.toString().toLowerCase();
             int argCount = argMap.getOrDefault(argName, 1);
             argMap.getOrDefault(argName, argCount + 1);
-            arg.setName(ast.newSimpleName(argName + "_" + argCount));
+            arg.setName(ast.newSimpleName(RenameUtil.rename(argName, argCount)));
             methodDeclaration.parameters().add(arg);
         }
 
@@ -239,7 +241,6 @@ public class RFTemplate {
 
         // create new method invocation
         MethodInvocation newMethod = ast.newMethodInvocation();
-        newMethod.setName(ast.newSimpleName(DEFAULT_ADAPTER_METHOD_NAME + actionCount++));
         newMethod.setExpression(ast.newSimpleName(DEFAULT_ADAPTER_VARIABLE_NAME));
 
         List<Expression> newArgs = newMethod.arguments();
@@ -256,7 +257,14 @@ public class RFTemplate {
         }
 
         // add method in adapter interface
-        addMethodInAdapterInterface(newMethod.getName(), argTypes);
+        if (methodInvocationMap.containsKey(pair)) {
+            newMethod.setName(ast.newSimpleName(methodInvocationMap.get(pair)));
+        } else {
+            String newActionName = DEFAULT_ADAPTER_METHOD_NAME + actionCount++;
+            newMethod.setName(ast.newSimpleName(newActionName));
+            addMethodInAdapterInterface(newMethod.getName(), argTypes);
+            methodInvocationMap.put(pair, newActionName);
+        }
 
         return newMethod;
     }
