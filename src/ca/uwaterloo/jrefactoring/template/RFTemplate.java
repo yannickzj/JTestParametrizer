@@ -34,6 +34,7 @@ public class RFTemplate {
     private int clazzCount;
     private int typeCount;
     private int actionCount;
+    private int variableCount;
 
     public RFTemplate(AST ast) {
         init(ast, DEFAULT_TEMPLATE_NAME, DEFAULT_ADAPTER_TYPE_NAME);
@@ -55,6 +56,7 @@ public class RFTemplate {
         this.clazzCount = 1;
         this.typeCount = 1;
         this.actionCount = 1;
+        this.variableCount = 1;
         initTemplate(templateName);
         initAdapter(adapterName);
     }
@@ -135,7 +137,7 @@ public class RFTemplate {
         assert resolvedName1.equals(resolvedName2);
 
         if (resolvedName1.equals("")) {
-            String commonName = RenameUtil.rename(name1, name2);
+            String commonName = RenameUtil.renameVariable(name1, name2, variableCount++);
             nameMap1.put(name1, commonName);
             nameMap2.put(name2, commonName);
             return commonName;
@@ -241,7 +243,7 @@ public class RFTemplate {
 
         // create new method invocation
         MethodInvocation newMethod = ast.newMethodInvocation();
-        newMethod.setExpression(ast.newSimpleName(DEFAULT_ADAPTER_VARIABLE_NAME));
+        newMethod.setExpression(ast.newSimpleName(adapterVariable.getName().getIdentifier()));
 
         List<Expression> newArgs = newMethod.arguments();
         List<Type> argTypes = new ArrayList<>();

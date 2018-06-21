@@ -189,6 +189,9 @@ public abstract class RFVisitor extends ASTVisitor {
     }
 
     protected RFNodeDifference retrieveDiffInMethodInvacation(Expression node) {
+        if (node == null)
+            return null;
+
         if (node instanceof Name) {
             return (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         } else if (node instanceof MethodInvocation) {
@@ -228,7 +231,6 @@ public abstract class RFVisitor extends ASTVisitor {
         }
 
         Expression expr1 = node.getExpression();
-        Type exprType1 = ASTNodeUtil.typeFromExpr(ast, expr1);
         SimpleName name1 = node.getName();
         RFNodeDifference diffInExpr = retrieveDiffInMethodInvacation(expr1);
         RFNodeDifference diffInName = retrieveDiffInName(name1);
@@ -243,12 +245,12 @@ public abstract class RFVisitor extends ASTVisitor {
             }
 
             // construct method invocation pair
+            Type exprType1 = ASTNodeUtil.typeFromExpr(ast, expr1);
             Type exprType2 = ASTNodeUtil.typeFromExpr(ast, pairedNode.getExpression());
             SimpleName name2 = pairedNode.getName();
             List<String> argTypeNames2 = getArgTypeNames(pairedNode.arguments());
             MethodInvocationPair methodInvocationPair = new MethodInvocationPair(exprType1.toString(), name1.getIdentifier(), argTypeNames1,
                     exprType2.toString(), name2.getIdentifier(), argTypeNames2);
-            log.info("create new method invocation pair: " + methodInvocationPair.toString());
 
             // refactor the method invocation expression
             expr1.accept(this);
