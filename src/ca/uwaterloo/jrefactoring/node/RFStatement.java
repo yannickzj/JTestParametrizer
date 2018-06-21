@@ -123,16 +123,16 @@ public class RFStatement extends RFEntity {
 
     public RFVisitor selectVisitor() {
         if (statementType == null) {
-            return new ChildrenVisitor();
+            return new ChildrenVisitor(template);
         }
 
         switch (statementType) {
             case VARIABLE_DECLARATION:
-                return new VariableDeclarationStmtVisitor();
+                return new VariableDeclarationStmtVisitor(template);
             case EXPRESSION:
-                return new ExpressionStmtVisitor();
+                return new ExpressionStmtVisitor(template);
             case IF:
-                return new IfStmtVisitor();
+                return new IfStmtVisitor(template);
             default:
                 throw new IllegalStateException();
         }

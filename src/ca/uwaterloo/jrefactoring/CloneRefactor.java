@@ -40,7 +40,7 @@ public class CloneRefactor {
             RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);
 
             // let the root node accept the children visitor
-            rfRoot.accept(new ChildrenVisitor());
+            rfRoot.accept(new ChildrenVisitor(template));
 
             // print out the refactoring template
             System.out.println("----------------------------------------------------------");

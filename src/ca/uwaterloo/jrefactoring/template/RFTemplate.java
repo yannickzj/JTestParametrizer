@@ -6,10 +6,7 @@ import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class RFTemplate {
 
@@ -32,6 +29,7 @@ public class RFTemplate {
     private Map<String, String> nameMap2;
     private Map<Type, Integer> parameterMap;
     private SingleVariableDeclaration adapterVariable;
+    private Set<String> adapterTypes;
     private int clazzCount;
     private int typeCount;
     private int actionCount;
@@ -51,6 +49,7 @@ public class RFTemplate {
         this.nameMap1 = new HashMap<>();
         this.nameMap2 = new HashMap<>();
         this.parameterMap = new HashMap<>();
+        this.adapterTypes = new HashSet<>();
         this.clazzCount = 1;
         this.typeCount = 1;
         this.actionCount = 1;
@@ -201,11 +200,13 @@ public class RFTemplate {
             exprType = ASTNodeUtil.typeFromBinding(ast, typeBinding);
         } else {
             exprType = (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
-            if (typeMap.values().contains(exprType.toString())) {
+            if (typeMap.values().contains(exprType.toString())
+                    && !adapterTypes.contains(exprType.toString())) {
                 TypeParameter typeParameter = ast.newTypeParameter();
                 typeParameter.setName(ast.newSimpleName(exprType.toString()));
                 adapter.typeParameters().add(typeParameter);
                 addAdapterVariableTypeParameter(exprType);
+                adapterTypes.add(exprType.toString());
             }
         }
         return exprType;
@@ -216,7 +217,7 @@ public class RFTemplate {
         methodDeclaration.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
         methodDeclaration.setName((SimpleName) ASTNode.copySubtree(ast, name));
         Map<String, Integer> argMap = new HashMap<>();
-        for (Type argType: argTypes) {
+        for (Type argType : argTypes) {
             SingleVariableDeclaration arg = ast.newSingleVariableDeclaration();
             arg.setType((Type) ASTNode.copySubtree(ast, argType));
             String argName = argType.toString().toLowerCase();
@@ -229,7 +230,8 @@ public class RFTemplate {
         adapter.bodyDeclarations().add(methodDeclaration);
     }
 
-    public MethodInvocation addMethodInvocationInAdapter(Expression expr, List<Expression> arguments) {
+    public MethodInvocation createAdapterActionMethod(Expression expr, List<Expression> arguments,
+                                                      MethodInvocationPair pair) {
 
         if (adapter.bodyDeclarations().size() == 0) {
             templateMethod.parameters().add(0, adapterVariable);
@@ -248,7 +250,7 @@ public class RFTemplate {
         argTypes.add(resolveAdapterActionArgumentType(expr));
 
         // copy and resolve arguments
-        for (Expression argument: arguments) {
+        for (Expression argument : arguments) {
             newArgs.add((Expression) ASTNode.copySubtree(ast, argument));
             argTypes.add(resolveAdapterActionArgumentType(argument));
         }
