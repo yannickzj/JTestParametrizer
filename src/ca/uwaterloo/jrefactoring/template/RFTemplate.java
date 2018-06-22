@@ -198,6 +198,23 @@ public class RFTemplate {
     }
 
     private Type resolveAdapterActionArgumentType(Expression expr) {
+        Type exprType = (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+        if (exprType != null) {
+            if (typeMap.values().contains(exprType.toString())
+                    && !adapterTypes.contains(exprType.toString())) {
+                TypeParameter typeParameter = ast.newTypeParameter();
+                typeParameter.setName(ast.newSimpleName(exprType.toString()));
+                adapter.typeParameters().add(typeParameter);
+                addAdapterVariableTypeParameter(exprType);
+                adapterTypes.add(exprType.toString());
+            }
+            return exprType;
+
+        } else {
+            return ASTNodeUtil.typeFromBinding(ast, expr.resolveTypeBinding());
+        }
+
+        /*
         ITypeBinding typeBinding = expr.resolveTypeBinding();
         Type exprType;
         if (typeBinding != null) {
@@ -214,6 +231,7 @@ public class RFTemplate {
             }
         }
         return exprType;
+        */
     }
 
     private void addMethodInAdapterInterface(SimpleName name, List<Type> argTypes) {

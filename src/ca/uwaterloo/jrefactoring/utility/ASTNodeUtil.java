@@ -58,11 +58,11 @@ public class ASTNodeUtil {
     }
 
     public static Type typeFromExpr(AST ast, Expression expr) {
-        ITypeBinding typeBinding = expr.resolveTypeBinding();
-        if (typeBinding != null) {
-            return typeFromBinding(ast, typeBinding);
+        Type type = (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+        if (type != null) {
+            return type;
         } else {
-            return (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+            return typeFromBinding(ast, expr.resolveTypeBinding());
         }
     }
 }

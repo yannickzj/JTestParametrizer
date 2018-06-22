@@ -12,10 +12,10 @@ public class ExpressionStmtVisitor extends RFVisitor {
     @Override
     public boolean visit(RFStatement node) {
         if (node.hasDifference()) {
-            node.describe();
+            //node.describe();
             ExpressionStatement expressionStatement = (ExpressionStatement) node.getStatement1();
             expressionStatement.getExpression().accept(this);
-            System.out.println("expressionStmtVisitor finish visiting");
+            //System.out.println("expressionStmtVisitor finish visiting");
         }
         return true;
     }

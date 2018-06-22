@@ -18,14 +18,6 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
     public boolean visit(RFStatement node) {
         if (node.hasDifference()) {
             //node.describe();
-            /*
-            System.out.println("-----------------------------------------------------------");
-            node.describeStatements();
-            node.describeDifference();
-            for (RFNodeDifference diff : node.getNodeDifferences()) {
-                diff.accept(this);
-            }
-            */
 
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
             Type type = stmt1.getType();
@@ -40,7 +32,7 @@ public class VariableDeclarationStmtVisitor extends RFVisitor {
                 initializer.accept(this);
             }
 
-            System.out.println("variableDeclarationStmtVisitor finish visiting");
+            //System.out.println("variableDeclarationStmtVisitor finish visiting");
         }
         return true;
     }

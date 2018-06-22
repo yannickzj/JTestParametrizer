@@ -78,7 +78,15 @@ public abstract class RFVisitor extends ASTVisitor {
             } else if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
                 String genericTypeName = template.resolveTypePair(diff.getTypePair());
                 Type type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
-                replaceNode(node, ast.newSimpleName(genericTypeName), type);
+
+                if (node.getParent() instanceof Type) {
+                    replaceNode(node, ast.newSimpleName(genericTypeName), type);
+                } else {
+                    // same variable name but different type
+                    String name = node.getFullyQualifiedName();
+                    template.resolveVariableName(name, name);
+                    node.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, type);
+                }
 
             } else {
                 throw new IllegalStateException("unexpected name mismatch!");

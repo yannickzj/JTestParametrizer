@@ -23,7 +23,11 @@ public class RenameUtil {
     }
 
     public static String renameVariable(String name1, String name2, int count) {
-        return DEFAULT_VARIABLE_PREFIX + count;
+        if (name1.equals(name2)) {
+            return name1;
+        } else {
+            return DEFAULT_VARIABLE_PREFIX + count;
+        }
     }
 
     private static boolean endsWithDigit(String name) {
