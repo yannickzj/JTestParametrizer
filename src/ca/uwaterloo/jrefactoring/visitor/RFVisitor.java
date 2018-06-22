@@ -52,6 +52,31 @@ public abstract class RFVisitor extends ASTVisitor {
         return false;
     }
 
+    protected void pullUpToParameter(Expression node, DifferenceType diffType) {
+        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
+        if (diff != null) {
+
+            Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
+
+            if (differenceTypes.contains(diffType) && differenceTypes.size() == 1) {
+                Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
+                String variableParameter = template.addVariableParameter(type);
+                SimpleName newNode = ast.newSimpleName(variableParameter);
+                replaceNode(node, newNode, type);
+
+            } else {
+                throw new IllegalStateException("unexpected difference type [" + diffType + "] in expression [" + node + "]");
+            }
+        }
+
+    }
+
+    @Override
+    public boolean visit(NumberLiteral node) {
+        pullUpToParameter(node, DifferenceType.TYPE_COMPATIBLE_REPLACEMENT);
+        return false;
+    }
+
     @Override
     public boolean visit(SimpleName node) {
         RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
@@ -98,22 +123,7 @@ public abstract class RFVisitor extends ASTVisitor {
 
     @Override
     public boolean visit(QualifiedName node) {
-        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
-        if (diff != null) {
-
-            Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
-
-            if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)
-                    && differenceTypes.size() == 1) {
-                Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
-                String variableParameter = template.addVariableParameter(type);
-                SimpleName newNode = ast.newSimpleName(variableParameter);
-                replaceNode(node, newNode, type);
-
-            } else {
-                throw new IllegalStateException("unexpected qualified name mismatch!");
-            }
-        }
+        pullUpToParameter(node, DifferenceType.VARIABLE_NAME_MISMATCH);
         return false;
     }
 
@@ -132,8 +142,9 @@ public abstract class RFVisitor extends ASTVisitor {
         newNode.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, newNodeType);
         if (structuralPropertyDescriptor.isChildListProperty()) {
             List<ASTNode> arguments = (List<ASTNode>) oldNode.getParent().getStructuralProperty(structuralPropertyDescriptor);
+            int index = arguments.indexOf(oldNode);
             arguments.remove(oldNode);
-            arguments.add(newNode);
+            arguments.add(index, newNode);
 
         } else {
             oldNode.getParent().setStructuralProperty(structuralPropertyDescriptor, newNode);
