@@ -61,10 +61,6 @@ public class RFTemplate {
         initAdapter(adapterName);
     }
 
-    public AST getAst() {
-        return ast;
-    }
-
     private void initTemplate(String templateName) {
         templateMethod = ast.newMethodDeclaration();
         Modifier privateModifier = ast.newModifier(Modifier.ModifierKeyword.PRIVATE_KEYWORD);
@@ -88,6 +84,10 @@ public class RFTemplate {
         adapterVariable.setType(type);
         adapterVariable.setName(ast.newSimpleName(DEFAULT_ADAPTER_VARIABLE_NAME));
 
+    }
+
+    public AST getAst() {
+        return ast;
     }
 
     public void addStatement(Statement statement) {
@@ -213,25 +213,6 @@ public class RFTemplate {
         } else {
             return ASTNodeUtil.typeFromBinding(ast, expr.resolveTypeBinding());
         }
-
-        /*
-        ITypeBinding typeBinding = expr.resolveTypeBinding();
-        Type exprType;
-        if (typeBinding != null) {
-            exprType = ASTNodeUtil.typeFromBinding(ast, typeBinding);
-        } else {
-            exprType = (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
-            if (typeMap.values().contains(exprType.toString())
-                    && !adapterTypes.contains(exprType.toString())) {
-                TypeParameter typeParameter = ast.newTypeParameter();
-                typeParameter.setName(ast.newSimpleName(exprType.toString()));
-                adapter.typeParameters().add(typeParameter);
-                addAdapterVariableTypeParameter(exprType);
-                adapterTypes.add(exprType.toString());
-            }
-        }
-        return exprType;
-        */
     }
 
     private void addMethodInAdapterInterface(SimpleName name, List<Type> argTypes) {
@@ -288,42 +269,6 @@ public class RFTemplate {
 
         return newMethod;
     }
-
-    /*
-    public void createClazzInstance(Expression expr, String clazzName) {
-        ASTNode contextNode = ContextUtil.getContextNode(expr);
-        if (contextNode.getNodeType() == ASTNode.CLASS_INSTANCE_CREATION) {
-
-            // get VariableDeclarationFragment node
-            VariableDeclarationFragment variableDeclarationFragment = (VariableDeclarationFragment) contextNode.getParent();
-
-            // replace initializer
-            MethodInvocation newInstanceMethodInvocation = ast.newMethodInvocation();
-            MethodInvocation getDeclaredConstructorMethodInvocation = ast.newMethodInvocation();
-            newInstanceMethodInvocation.setExpression(getDeclaredConstructorMethodInvocation);
-            newInstanceMethodInvocation.setName(ast.newSimpleName(NEW_INSTANCE_METHOD_NAME));
-            getDeclaredConstructorMethodInvocation.setName(ast.newSimpleName(GET_DECLARED_CONSTRUCTOR_METHOD_NAME));
-            getDeclaredConstructorMethodInvocation.setExpression(ast.newSimpleName(clazzName));
-            variableDeclarationFragment.setInitializer(newInstanceMethodInvocation);
-
-            // add method parameters
-            ClassInstanceCreation classInstanceCreation = (ClassInstanceCreation) contextNode;
-            List<Expression> arguments = classInstanceCreation.arguments();
-            for (Expression argument: arguments) {
-                TypeLiteral typeLiteral = ast.newTypeLiteral();
-                Type type = ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding());
-                typeLiteral.setType(type);
-                getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
-                Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
-                newInstanceMethodInvocation.arguments().add(newArg);
-            }
-
-        } else {
-            throw new IllegalStateException("unexpected context node: " + contextNode + "[Type: " + contextNode.getNodeType()
-                    + "] for expression [" + expr + "]");
-        }
-    }
-    */
 
     @Override
     public String toString() {
