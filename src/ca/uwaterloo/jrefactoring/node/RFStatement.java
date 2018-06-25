@@ -2,7 +2,6 @@ package ca.uwaterloo.jrefactoring.node;
 
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
-import ca.uwaterloo.jrefactoring.visitor.*;
 import gr.uom.java.ast.decomposition.StatementType;
 import org.eclipse.jdt.core.dom.Statement;
 import org.slf4j.Logger;
@@ -10,17 +9,17 @@ import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RFStatement extends RFEntity {
+public abstract class RFStatement extends RFEntity {
 
     private static Logger log = FileLogger.getLogger(RFStatement.class);
 
-    private RFStatement parent;
-    private List<RFStatement> children;
-    private StatementType statementType;
-    private Statement statement1;
-    private Statement statement2;
-    private List<RFNodeDifference> nodeDifferences;
-    private RFTemplate template;
+    RFStatement parent;
+    List<RFStatement> children;
+    StatementType statementType;
+    Statement statement1;
+    Statement statement2;
+    List<RFNodeDifference> nodeDifferences;
+    RFTemplate template;
 
     public RFStatement(RFTemplate template) {
         parent = null;
@@ -121,23 +120,6 @@ public class RFStatement extends RFEntity {
         this.template = template;
     }
 
-    public RFVisitor selectVisitor() {
-        if (statementType == null) {
-            return new ChildrenVisitor(template);
-        }
-
-        switch (statementType) {
-            case VARIABLE_DECLARATION:
-                return new VariableDeclarationStmtVisitor(template);
-            case EXPRESSION:
-                return new ExpressionStmtVisitor(template);
-            case IF:
-                return new IfStmtVisitor(template);
-            default:
-                throw new IllegalStateException();
-        }
-    }
-
     public void describe() {
         System.out.println("-----------------------------------------------------------");
         describeStatements();
@@ -145,13 +127,13 @@ public class RFStatement extends RFEntity {
         System.out.println();
     }
 
-    public void describeStatements() {
+    private void describeStatements() {
         System.out.println("Describing RFStatement [Type: " + getStatementTypeString() + "]:");
         System.out.println("\t\tStatement1: " + (statement1 == null ? "null" : statement1.toString()));
         System.out.println("\t\tStatement2: " + (statement2 == null ? "null" : statement2.toString()));
     }
 
-    public void describeDifference() {
+    private void describeDifference() {
         if (nodeDifferences.size() > 0) {
             System.out.println("Describing RFStatement differences: ");
             System.out.println("\tDifferences: ");
@@ -171,15 +153,4 @@ public class RFStatement extends RFEntity {
         return nodeDifferences.size() > 0;
     }
 
-    void accept0(RFVisitor visitor) {
-        boolean visitChildren = visitor.visit(this);
-        if (visitChildren) {
-            // visit children
-            for (RFStatement child : children) {
-                RFVisitor childVisitor = child.selectVisitor();
-                child.accept(childVisitor);
-            }
-        }
-        visitor.endVisit(this);
-    }
 }

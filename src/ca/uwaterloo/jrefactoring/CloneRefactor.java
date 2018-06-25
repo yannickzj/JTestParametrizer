@@ -7,11 +7,10 @@ import ca.uwaterloo.jrefactoring.node.RFStatement;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
-import ca.uwaterloo.jrefactoring.visitor.ChildrenVisitor;
+import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneStructureNode;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneType;
 import gr.uom.java.ast.decomposition.cfg.mapping.DivideAndConquerMatcher;
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.dom.AST;
 import org.slf4j.Logger;
 
@@ -19,7 +18,7 @@ public class CloneRefactor {
 
     private static Logger log = FileLogger.getLogger(CloneRefactor.class);
 
-    public static void refactor(ClonePairInfo pairInfo) {
+    public static void refactor(ClonePairInfo pairInfo) throws Exception {
 
         String templateName = RenameUtil.getTemplateName(pairInfo.getFirstMethodSignature(), pairInfo.getSecondMethodSignature());
         String adapterName = RenameUtil.getAdapterName(pairInfo.getFirstClass(), pairInfo.getFirstPackage(),
@@ -33,7 +32,6 @@ public class CloneRefactor {
             CloneStructureNode root = matcher.getCloneStructureRoot();
 
             // perform source-to-source refactoring transformation
-            //log.info("CloneType: " + cloneType.toString());
             if (cloneType.equals(CloneType.TYPE_2)) {
                 transform(root, templateName, adapterName);
             } else {
@@ -42,7 +40,7 @@ public class CloneRefactor {
         }
     }
 
-    private static void transform(CloneStructureNode root, String templateName, String adapterName) {
+    private static void transform(CloneStructureNode root, String templateName, String adapterName) throws Exception {
         if (root != null) {
             // create the refactoring template
             RFTemplate template = new RFTemplate(getAST1(root), templateName, adapterName);
@@ -51,7 +49,7 @@ public class CloneRefactor {
             RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);
 
             // let the root node accept the children visitor
-            rfRoot.accept(new ChildrenVisitor(template));
+            rfRoot.accept(new RFVisitor(template));
 
             // print out the refactoring template
             System.out.println("----------------------------------------------------------");

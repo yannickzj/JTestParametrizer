@@ -55,12 +55,14 @@ public class RFNodeDifference extends RFEntity {
     }
 
     void accept0(RFVisitor visitor) {
+        /*
         boolean visitChildren = visitor.visit(this);
         if (visitChildren) {
             // visit children
             log.info("doing nothing for RFNodeDifference children!");
         }
         visitor.endVisit(this);
+        */
     }
 
     public TypePair getTypePair() {

@@ -1,14 +1,15 @@
 package ca.uwaterloo.jrefactoring.build;
 
-import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
-import ca.uwaterloo.jrefactoring.node.RFStatement;
+import ca.uwaterloo.jrefactoring.node.*;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
+import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.StatementType;
 import gr.uom.java.ast.decomposition.cfg.mapping.*;
 import gr.uom.java.ast.decomposition.matching.ASTNodeDifference;
 import gr.uom.java.ast.decomposition.matching.Difference;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
+import org.slf4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class RFStatementBuilder {
 
     private static RFStatementBuilder builder;
+    private static Logger log = FileLogger.getLogger(RFStatementBuilder.class);
 
     private RFStatementBuilder() {
     }
@@ -27,17 +29,18 @@ public class RFStatementBuilder {
         return builder;
     }
 
-    public RFStatement build(CloneStructureNode root, RFTemplate template) {
+    public RFStatement build(CloneStructureNode root, RFTemplate template) throws Exception {
         // build refactorable tree from root
         return build(root, template, null);
     }
 
-    private RFStatement build(CloneStructureNode root, RFTemplate template, RFStatement parent) {
+    private RFStatement build(CloneStructureNode root, RFTemplate template, RFStatement parent) throws Exception {
 
         // build current node
         RFStatement currentNode;
         if (parent == null) {
-            currentNode = new RFStatement(template);
+            //currentNode = new RFStatement(template);
+            currentNode = new RFRootStmt(template);
         } else {
             assert root.getMapping() != null;
             currentNode = buildCurrent(root.getMapping(), template);
@@ -60,7 +63,7 @@ public class RFStatementBuilder {
         return currentNode;
     }
 
-    public RFStatement buildCurrent(NodeMapping nodeMapping, RFTemplate template) {
+    public RFStatement buildCurrent(NodeMapping nodeMapping, RFTemplate template) throws Exception {
 
         if (nodeMapping instanceof PDGNodeMapping) {
             return buildFromPDGNodeMapping(nodeMapping, template);
@@ -85,8 +88,21 @@ public class RFStatementBuilder {
         }
     }
 
-    private RFStatement buildFromPDGNodeMapping(NodeMapping nodeMapping, RFTemplate template) {
-        List<RFNodeDifference> nodeDifferences = new ArrayList<>();
+    private RFStatement createRFStmtByStmtType(StatementType stmtType, Statement stmt1, Statement stmt2, List<RFNodeDifference> nodeDifferences, RFTemplate template) throws Exception {
+        switch (stmtType) {
+            case VARIABLE_DECLARATION:
+                return new RFVariableDeclarationStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case EXPRESSION:
+                return new RFExpressionStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case IF:
+                return new RFIfStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            default:
+                throw new Exception("unexpected statement type when creating RFStatement");
+        }
+    }
+
+    private RFStatement buildFromPDGNodeMapping(NodeMapping nodeMapping, RFTemplate template) throws Exception {
+        ArrayList<RFNodeDifference> nodeDifferences = new ArrayList<>();
         for (ASTNodeDifference astNodeDifference : nodeMapping.getNodeDifferences()) {
             Expression expr1 = astNodeDifference.getExpression1().getExpression();
             Expression expr2 = astNodeDifference.getExpression2().getExpression();
@@ -100,12 +116,12 @@ public class RFStatementBuilder {
         assert nodeMapping.getNodeG1().getStatement().getType() == nodeMapping.getNodeG2().getStatement().getType();
         StatementType statementType = nodeMapping.getNodeG1().getStatement().getType();
 
-        return new RFStatement(statementType, statement1, statement2, nodeDifferences, template);
+        return createRFStmtByStmtType(statementType, statement1, statement2, nodeDifferences, template);
     }
 
     private RFStatement buildFromPDGElseMapping(NodeMapping nodeMapping, RFTemplate template) {
         // Else RFStatement has no statement type but parent node
-        return new RFStatement(null, null, null, new ArrayList<>(), template);
+        return new RFElseStmt(null, null, null, new ArrayList<>(), template);
     }
 
 }

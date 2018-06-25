@@ -1,20 +1,23 @@
 package ca.uwaterloo.jrefactoring;
 
-import gr.uom.java.ast.ASTReader;
 import ca.uwaterloo.jrefactoring.cli.CLIParser;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
+import gr.uom.java.ast.ASTReader;
 import gr.uom.java.ast.CompilationErrorDetectedException;
-import org.eclipse.core.resources.*;
-import org.eclipse.core.runtime.*;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IProjectDescription;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
-import org.eclipse.jdt.core.*;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main implements IApplication {
 
