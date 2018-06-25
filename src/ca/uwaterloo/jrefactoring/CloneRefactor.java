@@ -18,7 +18,7 @@ public class CloneRefactor {
 
     private static Logger log = FileLogger.getLogger(CloneRefactor.class);
 
-    public static void refactor(ClonePairInfo pairInfo) throws Exception {
+    public static void refactor(ClonePairInfo pairInfo) {
 
         String templateName = RenameUtil.getTemplateName(pairInfo.getFirstMethodSignature(), pairInfo.getSecondMethodSignature());
         String adapterName = RenameUtil.getAdapterName(pairInfo.getFirstClass(), pairInfo.getFirstPackage(),
@@ -40,7 +40,7 @@ public class CloneRefactor {
         }
     }
 
-    private static void transform(CloneStructureNode root, String templateName, String adapterName) throws Exception {
+    private static void transform(CloneStructureNode root, String templateName, String adapterName) {
         if (root != null) {
             // create the refactoring template
             RFTemplate template = new RFTemplate(getAST1(root), templateName, adapterName);

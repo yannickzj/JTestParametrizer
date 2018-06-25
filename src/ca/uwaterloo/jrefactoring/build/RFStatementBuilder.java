@@ -29,12 +29,12 @@ public class RFStatementBuilder {
         return builder;
     }
 
-    public RFStatement build(CloneStructureNode root, RFTemplate template) throws Exception {
+    public RFStatement build(CloneStructureNode root, RFTemplate template) {
         // build refactorable tree from root
         return build(root, template, null);
     }
 
-    private RFStatement build(CloneStructureNode root, RFTemplate template, RFStatement parent) throws Exception {
+    private RFStatement build(CloneStructureNode root, RFTemplate template, RFStatement parent) {
 
         // build current node
         RFStatement currentNode;
@@ -63,7 +63,7 @@ public class RFStatementBuilder {
         return currentNode;
     }
 
-    public RFStatement buildCurrent(NodeMapping nodeMapping, RFTemplate template) throws Exception {
+    public RFStatement buildCurrent(NodeMapping nodeMapping, RFTemplate template) {
 
         if (nodeMapping instanceof PDGNodeMapping) {
             return buildFromPDGNodeMapping(nodeMapping, template);
@@ -88,20 +88,7 @@ public class RFStatementBuilder {
         }
     }
 
-    private RFStatement createRFStmtByStmtType(StatementType stmtType, Statement stmt1, Statement stmt2, List<RFNodeDifference> nodeDifferences, RFTemplate template) throws Exception {
-        switch (stmtType) {
-            case VARIABLE_DECLARATION:
-                return new RFVariableDeclarationStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
-            case EXPRESSION:
-                return new RFExpressionStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
-            case IF:
-                return new RFIfStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
-            default:
-                throw new Exception("unexpected statement type when creating RFStatement");
-        }
-    }
-
-    private RFStatement buildFromPDGNodeMapping(NodeMapping nodeMapping, RFTemplate template) throws Exception {
+    private RFStatement buildFromPDGNodeMapping(NodeMapping nodeMapping, RFTemplate template) {
         ArrayList<RFNodeDifference> nodeDifferences = new ArrayList<>();
         for (ASTNodeDifference astNodeDifference : nodeMapping.getNodeDifferences()) {
             Expression expr1 = astNodeDifference.getExpression1().getExpression();
@@ -117,6 +104,19 @@ public class RFStatementBuilder {
         StatementType statementType = nodeMapping.getNodeG1().getStatement().getType();
 
         return createRFStmtByStmtType(statementType, statement1, statement2, nodeDifferences, template);
+    }
+
+    private RFStatement createRFStmtByStmtType(StatementType stmtType, Statement stmt1, Statement stmt2, List<RFNodeDifference> nodeDifferences, RFTemplate template) {
+        switch (stmtType) {
+            case VARIABLE_DECLARATION:
+                return new RFVariableDeclarationStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case EXPRESSION:
+                return new RFExpressionStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case IF:
+                return new RFIfStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            default:
+                throw new IllegalStateException("unexpected statement type when creating RFStatement");
+        }
     }
 
     private RFStatement buildFromPDGElseMapping(NodeMapping nodeMapping, RFTemplate template) {
