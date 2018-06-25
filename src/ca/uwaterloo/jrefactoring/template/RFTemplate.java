@@ -31,6 +31,7 @@ public class RFTemplate {
     private Map<Type, Integer> parameterMap;
     private SingleVariableDeclaration adapterVariable;
     private Set<String> adapterTypes;
+    private Map<ClassInstanceCreation, Type> instanceCreationTypeMap;
     private int clazzCount;
     private int typeCount;
     private int actionCount;
@@ -53,6 +54,7 @@ public class RFTemplate {
         this.nameMap2 = new HashMap<>();
         this.parameterMap = new HashMap<>();
         this.adapterTypes = new HashSet<>();
+        this.instanceCreationTypeMap = new HashMap<>();
         this.clazzCount = 1;
         this.typeCount = 1;
         this.actionCount = 1;
@@ -90,36 +92,38 @@ public class RFTemplate {
         return ast;
     }
 
-    public void addStatement(Statement statement) {
-        templateMethod.getBody().statements().add(statement);
-    }
-
-    private void addGenericType(String genericTypeName) {
-        TypeParameter typeParameter = ast.newTypeParameter();
-        typeParameter.setName(ast.newSimpleName(genericTypeName));
-        templateMethod.typeParameters().add(typeParameter);
-    }
-
     public void setModifier(Modifier.ModifierKeyword modifier) {
         templateMethod.modifiers().add(ast.newModifier(modifier));
-    }
-
-    private void addClazzInParameter(String genericTypeName) {
-        Type genericType = ast.newSimpleType(ast.newSimpleName(genericTypeName));
-        Type classType = ast.newSimpleType(ast.newSimpleName(CLASS_NAME));
-        ParameterizedType classTypeWithGenericType = ast.newParameterizedType(classType);
-        classTypeWithGenericType.typeArguments().add(genericType);
-
-        SimpleName clazzName = ast.newSimpleName(resolveGenericType(genericTypeName));
-        addVariableParameter(classTypeWithGenericType, clazzName);
     }
 
     public boolean containsTypePair(TypePair typePair) {
         return typeMap.containsKey(typePair);
     }
 
+    public boolean containsGenericType(String type) {
+        return clazzInstanceMap.containsKey(type);
+    }
+
+    public String getClazz(String type) {
+        return clazzInstanceMap.get(type);
+    }
+
     public String getGenericTypeName(TypePair typePair) {
         return typeMap.get(typePair);
+    }
+
+    public Type getTypeByInstanceCreation(ClassInstanceCreation instanceCreation) {
+        return this.instanceCreationTypeMap.get(instanceCreation);
+    }
+
+    public void addStatement(Statement statement) {
+        templateMethod.getBody().statements().add(statement);
+    }
+
+    public void addInstanceCreation(ClassInstanceCreation instanceCreation, Type type) {
+        if (instanceCreation != null) {
+            this.instanceCreationTypeMap.put(instanceCreation, type);
+        }
     }
 
     public String resolveTypePair(TypePair typePair) {
@@ -147,33 +151,6 @@ public class RFTemplate {
         }
     }
 
-    public String addVariableParameter(Type type) {
-        int count = parameterMap.getOrDefault(type, 0) + 1;
-        parameterMap.put(type, count);
-        String variableParameter = type.toString().toLowerCase() + count;
-        addVariableParameter(type, ast.newSimpleName(variableParameter));
-        return variableParameter;
-    }
-
-    public void addVariableParameter(Type type, SimpleName name) {
-        addVariableParameter(type, name, templateMethod.parameters().size());
-    }
-
-    public void addVariableParameter(Type type, SimpleName name, int index) {
-        SingleVariableDeclaration variableParameter = ast.newSingleVariableDeclaration();
-        variableParameter.setType(type);
-        variableParameter.setName(name);
-        templateMethod.parameters().add(index, variableParameter);
-    }
-
-    public boolean containsGenericType(String type) {
-        return clazzInstanceMap.containsKey(type);
-    }
-
-    public String getClazz(String type) {
-        return clazzInstanceMap.get(type);
-    }
-
     public String resolveGenericType(String genericType) {
         if (!clazzInstanceMap.containsKey(genericType)) {
             String clazzName = CLAZZ_NAME_PREFIX + clazzCount++;
@@ -181,20 +158,6 @@ public class RFTemplate {
             addClazzInParameter(genericType);
         }
         return clazzInstanceMap.get(genericType);
-    }
-
-    private void addAdapterVariableTypeParameter(Type type) {
-        Type adapterType = adapterVariable.getType();
-        if (adapterType.isSimpleType()) {
-            ParameterizedType parameterizedType = ast.newParameterizedType((Type) ASTNode.copySubtree(ast, adapterType));
-            parameterizedType.typeArguments().add(ASTNode.copySubtree(ast, type));
-            adapterVariable.setType(parameterizedType);
-
-        } else if (adapterType.isParameterizedType()) {
-            ((ParameterizedType) adapterType).typeArguments().add(ASTNode.copySubtree(ast, type));
-        } else {
-            throw new IllegalStateException("unexpected adapter type");
-        }
     }
 
     private Type resolveAdapterActionArgumentType(Expression expr) {
@@ -212,6 +175,65 @@ public class RFTemplate {
 
         } else {
             return ASTNodeUtil.typeFromBinding(ast, expr.resolveTypeBinding());
+        }
+    }
+
+    public void addGenericTypeBound(String fromType, String toType) {
+        List<TypeParameter> typeParameters = templateMethod.typeParameters();
+        for (TypeParameter typeParameter: typeParameters) {
+            if (typeParameter.getName().getIdentifier().equals(fromType)) {
+                typeParameter.typeBounds().add(ast.newSimpleType(ast.newSimpleName(toType)));
+                return;
+            }
+        }
+    }
+
+    private void addGenericType(String genericTypeName) {
+        TypeParameter typeParameter = ast.newTypeParameter();
+        typeParameter.setName(ast.newSimpleName(genericTypeName));
+        templateMethod.typeParameters().add(typeParameter);
+    }
+
+    private void addClazzInParameter(String genericTypeName) {
+        Type genericType = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+        Type classType = ast.newSimpleType(ast.newSimpleName(CLASS_NAME));
+        ParameterizedType classTypeWithGenericType = ast.newParameterizedType(classType);
+        classTypeWithGenericType.typeArguments().add(genericType);
+
+        SimpleName clazzName = ast.newSimpleName(resolveGenericType(genericTypeName));
+        addVariableParameter(classTypeWithGenericType, clazzName);
+    }
+
+    public String addVariableParameter(Type type) {
+        int count = parameterMap.getOrDefault(type, 0) + 1;
+        parameterMap.put(type, count);
+        String variableParameter = type.toString().toLowerCase() + count;
+        addVariableParameter(type, ast.newSimpleName(variableParameter));
+        return variableParameter;
+    }
+
+    private void addVariableParameter(Type type, SimpleName name) {
+        addVariableParameter(type, name, templateMethod.parameters().size());
+    }
+
+    private void addVariableParameter(Type type, SimpleName name, int index) {
+        SingleVariableDeclaration variableParameter = ast.newSingleVariableDeclaration();
+        variableParameter.setType(type);
+        variableParameter.setName(name);
+        templateMethod.parameters().add(index, variableParameter);
+    }
+
+    private void addAdapterVariableTypeParameter(Type type) {
+        Type adapterType = adapterVariable.getType();
+        if (adapterType.isSimpleType()) {
+            ParameterizedType parameterizedType = ast.newParameterizedType((Type) ASTNode.copySubtree(ast, adapterType));
+            parameterizedType.typeArguments().add(ASTNode.copySubtree(ast, type));
+            adapterVariable.setType(parameterizedType);
+
+        } else if (adapterType.isParameterizedType()) {
+            ((ParameterizedType) adapterType).typeArguments().add(ASTNode.copySubtree(ast, type));
+        } else {
+            throw new IllegalStateException("unexpected adapter type");
         }
     }
 

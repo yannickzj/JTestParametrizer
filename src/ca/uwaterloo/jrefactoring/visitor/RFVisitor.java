@@ -184,7 +184,7 @@ public class RFVisitor extends ASTVisitor {
     @Override
     public boolean visit(ClassInstanceCreation node) {
 
-        // visit arguments
+        // refactor arguments
         List<Expression> arguments = node.arguments();
         for (Expression argument : arguments) {
             argument.accept(this);
@@ -196,6 +196,12 @@ public class RFVisitor extends ASTVisitor {
             // resolve generic type
             String genericTypeName = template.resolveTypePair(diff.getTypePair());
             String clazzName = template.resolveGenericType(genericTypeName);
+
+            // add generic type relation if declaration type is not the same as the instance creation type
+            Type declarationType = template.getTypeByInstanceCreation(node);
+            if (declarationType != null && !declarationType.toString().equals(genericTypeName)) {
+                template.addGenericTypeBound(genericTypeName, declarationType.toString());
+            }
 
             // replace initializer
             MethodInvocation newInstanceMethodInvocation = ast.newMethodInvocation();
@@ -288,6 +294,9 @@ public class RFVisitor extends ASTVisitor {
                 name.accept(this);
 
                 Expression initializer = variableDeclarationFragment.getInitializer();
+                if (initializer instanceof ClassInstanceCreation) {
+                    template.addInstanceCreation((ClassInstanceCreation) initializer, stmt1.getType());
+                }
                 initializer.accept(this);
             }
 
