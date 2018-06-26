@@ -146,7 +146,7 @@ public class RFVisitor extends ASTVisitor {
 
                 Type type;
                 if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
-                    String genericTypeName = template.resolveTypePair(diff.getTypePair());
+                    String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
                     type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
 
                 } else {
@@ -155,7 +155,7 @@ public class RFVisitor extends ASTVisitor {
                 replaceNode(node, newNode, type);
 
             } else if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
-                String genericTypeName = template.resolveTypePair(diff.getTypePair());
+                String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
                 Type type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
 
                 if (node.getParent() instanceof Type) {
@@ -194,7 +194,7 @@ public class RFVisitor extends ASTVisitor {
         if (diff != null) {
 
             // resolve generic type
-            String genericTypeName = template.resolveTypePair(diff.getTypePair());
+            String genericTypeName = template.resolveTypePair(diff.getTypePair(), false);
             String clazzName = template.resolveGenericType(genericTypeName);
 
             // add generic type relation if declaration type is not the same as the instance creation type
@@ -247,6 +247,24 @@ public class RFVisitor extends ASTVisitor {
         SimpleName name1 = node.getName();
         RFNodeDifference diffInExpr = retrieveDiffInMethodInvocation(expr1);
         RFNodeDifference diffInName = retrieveDiffInName(name1);
+
+        // check if common super class can be used
+        if (diffInName == null && diffInExpr != null
+                && diffInExpr.getDifferenceTypes().contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+
+            ITypeBinding commonSuperClass = template.getLowestCommonSubClass(diffInExpr.getTypePair());
+            if (commonSuperClass != null) {
+                for (IMethodBinding methodBinding : commonSuperClass.getDeclaredMethods()) {
+                    if (methodBinding.getName().equals(name1.getIdentifier())) {
+                        log.info("Same method found in common super class [" +
+                                commonSuperClass.getQualifiedName() + "]: " + methodBinding.getName());
+                        expr1.accept(this);
+                        return false;
+                    }
+                }
+            }
+        }
+
         if (diffInExpr != null || diffInName != null) {
 
             // retrieve paired method invocation node
@@ -262,14 +280,16 @@ public class RFVisitor extends ASTVisitor {
             Type exprType2 = ASTNodeUtil.typeFromExpr(ast, pairedNode.getExpression());
             SimpleName name2 = pairedNode.getName();
             List<String> argTypeNames2 = getArgTypeNames(pairedNode.arguments());
-            MethodInvocationPair methodInvocationPair = new MethodInvocationPair(exprType1.toString(), name1.getIdentifier(), argTypeNames1,
-                    exprType2.toString(), name2.getIdentifier(), argTypeNames2);
+            MethodInvocationPair methodInvocationPair = new MethodInvocationPair(exprType1.toString(),
+                    name1.getIdentifier(), argTypeNames1, exprType2.toString(), name2.getIdentifier(), argTypeNames2);
 
             // refactor the method invocation expression
             expr1.accept(this);
 
             // create new method invocation in adapter
-            MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments1, methodInvocationPair);
+            Type returnType = ASTNodeUtil.typeFromExpr(ast, node);
+            MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments1,
+                    methodInvocationPair, returnType);
 
             // replace the old method
             Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());

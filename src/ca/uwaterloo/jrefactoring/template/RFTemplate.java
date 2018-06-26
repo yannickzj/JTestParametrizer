@@ -3,6 +3,7 @@ package ca.uwaterloo.jrefactoring.template;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
@@ -126,13 +127,47 @@ public class RFTemplate {
         }
     }
 
-    public String resolveTypePair(TypePair typePair) {
+    public String resolveTypePair(TypePair typePair, boolean extendsCommonSuperClass) {
         if (!typeMap.containsKey(typePair)) {
             String typeName = TYPE_NAME_PREFIX + typeCount++;
             typeMap.put(typePair, typeName);
             addGenericType(typeName);
+
+            // add common generic type bound
+            if (extendsCommonSuperClass) {
+                ITypeBinding commonSuperClass = getLowestCommonSubClass(typePair);
+                if (commonSuperClass != null) {
+                    addGenericTypeBound(typeName, commonSuperClass.getName());
+                }
+            }
         }
         return typeMap.get(typePair);
+    }
+
+    public ITypeBinding getLowestCommonSubClass(TypePair typePair) {
+        ITypeBinding p1 = typePair.getType1();
+        ITypeBinding p2 = typePair.getType2();
+
+        while(p1 != null || p2 != null) {
+            if (p1 != null && p2 != null && p1.getQualifiedName().equals(p2.getQualifiedName())) {
+                return p1;
+
+            } else {
+                if (p1 == null) {
+                    p1 = typePair.getType2();
+                } else {
+                    p1 = p1.getSuperclass();
+                }
+
+                if (p2 == null) {
+                    p2 = typePair.getType1();
+                } else {
+                    p2 = p2.getSuperclass();
+                }
+            }
+        }
+
+        return null;
     }
 
     public String resolveVariableName(String name1, String name2) {
@@ -237,9 +272,9 @@ public class RFTemplate {
         }
     }
 
-    private void addMethodInAdapterInterface(SimpleName name, List<Type> argTypes) {
+    private void addMethodInAdapterInterface(SimpleName name, List<Type> argTypes, Type returnType) {
         MethodDeclaration methodDeclaration = ast.newMethodDeclaration();
-        methodDeclaration.setReturnType2(ast.newPrimitiveType(PrimitiveType.VOID));
+        methodDeclaration.setReturnType2(returnType);
         methodDeclaration.setName((SimpleName) ASTNode.copySubtree(ast, name));
         Map<String, Integer> argMap = new HashMap<>();
         for (Type argType : argTypes) {
@@ -256,7 +291,7 @@ public class RFTemplate {
     }
 
     public MethodInvocation createAdapterActionMethod(Expression expr, List<Expression> arguments,
-                                                      MethodInvocationPair pair) {
+                                                      MethodInvocationPair pair, Type returnType) {
 
         if (adapter.bodyDeclarations().size() == 0) {
             templateMethod.parameters().add(0, adapterVariable);
@@ -285,7 +320,7 @@ public class RFTemplate {
         } else {
             String newActionName = DEFAULT_ADAPTER_METHOD_NAME + actionCount++;
             newMethod.setName(ast.newSimpleName(newActionName));
-            addMethodInAdapterInterface(newMethod.getName(), argTypes);
+            addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
             methodInvocationMap.put(pair, newActionName);
         }
 

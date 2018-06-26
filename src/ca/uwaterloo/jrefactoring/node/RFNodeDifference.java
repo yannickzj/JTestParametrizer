@@ -66,7 +66,7 @@ public class RFNodeDifference extends RFEntity {
     }
 
     public TypePair getTypePair() {
-        return new TypePair(expr1.resolveTypeBinding().getQualifiedName(), expr2.resolveTypeBinding().getQualifiedName());
+        return new TypePair(expr1.resolveTypeBinding(), expr2.resolveTypeBinding());
     }
 
     public Set<DifferenceType> getDifferenceTypes() {
