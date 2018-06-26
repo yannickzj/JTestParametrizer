@@ -3,7 +3,6 @@ package ca.uwaterloo.jrefactoring.template;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
-import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
@@ -29,7 +28,7 @@ public class RFTemplate {
     private Map<String, String> clazzInstanceMap;
     private Map<String, String> nameMap1;
     private Map<String, String> nameMap2;
-    private Map<Type, Integer> parameterMap;
+    private Map<String, Integer> parameterMap;
     private SingleVariableDeclaration adapterVariable;
     private Set<String> adapterTypes;
     private Map<ClassInstanceCreation, Type> instanceCreationTypeMap;
@@ -240,8 +239,8 @@ public class RFTemplate {
     }
 
     public String addVariableParameter(Type type) {
-        int count = parameterMap.getOrDefault(type, 0) + 1;
-        parameterMap.put(type, count);
+        int count = parameterMap.getOrDefault(type.toString(), 0) + 1;
+        parameterMap.put(type.toString(), count);
         String variableParameter = type.toString().toLowerCase() + count;
         addVariableParameter(type, ast.newSimpleName(variableParameter));
         return variableParameter;

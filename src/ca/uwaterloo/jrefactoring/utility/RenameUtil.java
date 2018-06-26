@@ -7,7 +7,7 @@ public class RenameUtil {
 
     public static final String ADAPTER_INTERFACE_NAME = "Adapter";
     public static final String TEMPLATE_METHOD_NAME = "Template";
-    public static final String DEFAULT_VARIABLE_PREFIX = "o";
+    public static final String DEFAULT_VARIABLE_PREFIX = "v";
     public static final String METHOD_NAME_PATTERN= "[ \\f\\r\\t\\n]+(.+?)[ \\f\\r\\t\\n]*\\(";
     private static int adapterCount = 1;
     private static int templateCount = 1;

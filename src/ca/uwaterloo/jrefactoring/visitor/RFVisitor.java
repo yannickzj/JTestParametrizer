@@ -60,14 +60,14 @@ public class RFVisitor extends ASTVisitor {
 
             Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
 
-            if (differenceTypes.contains(diffType) && differenceTypes.size() == 1) {
+            if (diffType == null || (differenceTypes.contains(diffType) && differenceTypes.size() == 1)) {
                 Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
                 String variableParameter = template.addVariableParameter(type);
                 SimpleName newNode = ast.newSimpleName(variableParameter);
                 replaceNode(node, newNode, type);
 
             } else {
-                throw new IllegalStateException("unexpected difference type [" + diffType + "] in expression [" + node + "]");
+                throw new IllegalStateException("unexpected difference type [" + diffType.name() + "] in expression [" + node + "]");
             }
         }
 
@@ -75,7 +75,7 @@ public class RFVisitor extends ASTVisitor {
 
     private List<String> getArgTypeNames(List<Expression> arguments) {
         List<String> argTypeNames = new ArrayList<>();
-        for (Expression argument: arguments) {
+        for (Expression argument : arguments) {
             Type type = ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding());
             argTypeNames.add(type.toString());
         }
@@ -127,7 +127,7 @@ public class RFVisitor extends ASTVisitor {
 
     @Override
     public boolean visit(NumberLiteral node) {
-        pullUpToParameter(node, DifferenceType.TYPE_COMPATIBLE_REPLACEMENT);
+        pullUpToParameter(node, null);
         return false;
     }
 
@@ -249,20 +249,29 @@ public class RFVisitor extends ASTVisitor {
         RFNodeDifference diffInName = retrieveDiffInName(name1);
 
         // check if common super class can be used
-        if (diffInName == null && diffInExpr != null
-                && diffInExpr.getDifferenceTypes().contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+        if (diffInName == null && diffInExpr != null) {
 
-            ITypeBinding commonSuperClass = template.getLowestCommonSubClass(diffInExpr.getTypePair());
-            if (commonSuperClass != null) {
-                for (IMethodBinding methodBinding : commonSuperClass.getDeclaredMethods()) {
-                    if (methodBinding.getName().equals(name1.getIdentifier())) {
-                        log.info("Same method found in common super class [" +
-                                commonSuperClass.getQualifiedName() + "]: " + methodBinding.getName());
-                        expr1.accept(this);
-                        return false;
+            Set<DifferenceType> differenceTypes = diffInExpr.getDifferenceTypes();
+
+            if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                ITypeBinding commonSuperClass = template.getLowestCommonSubClass(diffInExpr.getTypePair());
+                if (commonSuperClass != null) {
+                    for (IMethodBinding methodBinding : commonSuperClass.getDeclaredMethods()) {
+                        if (methodBinding.getName().equals(name1.getIdentifier())) {
+                            log.info("Same method found in common super class [" +
+                                    commonSuperClass.getQualifiedName() + "]: " + methodBinding.getName());
+                            expr1.accept(this);
+                            return false;
+                        }
                     }
                 }
+
+            } else {
+                log.info("resolve method expression diff without creating new adapter action");
+                expr1.accept(this);
+                return false;
             }
+
         }
 
         if (diffInExpr != null || diffInName != null) {
@@ -308,7 +317,7 @@ public class RFVisitor extends ASTVisitor {
             Type type = stmt1.getType();
             type.accept(this);
 
-            for (Object fragment: stmt1.fragments()) {
+            for (Object fragment : stmt1.fragments()) {
                 VariableDeclarationFragment variableDeclarationFragment = (VariableDeclarationFragment) fragment;
                 SimpleName name = variableDeclarationFragment.getName();
                 name.accept(this);
@@ -336,6 +345,10 @@ public class RFVisitor extends ASTVisitor {
     }
 
     public boolean visit(RFIfStmt node) {
+        if (node.hasDifference()) {
+            IfStatement ifStatement = (IfStatement) node.getStatement1();
+            ifStatement.getExpression().accept(this);
+        }
         return true;
     }
 
