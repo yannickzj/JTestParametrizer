@@ -352,6 +352,73 @@ public class RFVisitor extends ASTVisitor {
         return true;
     }
 
+    public boolean visit(RFForStmt node) {
+        if (node.hasDifference()) {
+            ForStatement forStatement = (ForStatement) node.getStatement1();
+            List<Expression> initializers = forStatement.initializers();
+            for (Expression initializer: initializers) {
+                initializer.accept(this);
+            }
+            forStatement.getExpression().accept(this);
+            List<Expression> updates = forStatement.updaters();
+            for (Expression update: updates) {
+                update.accept(this);
+            }
+        }
+        return true;
+    }
+
+    public boolean visit(RFEnhancedForStmt node) {
+        if (node.hasDifference()) {
+            EnhancedForStatement enhancedForStatement = (EnhancedForStatement) node.getStatement1();
+            enhancedForStatement.getExpression().accept(this);
+            enhancedForStatement.getParameter().accept(this);
+        }
+        return true;
+    }
+
+    public boolean visit(RFWhileStmt node) {
+        if (node.hasDifference()) {
+            Statement statement = node.getStatement1();
+            if (statement instanceof WhileStatement) {
+                WhileStatement whileStatement = (WhileStatement) statement;
+                whileStatement.getExpression().accept(this);
+
+            } else {
+                DoStatement doStatement = (DoStatement) statement;
+                doStatement.getExpression().accept(this);
+            }
+        }
+        return true;
+    }
+
+    public boolean visit(RFTryStmt node) {
+        if (node.hasDifference()) {
+            TryStatement tryStatement = (TryStatement) node.getStatement1();
+
+            // refactor resources
+            List<Expression> resources = tryStatement.resources();
+            for (Expression resource: resources) {
+                resource.accept(this);
+            }
+
+            // refactor catchClauses
+            List<CatchClause> catchClauses = tryStatement.catchClauses();
+            for (CatchClause catchClause: catchClauses) {
+                catchClause.accept(this);
+            }
+        }
+        return true;
+    }
+
+    public boolean visit(RFThrowStmt node) {
+        if (node.hasDifference()) {
+            ThrowStatement throwStatement = (ThrowStatement) node.getStatement1();
+            throwStatement.getExpression().accept(this);
+        }
+        return false;
+    }
+
     public void endVisit(RFStatement node) {
         // if current node is the top level statement, copy the refactored node to the template
         if (node.isTopStmt()) {

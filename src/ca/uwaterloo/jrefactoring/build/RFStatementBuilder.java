@@ -114,6 +114,35 @@ public class RFStatementBuilder {
                 return new RFExpressionStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
             case IF:
                 return new RFIfStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case FOR:
+                return new RFForStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case ENHANCED_FOR:
+                return new RFEnhancedForStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case DO:
+            case WHILE:
+                return new RFWhileStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case TRY:
+                return new RFTryStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case THROW:
+                return new RFThrowStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case LABELED:
+            case BREAK:
+            case CONTINUE:
+
+            case RETURN:
+            case ASSERT:
+            case SYNCHRONIZED:
+
+            case SWITCH:
+            case SWITCH_CASE:
+                
+            case CONSTRUCTOR_INVOCATION:
+            case SUPER_CONSTRUCTOR_INVOCATION:
+
+            case EMPTY:
+                return null;
+            case BLOCK:
+            case TYPE_DECLARATION:
             default:
                 throw new IllegalStateException("unexpected statement type when creating RFStatement");
         }
