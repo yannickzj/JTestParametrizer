@@ -312,34 +312,24 @@ public class RFVisitor extends ASTVisitor {
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
             //node.describe();
-
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
             Type type = stmt1.getType();
             type.accept(this);
 
-            for (Object fragment : stmt1.fragments()) {
-                VariableDeclarationFragment variableDeclarationFragment = (VariableDeclarationFragment) fragment;
-                SimpleName name = variableDeclarationFragment.getName();
+            List<VariableDeclarationFragment> fragments = stmt1.fragments();
+            for (VariableDeclarationFragment fragment : fragments) {
+
+                SimpleName name = fragment.getName();
                 name.accept(this);
 
-                Expression initializer = variableDeclarationFragment.getInitializer();
+                Expression initializer = fragment.getInitializer();
+
+                // register ClassInstanceCreation initializer
                 if (initializer instanceof ClassInstanceCreation) {
                     template.addInstanceCreation((ClassInstanceCreation) initializer, stmt1.getType());
                 }
                 initializer.accept(this);
             }
-
-            //System.out.println("variableDeclarationStmtVisitor finish visiting");
-        }
-        return true;
-    }
-
-    public boolean visit(RFExpressionStmt node) {
-        if (node.hasDifference()) {
-            //node.describe();
-            ExpressionStatement expressionStatement = (ExpressionStatement) node.getStatement1();
-            expressionStatement.getExpression().accept(this);
-            //System.out.println("expressionStmtVisitor finish visiting");
         }
         return true;
     }
@@ -347,6 +337,7 @@ public class RFVisitor extends ASTVisitor {
     public boolean visit(RFIfStmt node) {
         if (node.hasDifference()) {
             IfStatement ifStatement = (IfStatement) node.getStatement1();
+            // only visit expression
             ifStatement.getExpression().accept(this);
         }
         return true;
@@ -355,11 +346,17 @@ public class RFVisitor extends ASTVisitor {
     public boolean visit(RFForStmt node) {
         if (node.hasDifference()) {
             ForStatement forStatement = (ForStatement) node.getStatement1();
+
+            // refactor initializers
             List<Expression> initializers = forStatement.initializers();
             for (Expression initializer: initializers) {
                 initializer.accept(this);
             }
+
+            // refactor expression
             forStatement.getExpression().accept(this);
+
+            // refactor updaters
             List<Expression> updates = forStatement.updaters();
             for (Expression update: updates) {
                 update.accept(this);
@@ -371,6 +368,8 @@ public class RFVisitor extends ASTVisitor {
     public boolean visit(RFEnhancedForStmt node) {
         if (node.hasDifference()) {
             EnhancedForStatement enhancedForStatement = (EnhancedForStatement) node.getStatement1();
+
+            // only visit expression and parameter, ignore body
             enhancedForStatement.getExpression().accept(this);
             enhancedForStatement.getParameter().accept(this);
         }
@@ -382,11 +381,16 @@ public class RFVisitor extends ASTVisitor {
             Statement statement = node.getStatement1();
             if (statement instanceof WhileStatement) {
                 WhileStatement whileStatement = (WhileStatement) statement;
+                // only visit expression
                 whileStatement.getExpression().accept(this);
 
-            } else {
+            } else if (statement instanceof DoStatement) {
                 DoStatement doStatement = (DoStatement) statement;
+                // only visit expression
                 doStatement.getExpression().accept(this);
+
+            } else {
+                throw new IllegalStateException("unexpected RFWhileStmt: " + node);
             }
         }
         return true;
@@ -394,6 +398,8 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFTryStmt node) {
         if (node.hasDifference()) {
+
+            // ignore body and finally
             TryStatement tryStatement = (TryStatement) node.getStatement1();
 
             // refactor resources
@@ -411,12 +417,40 @@ public class RFVisitor extends ASTVisitor {
         return true;
     }
 
-    public boolean visit(RFThrowStmt node) {
+    public boolean visit(RFLabeledStmt node) {
         if (node.hasDifference()) {
-            ThrowStatement throwStatement = (ThrowStatement) node.getStatement1();
-            throwStatement.getExpression().accept(this);
+            LabeledStatement labeledStatement = (LabeledStatement) node.getStatement1();
+            // only visit label
+            labeledStatement.getLabel().accept(this);
         }
-        return false;
+
+        return true;
+    }
+
+    public boolean visit(RFSynchronizedStmt node) {
+        if (node.hasDifference()) {
+            SynchronizedStatement synchronizedStatement = (SynchronizedStatement) node.getStatement1();
+            // only visit expression
+            synchronizedStatement.getExpression().accept(this);
+        }
+
+        return true;
+    }
+
+    public boolean visit(RFSwitchStmt node) {
+        if (node.hasDifference()) {
+            SwitchStatement switchStatement = (SwitchStatement) node.getStatement1();
+            // only visit expression, ignore switch case
+            switchStatement.getExpression().accept(this);
+        }
+        return true;
+    }
+
+    public boolean visit(RFDefaultStmt node) {
+        if (node.hasDifference()) {
+            node.getStatement1().accept(this);
+        }
+        return true;
     }
 
     public void endVisit(RFStatement node) {

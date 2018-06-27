@@ -7,9 +7,10 @@ import org.eclipse.jdt.core.dom.Statement;
 
 import java.util.List;
 
-public class RFExpressionStmt extends RFStatement {
+public class RFSynchronizedStmt extends RFStatement {
 
-    public RFExpressionStmt(StatementType statementType, Statement statement1, Statement statement2, List<RFNodeDifference> nodeDifferences, RFTemplate template) {
+    public RFSynchronizedStmt(StatementType statementType, Statement statement1, Statement statement2,
+                              List<RFNodeDifference> nodeDifferences, RFTemplate template) {
         super(statementType, statement1, statement2, nodeDifferences, template);
     }
 
@@ -24,5 +25,4 @@ public class RFExpressionStmt extends RFStatement {
         }
         visitor.endVisit(this);
     }
-
 }

@@ -7,9 +7,10 @@ import org.eclipse.jdt.core.dom.Statement;
 
 import java.util.List;
 
-public class RFThrowStmt extends RFStatement {
+public class RFDefaultStmt extends RFStatement {
 
-    public RFThrowStmt(StatementType statementType, Statement statement1, Statement statement2, List<RFNodeDifference> nodeDifferences, RFTemplate template) {
+    public RFDefaultStmt(StatementType statementType, Statement statement1, Statement statement2,
+                         List<RFNodeDifference> nodeDifferences, RFTemplate template) {
         super(statementType, statement1, statement2, nodeDifferences, template);
     }
 

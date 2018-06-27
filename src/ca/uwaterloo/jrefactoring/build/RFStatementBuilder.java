@@ -106,12 +106,11 @@ public class RFStatementBuilder {
         return createRFStmtByStmtType(statementType, statement1, statement2, nodeDifferences, template);
     }
 
-    private RFStatement createRFStmtByStmtType(StatementType stmtType, Statement stmt1, Statement stmt2, List<RFNodeDifference> nodeDifferences, RFTemplate template) {
+    private RFStatement createRFStmtByStmtType(StatementType stmtType, Statement stmt1, Statement stmt2,
+                                               List<RFNodeDifference> nodeDifferences, RFTemplate template) {
         switch (stmtType) {
             case VARIABLE_DECLARATION:
                 return new RFVariableDeclarationStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
-            case EXPRESSION:
-                return new RFExpressionStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
             case IF:
                 return new RFIfStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
             case FOR:
@@ -123,28 +122,34 @@ public class RFStatementBuilder {
                 return new RFWhileStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
             case TRY:
                 return new RFTryStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
-            case THROW:
-                return new RFThrowStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
             case LABELED:
+                return new RFLabeledStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case SYNCHRONIZED:
+                return new RFSynchronizedStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+            case SWITCH:
+                return new RFSwitchStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
+
+            case EXPRESSION:
+            case THROW:
             case BREAK:
             case CONTINUE:
-
             case RETURN:
             case ASSERT:
-            case SYNCHRONIZED:
-
-            case SWITCH:
             case SWITCH_CASE:
-                
             case CONSTRUCTOR_INVOCATION:
             case SUPER_CONSTRUCTOR_INVOCATION:
+                // statements without body
+                return new RFDefaultStmt(stmtType, stmt1, stmt2, nodeDifferences, template);
 
             case EMPTY:
+                // ignore empty stmt
                 return null;
+
             case BLOCK:
             case TYPE_DECLARATION:
             default:
-                throw new IllegalStateException("unexpected statement type when creating RFStatement");
+                throw new IllegalStateException("unexpected statement type [" +
+                        stmtType.name() + "] when creating RFStatement");
         }
     }
 
