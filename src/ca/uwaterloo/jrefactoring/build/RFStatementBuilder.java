@@ -72,18 +72,16 @@ public class RFStatementBuilder {
             return buildFromPDGElseMapping(nodeMapping, template);
 
         } else if (nodeMapping instanceof PDGNodeGap) {
-            System.out.println("-----------------------------------------------------------");
-            System.out.println("TO DO: PDG node gap node: ");
-            System.out.println(nodeMapping.toString());
+            log.error("TO DO: PDG node gap node: ");
+            log.error(nodeMapping.toString());
             return null;
 
         } else if (nodeMapping instanceof PDGElseGap) {
-            System.out.println("-----------------------------------------------------------");
-            System.out.println("TO DO: PDG else gap node");
+            log.error("TO DO: PDG else gap node");
             return null;
 
         } else {
-            System.out.println("Unknown nodeMapping");
+            log.error("Unknown nodeMapping");
             return null;
         }
     }

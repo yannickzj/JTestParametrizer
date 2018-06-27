@@ -241,7 +241,7 @@ public class RFTemplate {
     public String addVariableParameter(Type type) {
         int count = parameterMap.getOrDefault(type.toString(), 0) + 1;
         parameterMap.put(type.toString(), count);
-        String variableParameter = type.toString().toLowerCase() + count;
+        String variableParameter = RenameUtil.rename(type, count);
         addVariableParameter(type, ast.newSimpleName(variableParameter));
         return variableParameter;
     }
@@ -273,7 +273,7 @@ public class RFTemplate {
 
     private void addMethodInAdapterInterface(SimpleName name, List<Type> argTypes, Type returnType) {
         MethodDeclaration methodDeclaration = ast.newMethodDeclaration();
-        methodDeclaration.setReturnType2(returnType);
+        methodDeclaration.setReturnType2((Type) ASTNode.copySubtree(ast, returnType));
         methodDeclaration.setName((SimpleName) ASTNode.copySubtree(ast, name));
         Map<String, Integer> argMap = new HashMap<>();
         for (Type argType : argTypes) {
@@ -282,19 +282,23 @@ public class RFTemplate {
             String argName = argType.toString().toLowerCase();
             int argCount = argMap.getOrDefault(argName, 1);
             argMap.getOrDefault(argName, argCount + 1);
-            arg.setName(ast.newSimpleName(RenameUtil.rename(argName, argCount)));
+            arg.setName(ast.newSimpleName(RenameUtil.rename(argType, argCount)));
             methodDeclaration.parameters().add(arg);
         }
 
         adapter.bodyDeclarations().add(methodDeclaration);
     }
 
-    public MethodInvocation createAdapterActionMethod(Expression expr, List<Expression> arguments,
-                                                      MethodInvocationPair pair, Type returnType) {
-
+    private void addAdapterVariableParameter() {
         if (adapter.bodyDeclarations().size() == 0) {
             templateMethod.parameters().add(0, adapterVariable);
         }
+    }
+
+    public MethodInvocation createAdapterActionMethod(Expression expr, List<Expression> arguments,
+                                                      MethodInvocationPair pair, Type returnType) {
+
+        addAdapterVariableParameter();
 
         // create new method invocation
         MethodInvocation newMethod = ast.newMethodInvocation();
@@ -322,6 +326,18 @@ public class RFTemplate {
             addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
             methodInvocationMap.put(pair, newActionName);
         }
+
+        return newMethod;
+    }
+
+    public MethodInvocation createAdapterActionMethod(Type returnType) {
+
+        MethodInvocation newMethod = ast.newMethodInvocation();
+        newMethod.setExpression(ast.newSimpleName(adapterVariable.getName().getIdentifier()));
+
+        String newActionName = DEFAULT_ADAPTER_METHOD_NAME + actionCount++;
+        newMethod.setName(ast.newSimpleName(newActionName));
+        addMethodInAdapterInterface(newMethod.getName(), new ArrayList<>(), returnType);
 
         return newMethod;
     }

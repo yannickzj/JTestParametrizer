@@ -1,14 +1,17 @@
 package ca.uwaterloo.jrefactoring.utility;
 
+import org.eclipse.jdt.core.dom.PrimitiveType;
+import org.eclipse.jdt.core.dom.Type;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class RenameUtil {
 
-    public static final String ADAPTER_INTERFACE_NAME = "Adapter";
-    public static final String TEMPLATE_METHOD_NAME = "Template";
-    public static final String DEFAULT_VARIABLE_PREFIX = "v";
-    public static final String METHOD_NAME_PATTERN= "[ \\f\\r\\t\\n]+(.+?)[ \\f\\r\\t\\n]*\\(";
+    private static final String ADAPTER_INTERFACE_NAME = "Adapter";
+    private static final String TEMPLATE_METHOD_NAME = "Template";
+    private static final String DEFAULT_VARIABLE_PREFIX = "v";
+    private static final String METHOD_NAME_PATTERN= "[ \\f\\r\\t\\n]+(.+?)[ \\f\\r\\t\\n]*\\(";
     private static int adapterCount = 1;
     private static int templateCount = 1;
 
@@ -34,11 +37,26 @@ public class RenameUtil {
         return Character.isDigit(name.charAt(name.length() - 1));
     }
 
-    public static String rename(String typeName, int count) {
-        if (endsWithDigit(typeName)) {
-            return typeName + "_" + count;
+    private static String getPrimitiveTypeShortName(PrimitiveType primitiveType) {
+        if (primitiveType.getPrimitiveTypeCode() == PrimitiveType.BYTE) {
+            return primitiveType.toString().toLowerCase();
         } else {
-            return typeName + count;
+            return primitiveType.toString().substring(0, 1);
+        }
+    }
+
+    public static String rename(Type type, int count) {
+
+        String typeName = type.toString().toLowerCase();
+        if (type.isPrimitiveType()) {
+            return getPrimitiveTypeShortName((PrimitiveType) type) + count;
+
+        } else {
+            if (endsWithDigit(typeName)) {
+                return typeName + "_" + count;
+            } else {
+                return typeName + count;
+            }
         }
     }
 

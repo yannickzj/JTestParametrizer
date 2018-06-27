@@ -54,23 +54,14 @@ public class RFVisitor extends ASTVisitor {
         }
     }
 
-    private void pullUpToParameter(Expression node, DifferenceType diffType) {
+    private void pullUpToParameter(Expression node) {
         RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         if (diff != null) {
-
-            Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
-
-            if (diffType == null || (differenceTypes.contains(diffType) && differenceTypes.size() == 1)) {
-                Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
-                String variableParameter = template.addVariableParameter(type);
-                SimpleName newNode = ast.newSimpleName(variableParameter);
-                replaceNode(node, newNode, type);
-
-            } else {
-                throw new IllegalStateException("unexpected difference type [" + diffType.name() + "] in expression [" + node + "]");
-            }
+            Type type = ASTNodeUtil.typeFromExpr(ast, node);
+            String variableParameter = template.addVariableParameter(type);
+            SimpleName newNode = ast.newSimpleName(variableParameter);
+            replaceNode(node, newNode, type);
         }
-
     }
 
     private List<String> getArgTypeNames(List<Expression> arguments) {
@@ -127,7 +118,25 @@ public class RFVisitor extends ASTVisitor {
 
     @Override
     public boolean visit(NumberLiteral node) {
-        pullUpToParameter(node, null);
+        pullUpToParameter(node);
+        return false;
+    }
+
+    @Override
+    public boolean visit(BooleanLiteral node) {
+        pullUpToParameter(node);
+        return false;
+    }
+
+    @Override
+    public boolean visit(CharacterLiteral node) {
+        pullUpToParameter(node);
+        return false;
+    }
+
+    @Override
+    public boolean visit(StringLiteral node) {
+        pullUpToParameter(node);
         return false;
     }
 
@@ -177,7 +186,7 @@ public class RFVisitor extends ASTVisitor {
 
     @Override
     public boolean visit(QualifiedName node) {
-        pullUpToParameter(node, DifferenceType.VARIABLE_NAME_MISMATCH);
+        pullUpToParameter(node);
         return false;
     }
 
@@ -311,18 +320,35 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
-            //node.describe();
+            node.describe();
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
-            Type type = stmt1.getType();
-            type.accept(this);
+
+            // refactor type
+            stmt1.getType().accept(this);
 
             List<VariableDeclarationFragment> fragments = stmt1.fragments();
             for (VariableDeclarationFragment fragment : fragments) {
 
+                // refactor name
                 SimpleName name = fragment.getName();
                 name.accept(this);
 
                 Expression initializer = fragment.getInitializer();
+
+                /**
+                 * if initializer contains TYPE_COMPATIBAL_REPLACEMENT diff, create empter adapter action,
+                 * action arguments should be specified manually
+                 */
+                RFNodeDifference diff = (RFNodeDifference) initializer.getProperty(ASTNodeUtil.PROPERTY_DIFF);
+                if (diff != null) {
+                    if (diff.getDifferenceTypes().contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)) {
+                        Type type = stmt1.getType();
+                        MethodInvocation methodInvocation = template.createAdapterActionMethod(type);
+                        log.info("adapter action arguments should be specified manually in " + methodInvocation);
+                        replaceNode(initializer, methodInvocation, type);
+                        continue;
+                    }
+                }
 
                 // register ClassInstanceCreation initializer
                 if (initializer instanceof ClassInstanceCreation) {
@@ -349,7 +375,7 @@ public class RFVisitor extends ASTVisitor {
 
             // refactor initializers
             List<Expression> initializers = forStatement.initializers();
-            for (Expression initializer: initializers) {
+            for (Expression initializer : initializers) {
                 initializer.accept(this);
             }
 
@@ -358,7 +384,7 @@ public class RFVisitor extends ASTVisitor {
 
             // refactor updaters
             List<Expression> updates = forStatement.updaters();
-            for (Expression update: updates) {
+            for (Expression update : updates) {
                 update.accept(this);
             }
         }
@@ -404,13 +430,13 @@ public class RFVisitor extends ASTVisitor {
 
             // refactor resources
             List<Expression> resources = tryStatement.resources();
-            for (Expression resource: resources) {
+            for (Expression resource : resources) {
                 resource.accept(this);
             }
 
             // refactor catchClauses
             List<CatchClause> catchClauses = tryStatement.catchClauses();
-            for (CatchClause catchClause: catchClauses) {
+            for (CatchClause catchClause : catchClauses) {
                 catchClause.accept(this);
             }
         }
