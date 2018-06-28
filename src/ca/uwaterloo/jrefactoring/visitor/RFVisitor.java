@@ -147,6 +147,30 @@ public class RFVisitor extends ASTVisitor {
 
             Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
 
+            // resolve type
+            Type type;
+            if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)
+                    || differenceTypes.contains(DifferenceType.VARIABLE_TYPE_MISMATCH)) {
+                String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
+                log.info("genericTypeName: " + genericTypeName);
+                type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+            } else {
+                type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
+            }
+
+            // resolve name
+            if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)) {
+                String name1 = node.getFullyQualifiedName();
+                String name2 = ((Name) diff.getExpr2()).getFullyQualifiedName();
+                String resolvedName = template.resolveVariableName(name1, name2);
+                SimpleName newNode = ast.newSimpleName(resolvedName);
+                replaceNode(node, newNode, type);
+
+            } else {
+                node.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, type);
+            }
+
+            /*
             if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)) {
                 String name1 = node.getFullyQualifiedName();
                 String name2 = ((Name) diff.getExpr2()).getFullyQualifiedName();
@@ -179,6 +203,7 @@ public class RFVisitor extends ASTVisitor {
             } else {
                 throw new IllegalStateException("unexpected name mismatch!");
             }
+            */
 
         }
         return false;
@@ -187,6 +212,25 @@ public class RFVisitor extends ASTVisitor {
     @Override
     public boolean visit(QualifiedName node) {
         pullUpToParameter(node);
+        return false;
+    }
+
+    @Override
+    public boolean visit(SimpleType node) {
+        Name name = node.getName();
+        RFNodeDifference diff = (RFNodeDifference) name.getProperty(ASTNodeUtil.PROPERTY_DIFF);
+        if (diff != null) {
+
+            Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
+            if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
+                Type type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+                replaceNode(name, ast.newSimpleName(genericTypeName), type);
+
+            } else {
+                throw new IllegalStateException("unexpected difference type in SimpleType!");
+            }
+        }
         return false;
     }
 

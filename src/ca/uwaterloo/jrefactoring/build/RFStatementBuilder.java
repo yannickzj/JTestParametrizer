@@ -73,7 +73,19 @@ public class RFStatementBuilder {
 
         } else if (nodeMapping instanceof PDGNodeGap) {
             log.error("TO DO: PDG node gap node: ");
-            log.error(nodeMapping.toString());
+            //log.error(nodeMapping.toString());
+            /*
+            PDGNodeGap pdgNodeGap = (PDGNodeGap) nodeMapping;
+            if (pdgNodeGap.getNodeG1() != null) {
+                log.info("stmt1: " + pdgNodeGap.getNodeG1().getASTStatement());
+            }
+            if (pdgNodeGap.getNodeG2() != null) {
+                log.info("stmt2: " + pdgNodeGap.getNodeG2().getASTStatement());
+            }
+            for (ASTNodeDifference diff: pdgNodeGap.getNodeDifferences()) {
+                log.info(diff.toString());
+            }
+            */
             return null;
 
         } else if (nodeMapping instanceof PDGElseGap) {
