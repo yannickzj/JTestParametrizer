@@ -169,13 +169,20 @@ public class RFTemplate {
         return null;
     }
 
-    public String resolveVariableName(String name1, String name2) {
+    public boolean containsVariableNamePair(String name1, String name2) {
+        String resolvedName1 = nameMap1.getOrDefault(name1, "");
+        String resolvedName2 = nameMap2.getOrDefault(name2, "");
+        assert resolvedName1.equals(resolvedName2);
+        return !resolvedName1.equals("");
+    }
+
+    public String resolveVariableName(String name1, String name2, String prefix) {
         String resolvedName1 = nameMap1.getOrDefault(name1, "");
         String resolvedName2 = nameMap2.getOrDefault(name2, "");
         assert resolvedName1.equals(resolvedName2);
 
         if (resolvedName1.equals("")) {
-            String commonName = RenameUtil.renameVariable(name1, name2, variableCount++);
+            String commonName = RenameUtil.renameVariable(name1, name2, variableCount++, prefix);
             nameMap1.put(name1, commonName);
             nameMap2.put(name2, commonName);
             return commonName;
@@ -330,7 +337,31 @@ public class RFTemplate {
         return newMethod;
     }
 
+    public MethodInvocation createAdapterActionMethod(Expression e1, Expression e2, Type returnType) {
+
+        addAdapterVariableParameter();
+
+        MethodInvocation newMethod = ast.newMethodInvocation();
+        newMethod.setExpression(ast.newSimpleName(adapterVariable.getName().getIdentifier()));
+
+        String newActionName = DEFAULT_ADAPTER_METHOD_NAME + actionCount++;
+        newMethod.setName(ast.newSimpleName(newActionName));
+
+        List<Expression> newArgs = newMethod.arguments();
+        List<Type> argTypes = new ArrayList<>();
+        newArgs.add((Expression) ASTNode.copySubtree(ast, e1));
+        newArgs.add((Expression) ASTNode.copySubtree(ast, e2));
+        argTypes.add(resolveAdapterActionArgumentType(e1));
+        argTypes.add(resolveAdapterActionArgumentType(e2));
+
+        addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
+
+        return newMethod;
+    }
+
     public MethodInvocation createAdapterActionMethod(Type returnType) {
+
+        addAdapterVariableParameter();
 
         MethodInvocation newMethod = ast.newMethodInvocation();
         newMethod.setExpression(ast.newSimpleName(adapterVariable.getName().getIdentifier()));

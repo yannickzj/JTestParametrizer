@@ -3,8 +3,10 @@ package ca.uwaterloo.jrefactoring.visitor;
 import ca.uwaterloo.jrefactoring.node.*;
 import ca.uwaterloo.jrefactoring.template.MethodInvocationPair;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
+import ca.uwaterloo.jrefactoring.template.TypePair;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
+import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import gr.uom.java.ast.decomposition.matching.DifferenceType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
@@ -116,6 +118,80 @@ public class RFVisitor extends ASTVisitor {
         }
     }
 
+    private byte getPrimitiveNum(PrimitiveType p) {
+        if (p.getPrimitiveTypeCode() == PrimitiveType.BYTE) {
+            return 1;
+        } else if (p.getPrimitiveTypeCode() == PrimitiveType.SHORT) {
+            return 2;
+        } else if (p.getPrimitiveTypeCode() == PrimitiveType.CHAR) {
+            return 3;
+        } else if (p.getPrimitiveTypeCode() == PrimitiveType.INT) {
+            return 4;
+        } else if (p.getPrimitiveTypeCode() == PrimitiveType.LONG) {
+            return 5;
+        } else if (p.getPrimitiveTypeCode() == PrimitiveType.FLOAT) {
+            return 6;
+        } else if (p.getPrimitiveTypeCode() == PrimitiveType.DOUBLE) {
+            return 7;
+        } else if (p.getPrimitiveTypeCode() == PrimitiveType.BOOLEAN) {
+            return 8;
+        } else if (p.getPrimitiveTypeCode() == PrimitiveType.VOID) {
+            return 9;
+        } else {
+            throw new IllegalArgumentException("unexpected primitive type: " + p.toString());
+        }
+    }
+
+    private PrimitiveType.Code getPrimitiveCode(byte num) {
+        switch (num) {
+            case 1:
+                return PrimitiveType.BYTE;
+            case 2:
+                return PrimitiveType.SHORT;
+            case 3:
+                return PrimitiveType.CHAR;
+            case 4:
+                return PrimitiveType.INT;
+            case 5:
+                return PrimitiveType.LONG;
+            case 6:
+                return PrimitiveType.FLOAT;
+            case 7:
+                return PrimitiveType.DOUBLE;
+            case 8:
+                return PrimitiveType.BOOLEAN;
+            case 9:
+                return PrimitiveType.VOID;
+            default:
+                throw new IllegalArgumentException("unexpected primitive num: " + num);
+        }
+    }
+
+    private Type getCompatibleType(TypePair typePair) {
+        ITypeBinding commonSubClass = template.getLowestCommonSubClass(typePair);
+        if (commonSubClass != null) {
+            return ASTNodeUtil.typeFromBinding(ast, commonSubClass);
+        } else {
+            Type t1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
+            Type t2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+            if (t1.isPrimitiveType() && t2.isPrimitiveType()) {
+                byte n1 = getPrimitiveNum((PrimitiveType) t1);
+                byte n2 = getPrimitiveNum((PrimitiveType) t2);
+                byte n = (byte) Math.max(n1, n2);
+                if (n < 8) {
+
+                    if (n == 3 && n1 != n2) {
+                        n += 1;
+                    }
+                    return ast.newPrimitiveType(getPrimitiveCode(n));
+                }
+            }
+
+            throw new IllegalStateException("can not get compatible type for type pair: "
+                    + typePair.toString());
+        }
+    }
+
     @Override
     public boolean visit(NumberLiteral node) {
         pullUpToParameter(node);
@@ -145,6 +221,41 @@ public class RFVisitor extends ASTVisitor {
         RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         if (diff != null) {
 
+            String name1 = node.getIdentifier();
+            String name2 = ((SimpleName) diff.getExpr2()).getIdentifier();
+            Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
+
+            if (template.containsVariableNamePair(name1, name2)) {
+
+                // resolve name
+                String resolvedName = template.resolveVariableName(name1, name2, "v");
+
+                // resolve type
+                Type type;
+                if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                    String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
+                    type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+                } else {
+                    type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
+                }
+
+                // set name and type
+                node.setIdentifier(resolvedName);
+                node.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, type);
+
+            } else {
+                if (node.getParent() instanceof Expression) {
+                    // create new adapter action
+                    Type returnType = getCompatibleType(diff.getTypePair());
+                    MethodInvocation newMethod = template.createAdapterActionMethod(node, diff.getExpr2(), returnType);
+                    replaceNode(node, newMethod, returnType);
+
+                } else {
+                    throw new IllegalStateException("unexpected diff in SimpleNode: " + diff.toString());
+                }
+            }
+
+            /*
             Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
 
             // resolve type
@@ -169,6 +280,7 @@ public class RFVisitor extends ASTVisitor {
             } else {
                 node.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, type);
             }
+            */
 
             /*
             if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)) {
@@ -362,44 +474,84 @@ public class RFVisitor extends ASTVisitor {
         return false;
     }
 
+    @Override
+    public boolean visit(VariableDeclarationExpression node) {
+
+        // refactor type
+        node.getType().accept(this);
+
+        // refactor fragments
+        refactorVariableDeclarationFragment(node.getType(), node.fragments(), "i");
+
+        return false;
+    }
+
+    private void refactorVariableDeclarationFragment(Type type, List<VariableDeclarationFragment> fragments, String prefix) {
+
+        for (VariableDeclarationFragment fragment : fragments) {
+
+            // refactor name and register variable
+            registerVariablePair(fragment.getName(), prefix);
+
+            Expression initializer = fragment.getInitializer();
+
+            /**
+             * if initializer contains TYPE_COMPATIBAL_REPLACEMENT diff, create empter adapter action,
+             * action arguments should be specified manually
+             */
+            RFNodeDifference diff = (RFNodeDifference) initializer.getProperty(ASTNodeUtil.PROPERTY_DIFF);
+            if (diff != null) {
+                if (diff.getDifferenceTypes().contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)) {
+                    MethodInvocation methodInvocation = template.createAdapterActionMethod(type);
+                    log.info("adapter action arguments should be specified manually in " + methodInvocation);
+                    replaceNode(initializer, methodInvocation, type);
+                    continue;
+                }
+            }
+
+            // register ClassInstanceCreation initializer
+            if (initializer instanceof ClassInstanceCreation) {
+                template.addInstanceCreation((ClassInstanceCreation) initializer, type);
+            }
+            initializer.accept(this);
+        }
+    }
+
+    private void registerVariablePair(SimpleName node, String prefix) {
+        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
+        if (diff != null) {
+
+            // register variable pair and set identifier, do not set the type in AST node
+            String name1 = node.getIdentifier();
+            String name2 = ((SimpleName) diff.getExpr2()).getIdentifier();
+            String resolvedName = template.resolveVariableName(name1, name2, prefix);
+            node.setIdentifier(resolvedName);
+
+            // set type
+            Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
+            Type type;
+            if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
+                type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+            } else {
+                type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
+            }
+            node.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, type);
+
+        }
+    }
+
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
-            node.describe();
+            //node.describe();
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
 
             // refactor type
             stmt1.getType().accept(this);
 
-            List<VariableDeclarationFragment> fragments = stmt1.fragments();
-            for (VariableDeclarationFragment fragment : fragments) {
+            // refactor fragments
+            refactorVariableDeclarationFragment(stmt1.getType(), stmt1.fragments(), "v");
 
-                // refactor name
-                SimpleName name = fragment.getName();
-                name.accept(this);
-
-                Expression initializer = fragment.getInitializer();
-
-                /**
-                 * if initializer contains TYPE_COMPATIBAL_REPLACEMENT diff, create empter adapter action,
-                 * action arguments should be specified manually
-                 */
-                RFNodeDifference diff = (RFNodeDifference) initializer.getProperty(ASTNodeUtil.PROPERTY_DIFF);
-                if (diff != null) {
-                    if (diff.getDifferenceTypes().contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)) {
-                        Type type = stmt1.getType();
-                        MethodInvocation methodInvocation = template.createAdapterActionMethod(type);
-                        log.info("adapter action arguments should be specified manually in " + methodInvocation);
-                        replaceNode(initializer, methodInvocation, type);
-                        continue;
-                    }
-                }
-
-                // register ClassInstanceCreation initializer
-                if (initializer instanceof ClassInstanceCreation) {
-                    template.addInstanceCreation((ClassInstanceCreation) initializer, stmt1.getType());
-                }
-                initializer.accept(this);
-            }
         }
         return true;
     }

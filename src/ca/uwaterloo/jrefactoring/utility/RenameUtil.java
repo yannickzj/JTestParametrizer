@@ -33,6 +33,14 @@ public class RenameUtil {
         }
     }
 
+    public static String renameVariable(String name1, String name2, int count, String prefix) {
+        if (name1.equals(name2)) {
+            return name1;
+        } else {
+            return prefix + count;
+        }
+    }
+
     private static boolean endsWithDigit(String name) {
         return Character.isDigit(name.charAt(name.length() - 1));
     }
