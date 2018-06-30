@@ -65,11 +65,10 @@ public class RFTemplate {
 
     private void initTemplate(String templateName) {
         templateMethod = ast.newMethodDeclaration();
-        Modifier privateModifier = ast.newModifier(Modifier.ModifierKeyword.PRIVATE_KEYWORD);
+        Modifier privateModifier = ast.newModifier(Modifier.ModifierKeyword.PUBLIC_KEYWORD);
         templateMethod.modifiers().add(privateModifier);
         templateMethod.setBody(ast.newBlock());
         templateMethod.setName(ast.newSimpleName(templateName));
-        templateMethod.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
     }
 
     private void initAdapter(String adapterName) {
@@ -229,6 +228,12 @@ public class RFTemplate {
         }
     }
 
+    private void addThrowsException() {
+        if (templateMethod.thrownExceptionTypes().size() == 0) {
+            templateMethod.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
+        }
+    }
+
     private void addGenericType(String genericTypeName) {
         TypeParameter typeParameter = ast.newTypeParameter();
         typeParameter.setName(ast.newSimpleName(genericTypeName));
@@ -243,6 +248,8 @@ public class RFTemplate {
 
         SimpleName clazzName = ast.newSimpleName(resolveGenericType(genericTypeName));
         addVariableParameter(classTypeWithGenericType, clazzName);
+
+        addThrowsException();
     }
 
     public String addVariableParameter(Type type) {

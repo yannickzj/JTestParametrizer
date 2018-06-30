@@ -8,6 +8,7 @@ public class ASTNodeUtil {
 
     public static final String PROPERTY_DIFF = "diff";
     public static final String PROPERTY_TYPE_BINDING = "type";
+    public static final String PROPERTY_PAIR = "pair";
 
     public static Type typeFromBinding(AST ast, ITypeBinding typeBinding) {
         if( ast == null )
@@ -63,6 +64,33 @@ public class ASTNodeUtil {
             return type;
         } else {
             return typeFromBinding(ast, expr.resolveTypeBinding());
+        }
+    }
+
+    public static boolean hasPairedNode(ASTNode node) {
+        if (node == null) return false;
+        return node.getProperty(PROPERTY_PAIR) != null;
+    }
+
+    public static boolean pairNewNodes(ASTNode node1, ASTNode node2) {
+        if (!hasPairedNode(node1) && !hasPairedNode(node2)) {
+            node1.setProperty(PROPERTY_PAIR, node2);
+            node2.setProperty(PROPERTY_PAIR, node1);
+            return true;
+        } else if (hasPairedNode(node1) && hasPairedNode(node2)) {
+            return false;
+        } else {
+            throw new IllegalStateException("unexpected paired nodes: " + node1 + ", " + node2);
+        }
+    }
+
+    public static void matchDiffNode(ASTNode node1, ASTNode node2, ASTNode root1, ASTNode root2) {
+        if (pairNewNodes(node1, node2)) {
+            if (node1 != root1 && node2 != root2) {
+                matchDiffNode(node1.getParent(), node2.getParent(), root1, root2);
+            } else if (node1 != root1 || node2 != root2) {
+                throw new IllegalStateException("unmatched diff node structure: " + node1 + ", " + node2);
+            }
         }
     }
 }

@@ -42,4 +42,8 @@ public class TypePair {
     public String toString() {
         return "TypePair: " + type1.getQualifiedName() + ", " + type2.getQualifiedName();
     }
+
+    public boolean isSame() {
+        return type1.getQualifiedName().equals(type2.getQualifiedName());
+    }
 }

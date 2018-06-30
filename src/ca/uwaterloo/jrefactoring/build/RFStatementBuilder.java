@@ -2,11 +2,13 @@ package ca.uwaterloo.jrefactoring.build;
 
 import ca.uwaterloo.jrefactoring.node.*;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
+import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import gr.uom.java.ast.decomposition.StatementType;
 import gr.uom.java.ast.decomposition.cfg.mapping.*;
 import gr.uom.java.ast.decomposition.matching.ASTNodeDifference;
 import gr.uom.java.ast.decomposition.matching.Difference;
+import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 import org.slf4j.Logger;
@@ -99,19 +101,21 @@ public class RFStatementBuilder {
     }
 
     private RFStatement buildFromPDGNodeMapping(NodeMapping nodeMapping, RFTemplate template) {
+
+        Statement statement1 = nodeMapping.getNodeG1().getASTStatement();
+        Statement statement2 = nodeMapping.getNodeG2().getASTStatement();
+        StatementType statementType = nodeMapping.getNodeG1().getStatement().getType();
+
         ArrayList<RFNodeDifference> nodeDifferences = new ArrayList<>();
         for (ASTNodeDifference astNodeDifference : nodeMapping.getNodeDifferences()) {
             Expression expr1 = astNodeDifference.getExpression1().getExpression();
             Expression expr2 = astNodeDifference.getExpression2().getExpression();
+            ASTNodeUtil.matchDiffNode(expr1, expr2, statement1, statement2);
             List<Difference> differences = astNodeDifference.getDifferences();
             nodeDifferences.add(new RFNodeDifference(expr1, expr2, differences));
         }
 
-        Statement statement1 = nodeMapping.getNodeG1().getASTStatement();
-        Statement statement2 = nodeMapping.getNodeG2().getASTStatement();
-
         assert nodeMapping.getNodeG1().getStatement().getType() == nodeMapping.getNodeG2().getStatement().getType();
-        StatementType statementType = nodeMapping.getNodeG1().getStatement().getType();
 
         return createRFStmtByStmtType(statementType, statement1, statement2, nodeDifferences, template);
     }

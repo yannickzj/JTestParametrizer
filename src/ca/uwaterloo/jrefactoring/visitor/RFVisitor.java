@@ -6,7 +6,6 @@ import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.template.TypePair;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
-import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import gr.uom.java.ast.decomposition.matching.DifferenceType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
@@ -75,6 +74,7 @@ public class RFVisitor extends ASTVisitor {
         return argTypeNames;
     }
 
+    /*
     private RFNodeDifference retrieveDiffInTypeNode(Type type) {
         if (type.isSimpleType()) {
             SimpleType simpleType = (SimpleType) type;
@@ -117,6 +117,7 @@ public class RFVisitor extends ASTVisitor {
             throw new IllegalStateException("unexpected expression node: " + node);
         }
     }
+    */
 
     private byte getPrimitiveNum(PrimitiveType p) {
         if (p.getPrimitiveTypeCode() == PrimitiveType.BYTE) {
@@ -349,49 +350,56 @@ public class RFVisitor extends ASTVisitor {
     @Override
     public boolean visit(ClassInstanceCreation node) {
 
-        // refactor arguments
-        List<Expression> arguments = node.arguments();
-        for (Expression argument : arguments) {
-            argument.accept(this);
-        }
+        if (ASTNodeUtil.hasPairedNode(node)) {
 
-        RFNodeDifference diff = retrieveDiffInTypeNode(node.getType());
-        if (diff != null) {
-
-            // resolve generic type
-            String genericTypeName = template.resolveTypePair(diff.getTypePair(), false);
-            String clazzName = template.resolveGenericType(genericTypeName);
-
-            // add generic type relation if declaration type is not the same as the instance creation type
-            Type declarationType = template.getTypeByInstanceCreation(node);
-            if (declarationType != null && !declarationType.toString().equals(genericTypeName)) {
-                template.addGenericTypeBound(genericTypeName, declarationType.toString());
-            }
-
-            // replace initializer
-            MethodInvocation newInstanceMethodInvocation = ast.newMethodInvocation();
-            MethodInvocation getDeclaredConstructorMethodInvocation = ast.newMethodInvocation();
-            newInstanceMethodInvocation.setName(ast.newSimpleName(NEW_INSTANCE_METHOD_NAME));
-            getDeclaredConstructorMethodInvocation.setName(ast.newSimpleName(GET_DECLARED_CONSTRUCTOR_METHOD_NAME));
-
-            if (arguments.size() > 0) {
-                newInstanceMethodInvocation.setExpression(getDeclaredConstructorMethodInvocation);
-                getDeclaredConstructorMethodInvocation.setExpression(ast.newSimpleName(clazzName));
-            } else {
-                newInstanceMethodInvocation.setExpression(ast.newSimpleName(clazzName));
-            }
-            replaceNode(node, newInstanceMethodInvocation, ast.newSimpleType(ast.newSimpleName(genericTypeName)));
-
-            // copy parameters
+            // refactor arguments
+            List<Expression> arguments = node.arguments();
             for (Expression argument : arguments) {
-                TypeLiteral typeLiteral = ast.newTypeLiteral();
-                Type type = ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding());
-                typeLiteral.setType(type);
-                getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
-                Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
-                newInstanceMethodInvocation.arguments().add(newArg);
+                if (ASTNodeUtil.hasPairedNode(argument)) {
+                    argument.accept(this);
+                }
             }
 
+            //RFNodeDifference diff = retrieveDiffInTypeNode(node.getType());
+            Type type = node.getType();
+            if (ASTNodeUtil.hasPairedNode(type)) {
+
+                // resolve generic type
+                Type pairedType = (Type) type.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+                TypePair typePair = new TypePair(type.resolveBinding(), pairedType.resolveBinding());
+                String genericTypeName = template.resolveTypePair(typePair, false);
+                String clazzName = template.resolveGenericType(genericTypeName);
+
+                // add generic type relation if declaration type is not the same as the instance creation type
+                Type declarationType = template.getTypeByInstanceCreation(node);
+                if (declarationType != null && !declarationType.toString().equals(genericTypeName)) {
+                    template.addGenericTypeBound(genericTypeName, declarationType.toString());
+                }
+
+                // replace initializer
+                MethodInvocation newInstanceMethodInvocation = ast.newMethodInvocation();
+                MethodInvocation getDeclaredConstructorMethodInvocation = ast.newMethodInvocation();
+                newInstanceMethodInvocation.setName(ast.newSimpleName(NEW_INSTANCE_METHOD_NAME));
+                getDeclaredConstructorMethodInvocation.setName(ast.newSimpleName(GET_DECLARED_CONSTRUCTOR_METHOD_NAME));
+
+                if (arguments.size() > 0) {
+                    newInstanceMethodInvocation.setExpression(getDeclaredConstructorMethodInvocation);
+                    getDeclaredConstructorMethodInvocation.setExpression(ast.newSimpleName(clazzName));
+                } else {
+                    newInstanceMethodInvocation.setExpression(ast.newSimpleName(clazzName));
+                }
+                replaceNode(node, newInstanceMethodInvocation, ast.newSimpleType(ast.newSimpleName(genericTypeName)));
+
+                // copy parameters
+                for (Expression argument : arguments) {
+                    TypeLiteral typeLiteral = ast.newTypeLiteral();
+                    typeLiteral.setType(ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding()));
+                    getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
+                    Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
+                    newInstanceMethodInvocation.arguments().add(newArg);
+                }
+
+            }
         }
 
         return false;
@@ -400,75 +408,76 @@ public class RFVisitor extends ASTVisitor {
     @Override
     public boolean visit(MethodInvocation node) {
 
-        List<Expression> arguments1 = node.arguments();
-        List<String> argTypeNames1 = getArgTypeNames(arguments1);
+        if (ASTNodeUtil.hasPairedNode(node)) {
 
-        // refactor arguments
-        for (Expression argument : arguments1) {
-            argument.accept(this);
-        }
+            Expression expr1 = node.getExpression();
+            SimpleName name1 = node.getName();
+            List<Expression> arguments1 = node.arguments();
 
-        Expression expr1 = node.getExpression();
-        SimpleName name1 = node.getName();
-        RFNodeDifference diffInExpr = retrieveDiffInMethodInvocation(expr1);
-        RFNodeDifference diffInName = retrieveDiffInName(name1);
+            // get original argument type names
+            List<String> argTypeNames1 = getArgTypeNames(arguments1);
 
-        // check if common super class can be used
-        if (diffInName == null && diffInExpr != null) {
+            // refactor arguments
+            for (Expression argument : arguments1) {
+                if (ASTNodeUtil.hasPairedNode(argument)) {
+                    argument.accept(this);
+                }
+            }
 
-            Set<DifferenceType> differenceTypes = diffInExpr.getDifferenceTypes();
+            // check if common super class can be used
+            if (!ASTNodeUtil.hasPairedNode(name1) && ASTNodeUtil.hasPairedNode(expr1)) {
 
-            if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
-                ITypeBinding commonSuperClass = template.getLowestCommonSubClass(diffInExpr.getTypePair());
-                if (commonSuperClass != null) {
-                    for (IMethodBinding methodBinding : commonSuperClass.getDeclaredMethods()) {
-                        if (methodBinding.getName().equals(name1.getIdentifier())) {
-                            log.info("Same method found in common super class [" +
-                                    commonSuperClass.getQualifiedName() + "]: " + methodBinding.getName());
-                            expr1.accept(this);
-                            return false;
+                Expression expr2 = (Expression) expr1.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+                TypePair typePair = new TypePair(expr1.resolveTypeBinding(), expr2.resolveTypeBinding());
+
+                if (!typePair.isSame()) {
+                    ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
+                    if (commonSuperClass != null) {
+                        for (IMethodBinding methodBinding : commonSuperClass.getDeclaredMethods()) {
+                            if (methodBinding.getName().equals(name1.getIdentifier())) {
+                                log.info("Same method found in common super class [" +
+                                        commonSuperClass.getQualifiedName() + "]: " + methodBinding.getName());
+                                expr1.accept(this);
+                                return false;
+                            }
                         }
                     }
+
+                } else {
+                    log.info("continue to resolve inner expression diff without creating new adapter action");
+                    expr1.accept(this);
+                    return false;
                 }
 
-            } else {
-                log.info("resolve method expression diff without creating new adapter action");
+            }
+
+            // create new adapter action
+            if (ASTNodeUtil.hasPairedNode(name1) || ASTNodeUtil.hasPairedNode(expr1)) {
+
+                // retrieve paired method invocation node
+                MethodInvocation pairedNode = (MethodInvocation) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+
+                // construct method invocation pair
+                Type exprType1 = ASTNodeUtil.typeFromExpr(ast, expr1);
+                Type exprType2 = ASTNodeUtil.typeFromExpr(ast, pairedNode.getExpression());
+                SimpleName name2 = pairedNode.getName();
+                List<String> argTypeNames2 = getArgTypeNames(pairedNode.arguments());
+                MethodInvocationPair methodInvocationPair = new MethodInvocationPair(exprType1.toString(),
+                        name1.getIdentifier(), argTypeNames1, exprType2.toString(), name2.getIdentifier(), argTypeNames2);
+
+                // refactor the method invocation expression
                 expr1.accept(this);
-                return false;
+
+                // create new method invocation in adapter
+                Type returnType = ASTNodeUtil.typeFromExpr(ast, node);
+                MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments1,
+                        methodInvocationPair, returnType);
+
+                // replace the old method
+                Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
+                replaceNode(node, newMethod, type);
+
             }
-
-        }
-
-        if (diffInExpr != null || diffInName != null) {
-
-            // retrieve paired method invocation node
-            MethodInvocation pairedNode;
-            if (diffInExpr != null) {
-                pairedNode = (MethodInvocation) diffInExpr.getExpr2().getParent();
-            } else {
-                pairedNode = (MethodInvocation) diffInName.getExpr2().getParent();
-            }
-
-            // construct method invocation pair
-            Type exprType1 = ASTNodeUtil.typeFromExpr(ast, expr1);
-            Type exprType2 = ASTNodeUtil.typeFromExpr(ast, pairedNode.getExpression());
-            SimpleName name2 = pairedNode.getName();
-            List<String> argTypeNames2 = getArgTypeNames(pairedNode.arguments());
-            MethodInvocationPair methodInvocationPair = new MethodInvocationPair(exprType1.toString(),
-                    name1.getIdentifier(), argTypeNames1, exprType2.toString(), name2.getIdentifier(), argTypeNames2);
-
-            // refactor the method invocation expression
-            expr1.accept(this);
-
-            // create new method invocation in adapter
-            Type returnType = ASTNodeUtil.typeFromExpr(ast, node);
-            MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments1,
-                    methodInvocationPair, returnType);
-
-            // replace the old method
-            Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
-            replaceNode(node, newMethod, type);
-
         }
 
         return false;
@@ -478,10 +487,31 @@ public class RFVisitor extends ASTVisitor {
     public boolean visit(VariableDeclarationExpression node) {
 
         // refactor type
-        node.getType().accept(this);
+        Type type = node.getType();
+        if (ASTNodeUtil.hasPairedNode(type)) {
+            type.accept(this);
+        }
 
         // refactor fragments
         refactorVariableDeclarationFragment(node.getType(), node.fragments(), "i");
+
+        return false;
+    }
+
+    private boolean refactorTypeCompatibleReplacement(Expression initializer, Type type) {
+        /**
+         * if initializer contains TYPE_COMPATIBAL_REPLACEMENT diff, create empter adapter action,
+         * action arguments should be specified manually
+         */
+        RFNodeDifference diff = (RFNodeDifference) initializer.getProperty(ASTNodeUtil.PROPERTY_DIFF);
+        if (diff != null) {
+            if (diff.getDifferenceTypes().contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)) {
+                MethodInvocation methodInvocation = template.createAdapterActionMethod(type);
+                log.info("adapter action arguments should be specified manually in " + methodInvocation);
+                replaceNode(initializer, methodInvocation, type);
+                return true;
+            }
+        }
 
         return false;
     }
@@ -490,30 +520,30 @@ public class RFVisitor extends ASTVisitor {
 
         for (VariableDeclarationFragment fragment : fragments) {
 
-            // refactor name and register variable
-            registerVariablePair(fragment.getName(), prefix);
+            if (ASTNodeUtil.hasPairedNode(fragment)) {
 
-            Expression initializer = fragment.getInitializer();
+                // refactor name and register variable
+                SimpleName simpleName = fragment.getName();
+                if (ASTNodeUtil.hasPairedNode(simpleName)) {
+                    registerVariablePair(simpleName, prefix);
+                }
 
-            /**
-             * if initializer contains TYPE_COMPATIBAL_REPLACEMENT diff, create empter adapter action,
-             * action arguments should be specified manually
-             */
-            RFNodeDifference diff = (RFNodeDifference) initializer.getProperty(ASTNodeUtil.PROPERTY_DIFF);
-            if (diff != null) {
-                if (diff.getDifferenceTypes().contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)) {
-                    MethodInvocation methodInvocation = template.createAdapterActionMethod(type);
-                    log.info("adapter action arguments should be specified manually in " + methodInvocation);
-                    replaceNode(initializer, methodInvocation, type);
-                    continue;
+                Expression initializer = fragment.getInitializer();
+                if (ASTNodeUtil.hasPairedNode(initializer)) {
+                    // check TYPE_COMPATIBLE_REPLACEMENT diff
+                    if (refactorTypeCompatibleReplacement(initializer, type)) {
+                        continue;
+                    }
+
+                    // register ClassInstanceCreation initializer
+                    if (initializer instanceof ClassInstanceCreation) {
+                        template.addInstanceCreation((ClassInstanceCreation) initializer, type);
+                    }
+
+                    // refactor initializer
+                    initializer.accept(this);
                 }
             }
-
-            // register ClassInstanceCreation initializer
-            if (initializer instanceof ClassInstanceCreation) {
-                template.addInstanceCreation((ClassInstanceCreation) initializer, type);
-            }
-            initializer.accept(this);
         }
     }
 
@@ -547,7 +577,10 @@ public class RFVisitor extends ASTVisitor {
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
 
             // refactor type
-            stmt1.getType().accept(this);
+            Type type = stmt1.getType();
+            if (ASTNodeUtil.hasPairedNode(type)) {
+                type.accept(this);
+            }
 
             // refactor fragments
             refactorVariableDeclarationFragment(stmt1.getType(), stmt1.fragments(), "v");
