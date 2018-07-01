@@ -416,6 +416,7 @@ public class RFVisitor extends ASTVisitor {
 
             // get original argument type names
             List<String> argTypeNames1 = getArgTypeNames(arguments1);
+            List<Expression> originalArgs1 = ASTNode.copySubtrees(ast, arguments1);
 
             // refactor arguments
             for (Expression argument : arguments1) {
@@ -458,12 +459,11 @@ public class RFVisitor extends ASTVisitor {
                 MethodInvocation pairedNode = (MethodInvocation) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
 
                 // construct method invocation pair
-                Type exprType1 = ASTNodeUtil.typeFromExpr(ast, expr1);
-                Type exprType2 = ASTNodeUtil.typeFromExpr(ast, pairedNode.getExpression());
-                SimpleName name2 = pairedNode.getName();
+                List<Expression> originalArgs2 = pairedNode.arguments();
                 List<String> argTypeNames2 = getArgTypeNames(pairedNode.arguments());
-                MethodInvocationPair methodInvocationPair = new MethodInvocationPair(exprType1.toString(),
-                        name1.getIdentifier(), argTypeNames1, exprType2.toString(), name2.getIdentifier(), argTypeNames2);
+                MethodInvocationPair methodInvocationPair = new MethodInvocationPair(expr1, name1,
+                        pairedNode.getExpression(), pairedNode.getName(), argTypeNames1, argTypeNames2,
+                        originalArgs1, originalArgs2);
 
                 // refactor the method invocation expression
                 expr1.accept(this);
@@ -472,10 +472,6 @@ public class RFVisitor extends ASTVisitor {
                 Type returnType = ASTNodeUtil.typeFromExpr(ast, node);
                 MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments1,
                         methodInvocationPair, returnType);
-
-                // create adapter implementation1
-
-                // create adapter implementation2
 
                 // replace the old method
                 Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());

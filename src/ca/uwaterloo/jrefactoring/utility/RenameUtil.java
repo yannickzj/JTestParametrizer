@@ -101,4 +101,11 @@ public class RenameUtil {
         }
     }
 
+    public static String[] getAdapterImplNamePair(String adapterName) {
+        String[] namePair = new String[2];
+        namePair[0] = adapterName + "Impl1";
+        namePair[1] = adapterName + "Impl2";
+        return namePair;
+    }
+
 }

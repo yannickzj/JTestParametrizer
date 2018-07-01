@@ -23,6 +23,7 @@ public class CloneRefactor {
         String templateName = RenameUtil.getTemplateName(pairInfo.getFirstMethodSignature(), pairInfo.getSecondMethodSignature());
         String adapterName = RenameUtil.getAdapterName(pairInfo.getFirstClass(), pairInfo.getFirstPackage(),
                 pairInfo.getSecondClass(), pairInfo.getSecondPackage());
+        String[] adapterImplNamePair = RenameUtil.getAdapterImplNamePair(adapterName);
 
         assert pairInfo.getPDFSubTreeMappersInfoList().size() == 1;
         for (PDGSubTreeMapperInfo mapperInfo : pairInfo.getPDFSubTreeMappersInfoList()) {
@@ -33,17 +34,18 @@ public class CloneRefactor {
 
             // perform source-to-source refactoring transformation
             if (cloneType.equals(CloneType.TYPE_2)) {
-                transform(root, templateName, adapterName);
+                transform(root, templateName, adapterName, adapterImplNamePair);
             } else {
                 log.info("Unhandled CloneType: " + cloneType.toString());
             }
         }
     }
 
-    private static void transform(CloneStructureNode root, String templateName, String adapterName) {
+    private static void transform(CloneStructureNode root, String templateName,
+                                  String adapterName, String[] adapterImplNamePair) {
         if (root != null) {
             // create the refactoring template
-            RFTemplate template = new RFTemplate(getAST1(root), templateName, adapterName);
+            RFTemplate template = new RFTemplate(getAST1(root), templateName, adapterName, adapterImplNamePair);
 
             // construct the refactoring tree
             RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);

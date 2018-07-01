@@ -1,33 +1,88 @@
 package ca.uwaterloo.jrefactoring.template;
 
+import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
+import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.SimpleName;
+import org.eclipse.jdt.core.dom.Type;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
 public class MethodInvocationPair {
-    private String exprType1;
-    private String exprType2;
-    private String name1;
-    private String name2;
+    private Expression expr1;
+    private Expression expr2;
+    private SimpleName name1;
+    private SimpleName name2;
+    private List<Expression> argument1;
+    private List<Expression> argument2;
     private List<String> argTypeNames1;
     private List<String> argTypeNames2;
+    //private List<Expression> argument;
+    private Type exprType1;
+    private Type exprType2;
 
-    public MethodInvocationPair(String expr1, String name1, List<String> argTypeNames1,
-                                String expr2, String name2, List<String> argTypeNames2) {
-        this.exprType1 = expr1;
+    public MethodInvocationPair(Expression expr1, SimpleName name1, Expression expr2, SimpleName name2,
+                                List<String> argTypeNames1, List<String> argTypeNames2,
+                                List<Expression> argument1, List<Expression> argument2) {
+        this.expr1= expr1;
         this.name1 = name1;
-        this.argTypeNames1 = argTypeNames1;
-
-        this.exprType2 = expr2;
+        this.expr2 = expr2;
         this.name2 = name2;
+        this.argTypeNames1 = argTypeNames1;
         this.argTypeNames2 = argTypeNames2;
+        this.argument1 = argument1;
+        this.argument2 = argument2;
+        this.exprType1 = ASTNodeUtil.typeFromExpr(expr1.getAST(), expr1);
+        this.exprType2 = ASTNodeUtil.typeFromExpr(expr2.getAST(), expr2);
+    }
+
+    public Expression getExpr1() {
+        return expr1;
+    }
+
+    public Expression getExpr2() {
+        return expr2;
+    }
+
+    public SimpleName getName1() {
+        return name1;
+    }
+
+    public SimpleName getName2() {
+        return name2;
+    }
+
+    public List<String> getArgTypeNames1() {
+        return argTypeNames1;
+    }
+
+    public List<String> getArgTypeNames2() {
+        return argTypeNames2;
+    }
+
+    public Type getExprType1() {
+        return exprType1;
+    }
+
+    public Type getExprType2() {
+        return exprType2;
+    }
+
+    public List<Expression> getArgument1() {
+        return argument1;
+    }
+
+    public List<Expression> getArgument2() {
+        return argument2;
     }
 
     @Override
     public int hashCode() {
         int hash1 = Arrays.hashCode(argTypeNames1.toArray());
         int hash2 = Arrays.hashCode(argTypeNames2.toArray());
-        return Objects.hash(exprType1, exprType2, name1, name2, hash1, hash2);
+        return Objects.hash(exprType1.toString(), exprType2.toString(),
+                name1.getIdentifier(), name2.getIdentifier(), hash1, hash2);
     }
 
     @Override
@@ -52,8 +107,10 @@ public class MethodInvocationPair {
             }
         }
 
-        return exprType1.equals(other.exprType1) && exprType2.equals(other.exprType2)
-                && name1.equals(other.name1) && name2.equals(other.name2);
+        return exprType1.toString().equals(other.exprType1.toString())
+                && exprType2.toString().equals(other.exprType2.toString())
+                && name1.getIdentifier().equals(other.name1.getIdentifier())
+                && name2.getIdentifier().equals(other.name2.getIdentifier());
     }
 
     @Override
