@@ -338,6 +338,7 @@ public class RFTemplate {
             String newActionName = DEFAULT_ADAPTER_METHOD_NAME + actionCount++;
             newMethod.setName(ast.newSimpleName(newActionName));
             addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
+            newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNode.copySubtree(ast, returnType));
             methodInvocationMap.put(pair, newActionName);
         }
 

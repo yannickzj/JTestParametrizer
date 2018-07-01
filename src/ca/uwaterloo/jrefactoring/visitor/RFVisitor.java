@@ -473,6 +473,10 @@ public class RFVisitor extends ASTVisitor {
                 MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments1,
                         methodInvocationPair, returnType);
 
+                // create adapter implementation1
+
+                // create adapter implementation2
+
                 // replace the old method
                 Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
                 replaceNode(node, newMethod, type);
