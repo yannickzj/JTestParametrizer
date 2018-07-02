@@ -341,8 +341,31 @@ public class RFTemplate {
         adapter.bodyDeclarations().add(methodDeclaration);
     }
 
-    private MethodDeclaration addMethodInAdapterImpl(SimpleName actionName, List<Type> argTypes, Expression expr,
-                                                    SimpleName name, List<Expression> arguments, Type returnType) {
+    private enum Pair {
+        member1,
+        member2
+    }
+
+    private MethodDeclaration addMethodInAdapterImpl(SimpleName actionName, List<Type> argTypes,
+                                                     MethodInvocationPair methodInvocationPair,
+                                                     Type returnType, Pair pair) {
+
+        Expression expr;
+        SimpleName name;
+        List<Expression> arguments;
+
+        switch (pair) {
+            case member1:
+                expr = methodInvocationPair.getExpr1();
+                name = methodInvocationPair.getName1();
+                arguments = methodInvocationPair.getArgument1();
+                break;
+            case member2:
+            default:
+                expr = methodInvocationPair.getExpr2();
+                name = methodInvocationPair.getName2();
+                arguments = methodInvocationPair.getArgument2();
+        }
 
         MethodDeclaration method = ast.newMethodDeclaration();
         method.setBody(ast.newBlock());
@@ -364,11 +387,52 @@ public class RFTemplate {
         assert argTypes.size() == arguments.size() + 1;
 
         for (int i = 0; i < argTypes.size(); i++) {
-            if (i == 0) {
+
+            // set method variable declaration type
+            SingleVariableDeclaration variableDeclaration = ast.newSingleVariableDeclaration();
+            Type curType = argTypes.get(i);
+            String argTypeName = curType.toString();
+            if (genericTypeMap.containsKey(argTypeName)) {
+                TypePair typePair = genericTypeMap.get(argTypeName);
+
+                Type argType;
+                if (pair == Pair.member1) {
+                    argType = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
+                } else {
+                    argType = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+                }
+                variableDeclaration.setType((Type) ASTNode.copySubtree(ast, argType));
 
             } else {
-
+                variableDeclaration.setType((Type) ASTNode.copySubtree(ast, curType));
             }
+
+            Expression curExpr;
+            if (i == 0) {
+                curExpr = expr;
+            } else {
+                curExpr = arguments.get(i - 1);
+            }
+
+            // set method expr variable name
+            SimpleName curName;
+            if (curExpr instanceof SimpleName) {
+                curName = (SimpleName) curExpr;
+
+            } else {
+                String argName = curType.toString().toLowerCase();
+                int argCount = argMap.getOrDefault(argName, 1);
+                curName = ast.newSimpleName(RenameUtil.rename(curType, argCount));
+            }
+            variableDeclaration.setName((SimpleName) ASTNode.copySubtree(ast, curName));
+            method.parameters().add(variableDeclaration);
+
+            if (i == 0) {
+                methodInvocation.setExpression((Expression) ASTNode.copySubtree(ast, curName));
+            } else {
+                methodInvocation.arguments().add(ASTNode.copySubtree(ast, curName));
+            }
+
         }
 
         // add expressionStmt to method
@@ -379,57 +443,10 @@ public class RFTemplate {
     }
 
     private void addAdapterActionImpl(SimpleName actionName, List<Type> argTypes, MethodInvocationPair pair, Type returnType) {
-
-        /*
-        MethodDeclaration method1 = ast.newMethodDeclaration();
-        method1.setBody(ast.newBlock());
-
-        // set return type
-        method1.setReturnType2((Type) ASTNode.copySubtree(ast, returnType));
-
-        // set interface action name
-        method1.setName((SimpleName) ASTNode.copySubtree(ast, actionName));
-
-        // set modifier
-        method1.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PUBLIC_KEYWORD));
-
-        // create method invocation
-        MethodInvocation methodInvocation1 = ast.newMethodInvocation();
-        methodInvocation1.setName((SimpleName) ASTNode.copySubtree(ast, pair.getName1()));
-        Map<String, Integer> argMap = new HashMap<>();
-
-        // set method expr variable declaration type
-        SingleVariableDeclaration exprVariableDeclaration = ast.newSingleVariableDeclaration();
-        String exprName = argTypes.get(0).toString();
-        if (genericTypeMap.containsKey(exprName)) {
-            TypePair typePair = genericTypeMap.get(exprName);
-            Type exprType1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
-            exprVariableDeclaration.setType((Type) ASTNode.copySubtree(ast, exprType1));
-
-        } else {
-            exprVariableDeclaration.setType((Type) ASTNode.copySubtree(ast, argTypes.get(0)));
-        }
-
-        // set method expr variable name
-        SimpleName exprSimpleName;
-        if (pair.getExpr1() instanceof SimpleName) {
-            exprSimpleName = (SimpleName) pair.getExpr1();
-
-        } else {
-            String argName = argTypes.get(0).toString().toLowerCase();
-            int argCount = argMap.getOrDefault(argName, 1);
-            exprSimpleName = ast.newSimpleName(RenameUtil.rename(argTypes.get(0), argCount));
-        }
-        exprVariableDeclaration.setName((SimpleName) ASTNode.copySubtree(ast, exprSimpleName));
-        methodInvocation1.setName((SimpleName) ASTNode.copySubtree(ast, exprSimpleName));
-
-        ExpressionStatement expressionStmt = ast.newExpressionStatement(methodInvocation1);
-        method1.getBody().statements().add(expressionStmt);
-        */
-
-        MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair.getExpr1(), pair.getName1(),
-                pair.getArgument1(), returnType);
+        MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair, returnType, Pair.member1);
+        MethodDeclaration method2 = addMethodInAdapterImpl(actionName, argTypes, pair, returnType, Pair.member2);
         adapterImpl1.bodyDeclarations().add(method1);
+        adapterImpl2.bodyDeclarations().add(method2);
     }
 
     private void addAdapterVariableParameter() {
