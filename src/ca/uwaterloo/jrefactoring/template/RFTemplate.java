@@ -453,6 +453,7 @@ public class RFTemplate {
                 String argName = curType.toString().toLowerCase();
                 int argCount = argMap.getOrDefault(argName, 1);
                 curName = ast.newSimpleName(RenameUtil.rename(curType, argCount));
+                argMap.put(argName, argCount + 1);
             }
             variableDeclaration.setName((SimpleName) ASTNode.copySubtree(ast, curName));
             method.parameters().add(variableDeclaration);
@@ -465,9 +466,59 @@ public class RFTemplate {
 
         }
 
-        // add expressionStmt to method
-        ExpressionStatement expressionStmt = ast.newExpressionStatement(methodInvocation);
-        method.getBody().statements().add(expressionStmt);
+        // add statement to method
+        Statement statement;
+        if (returnType.isPrimitiveType() && ((PrimitiveType) returnType).getPrimitiveTypeCode() == PrimitiveType.VOID) {
+            statement = ast.newExpressionStatement(methodInvocation);
+        } else {
+            ReturnStatement returnStatement = ast.newReturnStatement();
+            returnStatement.setExpression(methodInvocation);
+            statement = returnStatement;
+        }
+        method.getBody().statements().add(statement);
+
+        return method;
+    }
+
+    private MethodDeclaration addMethodInAdapterImpl(SimpleName actionName, List<Type> argTypes, Type returnType, Pair pair) {
+
+        MethodDeclaration method = ast.newMethodDeclaration();
+        method.setBody(ast.newBlock());
+
+        // set return type
+        method.setReturnType2((Type) ASTNode.copySubtree(ast, returnType));
+
+        // set interface action name
+        method.setName((SimpleName) ASTNode.copySubtree(ast, actionName));
+
+        // set modifier
+        method.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PUBLIC_KEYWORD));
+
+        assert argTypes.size() == 2;
+
+        // set method parameters
+        Map<String, Integer> argMap = new HashMap<>();
+        for (Type argType: argTypes) {
+            SingleVariableDeclaration variableDeclaration = ast.newSingleVariableDeclaration();
+            variableDeclaration.setType((Type) ASTNode.copySubtree(ast, argType));
+            int argCount = argMap.getOrDefault(argType.toString(), 1);
+            variableDeclaration.setName(ast.newSimpleName(RenameUtil.rename(argType, argCount)));
+            argMap.put(argType.toString(), argCount + 1);
+            method.parameters().add(variableDeclaration);
+        }
+
+        // get return variable name
+        SimpleName returnVariableName;
+        if (pair == Pair.member1) {
+            returnVariableName = ((SingleVariableDeclaration) method.parameters().get(0)).getName();
+        } else {
+            returnVariableName = ((SingleVariableDeclaration) method.parameters().get(1)).getName();
+        }
+
+        // add return statement to method
+        ReturnStatement returnStatement = ast.newReturnStatement();
+        returnStatement.setExpression((Expression) ASTNode.copySubtree(ast, returnVariableName));
+        method.getBody().statements().add(returnStatement);
 
         return method;
     }
@@ -475,6 +526,13 @@ public class RFTemplate {
     private void addAdapterActionImpl(SimpleName actionName, List<Type> argTypes, MethodInvocationPair pair, Type returnType) {
         MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair, returnType, Pair.member1);
         MethodDeclaration method2 = addMethodInAdapterImpl(actionName, argTypes, pair, returnType, Pair.member2);
+        adapterImpl1.bodyDeclarations().add(method1);
+        adapterImpl2.bodyDeclarations().add(method2);
+    }
+
+    private void addAdapterActionImpl(SimpleName actionName, List<Type> argTypes, Type returnType) {
+        MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, returnType, Pair.member1);
+        MethodDeclaration method2 = addMethodInAdapterImpl(actionName, argTypes, returnType, Pair.member2);
         adapterImpl1.bodyDeclarations().add(method1);
         adapterImpl2.bodyDeclarations().add(method2);
     }
@@ -545,7 +603,11 @@ public class RFTemplate {
         argTypes.add(resolveAdapterActionArgumentType(e1));
         argTypes.add(resolveAdapterActionArgumentType(e2));
 
+        // add method in adapter interface
         addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
+
+        // create adapter action impl
+        addAdapterActionImpl(newMethod.getName(), argTypes, returnType);
 
         return newMethod;
     }
