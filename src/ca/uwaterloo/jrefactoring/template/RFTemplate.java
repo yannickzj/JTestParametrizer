@@ -106,9 +106,9 @@ public class RFTemplate {
         adapterImpl2.setName(ast.newSimpleName(adapterImplName2));
 
         Type interfaceType = ast.newSimpleType(ast.newSimpleName(adapter.getName().getIdentifier()));
-        ParameterizedType parameterizedType = ast.newParameterizedType((Type) ASTNode.copySubtree(ast, interfaceType));
-        adapterImpl1.superInterfaceTypes().add(ASTNode.copySubtree(ast, parameterizedType));
-        adapterImpl2.superInterfaceTypes().add(ASTNode.copySubtree(ast, parameterizedType));
+        //ParameterizedType parameterizedType = ast.newParameterizedType((Type) ASTNode.copySubtree(ast, interfaceType));
+        adapterImpl1.superInterfaceTypes().add(ASTNode.copySubtree(ast, interfaceType));
+        adapterImpl2.superInterfaceTypes().add(ASTNode.copySubtree(ast, interfaceType));
     }
 
     public AST getAst() {
@@ -225,15 +225,45 @@ public class RFTemplate {
         return clazzInstanceMap.get(genericType);
     }
 
+    private void addTypeParameterAdapterImpl(Type type, List<Type> superInterfaceTypes) {
+        Type interfaceType = superInterfaceTypes.get(0);
+        ParameterizedType parameterizedType;
+        if (interfaceType instanceof SimpleType) {
+            parameterizedType =
+                    ast.newParameterizedType((Type) ASTNode.copySubtree(ast, interfaceType));
+            parameterizedType.typeArguments().add(type);
+            superInterfaceTypes.remove(0);
+            superInterfaceTypes.add(parameterizedType);
+
+        } else {
+            parameterizedType = (ParameterizedType) interfaceType;
+            parameterizedType.typeArguments().add(type);
+        }
+    }
+
     private Type resolveAdapterActionArgumentType(Expression expr) {
         Type exprType = (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
         if (exprType != null) {
             if (typeMap.values().contains(exprType.toString())
                     && !adapterTypes.contains(exprType.toString())) {
+
+                // add type parameter in adapter interface
                 TypeParameter typeParameter = ast.newTypeParameter();
                 typeParameter.setName(ast.newSimpleName(exprType.toString()));
                 adapter.typeParameters().add(typeParameter);
+
+                // add type parameter in adapter impl
+                TypePair typePair = genericTypeMap.get(exprType.toString());
+                if (typePair != null) {
+                    Type type1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
+                    Type type2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+                    addTypeParameterAdapterImpl(type1, adapterImpl1.superInterfaceTypes());
+                    addTypeParameterAdapterImpl(type2, adapterImpl2.superInterfaceTypes());
+                }
+
+                // add adapter variable
                 addAdapterVariableTypeParameter(exprType);
+
                 adapterTypes.add(exprType.toString());
             }
             return exprType;
