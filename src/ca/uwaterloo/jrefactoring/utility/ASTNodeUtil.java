@@ -1,5 +1,7 @@
 package ca.uwaterloo.jrefactoring.utility;
 
+import gr.uom.java.ast.*;
+import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.dom.*;
 
 import java.util.List;
@@ -91,6 +93,38 @@ public class ASTNodeUtil {
             } else if (node1 != root1 || node2 != root2) {
                 throw new IllegalStateException("unmatched diff node structure: " + node1 + ", " + node2);
             }
+        }
+    }
+
+    public static MethodDeclaration retrieveMethodDeclarationNode(IMethod iMethod, int startOffset, int endOffset, boolean clearCache)
+            throws Exception {
+        SystemObject systemObject = ASTReader.getSystemObject();
+        AbstractMethodDeclaration methodObject = systemObject.getMethodObject(iMethod);
+
+        if (methodObject != null && methodObject.getMethodBody() != null) {
+
+            if (clearCache) {
+                CompilationUnitCache.getInstance().clearCache();
+            }
+            ClassDeclarationObject classObject;
+
+            if (iMethod.getDeclaringType().isAnonymous()) {
+                classObject = systemObject.getAnonymousClassDeclaration(iMethod.getDeclaringType());
+            } else {
+                classObject = systemObject.getClassObject(methodObject.getClassName());
+            }
+
+            ASTNode node = NodeFinder.perform(classObject.getClassObject().getAbstractTypeDeclaration().getRoot(),
+                    startOffset, endOffset - startOffset);
+
+            if (node instanceof MethodDeclaration) {
+                return (MethodDeclaration) node;
+            } else {
+                return null;
+            }
+
+        } else {
+            return null;
         }
     }
 }

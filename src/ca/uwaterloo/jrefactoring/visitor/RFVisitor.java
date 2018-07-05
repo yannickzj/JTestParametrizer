@@ -58,6 +58,7 @@ public class RFVisitor extends ASTVisitor {
     private void pullUpToParameter(Expression node) {
         RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         if (diff != null) {
+            template.addTemplateArgumentPair(node, diff.getExpr2());
             Type type = ASTNodeUtil.typeFromExpr(ast, node);
             String variableParameter = template.addVariableParameter(type);
             SimpleName newNode = ast.newSimpleName(variableParameter);

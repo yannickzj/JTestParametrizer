@@ -232,7 +232,7 @@ public class ProjectRefactor {
                             clonePairInfo.setEndOffsetOfSecondCodeFragment(secondEndOffset);
 
                             // Only write information to the HTML report, not the CSV files
-                            CloneRefactor.refactor(clonePairInfo);
+                            //CloneRefactor.refactor(clonePairInfo);
                             //htmlWriter.writeCloneInfo(clonePairInfo);
                             //infoWriters.get(0).writeCloneInfo(clonePairInfo);
 
@@ -524,7 +524,7 @@ public class ProjectRefactor {
 
 
                         // Write the stuff to the HTML files and CSV files
-                        CloneRefactor.refactor(clonePairInfo);
+                        CloneRefactor.refactor(clonePairInfo, methodsInfo);
                         //htmlWriter.writeCloneInfo(clonePairInfo);
                         /*
                         for (CloneInfoWriter cloneInfoWriter : infoWriters)

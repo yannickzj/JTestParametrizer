@@ -15,11 +15,11 @@ public class RFTemplate {
     private static final String CLAZZ_NAME_PREFIX = "clazz";
     private static final String CLASS_NAME = "Class";
     private static final String EXCEPTION_NAME = "Exception";
-    private static final String DEFAULT_TEMPLATE_NAME = "template1";
-    private static final String DEFAULT_ADAPTER_TYPE_NAME = "Adapter1";
+    //private static final String DEFAULT_TEMPLATE_NAME = "template1";
+    //private static final String DEFAULT_ADAPTER_TYPE_NAME = "Adapter1";
     private static final String DEFAULT_ADAPTER_VARIABLE_NAME = "adapter";
     private static final String DEFAULT_ADAPTER_METHOD_NAME = "action";
-    private static final String[] DEFAULT_ADAPTER_IMPL_NAME_PAIR = new String[] {"adapter1Impl1", "adapter1Impl2"};
+    //private static final String[] DEFAULT_ADAPTER_IMPL_NAME_PAIR = new String[] {"adapter1Impl1", "adapter1Impl2"};
 
     private AST ast;
     private MethodDeclaration templateMethod;
@@ -36,21 +36,26 @@ public class RFTemplate {
     private SingleVariableDeclaration adapterVariable;
     private Set<String> adapterTypes;
     private Map<ClassInstanceCreation, Type> instanceCreationTypeMap;
+    private List<Expression> templateArguments1;
+    private List<Expression> templateArguments2;
+    private MethodDeclaration method1;
+    private MethodDeclaration method2;
     private int clazzCount;
     private int typeCount;
     private int actionCount;
     private int variableCount;
+    private boolean hasAdapterVariable;
 
+    /*
     public RFTemplate(AST ast) {
         init(ast, DEFAULT_TEMPLATE_NAME, DEFAULT_ADAPTER_TYPE_NAME, DEFAULT_ADAPTER_IMPL_NAME_PAIR);
     }
+    */
 
-    public RFTemplate(AST ast, String templateName, String adapterName, String[] adapterImplNamePair) {
+    public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
+                      String templateName, String adapterName, String[] adapterImplNamePair) {
+
         assert adapterImplNamePair.length == 2;
-        init(ast, templateName, adapterName, adapterImplNamePair);
-    }
-
-    private void init(AST ast, String templateName, String adapterName, String[] adapterImplNamePair) {
         this.ast = ast;
         this.typeMap = new HashMap<>();
         this.genericTypeMap = new HashMap<>();
@@ -65,6 +70,15 @@ public class RFTemplate {
         this.typeCount = 1;
         this.actionCount = 1;
         this.variableCount = 1;
+        this.hasAdapterVariable = false;
+        this.templateArguments1 = new ArrayList<>();
+        this.templateArguments2 = new ArrayList<>();
+        this.method1 = method1;
+        this.method2 = method2;
+        init(templateName, adapterName, adapterImplNamePair);
+    }
+
+    private void init(String templateName, String adapterName, String[] adapterImplNamePair) {
         initTemplate(templateName);
         initAdapter(adapterName);
         initAdapterImpl(adapterImplNamePair[0], adapterImplNamePair[1]);
@@ -111,6 +125,11 @@ public class RFTemplate {
         adapterImpl2.superInterfaceTypes().add(ASTNode.copySubtree(ast, interfaceType));
     }
 
+    public enum Pair {
+        member1,
+        member2
+    }
+
     public AST getAst() {
         return ast;
     }
@@ -135,8 +154,21 @@ public class RFTemplate {
         return typeMap.get(typePair);
     }
 
+    public List<Expression> getTemplateArguments1() {
+        return templateArguments1;
+    }
+
+    public List<Expression> getTemplateArguments2() {
+        return templateArguments2;
+    }
+
     public Type getTypeByInstanceCreation(ClassInstanceCreation instanceCreation) {
         return this.instanceCreationTypeMap.get(instanceCreation);
+    }
+
+    public void addTemplateArgumentPair(Expression arg1, Expression arg2) {
+        this.templateArguments1.add((Expression) ASTNode.copySubtree(ast, arg1));
+        this.templateArguments2.add((Expression) ASTNode.copySubtree(ast, arg2));
     }
 
     public void addStatement(Statement statement) {
@@ -371,11 +403,6 @@ public class RFTemplate {
         adapter.bodyDeclarations().add(methodDeclaration);
     }
 
-    private enum Pair {
-        member1,
-        member2
-    }
-
     private MethodDeclaration addMethodInAdapterImpl(SimpleName actionName, List<Type> argTypes,
                                                      MethodInvocationPair methodInvocationPair,
                                                      Type returnType, Pair pair) {
@@ -538,8 +565,9 @@ public class RFTemplate {
     }
 
     private void addAdapterVariableParameter() {
-        if (adapter.bodyDeclarations().size() == 0) {
+        if (!hasAdapterVariable) {
             templateMethod.parameters().add(0, adapterVariable);
+            hasAdapterVariable = true;
         }
     }
 
@@ -626,10 +654,24 @@ public class RFTemplate {
         return newMethod;
     }
 
+    public void modifyTestMethods() {
+        Block body1 = ast.newBlock();
+        MethodInvocation methodInvocation1 = ast.newMethodInvocation();
+        methodInvocation1.setName((SimpleName) ASTNode.copySubtree(ast, templateMethod.getName()));
+        List<Expression> args1 = methodInvocation1.arguments();
+        for (Expression arg: templateArguments1) {
+            args1.add((Expression) ASTNode.copySubtree(ast, arg));
+        }
+        ExpressionStatement expressionStatement1 = ast.newExpressionStatement(methodInvocation1);
+        body1.statements().add(expressionStatement1);
+        method1.setBody(body1);
+    }
+
     @Override
     public String toString() {
         return templateMethod.toString() + "\n" + adapter.toString() + "\n"
-                + adapterImpl1.toString() + "\n" + adapterImpl2.toString();
+                + adapterImpl1.toString() + "\n" + adapterImpl2.toString() + "\n"
+                + method1.toString() + "\n" + method2.toString();
     }
 
 }
