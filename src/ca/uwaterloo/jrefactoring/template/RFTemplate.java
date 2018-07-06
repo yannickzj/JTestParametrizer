@@ -15,11 +15,8 @@ public class RFTemplate {
     private static final String CLAZZ_NAME_PREFIX = "clazz";
     private static final String CLASS_NAME = "Class";
     private static final String EXCEPTION_NAME = "Exception";
-    //private static final String DEFAULT_TEMPLATE_NAME = "template1";
-    //private static final String DEFAULT_ADAPTER_TYPE_NAME = "Adapter1";
     private static final String DEFAULT_ADAPTER_VARIABLE_NAME = "adapter";
     private static final String DEFAULT_ADAPTER_METHOD_NAME = "action";
-    //private static final String[] DEFAULT_ADAPTER_IMPL_NAME_PAIR = new String[] {"adapter1Impl1", "adapter1Impl2"};
 
     private AST ast;
     private MethodDeclaration templateMethod;
@@ -46,12 +43,6 @@ public class RFTemplate {
     private int variableCount;
     private boolean hasAdapterVariable;
 
-    /*
-    public RFTemplate(AST ast) {
-        init(ast, DEFAULT_TEMPLATE_NAME, DEFAULT_ADAPTER_TYPE_NAME, DEFAULT_ADAPTER_IMPL_NAME_PAIR);
-    }
-    */
-
     public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
                       String templateName, String adapterName, String[] adapterImplNamePair) {
 
@@ -73,8 +64,9 @@ public class RFTemplate {
         this.hasAdapterVariable = false;
         this.templateArguments1 = new ArrayList<>();
         this.templateArguments2 = new ArrayList<>();
-        this.method1 = method1;
-        this.method2 = method2;
+        this.method1 = (MethodDeclaration) ASTNode.copySubtree(this.ast, method1);
+        this.method2 = (MethodDeclaration) ASTNode.copySubtree(this.ast, method2);
+        log.info("root type: " + method1.getRoot().getNodeType());
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -185,11 +177,11 @@ public class RFTemplate {
         if (!typeMap.containsKey(typePair)) {
             String typeName = TYPE_NAME_PREFIX + typeCount++;
             typeMap.put(typePair, typeName);
+            genericTypeMap.put(typeName, typePair);
             addGenericType(typeName);
 
             // add common generic type bound
             if (extendsCommonSuperClass) {
-                genericTypeMap.put(typeName, typePair);
                 ITypeBinding commonSuperClass = getLowestCommonSubClass(typePair);
                 if (commonSuperClass != null) {
                     addGenericTypeBound(typeName, commonSuperClass.getName());
@@ -335,6 +327,21 @@ public class RFTemplate {
 
         SimpleName clazzName = ast.newSimpleName(resolveGenericType(genericTypeName));
         addVariableParameter(classTypeWithGenericType, clazzName);
+
+        log.info("add type literal: " + genericTypeName);
+        TypePair typePair = genericTypeMap.get(genericTypeName);
+        if (typePair != null) {
+            log.info("type pair: " + typePair);
+            TypeLiteral typeLiteral1 = ast.newTypeLiteral();
+            Type type1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
+            typeLiteral1.setType(type1);
+            templateArguments1.add(typeLiteral1);
+
+            TypeLiteral typeLiteral2 = ast.newTypeLiteral();
+            Type type2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+            typeLiteral2.setType(type2);
+            templateArguments2.add(typeLiteral2);
+        }
 
         addThrowsException();
     }
@@ -655,16 +662,29 @@ public class RFTemplate {
     }
 
     public void modifyTestMethods() {
-        Block body1 = ast.newBlock();
-        MethodInvocation methodInvocation1 = ast.newMethodInvocation();
-        methodInvocation1.setName((SimpleName) ASTNode.copySubtree(ast, templateMethod.getName()));
-        List<Expression> args1 = methodInvocation1.arguments();
-        for (Expression arg: templateArguments1) {
-            args1.add((Expression) ASTNode.copySubtree(ast, arg));
+        modifyMethod(method1, adapterImpl1, templateArguments1);
+        modifyMethod(method2, adapterImpl2, templateArguments2);
+    }
+
+    private void modifyMethod(MethodDeclaration method, TypeDeclaration adapterImpl, List<Expression> arguments) {
+        // create new method invocation
+        MethodInvocation methodInvocation = ast.newMethodInvocation();
+        methodInvocation.setName((SimpleName) ASTNode.copySubtree(ast, templateMethod.getName()));
+
+        // add method arguments
+        List<Expression> args = methodInvocation.arguments();
+        ClassInstanceCreation classInstanceCreation = ast.newClassInstanceCreation();
+        SimpleName simpleName = (SimpleName) ASTNode.copySubtree(ast, adapterImpl.getName());
+        classInstanceCreation.setType(ast.newSimpleType(simpleName));
+        args.add(classInstanceCreation);
+        for (Expression arg: arguments) {
+            args.add((Expression) ASTNode.copySubtree(ast, arg));
         }
-        ExpressionStatement expressionStatement1 = ast.newExpressionStatement(methodInvocation1);
-        body1.statements().add(expressionStatement1);
-        method1.setBody(body1);
+
+        // add method invocation to method body
+        Block body = ast.newBlock();
+        body.statements().add(ast.newExpressionStatement(methodInvocation));
+        method.setBody(body);
     }
 
     @Override
