@@ -96,6 +96,50 @@ public class ASTNodeUtil {
         }
     }
 
+    public static String getCommonPackageName(String package1, String package2) {
+        if (package1.equals(package2)) {
+            return package1;
+        } else {
+            String[] packageList1 = package1.split("\\.");
+            String[] packageList2 = package2.split("\\.");
+
+            int len = Math.min(packageList1.length, packageList2.length);
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < len; i++) {
+                if (packageList1[i].equals(packageList2[i])) {
+                    sb.append(packageList1[i]);
+                    sb.append(".");
+
+                } else {
+                    break;
+                }
+            }
+            if (sb.length() > 0) {
+                sb.setLength(sb.length() - 1);
+            }
+            return sb.toString();
+        }
+    }
+
+    public static Name createPackageName(AST ast, String packageName) {
+        String[] nameList = packageName.split("\\.");
+        if (nameList.length > 0) {
+            return nameCreationHelper(ast, nameList, nameList.length - 1);
+        } else {
+            return null;
+        }
+    }
+
+    private static Name nameCreationHelper(AST ast, String[] nameList, int index) {
+        SimpleName name = ast.newSimpleName(nameList[index]);
+        if (index == 0) {
+            return name;
+        } else {
+            Name qualifer = nameCreationHelper(ast, nameList, index -1);
+            return ast.newQualifiedName(qualifer, name);
+        }
+    }
+
     public static MethodDeclaration retrieveMethodDeclarationNode(IMethod iMethod, int startOffset, int endOffset, boolean clearCache)
             throws Exception {
         SystemObject systemObject = ASTReader.getSystemObject();

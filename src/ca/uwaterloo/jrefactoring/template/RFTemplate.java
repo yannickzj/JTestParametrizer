@@ -17,9 +17,12 @@ public class RFTemplate {
     private static final String EXCEPTION_NAME = "Exception";
     private static final String DEFAULT_ADAPTER_VARIABLE_NAME = "adapter";
     private static final String DEFAULT_ADAPTER_METHOD_NAME = "action";
+    private static final String DEFAULT_TEMPLATE_CLASS_NAME = "TestTemplates";
 
     private AST ast;
     private MethodDeclaration templateMethod;
+    private TypeDeclaration templateClass;
+    private CompilationUnit templateCU;
     private TypeDeclaration adapter;
     private TypeDeclaration adapterImpl1;
     private TypeDeclaration adapterImpl2;
@@ -37,6 +40,13 @@ public class RFTemplate {
     private List<Expression> templateArguments2;
     private MethodDeclaration method1;
     private MethodDeclaration method2;
+    private CompilationUnit compilationUnit1;
+    private CompilationUnit compilationUnit2;
+    private PackageDeclaration packageDeclaration1;
+    private PackageDeclaration packageDeclaration2;
+    private CompilationUnit adapterInterfaceCU;
+    private CompilationUnit adapterImplCU1;
+    private CompilationUnit adapterImplCU2;
     private int clazzCount;
     private int typeCount;
     private int actionCount;
@@ -66,7 +76,10 @@ public class RFTemplate {
         this.templateArguments2 = new ArrayList<>();
         this.method1 = (MethodDeclaration) ASTNode.copySubtree(this.ast, method1);
         this.method2 = (MethodDeclaration) ASTNode.copySubtree(this.ast, method2);
-        log.info("root type: " + method1.getRoot().getNodeType());
+        this.compilationUnit1 = (CompilationUnit) method1.getRoot();
+        this.compilationUnit2 = (CompilationUnit) method2.getRoot();
+        this.packageDeclaration1 = compilationUnit1.getPackage();
+        this.packageDeclaration2 = compilationUnit2.getPackage();
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -74,14 +87,51 @@ public class RFTemplate {
         initTemplate(templateName);
         initAdapter(adapterName);
         initAdapterImpl(adapterImplNamePair[0], adapterImplNamePair[1]);
+
+        // add package declaration
+        PackageDeclaration packageDeclaration = ast.newPackageDeclaration();
+        String commonPackageName = ASTNodeUtil.getCommonPackageName(packageDeclaration1.getName().getFullyQualifiedName(),
+                packageDeclaration2.getName().getFullyQualifiedName());
+        if (commonPackageName != null && commonPackageName.length() > 0) {
+            Name packageName = ASTNodeUtil.createPackageName(ast, commonPackageName);
+            if (packageName != null) {
+                packageDeclaration.setName(packageName);
+                adapterInterfaceCU.setPackage(packageDeclaration);
+                adapterImplCU1.setPackage((PackageDeclaration) ASTNode.copySubtree(ast, packageDeclaration));
+                adapterImplCU2.setPackage((PackageDeclaration) ASTNode.copySubtree(ast, packageDeclaration));
+
+                if (templateCU != null) {
+                    templateCU.setPackage((PackageDeclaration) ASTNode.copySubtree(ast, packageDeclaration));
+                }
+            }
+        }
+
     }
 
     private void initTemplate(String templateName) {
         templateMethod = ast.newMethodDeclaration();
-        Modifier privateModifier = ast.newModifier(Modifier.ModifierKeyword.PUBLIC_KEYWORD);
-        templateMethod.modifiers().add(privateModifier);
         templateMethod.setBody(ast.newBlock());
         templateMethod.setName(ast.newSimpleName(templateName));
+
+        String name1 = compilationUnit1.getJavaElement().getElementName();
+        String name2 = compilationUnit2.getJavaElement().getElementName();
+        if (!packageDeclaration1.getName().getFullyQualifiedName().equals(packageDeclaration2.getName().getFullyQualifiedName())
+                || !name1.equals(name2)) {
+            templateMethod.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PUBLIC_KEYWORD));
+            templateMethod.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.STATIC_KEYWORD));
+
+            templateClass = ast.newTypeDeclaration();
+            templateClass.setName(ast.newSimpleName(DEFAULT_TEMPLATE_CLASS_NAME));
+            templateClass.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PUBLIC_KEYWORD));
+            templateClass.bodyDeclarations().add(templateMethod);
+
+            templateCU = ast.newCompilationUnit();
+            templateCU.types().add(templateClass);
+
+        } else {
+            templateClass = null;
+            templateMethod.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PRIVATE_KEYWORD));
+        }
     }
 
     private void initAdapter(String adapterName) {
@@ -91,6 +141,10 @@ public class RFTemplate {
         adapter.modifiers().add(publicModifier);
         adapter.setInterface(true);
         adapter.setName(ast.newSimpleName(adapterName));
+
+        // init Adapter CU
+        adapterInterfaceCU = ast.newCompilationUnit();
+        adapterInterfaceCU.types().add(adapter);
 
         // init adapter variable
         this.adapterVariable = ast.newSingleVariableDeclaration();
@@ -112,9 +166,14 @@ public class RFTemplate {
         adapterImpl2.setName(ast.newSimpleName(adapterImplName2));
 
         Type interfaceType = ast.newSimpleType(ast.newSimpleName(adapter.getName().getIdentifier()));
-        //ParameterizedType parameterizedType = ast.newParameterizedType((Type) ASTNode.copySubtree(ast, interfaceType));
         adapterImpl1.superInterfaceTypes().add(ASTNode.copySubtree(ast, interfaceType));
         adapterImpl2.superInterfaceTypes().add(ASTNode.copySubtree(ast, interfaceType));
+
+        // init Adapter impl CU
+        adapterImplCU1 = ast.newCompilationUnit();
+        adapterImplCU2 = ast.newCompilationUnit();
+        adapterImplCU1.types().add(adapterImpl1);
+        adapterImplCU2.types().add(adapterImpl2);
     }
 
     public enum Pair {
@@ -328,10 +387,8 @@ public class RFTemplate {
         SimpleName clazzName = ast.newSimpleName(resolveGenericType(genericTypeName));
         addVariableParameter(classTypeWithGenericType, clazzName);
 
-        log.info("add type literal: " + genericTypeName);
         TypePair typePair = genericTypeMap.get(genericTypeName);
         if (typePair != null) {
-            log.info("type pair: " + typePair);
             TypeLiteral typeLiteral1 = ast.newTypeLiteral();
             Type type1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
             typeLiteral1.setType(type1);
@@ -670,6 +727,9 @@ public class RFTemplate {
         // create new method invocation
         MethodInvocation methodInvocation = ast.newMethodInvocation();
         methodInvocation.setName((SimpleName) ASTNode.copySubtree(ast, templateMethod.getName()));
+        if (templateClass != null) {
+            methodInvocation.setExpression(ast.newSimpleName(templateClass.getName().getIdentifier()));
+        }
 
         // add method arguments
         List<Expression> args = methodInvocation.arguments();
@@ -685,13 +745,32 @@ public class RFTemplate {
         Block body = ast.newBlock();
         body.statements().add(ast.newExpressionStatement(methodInvocation));
         method.setBody(body);
+
+        // rename methods
+        method.getName().setIdentifier(method.getName().getIdentifier() + "RF");
+
+        // add Exception handling if necessary
+        if (templateMethod.thrownExceptionTypes().size() > 0 && method.thrownExceptionTypes().size() == 0) {
+            method.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
+        }
+    }
+
+    public void updateSourceFiles() throws Exception {
+        log.info(compilationUnit1.getPackage().getName().getFullyQualifiedName());
+        log.info(compilationUnit2.getPackage().getName().getFullyQualifiedName());
+        log.info(compilationUnit1.getJavaElement().getElementName());
+        log.info(compilationUnit2.getJavaElement().getElementName());
+
     }
 
     @Override
     public String toString() {
-        return templateMethod.toString() + "\n" + adapter.toString() + "\n"
-                + adapterImpl1.toString() + "\n" + adapterImpl2.toString() + "\n"
-                + method1.toString() + "\n" + method2.toString();
+        return (templateClass == null ? templateMethod.toString() : templateCU.toString()) + "\n"
+                + adapterInterfaceCU.toString() + "\n"
+                + adapterImplCU1.toString() + "\n"
+                + adapterImplCU2.toString() + "\n"
+                + method1.toString() + "\n"
+                + method2.toString();
     }
 
 }

@@ -64,6 +64,9 @@ public class CloneRefactor {
                             methodsInfo.getStartOffset2(), methodsInfo.getEndOffset2(), true);
                             */
 
+                    // update source files
+                    template.updateSourceFiles();
+
                     // print out the refactoring template
                     System.out.println("----------------------------------------------------------");
                     System.out.println(template);
