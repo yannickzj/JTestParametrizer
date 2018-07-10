@@ -31,7 +31,13 @@ public class RFVisitor extends ASTVisitor {
     }
 
     private void preVisit(RFEntity node) {
-        // default implementation: do nothing
+        if (node instanceof RFStatement) {
+            RFStatement rfStatement = (RFStatement) node;
+            if (rfStatement.isTopStmt()) {
+                //log.info("statement1: " + rfStatement.getStatement1().toString());
+                rfStatement.getStatement1().accept(importVisitor);
+            }
+        }
     }
 
     public boolean preVisit2(RFEntity node) {
@@ -67,6 +73,11 @@ public class RFVisitor extends ASTVisitor {
         if (diff != null) {
             template.addTemplateArgumentPair(node, diff.getExpr2());
             Type type = ASTNodeUtil.typeFromExpr(ast, node);
+            if (type.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME) != null) {
+                String qualifiedName = (String) type.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
+                template.addImportDeclaration(template.getTemplateCU(),
+                        ASTNodeUtil.createPackageName(ast, qualifiedName), false);
+            }
             String variableParameter = template.addVariableParameter(type);
             SimpleName newNode = ast.newSimpleName(variableParameter);
             replaceNode(node, newNode, type);
@@ -677,14 +688,6 @@ public class RFVisitor extends ASTVisitor {
         // if current node is the top level statement, copy the refactored node to the template
         if (node.isTopStmt()) {
             node.getTemplate().addStatement((Statement) ASTNode.copySubtree(ast, node.getStatement1()));
-            log.info("statement1: " + node.getStatement1().toString());
-            node.getStatement1().accept(importVisitor);
-            /*
-            CompilationUnit templateCU = template.getTemplateCU();
-            if (templateCU != null) {
-                node.getStatement1().accept(importVisitor);
-            }
-            */
         }
     }
 

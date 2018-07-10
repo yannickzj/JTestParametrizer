@@ -87,28 +87,12 @@ public class RFTemplate {
         this.cuImports2 = new ArrayList<>();
         this.templateCUImports = new ArrayList<>();
         init(templateName, adapterName, adapterImplNamePair);
-
-        // copy all import declarations
-        /*
-        if (templateCU != null) {
-            ImportVisitor importVisitor = new ImportVisitor();
-            method1.accept(importVisitor);
-            for (String importName : importVisitor.getImportNames()) {
-                addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, importName), false);
-            }
-            for (String staticImportName : importVisitor.getStaticImportNames()) {
-                addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, staticImportName), true);
-            }
-        }
-        */
     }
 
     private void init(String templateName, String adapterName, String[] adapterImplNamePair) {
         initTemplate(templateName);
         initAdapter(adapterName);
         initAdapterImpl(adapterImplNamePair[0], adapterImplNamePair[1]);
-
-        // add package declaration
         initPackageDeclaration();
     }
 
@@ -418,6 +402,12 @@ public class RFTemplate {
             List<ImportDeclaration> importDeclarations = cu.imports();
             for (ImportDeclaration importDeclaration : importDeclarations) {
                 if (importDeclaration.getName().getFullyQualifiedName().equals(name.getFullyQualifiedName())) {
+                    return;
+                }
+            }
+            if (name.isQualifiedName() && !isStatic) {
+                QualifiedName qualifiedName = (QualifiedName) name;
+                if (qualifiedName.getQualifier().getFullyQualifiedName().equals(cu.getPackage().getName().getFullyQualifiedName())) {
                     return;
                 }
             }

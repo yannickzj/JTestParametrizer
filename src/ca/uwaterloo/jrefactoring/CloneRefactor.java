@@ -48,10 +48,8 @@ public class CloneRefactor {
                     // construct the refactoring tree
                     RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);
 
-                    // let the root node accept the children visitor
                     rfRoot.accept(new RFVisitor(template));
 
-                    // modify test methods
                     template.modifyTestMethods();
                     /*
                     MethodDeclaration method1 = ASTNodeUtil.retrieveMethodDeclarationNode(methodsInfo.getIMethod1(),
@@ -60,7 +58,6 @@ public class CloneRefactor {
                             methodsInfo.getStartOffset2(), methodsInfo.getEndOffset2(), true);
                             */
 
-                    // update source files
                     template.updateSourceFiles();
 
                     // print out the refactoring template
