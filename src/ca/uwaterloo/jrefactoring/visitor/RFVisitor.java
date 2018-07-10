@@ -43,7 +43,12 @@ public class RFVisitor extends ASTVisitor {
 
     private void replaceNode(ASTNode oldNode, ASTNode newNode, Type newNodeType) {
         StructuralPropertyDescriptor structuralPropertyDescriptor = oldNode.getLocationInParent();
-        newNode.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, newNodeType);
+        if (newNodeType.resolveBinding() != null) {
+            newNode.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNodeUtil.typeFromBinding(ast, newNodeType.resolveBinding()));
+        } else {
+            newNode.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNodeUtil.copyTypeWithProperties(ast, newNodeType));
+        }
+        //newNode.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, newNodeType);
         if (structuralPropertyDescriptor.isChildListProperty()) {
             List<ASTNode> arguments = (List<ASTNode>) oldNode.getParent().getStructuralProperty(structuralPropertyDescriptor);
             int index = arguments.indexOf(oldNode);
@@ -74,51 +79,6 @@ public class RFVisitor extends ASTVisitor {
         }
         return argTypeNames;
     }
-
-    /*
-    private RFNodeDifference retrieveDiffInTypeNode(Type type) {
-        if (type.isSimpleType()) {
-            SimpleType simpleType = (SimpleType) type;
-            return (RFNodeDifference) simpleType.getName().getProperty(ASTNodeUtil.PROPERTY_DIFF);
-
-        } else {
-            throw new IllegalStateException("unexpected Type type when retrieving diff!");
-        }
-    }
-
-    private RFNodeDifference retrieveDiffInMethodInvocation(Expression node) {
-        if (node == null)
-            return null;
-
-        if (node instanceof Name) {
-            return (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
-        } else if (node instanceof MethodInvocation) {
-            RFNodeDifference diff = retrieveDiffInMethodInvocation(((MethodInvocation) node).getExpression());
-            if (diff != null) {
-                return diff;
-            } else {
-                return retrieveDiffInMethodInvocation(((MethodInvocation) node).getName());
-            }
-        } else {
-            throw new IllegalStateException("unexpected expression node: " + node);
-        }
-    }
-
-    private RFNodeDifference retrieveDiffInName(Name name) {
-        return (RFNodeDifference) name.getProperty(ASTNodeUtil.PROPERTY_DIFF);
-    }
-
-    private boolean containsDiff(Expression node) {
-        if (node instanceof Name) {
-            return node.getProperty(ASTNodeUtil.PROPERTY_DIFF) != null;
-        } else if (node instanceof MethodInvocation) {
-            return containsDiff(((MethodInvocation) node).getExpression())
-                    || containsDiff(((MethodInvocation) node).getName());
-        } else {
-            throw new IllegalStateException("unexpected expression node: " + node);
-        }
-    }
-    */
 
     private byte getPrimitiveNum(PrimitiveType p) {
         if (p.getPrimitiveTypeCode() == PrimitiveType.BYTE) {

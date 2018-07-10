@@ -3,6 +3,7 @@ package ca.uwaterloo.jrefactoring.template;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
+import ca.uwaterloo.jrefactoring.visitor.ImportVisitor;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
@@ -47,6 +48,9 @@ public class RFTemplate {
     private CompilationUnit adapterInterfaceCU;
     private CompilationUnit adapterImplCU1;
     private CompilationUnit adapterImplCU2;
+    private List<Name> cuImports1;
+    private List<Name> cuImports2;
+    private List<Name> templateCUImports;
     private int clazzCount;
     private int typeCount;
     private int actionCount;
@@ -80,7 +84,22 @@ public class RFTemplate {
         this.compilationUnit2 = (CompilationUnit) method2.getRoot();
         this.packageDeclaration1 = compilationUnit1.getPackage();
         this.packageDeclaration2 = compilationUnit2.getPackage();
+        this.cuImports1 = new ArrayList<>();
+        this.cuImports2 = new ArrayList<>();
+        this.templateCUImports = new ArrayList<>();
         init(templateName, adapterName, adapterImplNamePair);
+
+        // copy all import declarations
+        if (templateCU != null) {
+            ImportVisitor importVisitor = new ImportVisitor();
+            method1.accept(importVisitor);
+            for (String importName : importVisitor.getImportNames()) {
+                addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, importName), false);
+            }
+            for (String staticImportName : importVisitor.getStaticImportNames()) {
+                addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, staticImportName), true);
+            }
+        }
     }
 
     private void init(String templateName, String adapterName, String[] adapterImplNamePair) {
@@ -89,23 +108,7 @@ public class RFTemplate {
         initAdapterImpl(adapterImplNamePair[0], adapterImplNamePair[1]);
 
         // add package declaration
-        PackageDeclaration packageDeclaration = ast.newPackageDeclaration();
-        String commonPackageName = ASTNodeUtil.getCommonPackageName(packageDeclaration1.getName().getFullyQualifiedName(),
-                packageDeclaration2.getName().getFullyQualifiedName());
-        if (commonPackageName != null && commonPackageName.length() > 0) {
-            Name packageName = ASTNodeUtil.createPackageName(ast, commonPackageName);
-            if (packageName != null) {
-                packageDeclaration.setName(packageName);
-                adapterInterfaceCU.setPackage(packageDeclaration);
-                adapterImplCU1.setPackage((PackageDeclaration) ASTNode.copySubtree(ast, packageDeclaration));
-                adapterImplCU2.setPackage((PackageDeclaration) ASTNode.copySubtree(ast, packageDeclaration));
-
-                if (templateCU != null) {
-                    templateCU.setPackage((PackageDeclaration) ASTNode.copySubtree(ast, packageDeclaration));
-                }
-            }
-        }
-
+        initPackageDeclaration();
     }
 
     private void initTemplate(String templateName) {
@@ -130,6 +133,7 @@ public class RFTemplate {
 
         } else {
             templateClass = null;
+            templateCU = null;
             templateMethod.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PRIVATE_KEYWORD));
         }
     }
@@ -174,6 +178,40 @@ public class RFTemplate {
         adapterImplCU2 = ast.newCompilationUnit();
         adapterImplCU1.types().add(adapterImpl1);
         adapterImplCU2.types().add(adapterImpl2);
+    }
+
+    private void initPackageDeclaration() {
+        PackageDeclaration packageDeclaration = ast.newPackageDeclaration();
+        String commonPackageName = ASTNodeUtil.getCommonPackageName(packageDeclaration1.getName().getFullyQualifiedName(),
+                packageDeclaration2.getName().getFullyQualifiedName());
+        if (commonPackageName != null && commonPackageName.length() > 0) {
+            Name packageName = ASTNodeUtil.createPackageName(ast, commonPackageName);
+            if (packageName != null) {
+                packageDeclaration.setName(packageName);
+                adapterInterfaceCU.setPackage(packageDeclaration);
+                adapterImplCU1.setPackage((PackageDeclaration) ASTNode.copySubtree(ast, packageDeclaration));
+                adapterImplCU2.setPackage((PackageDeclaration) ASTNode.copySubtree(ast, packageDeclaration));
+
+                if (templateCU != null) {
+                    templateCU.setPackage((PackageDeclaration) ASTNode.copySubtree(ast, packageDeclaration));
+                    initImportDeclaration(commonPackageName);
+                }
+            }
+        }
+    }
+
+    private void initImportDeclaration(String commonPackageName) {
+        String templateName = commonPackageName + "." + templateClass.getName().getIdentifier();
+        if (!commonPackageName.equals(packageDeclaration1.getName().getFullyQualifiedName())) {
+            String adapterImplName1 = commonPackageName + "." + adapterImpl1.getName().getIdentifier();
+            cuImports1.add(ASTNodeUtil.createPackageName(ast, templateName));
+            cuImports1.add(ASTNodeUtil.createPackageName(ast, adapterImplName1));
+        }
+        if (!commonPackageName.equals(packageDeclaration2.getName().getFullyQualifiedName())) {
+            String adapterImplName2 = commonPackageName + "." + adapterImpl2.getName().getIdentifier();
+            cuImports2.add(ASTNodeUtil.createPackageName(ast, templateName));
+            cuImports2.add(ASTNodeUtil.createPackageName(ast, adapterImplName2));
+        }
     }
 
     public enum Pair {
@@ -244,6 +282,19 @@ public class RFTemplate {
                 ITypeBinding commonSuperClass = getLowestCommonSubClass(typePair);
                 if (commonSuperClass != null) {
                     addGenericTypeBound(typeName, commonSuperClass.getName());
+
+                    String commonSuperClassPackageName = commonSuperClass.getPackage().getName();
+                    log.info("common super class package name: " + commonSuperClassPackageName);
+                    if (templateCU == null &&
+                            !commonSuperClassPackageName.equals(packageDeclaration1.getName().getFullyQualifiedName())) {
+                        templateCUImports.add(ASTNodeUtil.createPackageName(ast, commonSuperClass.getQualifiedName()));
+                    }
+
+                    if (templateCU != null &&
+                            !commonSuperClassPackageName.equals(templateCU.getPackage().getName().getFullyQualifiedName())) {
+                        addImportDeclaration(templateCU,
+                                ASTNodeUtil.createPackageName(ast, commonSuperClass.getQualifiedName()), false);
+                    }
                 }
             }
         }
@@ -254,7 +305,7 @@ public class RFTemplate {
         ITypeBinding p1 = typePair.getType1();
         ITypeBinding p2 = typePair.getType2();
 
-        while(p1 != null || p2 != null) {
+        while (p1 != null || p2 != null) {
             if (p1 != null && p2 != null && p1.getQualifiedName().equals(p2.getQualifiedName())) {
                 return p1;
 
@@ -349,16 +400,32 @@ public class RFTemplate {
 
                 adapterTypes.add(exprType.toString());
             }
-            return exprType;
 
         } else {
-            return ASTNodeUtil.typeFromBinding(ast, expr.resolveTypeBinding());
+            exprType = ASTNodeUtil.typeFromBinding(ast, expr.resolveTypeBinding());
+        }
+
+        return exprType;
+    }
+
+    private void addImportDeclaration(CompilationUnit cu, Name name, boolean isStatic) {
+        if (cu != null && name != null) {
+            List<ImportDeclaration> importDeclarations = cu.imports();
+            for (ImportDeclaration importDeclaration : importDeclarations) {
+                if (importDeclaration.getName().getFullyQualifiedName().equals(name.getFullyQualifiedName())) {
+                    return;
+                }
+            }
+            ImportDeclaration importDeclaration = ast.newImportDeclaration();
+            importDeclaration.setName((Name) ASTNode.copySubtree(ast, name));
+            importDeclaration.setStatic(isStatic);
+            importDeclarations.add(importDeclaration);
         }
     }
 
     public void addGenericTypeBound(String fromType, String toType) {
         List<TypeParameter> typeParameters = templateMethod.typeParameters();
-        for (TypeParameter typeParameter: typeParameters) {
+        for (TypeParameter typeParameter : typeParameters) {
             if (typeParameter.getName().getIdentifier().equals(fromType)) {
                 typeParameter.typeBounds().add(ast.newSimpleType(ast.newSimpleName(toType)));
                 return;
@@ -454,6 +521,12 @@ public class RFTemplate {
             // set arg type
             arg.setType((Type) ASTNode.copySubtree(ast, argType));
 
+            // add import declaration
+            String qualifiedName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
+            if (qualifiedName != null) {
+                addImportDeclaration(adapterInterfaceCU, ASTNodeUtil.createPackageName(ast, qualifiedName), false);
+            }
+
             // set arg name
             String argName = argType.toString().toLowerCase();
             int argCount = argMap.getOrDefault(argName, 1);
@@ -513,21 +586,37 @@ public class RFTemplate {
             SingleVariableDeclaration variableDeclaration = ast.newSingleVariableDeclaration();
             Type curType = argTypes.get(i);
             String argTypeName = curType.toString();
+
+            Type argType;
             if (genericTypeMap.containsKey(argTypeName)) {
                 TypePair typePair = genericTypeMap.get(argTypeName);
 
-                Type argType;
+                //Type argType;
                 if (pair == Pair.member1) {
                     argType = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
                 } else {
                     argType = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
                 }
-                variableDeclaration.setType((Type) ASTNode.copySubtree(ast, argType));
+                //variableDeclaration.setType((Type) ASTNode.copySubtree(ast, argType));
 
             } else {
-                variableDeclaration.setType((Type) ASTNode.copySubtree(ast, curType));
+                argType = ASTNodeUtil.copyTypeWithProperties(ast, curType);
+                //variableDeclaration.setType(ASTNodeUtil.copyTypeWithProperties(ast, curType));
+                //variableDeclaration.setType((Type) ASTNode.copySubtree(ast, curType));
             }
+            variableDeclaration.setType(argType);
 
+            // add import declaration
+            CompilationUnit cu;
+            if (pair == Pair.member1) {
+                cu = adapterImplCU1;
+            } else {
+                cu = adapterImplCU2;
+            }
+            addImportDeclaration(cu,
+                    ASTNodeUtil.createPackageName(ast, (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME)), false);
+
+            // get current expression
             Expression curExpr;
             if (i == 0) {
                 curExpr = expr;
@@ -589,7 +678,7 @@ public class RFTemplate {
 
         // set method parameters
         Map<String, Integer> argMap = new HashMap<>();
-        for (Type argType: argTypes) {
+        for (Type argType : argTypes) {
             SingleVariableDeclaration variableDeclaration = ast.newSingleVariableDeclaration();
             variableDeclaration.setType((Type) ASTNode.copySubtree(ast, argType));
             int argCount = argMap.getOrDefault(argType.toString(), 1);
@@ -668,7 +757,8 @@ public class RFTemplate {
 
             // add method in adapter interface
             addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
-            newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNode.copySubtree(ast, returnType));
+            newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNodeUtil.copyTypeWithProperties(ast, returnType));
+            //newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNode.copySubtree(ast, returnType));
             methodInvocationMap.put(pair, newActionName);
 
             // create adapter action impl
@@ -737,7 +827,7 @@ public class RFTemplate {
         SimpleName simpleName = (SimpleName) ASTNode.copySubtree(ast, adapterImpl.getName());
         classInstanceCreation.setType(ast.newSimpleType(simpleName));
         args.add(classInstanceCreation);
-        for (Expression arg: arguments) {
+        for (Expression arg : arguments) {
             args.add((Expression) ASTNode.copySubtree(ast, arg));
         }
 
@@ -765,11 +855,13 @@ public class RFTemplate {
 
     @Override
     public String toString() {
-        return (templateClass == null ? templateMethod.toString() : templateCU.toString()) + "\n"
+        return (templateClass == null ? templateCUImports + "\n" + templateMethod.toString() : templateCU.toString()) + "\n"
                 + adapterInterfaceCU.toString() + "\n"
                 + adapterImplCU1.toString() + "\n"
                 + adapterImplCU2.toString() + "\n"
+                + cuImports1.toString() + "\n"
                 + method1.toString() + "\n"
+                + cuImports2.toString() + "\n"
                 + method2.toString();
     }
 

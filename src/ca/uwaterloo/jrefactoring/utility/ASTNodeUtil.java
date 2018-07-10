@@ -5,11 +5,13 @@ import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.dom.*;
 
 import java.util.List;
+import java.util.Map;
 
 public class ASTNodeUtil {
 
     public static final String PROPERTY_DIFF = "diff";
     public static final String PROPERTY_TYPE_BINDING = "type";
+    public static final String PROPERTY_QUALIFIED_NAME = "qualifiedName";
     public static final String PROPERTY_PAIR = "pair";
 
     public static Type typeFromBinding(AST ast, ITypeBinding typeBinding) {
@@ -57,7 +59,9 @@ public class ASTNodeUtil {
         if( "".equals(name) ) {
             throw new IllegalArgumentException("No name for type binding.");
         }
-        return ast.newSimpleType(ast.newName(name));
+        SimpleType simpleType = ast.newSimpleType(ast.newName(name));
+        simpleType.setProperty(PROPERTY_QUALIFIED_NAME, typeBinding.getQualifiedName());
+        return simpleType;
     }
 
     public static Type typeFromExpr(AST ast, Expression expr) {
@@ -67,6 +71,19 @@ public class ASTNodeUtil {
         } else {
             return typeFromBinding(ast, expr.resolveTypeBinding());
         }
+    }
+
+    public static Type copyTypeWithProperties(AST ast, Type type) {
+        Type copy = (Type) ASTNode.copySubtree(ast, type);
+
+        Map<String, Object> properties = type.properties();
+        if (properties != null) {
+            for (Map.Entry<String, Object> entry : properties.entrySet()) {
+                copy.setProperty(entry.getKey(), entry.getValue());
+            }
+        }
+
+        return copy;
     }
 
     public static boolean hasPairedNode(ASTNode node) {
@@ -122,6 +139,8 @@ public class ASTNodeUtil {
     }
 
     public static Name createPackageName(AST ast, String packageName) {
+        if (packageName == null)
+            return null;
         String[] nameList = packageName.split("\\.");
         if (nameList.length > 0) {
             return nameCreationHelper(ast, nameList, nameList.length - 1);

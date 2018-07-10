@@ -6,17 +6,13 @@ import ca.uwaterloo.jrefactoring.detect.InputMethods;
 import ca.uwaterloo.jrefactoring.detect.PDGSubTreeMapperInfo;
 import ca.uwaterloo.jrefactoring.node.RFStatement;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
-import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneStructureNode;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneType;
 import gr.uom.java.ast.decomposition.cfg.mapping.DivideAndConquerMatcher;
-import org.eclipse.jdt.core.dom.AST;
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.MethodDeclaration;
-import org.eclipse.jdt.core.dom.Statement;
+import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
 public class CloneRefactor {
