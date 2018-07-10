@@ -3,7 +3,6 @@ package ca.uwaterloo.jrefactoring.template;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
-import ca.uwaterloo.jrefactoring.visitor.ImportVisitor;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
@@ -90,6 +89,7 @@ public class RFTemplate {
         init(templateName, adapterName, adapterImplNamePair);
 
         // copy all import declarations
+        /*
         if (templateCU != null) {
             ImportVisitor importVisitor = new ImportVisitor();
             method1.accept(importVisitor);
@@ -100,6 +100,7 @@ public class RFTemplate {
                 addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, staticImportName), true);
             }
         }
+        */
     }
 
     private void init(String templateName, String adapterName, String[] adapterImplNamePair) {
@@ -249,6 +250,10 @@ public class RFTemplate {
 
     public List<Expression> getTemplateArguments2() {
         return templateArguments2;
+    }
+
+    public CompilationUnit getTemplateCU() {
+        return templateCU;
     }
 
     public Type getTypeByInstanceCreation(ClassInstanceCreation instanceCreation) {
@@ -408,7 +413,7 @@ public class RFTemplate {
         return exprType;
     }
 
-    private void addImportDeclaration(CompilationUnit cu, Name name, boolean isStatic) {
+    public void addImportDeclaration(CompilationUnit cu, Name name, boolean isStatic) {
         if (cu != null && name != null) {
             List<ImportDeclaration> importDeclarations = cu.imports();
             for (ImportDeclaration importDeclaration : importDeclarations) {
@@ -838,6 +843,9 @@ public class RFTemplate {
 
         // rename methods
         method.getName().setIdentifier(method.getName().getIdentifier() + "RF");
+
+        // remove javadoc
+        method.setJavadoc(null);
 
         // add Exception handling if necessary
         if (templateMethod.thrownExceptionTypes().size() > 0 && method.thrownExceptionTypes().size() == 0) {

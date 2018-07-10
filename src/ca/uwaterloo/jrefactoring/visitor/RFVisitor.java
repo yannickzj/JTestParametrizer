@@ -22,10 +22,12 @@ public class RFVisitor extends ASTVisitor {
 
     protected RFTemplate template;
     protected AST ast;
+    private ImportVisitor importVisitor;
 
     public RFVisitor(RFTemplate template) {
         this.template = template;
         this.ast = template.getAst();
+        this.importVisitor = new ImportVisitor(template);
     }
 
     private void preVisit(RFEntity node) {
@@ -299,7 +301,9 @@ public class RFVisitor extends ASTVisitor {
             if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
                 String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
                 Type type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
-                replaceNode(name, ast.newSimpleName(genericTypeName), type);
+                type.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, type);
+                replaceNode(node, type, type);
+                //replaceNode(name, ast.newSimpleName(genericTypeName), type);
 
             } else {
                 throw new IllegalStateException("unexpected difference type in SimpleType!");
@@ -673,6 +677,14 @@ public class RFVisitor extends ASTVisitor {
         // if current node is the top level statement, copy the refactored node to the template
         if (node.isTopStmt()) {
             node.getTemplate().addStatement((Statement) ASTNode.copySubtree(ast, node.getStatement1()));
+            log.info("statement1: " + node.getStatement1().toString());
+            node.getStatement1().accept(importVisitor);
+            /*
+            CompilationUnit templateCU = template.getTemplateCU();
+            if (templateCU != null) {
+                node.getStatement1().accept(importVisitor);
+            }
+            */
         }
     }
 
