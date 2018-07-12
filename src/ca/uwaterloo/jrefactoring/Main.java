@@ -93,10 +93,16 @@ public class Main implements IApplication {
             int[] cloneGroupIdsToAnalyze = cliParser.getCloneGroupIDsToAnalyze();
             String[] testPackages = cliParser.getTestPackages();
             String[] testSourceFolders = cliParser.getTestSourceFolders();
-            ProjectRefactor projectRefactor = ProjectRefactor.getInstance();
 
+            MethodRefactor methodRefactor = new MethodRefactor();
+            methodRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
+                    cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
+
+            /*
+            ProjectRefactor projectRefactor = ProjectRefactor.getInstance();
             projectRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
                     cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
+                    */
         }
         return IApplication.EXIT_OK;
     }
