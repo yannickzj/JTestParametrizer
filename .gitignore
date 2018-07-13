@@ -28,4 +28,5 @@ hs_err_pid*
 *.iml
 classes/
 src/ca/concordia/
+.DS_*
 
