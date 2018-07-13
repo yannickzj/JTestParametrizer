@@ -44,16 +44,16 @@ import java.util.*;
 public class ProjectRefactor {
 
     private static Logger log = FileLogger.getLogger(ProjectRefactor.class);
-    private static ProjectRefactor mapper;
+    private static ProjectRefactor refactor;
 
     private ProjectRefactor() {
     }
 
     public static ProjectRefactor getInstance() {
-        if (mapper == null) {
-            mapper = new ProjectRefactor();
+        if (refactor == null) {
+            refactor = new ProjectRefactor();
         }
-        return mapper;
+        return refactor;
     }
 
     public void refactor(IJavaProject iJavaProject,
@@ -422,7 +422,7 @@ public class ProjectRefactor {
                         if (!cliParser.runTests() || (cliParser.runTests() && clonesCoveredByTests)) {
                             for (PDGSubTreeMapperInfo pdgSubTreeMapperInfo : clonePairInfo.getPDFSubTreeMappersInfoList()) {
                                 if (pdgSubTreeMapperInfo.getMapper().getMaximumStateWithMinimumDifferences() != null) {
-                                    // Create a list with one mapper, because ExtractCloneRefactoring needs a list
+                                    // Create a list with one refactor, because ExtractCloneRefactoring needs a list
                                     List<DivideAndConquerMatcher> mappers = new ArrayList<>();
                                     mappers.add(pdgSubTreeMapperInfo.getMapper());
 
@@ -796,11 +796,11 @@ public class ProjectRefactor {
                 long endTime = threadMXBean.getCurrentThreadCpuTime();
 
                 if (mapper.hasMappedNodes()) {
-                    // Create a new mapper information object (contains the real mapper + the time elapsed for mapping)
+                    // Create a new refactor information object (contains the real refactor + the time elapsed for mapping)
                     PDGSubTreeMapperInfo mapperInfo = new PDGSubTreeMapperInfo(mapper);
                     mapperInfo.setTimeElapsedForMapping(endTime - startTime);
 
-                    // Add this (and the only) mapper informations (PDGMapper + time) to the pair information object
+                    // Add this (and the only) refactor informations (PDGMapper + time) to the pair information object
                     pairInfo.addMapperInfo(mapperInfo);
                 }
                 pairInfo.setStatus(ClonePairInfo.AnalysisStatus.NORMAL);
