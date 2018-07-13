@@ -29,4 +29,5 @@ hs_err_pid*
 classes/
 src/ca/concordia/
 .DS_*
+.ipynb_*
 
