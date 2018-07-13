@@ -30,4 +30,5 @@ classes/
 src/ca/concordia/
 .DS_*
 .ipynb_*
+results/
 

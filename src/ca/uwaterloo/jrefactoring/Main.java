@@ -94,15 +94,15 @@ public class Main implements IApplication {
             String[] testPackages = cliParser.getTestPackages();
             String[] testSourceFolders = cliParser.getTestSourceFolders();
 
+            /*
             MethodRefactor methodRefactor = new MethodRefactor();
             methodRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
                     cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
+                    */
 
-            /*
             ProjectRefactor projectRefactor = ProjectRefactor.getInstance();
             projectRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
                     cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
-                    */
         }
         return IApplication.EXIT_OK;
     }
