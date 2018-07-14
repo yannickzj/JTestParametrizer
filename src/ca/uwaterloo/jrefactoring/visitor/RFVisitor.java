@@ -2,6 +2,7 @@ package ca.uwaterloo.jrefactoring.visitor;
 
 import ca.uwaterloo.jrefactoring.node.*;
 import ca.uwaterloo.jrefactoring.template.MethodInvocationPair;
+import ca.uwaterloo.jrefactoring.template.NodePair;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.template.TypePair;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
@@ -20,8 +21,8 @@ public class RFVisitor extends ASTVisitor {
     private static final String NEW_INSTANCE_METHOD_NAME = "newInstance";
     private static final String GET_DECLARED_CONSTRUCTOR_METHOD_NAME = "getDeclaredConstructor";
 
-    protected RFTemplate template;
-    protected AST ast;
+    private RFTemplate template;
+    private AST ast;
     private ImportVisitor importVisitor;
 
     public RFVisitor(RFTemplate template) {
@@ -386,6 +387,20 @@ public class RFVisitor extends ASTVisitor {
 
         if (ASTNodeUtil.hasPairedNode(node)) {
 
+            RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
+
+            if (diff != null) {
+                Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
+                if (differenceTypes.contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)
+                        || differenceTypes.contains(DifferenceType.ARGUMENT_NUMBER_MISMATCH)
+                        || differenceTypes.contains(DifferenceType.MISSING_METHOD_INVOCATION_EXPRESSION)) {
+                    MethodInvocation pairNode = (MethodInvocation) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+                    template.addUnrefactoredNodePair(node, pairNode, diff);
+                    log.info("non-refactored method invocation pair: " + diff.toString());
+                    return false;
+                }
+            }
+
             Expression expr1 = node.getExpression();
             SimpleName name1 = node.getName();
             List<Expression> arguments1 = node.arguments();
@@ -442,7 +457,9 @@ public class RFVisitor extends ASTVisitor {
                         originalArgs1, originalArgs2);
 
                 // refactor the method invocation expression
-                expr1.accept(this);
+                if (expr1 != null) {
+                    expr1.accept(this);
+                }
 
                 // create new method invocation in adapter
                 Type returnType = ASTNodeUtil.typeFromExpr(ast, node);

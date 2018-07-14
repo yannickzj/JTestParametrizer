@@ -33,8 +33,12 @@ public class MethodInvocationPair {
         this.argTypeNames2 = argTypeNames2;
         this.argument1 = argument1;
         this.argument2 = argument2;
-        this.exprType1 = ASTNodeUtil.typeFromExpr(expr1.getAST(), expr1);
-        this.exprType2 = ASTNodeUtil.typeFromExpr(expr2.getAST(), expr2);
+        if (expr1 != null) {
+            this.exprType1 = ASTNodeUtil.typeFromExpr(expr1.getAST(), expr1);
+        }
+        if (expr2 != null) {
+            this.exprType2 = ASTNodeUtil.typeFromExpr(expr2.getAST(), expr2);
+        }
     }
 
     public Expression getExpr1() {
@@ -81,8 +85,12 @@ public class MethodInvocationPair {
     public int hashCode() {
         int hash1 = Arrays.hashCode(argTypeNames1.toArray());
         int hash2 = Arrays.hashCode(argTypeNames2.toArray());
-        return Objects.hash(exprType1.toString(), exprType2.toString(),
-                name1.getIdentifier(), name2.getIdentifier(), hash1, hash2);
+        if (exprType1 != null && exprType2 != null) {
+            return Objects.hash(exprType1.toString(), exprType2.toString(),
+                    name1.getIdentifier(), name2.getIdentifier(), hash1, hash2);
+        } else {
+            return Objects.hash(name1.getIdentifier(), name2.getIdentifier(), hash1, hash2);
+        }
     }
 
     @Override
@@ -105,6 +113,11 @@ public class MethodInvocationPair {
                     return false;
                 }
             }
+        }
+
+        if (exprType1 == other.exprType1 && exprType2 == other.exprType2) {
+            return name1.getIdentifier().equals(other.name1.getIdentifier())
+                 && name2.getIdentifier().equals(other.name2.getIdentifier());
         }
 
         return exprType1.toString().equals(other.exprType1.toString())

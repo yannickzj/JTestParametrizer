@@ -1,5 +1,6 @@
 package ca.uwaterloo.jrefactoring.template;
 
+import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
@@ -55,6 +56,7 @@ public class RFTemplate {
     private int actionCount;
     private int variableCount;
     private boolean hasAdapterVariable;
+    private List<NodePair> unrefactoredList;
 
     public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
                       String templateName, String adapterName, String[] adapterImplNamePair) {
@@ -86,6 +88,7 @@ public class RFTemplate {
         this.cuImports1 = new ArrayList<>();
         this.cuImports2 = new ArrayList<>();
         this.templateCUImports = new ArrayList<>();
+        this.unrefactoredList = new ArrayList<>();
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -242,6 +245,11 @@ public class RFTemplate {
 
     public Type getTypeByInstanceCreation(ClassInstanceCreation instanceCreation) {
         return this.instanceCreationTypeMap.get(instanceCreation);
+    }
+
+    public void addUnrefactoredNodePair(Expression node1, Expression node2, RFNodeDifference diff) {
+        NodePair nodePair = new NodePair(node1, node2, diff);
+        unrefactoredList.add(nodePair);
     }
 
     public void addTemplateArgumentPair(Expression arg1, Expression arg2) {
@@ -818,10 +826,14 @@ public class RFTemplate {
 
         // add method arguments
         List<Expression> args = methodInvocation.arguments();
-        ClassInstanceCreation classInstanceCreation = ast.newClassInstanceCreation();
-        SimpleName simpleName = (SimpleName) ASTNode.copySubtree(ast, adapterImpl.getName());
-        classInstanceCreation.setType(ast.newSimpleType(simpleName));
-        args.add(classInstanceCreation);
+
+        if (hasAdapterVariable) {
+            ClassInstanceCreation classInstanceCreation = ast.newClassInstanceCreation();
+            SimpleName simpleName = (SimpleName) ASTNode.copySubtree(ast, adapterImpl.getName());
+            classInstanceCreation.setType(ast.newSimpleType(simpleName));
+            args.add(classInstanceCreation);
+        }
+
         for (Expression arg : arguments) {
             args.add((Expression) ASTNode.copySubtree(ast, arg));
         }
@@ -853,7 +865,16 @@ public class RFTemplate {
 
     @Override
     public String toString() {
-        return (templateClass == null ? templateCUImports + "\n" + templateMethod.toString() : templateCU.toString()) + "\n"
+        StringBuilder unrefactoredPairs = new StringBuilder();
+
+        unrefactoredPairs.append("non-refactored node pairs: \n");
+        for (NodePair nodePair : unrefactoredList) {
+            unrefactoredPairs.append(nodePair.getDiff().toString());
+            unrefactoredPairs.append("\n");
+        }
+
+        return unrefactoredPairs.toString() + "\n" + (templateClass == null ? templateCUImports + "\n"
+                + templateMethod.toString() : templateCU.toString()) + "\n"
                 + adapterInterfaceCU.toString() + "\n"
                 + adapterImplCU1.toString() + "\n"
                 + adapterImplCU2.toString() + "\n"
