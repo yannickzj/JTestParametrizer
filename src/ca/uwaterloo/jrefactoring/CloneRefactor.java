@@ -21,6 +21,8 @@ public class CloneRefactor {
 
     public static void refactor(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
 
+        log.info("start to refactor clone pair");
+
         String templateName = RenameUtil.getTemplateName(pairInfo.getFirstMethodSignature(), pairInfo.getSecondMethodSignature());
         String adapterName = RenameUtil.getAdapterName(pairInfo.getFirstClass(), pairInfo.getFirstPackage(),
                 pairInfo.getSecondClass(), pairInfo.getSecondPackage());
@@ -34,7 +36,7 @@ public class CloneRefactor {
             CloneStructureNode root = matcher.getCloneStructureRoot();
 
             // perform source-to-source refactoring transformation
-            if (cloneType.equals(CloneType.TYPE_2)) {
+            if (!cloneType.equals(CloneType.TYPE_3)) {
                 if (root != null) {
 
                     // create the refactoring template
@@ -43,6 +45,12 @@ public class CloneRefactor {
                     AST ast1 = stmt1.getAST();
                     MethodDeclaration method1 = getMethod(stmt1);
                     MethodDeclaration method2 = getMethod(stmt2);
+
+                    if (Modifier.isPrivate(method1.getModifiers()) || Modifier.isPrivate(method2.getModifiers())) {
+                        log.info("private method pair are not test cases!");
+                        return;
+                    }
+
                     RFTemplate template = new RFTemplate(ast1, method1, method2, templateName, adapterName, adapterImplNamePair);
 
                     // construct the refactoring tree

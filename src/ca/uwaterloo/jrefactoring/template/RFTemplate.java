@@ -281,7 +281,7 @@ public class RFTemplate {
                     addGenericTypeBound(typeName, commonSuperClass.getName());
 
                     String commonSuperClassPackageName = commonSuperClass.getPackage().getName();
-                    log.info("common super class package name: " + commonSuperClassPackageName);
+                    //log.info("common super class package name: " + commonSuperClassPackageName);
                     if (templateCU == null &&
                             !commonSuperClassPackageName.equals(packageDeclaration1.getName().getFullyQualifiedName())) {
                         templateCUImports.add(ASTNodeUtil.createPackageName(ast, commonSuperClass.getQualifiedName()));
@@ -303,7 +303,7 @@ public class RFTemplate {
         ITypeBinding p2 = typePair.getType2();
 
         while (p1 != null || p2 != null) {
-            if (p1 != null && p2 != null && p1.getQualifiedName().equals(p2.getQualifiedName())) {
+            if (p1 != null && p2 != null && p1.getBinaryName().equals(p2.getBinaryName())) {
                 return p1;
 
             } else {
