@@ -23,10 +23,14 @@ public class CloneRefactor {
 
         log.info("start to refactor clone pair");
 
-        String templateName = RenameUtil.getTemplateName(pairInfo.getFirstMethodSignature(), pairInfo.getSecondMethodSignature());
+        String templateName = RenameUtil.getTemplateName(pairInfo.getFirstMethodSignature(),
+                pairInfo.getSecondMethodSignature());
+
         String adapterName = RenameUtil.getAdapterName(pairInfo.getFirstClass(), pairInfo.getFirstPackage(),
                 pairInfo.getSecondClass(), pairInfo.getSecondPackage());
-        String[] adapterImplNamePair = RenameUtil.getAdapterImplNamePair(adapterName);
+
+        String[] adapterImplNamePair = RenameUtil.getAdapterImplNamePair(adapterName, pairInfo.getFirstClass(),
+                pairInfo.getSecondClass(), pairInfo.getFirstMethodSignature(), pairInfo.getSecondMethodSignature());
 
         assert pairInfo.getPDFSubTreeMappersInfoList().size() == 1;
         for (PDGSubTreeMapperInfo mapperInfo : pairInfo.getPDFSubTreeMappersInfoList()) {

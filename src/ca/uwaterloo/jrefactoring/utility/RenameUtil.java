@@ -3,10 +3,7 @@ package ca.uwaterloo.jrefactoring.utility;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.Type;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,10 +11,12 @@ public class RenameUtil {
 
     private static final String ADAPTER_INTERFACE_NAME = "Adapter";
     private static final String TEMPLATE_METHOD_NAME = "Template";
+    private static final String ADAPTER_IMPL_NAME = "AdapterImpl";
     private static final String METHOD_NAME_PATTERN= "[ \\f\\r\\t\\n]+(.+?)[ \\f\\r\\t\\n]*\\(";
     private static final String CAMELCASE_PATTERN = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
     private static int adapterCount = 1;
     private static int templateCount = 1;
+    private static Map<String, Integer> adapterNameCountMap = new HashMap<>();
 
     public static String[] splitCamelCaseName(String name) {
         if (name == null) return null;
@@ -120,19 +119,45 @@ public class RenameUtil {
         }
     }
 
+    private static String getDefaultAdapterNameByPackage(String packageName) {
+        int count = adapterNameCountMap.getOrDefault(packageName, 1);
+        adapterNameCountMap.put(packageName, count + 1);
+        return ADAPTER_INTERFACE_NAME + count;
+    }
+
     public static String getAdapterName(String class1, String package1, String class2, String package2) {
         String commonName = constructCommonName(class1, class2, true);
+        String commonPackage = ASTNodeUtil.getCommonPackageName(package1, package2);
+
         if (!commonName.equals("")) {
-            return commonName + ADAPTER_INTERFACE_NAME;
+            if (commonName.toLowerCase().contains("test") && commonName.length() < 6) {
+                return getDefaultAdapterNameByPackage(commonPackage);
+            } else {
+                return commonName + ADAPTER_INTERFACE_NAME;
+            }
+
         } else {
-            return ADAPTER_INTERFACE_NAME + adapterCount++;
+            return getDefaultAdapterNameByPackage(commonPackage);
         }
     }
 
-    public static String[] getAdapterImplNamePair(String adapterName) {
+    public static String[] getAdapterImplNamePair(String adapterName, String class1, String class2,
+                                                  String signature1, String signature2) {
         String[] namePair = new String[2];
-        namePair[0] = adapterName + "Impl1";
-        namePair[1] = adapterName + "Impl2";
+        String method1 = getMethodNameFromSignature(signature1);
+        String method2 = getMethodNameFromSignature(signature2);
+        if (!class1.equals(class2)) {
+            namePair[0] = class1 + ADAPTER_IMPL_NAME;
+            namePair[1] = class2 + ADAPTER_IMPL_NAME;
+
+        } else if (!method1.equals(method2)) {
+            namePair[0] = method1.substring(0, 1).toUpperCase() + method1.substring(1) + ADAPTER_IMPL_NAME;
+            namePair[1] = method2.substring(0, 1).toUpperCase() + method2.substring(1) + ADAPTER_IMPL_NAME;
+
+        } else {
+            namePair[0] = adapterName + "Impl1";
+            namePair[1] = adapterName + "Impl2";
+        }
         return namePair;
     }
 
