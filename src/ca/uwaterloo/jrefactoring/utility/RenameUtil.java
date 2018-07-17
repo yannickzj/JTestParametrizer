@@ -3,6 +3,10 @@ package ca.uwaterloo.jrefactoring.utility;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.Type;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,10 +14,50 @@ public class RenameUtil {
 
     private static final String ADAPTER_INTERFACE_NAME = "Adapter";
     private static final String TEMPLATE_METHOD_NAME = "Template";
-    private static final String DEFAULT_VARIABLE_PREFIX = "v";
     private static final String METHOD_NAME_PATTERN= "[ \\f\\r\\t\\n]+(.+?)[ \\f\\r\\t\\n]*\\(";
+    private static final String CAMELCASE_PATTERN = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
     private static int adapterCount = 1;
     private static int templateCount = 1;
+
+    public static String[] splitCamelCaseName(String name) {
+        if (name == null) return null;
+        return name.split(CAMELCASE_PATTERN);
+    }
+
+    public static String constructCommonName(String name1, String name2, boolean isClass) {
+        String[] list1 = splitCamelCaseName(name1);
+        String[] list2 = splitCamelCaseName(name2);
+        if (list1 != null && list2 != null) {
+            Set<String> set = new HashSet<>();
+            for (String s : list1) {
+                set.add(s.toLowerCase());
+            }
+
+            List<String> commons = new ArrayList<>();
+            for (String s : list2) {
+                if (!set.add(s.toLowerCase())) {
+                    commons.add(s);
+                }
+            }
+
+            StringBuilder sb = new StringBuilder();
+            if (commons.size() > 0) {
+                if (isClass) {
+                    String firstComponent = commons.get(0);
+                    sb.append(firstComponent.substring(0, 1).toUpperCase() + firstComponent.substring(1));
+                } else {
+                    sb.append(commons.get(0).toLowerCase());
+                }
+            }
+            for (int i = 1; i < commons.size(); i++) {
+                sb.append(commons.get(i));
+            }
+            return sb.toString();
+
+        } else {
+            return "";
+        }
+    }
 
     public static String getMethodNameFromSignature(String signature) {
         Pattern pattern = Pattern.compile(METHOD_NAME_PATTERN);
@@ -25,18 +69,14 @@ public class RenameUtil {
         }
     }
 
-    public static String renameVariable(String name1, String name2, int count) {
-        if (name1.equals(name2)) {
-            return name1;
-        } else {
-            return DEFAULT_VARIABLE_PREFIX + count;
-        }
-    }
-
     public static String renameVariable(String name1, String name2, int count, String prefix) {
         if (name1.equals(name2)) {
             return name1;
         } else {
+            String commonName = constructCommonName(name1, name2, false);
+            if (!commonName.equals("")) {
+                return commonName + count;
+            }
             return prefix + count;
         }
     }
@@ -55,11 +95,11 @@ public class RenameUtil {
 
     public static String rename(Type type, int count) {
 
-        String typeName = type.toString().toLowerCase();
         if (type.isPrimitiveType()) {
             return getPrimitiveTypeShortName((PrimitiveType) type) + count;
 
         } else {
+            String typeName = type.toString().substring(0, 1).toLowerCase() + type.toString().substring(1);
             if (endsWithDigit(typeName)) {
                 return typeName + "_" + count;
             } else {
@@ -71,33 +111,21 @@ public class RenameUtil {
     public static String getTemplateName(String methodSig1, String methodSig2) {
         String method1 = getMethodNameFromSignature(methodSig1);
         String method2 = getMethodNameFromSignature(methodSig2);
-        if (method1.equals(method2)) {
-            return method1 + TEMPLATE_METHOD_NAME;
-        } else {
-            String commonSubString = getCommonSubString(method1, method2);
-            if (commonSubString.equals("")) {
-                return TEMPLATE_METHOD_NAME.toLowerCase() + templateCount++;
 
-            } else {
-                return commonSubString + TEMPLATE_METHOD_NAME;
-            }
+        String commonName = constructCommonName(method1, method2, false);
+        if (!commonName.equals("")) {
+            return commonName + TEMPLATE_METHOD_NAME;
+        } else {
+            return TEMPLATE_METHOD_NAME.toLowerCase() + templateCount++;
         }
     }
 
-    public static String getCommonSubString(String str1, String str2) {
-        return "";
-    }
-
     public static String getAdapterName(String class1, String package1, String class2, String package2) {
-        if (class1.equals(class2)) {
-            return class1 + ADAPTER_INTERFACE_NAME;
+        String commonName = constructCommonName(class1, class2, true);
+        if (!commonName.equals("")) {
+            return commonName + ADAPTER_INTERFACE_NAME;
         } else {
-            String commonSubString = getCommonSubString(class1, class2);
-            if (commonSubString.equals("")) {
-                return ADAPTER_INTERFACE_NAME + adapterCount++;
-            } else {
-                return commonSubString + ADAPTER_INTERFACE_NAME;
-            }
+            return ADAPTER_INTERFACE_NAME + adapterCount++;
         }
     }
 

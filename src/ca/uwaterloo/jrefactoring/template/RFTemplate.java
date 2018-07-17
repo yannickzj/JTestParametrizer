@@ -57,6 +57,8 @@ public class RFTemplate {
     private int variableCount;
     private boolean hasAdapterVariable;
     private List<NodePair> unrefactoredList;
+    private Map<String, Integer> adapterActionNameMap;
+    private Map<String, Integer> genericTypeNameMap;
 
     public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
                       String templateName, String adapterName, String[] adapterImplNamePair) {
@@ -89,6 +91,8 @@ public class RFTemplate {
         this.cuImports2 = new ArrayList<>();
         this.templateCUImports = new ArrayList<>();
         this.unrefactoredList = new ArrayList<>();
+        this.adapterActionNameMap = new HashMap<>();
+        this.genericTypeNameMap = new HashMap<>();
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -143,6 +147,8 @@ public class RFTemplate {
         Type type = ast.newSimpleType((SimpleName) ASTNode.copySubtree(ast, adapter.getName()));
         adapterVariable.setType(type);
         adapterVariable.setName(ast.newSimpleName(DEFAULT_ADAPTER_VARIABLE_NAME));
+        //String adapterVariableName = adapterName.substring(0, 1).toLowerCase() + adapterName.substring(1);
+        //adapterVariable.setName(ast.newSimpleName(adapterVariableName));
 
     }
 
@@ -269,7 +275,23 @@ public class RFTemplate {
 
     public String resolveTypePair(TypePair typePair, boolean extendsCommonSuperClass) {
         if (!typeMap.containsKey(typePair)) {
-            String typeName = TYPE_NAME_PREFIX + typeCount++;
+
+            // set type name
+            String commonName = RenameUtil.constructCommonName(typePair.getType1().getName(),
+                    typePair.getType2().getName(), true);
+            String typeName;
+            if (!commonName.equals("")) {
+                int nameCount = genericTypeNameMap.getOrDefault(commonName, 0);
+                if (nameCount == 0) {
+                    typeName = TYPE_NAME_PREFIX + commonName;
+                } else {
+                    typeName = TYPE_NAME_PREFIX + commonName + nameCount;
+                }
+                genericTypeNameMap.put(commonName, nameCount + 1);
+
+            } else {
+                typeName = TYPE_NAME_PREFIX + typeCount++;
+            }
             typeMap.put(typePair, typeName);
             genericTypeMap.put(typeName, typePair);
             addGenericType(typeName);
@@ -349,7 +371,8 @@ public class RFTemplate {
 
     public String resolveGenericType(String genericType) {
         if (!clazzInstanceMap.containsKey(genericType)) {
-            String clazzName = CLAZZ_NAME_PREFIX + clazzCount++;
+            String clazzName = CLAZZ_NAME_PREFIX + genericType;
+            //String clazzName = CLAZZ_NAME_PREFIX + genericType + clazzCount++;
             clazzInstanceMap.put(genericType, clazzName);
             addClazzInParameter(genericType);
         }
@@ -755,13 +778,30 @@ public class RFTemplate {
         } else {
 
             // set adapter action name
-            String newActionName = DEFAULT_ADAPTER_METHOD_NAME + actionCount++;
+            String newActionName;
+            if (pair.getName1() != null && pair.getName2() != null) {
+                String commonName = RenameUtil.constructCommonName(pair.getName1().getIdentifier(),
+                        pair.getName2().getIdentifier(), false);
+                if (!commonName.equals("")) {
+                    int nameCount = adapterActionNameMap.getOrDefault(commonName, 0);
+                    if (nameCount == 0) {
+                        newActionName = commonName;
+                    } else {
+                        newActionName = commonName + nameCount;
+                    }
+                    adapterActionNameMap.put(commonName, nameCount + 1);
+
+                } else {
+                    newActionName = DEFAULT_ADAPTER_METHOD_NAME + actionCount++;
+                }
+            } else {
+                newActionName = DEFAULT_ADAPTER_METHOD_NAME + actionCount++;
+            }
             newMethod.setName(ast.newSimpleName(newActionName));
 
             // add method in adapter interface
             addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
             newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNodeUtil.copyTypeWithProperties(ast, returnType));
-            //newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNode.copySubtree(ast, returnType));
             methodInvocationMap.put(pair, newActionName);
 
             // create adapter action impl

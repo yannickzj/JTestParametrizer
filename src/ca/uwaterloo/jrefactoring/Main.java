@@ -2,6 +2,7 @@ package ca.uwaterloo.jrefactoring;
 
 import ca.uwaterloo.jrefactoring.cli.CLIParser;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
+import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import gr.uom.java.ast.ASTReader;
 import gr.uom.java.ast.CompilationErrorDetectedException;
 import org.eclipse.core.resources.IProject;
@@ -94,11 +95,9 @@ public class Main implements IApplication {
             String[] testPackages = cliParser.getTestPackages();
             String[] testSourceFolders = cliParser.getTestSourceFolders();
 
-            /*
-            MethodRefactor methodRefactor = new MethodRefactor();
-            methodRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
-                    cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
-                    */
+            //MethodRefactor methodRefactor = new MethodRefactor();
+            //methodRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
+            //        cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
 
             ProjectRefactor projectRefactor = ProjectRefactor.getInstance();
             projectRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
