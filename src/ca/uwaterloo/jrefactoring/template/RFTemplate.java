@@ -276,6 +276,9 @@ public class RFTemplate {
     public String resolveTypePair(TypePair typePair, boolean extendsCommonSuperClass) {
         if (!typeMap.containsKey(typePair)) {
 
+            // get common super class
+            ITypeBinding commonSuperClass = getLowestCommonSubClass(typePair);
+
             // set type name
             String commonName = RenameUtil.constructCommonName(typePair.getType1().getName(),
                     typePair.getType2().getName(), true);
@@ -289,6 +292,25 @@ public class RFTemplate {
                 }
                 genericTypeNameMap.put(commonName, nameCount + 1);
 
+            } else if (commonSuperClass != null) {
+
+                String commonSuperClassName = commonSuperClass.getName();
+                String[] nameComponents = RenameUtil.splitCamelCaseName(commonSuperClassName);
+                StringBuilder newCommonSuperClassName = new StringBuilder();
+                for (String component : nameComponents) {
+                    if (!component.equals("Abstract")) {
+                        newCommonSuperClassName.append(component);
+                    }
+                }
+
+                int nameCount = genericTypeNameMap.getOrDefault(newCommonSuperClassName.toString(), 0);
+                if (nameCount == 0) {
+                    typeName = TYPE_NAME_PREFIX + newCommonSuperClassName.toString();
+                } else {
+                    typeName = TYPE_NAME_PREFIX + newCommonSuperClassName.toString() + nameCount;
+                }
+                genericTypeNameMap.put(newCommonSuperClassName.toString(), nameCount + 1);
+
             } else {
                 typeName = TYPE_NAME_PREFIX + typeCount++;
             }
@@ -298,7 +320,6 @@ public class RFTemplate {
 
             // add common generic type bound
             if (extendsCommonSuperClass) {
-                ITypeBinding commonSuperClass = getLowestCommonSubClass(typePair);
                 if (commonSuperClass != null) {
                     addGenericTypeBound(typeName, commonSuperClass.getName());
 
@@ -395,8 +416,16 @@ public class RFTemplate {
         }
     }
 
-    private Type resolveAdapterActionArgumentType(Expression expr) {
-        Type exprType = (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+    private Type resolveAdapterActionArgumentType(Expression expr, ITypeBinding iTypeBinding) {
+
+        // get exprType
+        Type exprType;
+        if (iTypeBinding != null && expr instanceof NullLiteral) {
+            exprType = ASTNodeUtil.typeFromBinding(ast, iTypeBinding);
+        } else {
+            exprType = (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+        }
+
         if (exprType != null) {
             if (typeMap.values().contains(exprType.toString())
                     && !adapterTypes.contains(exprType.toString())) {
@@ -764,12 +793,14 @@ public class RFTemplate {
 
         // copy and resolve method expr
         newArgs.add((Expression) ASTNode.copySubtree(ast, expr));
-        argTypes.add(resolveAdapterActionArgumentType(expr));
+        argTypes.add(resolveAdapterActionArgumentType(expr, null));
 
         // copy and resolve arguments
-        for (Expression argument : arguments) {
+        ITypeBinding[] iTypeBindings1 = pair.getiMethodBinding1().getParameterTypes();
+        for (int i = 0; i < arguments.size(); i++) {
+            Expression argument = arguments.get(i);
             newArgs.add((Expression) ASTNode.copySubtree(ast, argument));
-            argTypes.add(resolveAdapterActionArgumentType(argument));
+            argTypes.add(resolveAdapterActionArgumentType(argument, iTypeBindings1[i]));
         }
 
         // add method in adapter interface
@@ -825,8 +856,8 @@ public class RFTemplate {
         List<Type> argTypes = new ArrayList<>();
         newArgs.add((Expression) ASTNode.copySubtree(ast, e1));
         newArgs.add((Expression) ASTNode.copySubtree(ast, e2));
-        argTypes.add(resolveAdapterActionArgumentType(e1));
-        argTypes.add(resolveAdapterActionArgumentType(e2));
+        argTypes.add(resolveAdapterActionArgumentType(e1, null));
+        argTypes.add(resolveAdapterActionArgumentType(e2, null));
 
         // add method in adapter interface
         addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
@@ -895,12 +926,13 @@ public class RFTemplate {
         }
     }
 
-    public void updateSourceFiles() throws Exception {
+    public void updateSourceFiles() {
+        /*
         log.info(compilationUnit1.getPackage().getName().getFullyQualifiedName());
         log.info(compilationUnit2.getPackage().getName().getFullyQualifiedName());
         log.info(compilationUnit1.getJavaElement().getElementName());
         log.info(compilationUnit2.getJavaElement().getElementName());
-
+        */
     }
 
     @Override

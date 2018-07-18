@@ -10,9 +10,7 @@ import gr.uom.java.ast.decomposition.matching.DifferenceType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class RFVisitor extends ASTVisitor {
 
@@ -356,14 +354,45 @@ public class RFVisitor extends ASTVisitor {
         return false;
     }
 
-    private ITypeBinding recursiveGetCommonInteface(ITypeBinding interface1, ITypeBinding interface2) {
+    private ITypeBinding getCommonInteface(ITypeBinding interface1, ITypeBinding interface2) {
+
+        ITypeBinding commonInterface = null;
+
+        if (interface1 != null && interface2 != null) {
+            Set<String> interfaceBinaryNames = new HashSet<>();
+            Queue<ITypeBinding> queue = new LinkedList<>();
+            queue.offer(interface2);
+            while (!queue.isEmpty()) {
+                ITypeBinding cur = queue.poll();
+                interfaceBinaryNames.add(cur.getBinaryName());
+                for (ITypeBinding iTypeBinding : cur.getInterfaces()) {
+                    queue.offer(iTypeBinding);
+                }
+            }
+
+            queue.clear();
+            queue.offer(interface1);
+            while (!queue.isEmpty()) {
+                ITypeBinding cur = queue.poll();
+                if (interfaceBinaryNames.contains(cur.getBinaryName())) {
+                    commonInterface = cur;
+                    break;
+                }
+                for (ITypeBinding iTypeBinding : cur.getInterfaces()) {
+                    queue.offer(iTypeBinding);
+                }
+            }
+        }
+
+        return commonInterface;
+        /*
         if (interface1.getBinaryName().equals(interface2.getBinaryName())) {
             return interface2;
         }
 
         ITypeBinding commonInterface = null;
         for (ITypeBinding typeBinding: interface1.getInterfaces()) {
-            ITypeBinding cur = recursiveGetCommonInteface(typeBinding, interface2);
+            ITypeBinding cur = getCommonInteface(typeBinding, interface2);
             if (cur != null) {
                 commonInterface = cur;
                 break;
@@ -371,6 +400,7 @@ public class RFVisitor extends ASTVisitor {
         }
 
         return commonInterface;
+        */
     }
 
     @Override
@@ -396,6 +426,8 @@ public class RFVisitor extends ASTVisitor {
             ITypeBinding[] parameterTypes1 = node.resolveConstructorBinding().getParameterTypes();
             ITypeBinding[] parameterTypes2 = pairNode.resolveConstructorBinding().getParameterTypes();
             assert parameterTypes1.length == parameterTypes2.length;
+            log.info("parameter types length1: " + parameterTypes1.length);
+            log.info("parameter types length2: " + parameterTypes2.length);
 
             List<Type> parameterTypes = new ArrayList<>();
             for (int i = 0; i < parameterTypes1.length; i++) {
@@ -404,10 +436,12 @@ public class RFVisitor extends ASTVisitor {
 
                 // check interfaces
                 if (typeBinding1.isInterface() && typeBinding2.isInterface()) {
-                    ITypeBinding commonInterface = recursiveGetCommonInteface(typeBinding1, typeBinding2);
+                    ITypeBinding commonInterface = getCommonInteface(typeBinding1, typeBinding2);
+                    /*
                     if (commonInterface == null) {
                         commonInterface = recursiveGetCommonInteface(typeBinding2, typeBinding1);
                     }
+                    */
                     if (commonInterface == null) {
                         throw new IllegalStateException("cannot find common interface: " +
                                 typeBinding1.getBinaryName() + ", " + typeBinding2.getBinaryName());
@@ -566,7 +600,7 @@ public class RFVisitor extends ASTVisitor {
                 List<String> argTypeNames2 = getArgTypeNames(pairedNode.resolveMethodBinding().getParameterTypes());
                 MethodInvocationPair methodInvocationPair = new MethodInvocationPair(expr1, name1,
                         pairedNode.getExpression(), pairedNode.getName(), argTypeNames1, argTypeNames2,
-                        originalArgs1, originalArgs2);
+                        originalArgs1, originalArgs2, iMethodBinding, pairedNode.resolveMethodBinding());
 
                 // refactor the method invocation expression
                 if (expr1 != null) {

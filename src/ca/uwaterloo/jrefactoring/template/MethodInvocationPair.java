@@ -2,6 +2,7 @@ package ca.uwaterloo.jrefactoring.template;
 
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import org.eclipse.jdt.core.dom.Expression;
+import org.eclipse.jdt.core.dom.IMethodBinding;
 import org.eclipse.jdt.core.dom.SimpleName;
 import org.eclipse.jdt.core.dom.Type;
 
@@ -21,10 +22,13 @@ public class MethodInvocationPair {
     //private List<Expression> argument;
     private Type exprType1;
     private Type exprType2;
+    private IMethodBinding iMethodBinding1;
+    private IMethodBinding iMethodBinding2;
 
     public MethodInvocationPair(Expression expr1, SimpleName name1, Expression expr2, SimpleName name2,
                                 List<String> argTypeNames1, List<String> argTypeNames2,
-                                List<Expression> argument1, List<Expression> argument2) {
+                                List<Expression> argument1, List<Expression> argument2,
+                                IMethodBinding iMethodBinding1, IMethodBinding iMethodBinding2) {
         this.expr1= expr1;
         this.name1 = name1;
         this.expr2 = expr2;
@@ -33,6 +37,8 @@ public class MethodInvocationPair {
         this.argTypeNames2 = argTypeNames2;
         this.argument1 = argument1;
         this.argument2 = argument2;
+        this.iMethodBinding1 = iMethodBinding1;
+        this.iMethodBinding2 = iMethodBinding2;
         if (expr1 != null) {
             this.exprType1 = ASTNodeUtil.typeFromExpr(expr1.getAST(), expr1);
         }
@@ -79,6 +85,14 @@ public class MethodInvocationPair {
 
     public List<Expression> getArgument2() {
         return argument2;
+    }
+
+    public IMethodBinding getiMethodBinding1() {
+        return iMethodBinding1;
+    }
+
+    public IMethodBinding getiMethodBinding2() {
+        return iMethodBinding2;
     }
 
     @Override
