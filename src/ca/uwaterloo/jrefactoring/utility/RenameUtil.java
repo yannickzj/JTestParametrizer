@@ -1,5 +1,7 @@
 package ca.uwaterloo.jrefactoring.utility;
 
+import org.eclipse.jdt.core.dom.ArrayType;
+import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.Type;
 
@@ -12,6 +14,7 @@ public class RenameUtil {
     private static final String ADAPTER_INTERFACE_NAME = "Adapter";
     private static final String TEMPLATE_METHOD_NAME = "Template";
     private static final String ADAPTER_IMPL_NAME = "AdapterImpl";
+    private static final String ARRAY_NAME = "Array";
     private static final String METHOD_NAME_PATTERN= "[ \\f\\r\\t\\n]+(.+?)[ \\f\\r\\t\\n]*\\(";
     private static final String CAMELCASE_PATTERN = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
     private static int adapterCount = 1;
@@ -96,6 +99,23 @@ public class RenameUtil {
 
         if (type.isPrimitiveType()) {
             return getPrimitiveTypeShortName((PrimitiveType) type) + count;
+
+        } else if (type.isArrayType()) {
+            ArrayType arrayType = (ArrayType) type;
+            String elementTypeName = arrayType.getElementType().toString().substring(0, 1).toLowerCase()
+                    + arrayType.getElementType().toString().substring(1);
+            return elementTypeName + ARRAY_NAME + count;
+
+        } else if (type.isParameterizedType()) {
+            ParameterizedType parameterizedType = (ParameterizedType) type;
+            String elementTypeName = parameterizedType.getType().toString().substring(0, 1).toLowerCase()
+                    + parameterizedType.getType().toString().substring(1);
+            StringBuilder sb = new StringBuilder();
+            List<Type> typeArgs = parameterizedType.typeArguments();
+            for (Type typeArg : typeArgs) {
+                sb.append(typeArg.toString());
+            }
+            return elementTypeName + sb.toString() + count;
 
         } else {
             String typeName = type.toString().substring(0, 1).toLowerCase() + type.toString().substring(1);

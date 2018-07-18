@@ -59,6 +59,7 @@ public class RFTemplate {
     private List<NodePair> unrefactoredList;
     private Map<String, Integer> adapterActionNameMap;
     private Map<String, Integer> genericTypeNameMap;
+    private boolean innerImplClass;
 
     public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
                       String templateName, String adapterName, String[] adapterImplNamePair) {
@@ -93,6 +94,7 @@ public class RFTemplate {
         this.unrefactoredList = new ArrayList<>();
         this.adapterActionNameMap = new HashMap<>();
         this.genericTypeNameMap = new HashMap<>();
+        this.innerImplClass = false;
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -571,6 +573,8 @@ public class RFTemplate {
         Map<String, Integer> argMap = new HashMap<>();
         for (Type argType : argTypes) {
 
+            if (argType == null) continue;
+
             SingleVariableDeclaration arg = ast.newSingleVariableDeclaration();
 
             // set arg type
@@ -640,6 +644,7 @@ public class RFTemplate {
             // set method variable declaration type
             SingleVariableDeclaration variableDeclaration = ast.newSingleVariableDeclaration();
             Type curType = argTypes.get(i);
+            if (curType == null) continue;
             String argTypeName = curType.toString();
 
             Type argType;
@@ -792,8 +797,14 @@ public class RFTemplate {
         List<Type> argTypes = new ArrayList<>();
 
         // copy and resolve method expr
-        newArgs.add((Expression) ASTNode.copySubtree(ast, expr));
-        argTypes.add(resolveAdapterActionArgumentType(expr, null));
+        if (expr != null) {
+            newArgs.add((Expression) ASTNode.copySubtree(ast, expr));
+            argTypes.add(resolveAdapterActionArgumentType(expr, null));
+        } else {
+            // mark adapter impl as inner class to make use of class private methods
+            innerImplClass = true;
+            argTypes.add(null);
+        }
 
         // copy and resolve arguments
         ITypeBinding[] iTypeBindings1 = pair.getiMethodBinding1().getParameterTypes();
@@ -941,7 +952,7 @@ public class RFTemplate {
 
         unrefactoredPairs.append("non-refactored node pairs: \n");
         for (NodePair nodePair : unrefactoredList) {
-            unrefactoredPairs.append(nodePair.getDiff().toString());
+            unrefactoredPairs.append(nodePair.toString());
             unrefactoredPairs.append("\n");
         }
 

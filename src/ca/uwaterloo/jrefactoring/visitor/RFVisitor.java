@@ -198,7 +198,7 @@ public class RFVisitor extends ASTVisitor {
             Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
             if (differenceTypes.contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)) {
                 template.addUnrefactoredNodePair(node, diff.getExpr2(), diff);
-                log.info("non-refactored method invocation pair: " + diff.toString());
+                log.info("non-refactored node pair with NullLiteral node: " + diff.toString());
                 return false;
             }
         }
@@ -215,7 +215,7 @@ public class RFVisitor extends ASTVisitor {
 
             if (differenceTypes.contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)) {
                 template.addUnrefactoredNodePair(node, diff.getExpr2(), diff);
-                log.info("non-refactored method invocation pair: " + diff.toString());
+                log.info("non-refactored node pair with SimpleName node: " + diff.toString());
                 return false;
             }
 
@@ -385,22 +385,6 @@ public class RFVisitor extends ASTVisitor {
         }
 
         return commonInterface;
-        /*
-        if (interface1.getBinaryName().equals(interface2.getBinaryName())) {
-            return interface2;
-        }
-
-        ITypeBinding commonInterface = null;
-        for (ITypeBinding typeBinding: interface1.getInterfaces()) {
-            ITypeBinding cur = getCommonInteface(typeBinding, interface2);
-            if (cur != null) {
-                commonInterface = cur;
-                break;
-            }
-        }
-
-        return commonInterface;
-        */
     }
 
     @Override
@@ -414,9 +398,8 @@ public class RFVisitor extends ASTVisitor {
             if (diff != null) {
                 Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
                 if (differenceTypes.contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)) {
-                    Expression pairNode = (Expression) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
-                    template.addUnrefactoredNodePair(node, pairNode, diff);
-                    log.info("non-refactored method invocation pair: " + diff.toString());
+                    template.addUnrefactoredNodePair(node, diff.getExpr2(), diff);
+                    log.info("non-refactored node pair with ClassInstanceCreation node: " + diff.toString());
                     return false;
                 }
             }
@@ -425,9 +408,10 @@ public class RFVisitor extends ASTVisitor {
             ClassInstanceCreation pairNode = (ClassInstanceCreation) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
             ITypeBinding[] parameterTypes1 = node.resolveConstructorBinding().getParameterTypes();
             ITypeBinding[] parameterTypes2 = pairNode.resolveConstructorBinding().getParameterTypes();
-            assert parameterTypes1.length == parameterTypes2.length;
-            log.info("parameter types length1: " + parameterTypes1.length);
-            log.info("parameter types length2: " + parameterTypes2.length);
+            if (parameterTypes1.length != parameterTypes2.length) {
+                template.addUnrefactoredNodePair(node, pairNode, diff);
+                return false;
+            }
 
             List<Type> parameterTypes = new ArrayList<>();
             for (int i = 0; i < parameterTypes1.length; i++) {
@@ -437,11 +421,6 @@ public class RFVisitor extends ASTVisitor {
                 // check interfaces
                 if (typeBinding1.isInterface() && typeBinding2.isInterface()) {
                     ITypeBinding commonInterface = getCommonInteface(typeBinding1, typeBinding2);
-                    /*
-                    if (commonInterface == null) {
-                        commonInterface = recursiveGetCommonInteface(typeBinding2, typeBinding1);
-                    }
-                    */
                     if (commonInterface == null) {
                         throw new IllegalStateException("cannot find common interface: " +
                                 typeBinding1.getBinaryName() + ", " + typeBinding2.getBinaryName());
@@ -541,7 +520,7 @@ public class RFVisitor extends ASTVisitor {
                         || differenceTypes.contains(DifferenceType.MISSING_METHOD_INVOCATION_EXPRESSION)) {
                     MethodInvocation pairNode = (MethodInvocation) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
                     template.addUnrefactoredNodePair(node, pairNode, diff);
-                    log.info("non-refactored method invocation pair: " + diff.toString());
+                    log.info("non-refactored node pair with MethodInvocation node: " + diff.toString());
                     return false;
                 }
             }
@@ -712,7 +691,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
-            node.describe();
+            //node.describe();
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
 
             // refactor type

@@ -26,4 +26,13 @@ public class NodePair {
     public RFNodeDifference getDiff() {
         return diff;
     }
+
+    @Override
+    public String toString() {
+        if (diff != null) {
+            return diff.toString();
+        } else {
+            return node1.toString() + "  <--->  " + node2.toString();
+        }
+    }
 }
