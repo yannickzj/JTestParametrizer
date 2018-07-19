@@ -23,7 +23,22 @@ public class RenameUtil {
 
     public static String[] splitCamelCaseName(String name) {
         if (name == null) return null;
-        return name.split(CAMELCASE_PATTERN);
+
+        List<String> result = new ArrayList<>();
+        int prev = 0;
+        int i = 1;
+        for (; i < name.length(); i++) {
+            if (Character.isUpperCase(name.charAt(i))) {
+                if (!Character.isUpperCase(name.charAt(i - 1))
+                        || (i < name.length() - 1 && Character.isLowerCase(name.charAt(i + 1)))) {
+                    result.add(name.substring(prev, i));
+                    prev = i;
+                }
+            }
+        }
+        result.add(name.substring(prev, i));
+        return result.toArray(new String[0]);
+        //return name.split(CAMELCASE_PATTERN);
     }
 
     public static String constructCommonName(String name1, String name2, boolean isClass) {
