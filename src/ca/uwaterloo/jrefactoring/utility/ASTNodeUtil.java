@@ -1,5 +1,6 @@
 package ca.uwaterloo.jrefactoring.utility;
 
+import ca.uwaterloo.jrefactoring.visitor.MethodVisitor;
 import gr.uom.java.ast.*;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.dom.*;
@@ -159,6 +160,7 @@ public class ASTNodeUtil {
         }
     }
 
+    /*
     public static MethodDeclaration retrieveMethodDeclarationNode(IMethod iMethod, int startOffset, int endOffset, boolean clearCache)
             throws Exception {
         SystemObject systemObject = ASTReader.getSystemObject();
@@ -190,4 +192,13 @@ public class ASTNodeUtil {
             return null;
         }
     }
+    */
+
+    public static MethodVisitor retrieveMethodDeclaration(CompilationUnit cu, MethodDeclaration method) {
+        String cuName = cu.getJavaElement().getElementName();
+        MethodVisitor visitor = new MethodVisitor(cuName.split("\\.")[0], method);
+        cu.accept(visitor);
+        return visitor;
+    }
+
 }

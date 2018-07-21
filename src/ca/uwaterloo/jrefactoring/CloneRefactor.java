@@ -12,6 +12,7 @@ import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneStructureNode;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneType;
 import gr.uom.java.ast.decomposition.cfg.mapping.DivideAndConquerMatcher;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
@@ -19,7 +20,7 @@ public class CloneRefactor {
 
     private static Logger log = FileLogger.getLogger(CloneRefactor.class);
 
-    public static void refactor(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
+    public static void refactor(IJavaProject iJavaProject, ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
 
         log.info("start to refactor clone pair");
 
@@ -70,11 +71,11 @@ public class CloneRefactor {
                             methodsInfo.getStartOffset2(), methodsInfo.getEndOffset2(), true);
                             */
 
-                    template.updateSourceFiles();
+                    template.updateSourceFiles(pairInfo, methodsInfo);
 
                     // print out the refactoring template
                     System.out.println("----------------------------------------------------------");
-                    System.out.println(template);
+                    //System.out.println(template);
 
                 }
 

@@ -1,10 +1,21 @@
 package ca.uwaterloo.jrefactoring.template;
 
+import ca.uwaterloo.jrefactoring.detect.ClonePairInfo;
+import ca.uwaterloo.jrefactoring.detect.InputMethods;
 import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
+import ca.uwaterloo.jrefactoring.visitor.MethodVisitor;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
+import org.eclipse.jdt.core.dom.rewrite.ListRewrite;
+import org.eclipse.jface.text.Document;
+import org.eclipse.text.edits.TextEdit;
 import org.slf4j.Logger;
 
 import java.util.*;
@@ -926,7 +937,7 @@ public class RFTemplate {
         method.setBody(body);
 
         // rename methods
-        method.getName().setIdentifier(method.getName().getIdentifier() + "RF");
+        //method.getName().setIdentifier(method.getName().getIdentifier() + "RF");
 
         // remove javadoc
         method.setJavadoc(null);
@@ -937,13 +948,81 @@ public class RFTemplate {
         }
     }
 
-    public void updateSourceFiles() {
-        /*
-        log.info(compilationUnit1.getPackage().getName().getFullyQualifiedName());
-        log.info(compilationUnit2.getPackage().getName().getFullyQualifiedName());
-        log.info(compilationUnit1.getJavaElement().getElementName());
-        log.info(compilationUnit2.getJavaElement().getElementName());
-        */
+    public void updateSourceFiles(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
+
+        ICompilationUnit cu1 = pairInfo.getICompilationUnitFirst();
+        ICompilationUnit cu2 = pairInfo.getICompilationUnitSecond();
+        IPackageFragmentRoot packageFragmentRoot =
+                (IPackageFragmentRoot) pairInfo.getICompilationUnitFirst().getAncestor(3);
+
+        try {
+            saveCU(packageFragmentRoot, adapterInterfaceCU, false);
+            saveCU(packageFragmentRoot, adapterImplCU1, false);
+            saveCU(packageFragmentRoot, adapterImplCU2, false);
+            if (templateCU != null) {
+                saveCU(packageFragmentRoot, templateCU, false);
+            } else {
+                saveMethod(cu1, templateMethod, templateCUImports);
+            }
+            saveMethod(cu1, method1, cuImports1);
+            saveMethod(cu2, method2, cuImports2);
+
+        } catch (JavaModelException e) {
+            e.printStackTrace();
+        }
+
+        packageFragmentRoot.getJavaProject().getProject().getWorkspace().save(true, null);
+
+    }
+
+    private void saveCU(IPackageFragmentRoot packageFragmentRoot, CompilationUnit cu, boolean force)
+            throws JavaModelException {
+        String packageName = cu.getPackage().getName().getFullyQualifiedName();
+        String name = ((TypeDeclaration) cu.types().get(0)).getName().getIdentifier() + ".java";
+        String contents = cu.toString();
+        IPackageFragment packageFragment = packageFragmentRoot.getPackageFragment(packageName);
+        packageFragment.createCompilationUnit(name, contents, force, null);
+    }
+
+    private void saveMethod(ICompilationUnit cu, MethodDeclaration method, List<Name> imports) throws Exception {
+
+        // creation of a Document
+        Document document= new Document(cu.getSource());
+
+        // creation of DOM/AST from a ICompilationUnit
+        ASTParser parser = ASTParser.newParser(AST.JLS8);
+        parser.setSource(cu);
+        CompilationUnit astRoot = (CompilationUnit) parser.createAST(null);
+
+        // creation of ASTRewrite
+        ASTRewrite rewrite = ASTRewrite.create(astRoot.getAST());
+
+        // description of the change
+        MethodVisitor methodVisitor = ASTNodeUtil.retrieveMethodDeclaration(astRoot, method);
+        if (methodVisitor.getResult() != null) {
+            rewrite.replace(methodVisitor.getResult(), method, null);
+        } else {
+            ListRewrite typeDeclarations = rewrite.getListRewrite(methodVisitor.getTypeDeclaration(),
+                    TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
+            typeDeclarations.insertFirst(method, null);
+            ListRewrite cuImports = rewrite.getListRewrite(astRoot, CompilationUnit.IMPORTS_PROPERTY);
+            for (Name importName : imports) {
+                ImportDeclaration importDeclaration = astRoot.getAST().newImportDeclaration();
+                importDeclaration.setName((Name) ASTNode.copySubtree(astRoot.getAST(), importName));
+                cuImports.insertFirst(importDeclaration, null);
+            }
+        }
+
+        // computation of the text edits
+        TextEdit edits = rewrite.rewriteAST(document, cu.getJavaProject().getOptions(true));
+
+        // computation of the new source code
+        edits.apply(document);
+        String newSource = document.get();
+
+        // update of the compilation unit
+        cu.getBuffer().setContents(newSource);
+        cu.getBuffer().save(null, true);
     }
 
     @Override
