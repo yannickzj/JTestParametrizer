@@ -524,7 +524,7 @@ public class ProjectRefactor {
 
 
                         // Write the stuff to the HTML files and CSV files
-                        CloneRefactor.refactor(iJavaProject, clonePairInfo, methodsInfo);
+                        CloneRefactor.refactor(clonePairInfo, methodsInfo);
                         //htmlWriter.writeCloneInfo(clonePairInfo);
                         /*
                         for (CloneInfoWriter cloneInfoWriter : infoWriters)
@@ -568,8 +568,10 @@ public class ProjectRefactor {
             iJavaProject.getProject().getWorkspace().save(true, new NullProgressMonitor());
         }
 
-        log.info("Finished testing refactorabiliy of clones in " + originalExcelFile.getAbsolutePath() + ", output file: " + copyWorkBookFile.getAbsolutePath());
+        log.info("Applying changes to source files");
+        CloneRefactor.applyChanges();
 
+        log.info("Finished testing refactorabiliy of clones in " + originalExcelFile.getAbsolutePath() + ", output file: " + copyWorkBookFile.getAbsolutePath());
 
     }
 
@@ -1332,7 +1334,6 @@ public class ProjectRefactor {
     private IMethod getIMethod(IJavaProject jProject, String typeName, String methodName, String methodSignature)
             throws JavaModelException {
         IType type = jProject.findType(typeName);
-        log.info("typeName: " + typeName);
         if (type == null) {
             IPath path = new Path("/" + jProject.getElementName() + "/" + typeName.substring(0, typeName.lastIndexOf(".")));
             IPackageFragment packageFragment = jProject.findPackageFragment(path);

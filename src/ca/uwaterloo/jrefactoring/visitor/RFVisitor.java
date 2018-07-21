@@ -494,7 +494,16 @@ public class RFVisitor extends ASTVisitor {
                     Expression argument = arguments.get(i);
                     TypeLiteral typeLiteral = ast.newTypeLiteral();
                     //typeLiteral.setType(ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding()));
-                    typeLiteral.setType(parameterTypes.get(i));
+                    Type parameterType = parameterTypes.get(i);
+                    typeLiteral.setType(parameterType);
+
+                    // add import declaration
+                    String qualifiedName = (String) parameterType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
+                    if (qualifiedName != null) {
+                        template.addImportDeclaration(template.getTemplateCU(),
+                                ASTNodeUtil.createPackageName(ast, qualifiedName), false);
+                    }
+
                     getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
                     Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
                     newInstanceMethodInvocation.arguments().add(newArg);
@@ -624,9 +633,11 @@ public class RFVisitor extends ASTVisitor {
         RFNodeDifference diff = (RFNodeDifference) initializer.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         if (diff != null) {
             if (diff.getDifferenceTypes().contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)) {
-                MethodInvocation methodInvocation = template.createAdapterActionMethod(type);
-                log.info("adapter action arguments should be specified manually in " + methodInvocation);
-                replaceNode(initializer, methodInvocation, type);
+                log.info("non-refactored node pair with initializer node: " + diff.toString());
+                template.addUnrefactoredNodePair(initializer, diff.getExpr2(), diff);
+                //MethodInvocation methodInvocation = template.createAdapterActionMethod(type);
+                //log.info("adapter action arguments should be specified manually in " + methodInvocation);
+                //replaceNode(initializer, methodInvocation, type);
                 return true;
             }
         }

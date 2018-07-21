@@ -12,23 +12,28 @@ import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneStructureNode;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneType;
 import gr.uom.java.ast.decomposition.cfg.mapping.DivideAndConquerMatcher;
-import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CloneRefactor {
 
     private static Logger log = FileLogger.getLogger(CloneRefactor.class);
+    private static List<RFTemplate> refactorableTemplates = new ArrayList<>();
 
-    public static void refactor(IJavaProject iJavaProject, ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
+    public static void refactor(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
 
         log.info("start to refactor clone pair");
 
-        String templateName = RenameUtil.getTemplateName(pairInfo.getFirstMethodSignature(),
-                pairInfo.getSecondMethodSignature());
+        String templateName = RenameUtil.getTemplateName(pairInfo.getFirstClass(), pairInfo.getFirstMethodSignature(),
+                pairInfo.getSecondClass(), pairInfo.getSecondMethodSignature());
 
-        String adapterName = RenameUtil.getAdapterName(pairInfo.getFirstClass(), pairInfo.getFirstPackage(),
-                pairInfo.getSecondClass(), pairInfo.getSecondPackage());
+        String adapterName = RenameUtil.getAdapterName(pairInfo.getFirstClass(), pairInfo.getFirstMethodSignature(),
+                pairInfo.getFirstPackage(), pairInfo.getSecondClass(), pairInfo.getSecondMethodSignature(),
+                pairInfo.getSecondPackage());
 
         String[] adapterImplNamePair = RenameUtil.getAdapterImplNamePair(adapterName, pairInfo.getFirstClass(),
                 pairInfo.getSecondClass(), pairInfo.getFirstMethodSignature(), pairInfo.getSecondMethodSignature());
@@ -56,7 +61,10 @@ public class CloneRefactor {
                         return;
                     }
 
-                    RFTemplate template = new RFTemplate(ast1, method1, method2, templateName, adapterName, adapterImplNamePair);
+                    ICompilationUnit cu1 = pairInfo.getICompilationUnitFirst();
+                    ICompilationUnit cu2 = pairInfo.getICompilationUnitSecond();
+                    RFTemplate template = new RFTemplate(ast1, method1, method2, templateName, adapterName,
+                            adapterImplNamePair, cu1, cu2);
 
                     // construct the refactoring tree
                     RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);
@@ -71,7 +79,10 @@ public class CloneRefactor {
                             methodsInfo.getStartOffset2(), methodsInfo.getEndOffset2(), true);
                             */
 
-                    template.updateSourceFiles(pairInfo, methodsInfo);
+                    //template.updateSourceFiles();
+                    if (!template.hasUnrefactorableNodePair()) {
+                        refactorableTemplates.add(template);
+                    }
 
                     // print out the refactoring template
                     System.out.println("----------------------------------------------------------");
@@ -80,8 +91,15 @@ public class CloneRefactor {
                 }
 
             } else {
-                log.info("Unhandled CloneType: " + cloneType.toString());
+                log.info("Unable to handle CloneType: " + cloneType.toString());
             }
+        }
+    }
+
+    public static void applyChanges() throws Exception {
+        log.info("refactoring " + refactorableTemplates.size() + " duplicate method pairs.");
+        for (RFTemplate template : refactorableTemplates) {
+            template.updateSourceFiles();
         }
     }
 

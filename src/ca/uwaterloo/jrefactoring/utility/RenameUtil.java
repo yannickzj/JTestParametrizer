@@ -15,6 +15,7 @@ public class RenameUtil {
     private static final String TEMPLATE_METHOD_NAME = "Template";
     private static final String ADAPTER_IMPL_NAME = "AdapterImpl";
     private static final String ARRAY_NAME = "Array";
+    private static final String METHOD_TEST_PREFIX = "Test";
     private static final String METHOD_NAME_PATTERN= "[ \\f\\r\\t\\n]+(.+?)[ \\f\\r\\t\\n]*\\(";
     private static final String CAMELCASE_PATTERN = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
     private static int adapterCount = 1;
@@ -142,11 +143,19 @@ public class RenameUtil {
         }
     }
 
-    public static String getTemplateName(String methodSig1, String methodSig2) {
+    public static String getTemplateName(String class1, String methodSig1, String class2, String methodSig2) {
         String method1 = getMethodNameFromSignature(methodSig1);
         String method2 = getMethodNameFromSignature(methodSig2);
 
-        String commonName = constructCommonName(method1, method2, false);
+        String classCommonName = constructCommonName(class1, class2, false);
+        String methodCommonName = constructCommonName(method1, method2, true);
+        /*
+        if (methodCommonName.startsWith(METHOD_TEST_PREFIX)) {
+            methodCommonName = methodCommonName.substring(methodCommonName.indexOf(METHOD_TEST_PREFIX) + METHOD_TEST_PREFIX.length());
+        }
+        */
+
+        String commonName = classCommonName + methodCommonName;
         if (!commonName.equals("")) {
             return commonName + TEMPLATE_METHOD_NAME;
         } else {
@@ -160,8 +169,16 @@ public class RenameUtil {
         return ADAPTER_INTERFACE_NAME + count;
     }
 
-    public static String getAdapterName(String class1, String package1, String class2, String package2) {
-        String commonName = constructCommonName(class1, class2, true);
+    public static String getAdapterName(String class1, String methodSig1, String package1,
+                                        String class2, String methodSig2, String package2) {
+
+        String method1 = getMethodNameFromSignature(methodSig1);
+        String method2 = getMethodNameFromSignature(methodSig2);
+
+        String classCommonName = constructCommonName(class1, class2, false);
+        String methodCommonName = constructCommonName(method1, method2, true);
+
+        String commonName = classCommonName + methodCommonName;
         String commonPackage = ASTNodeUtil.getCommonPackageName(package1, package2);
 
         if (!commonName.equals("")) {
@@ -181,13 +198,18 @@ public class RenameUtil {
         String[] namePair = new String[2];
         String method1 = getMethodNameFromSignature(signature1);
         String method2 = getMethodNameFromSignature(signature2);
-        if (!class1.equals(class2)) {
-            namePair[0] = class1 + ADAPTER_IMPL_NAME;
-            namePair[1] = class2 + ADAPTER_IMPL_NAME;
+        method1 = method1.substring(0, 1).toUpperCase() + method1.substring(1);
+        method2 = method2.substring(0, 1).toUpperCase() + method2.substring(1);
 
+        if (!class1.equals(class2) || !method1.equals(method2)) {
+            namePair[0] = class1 + method1 + ADAPTER_IMPL_NAME;
+            namePair[1] = class2 + method2 + ADAPTER_IMPL_NAME;
+
+            /*
         } else if (!method1.equals(method2)) {
-            namePair[0] = method1.substring(0, 1).toUpperCase() + method1.substring(1) + ADAPTER_IMPL_NAME;
-            namePair[1] = method2.substring(0, 1).toUpperCase() + method2.substring(1) + ADAPTER_IMPL_NAME;
+            namePair[0] = method1 + ADAPTER_IMPL_NAME;
+            namePair[1] = method2 + ADAPTER_IMPL_NAME;
+            */
 
         } else {
             namePair[0] = adapterName + "Impl1";

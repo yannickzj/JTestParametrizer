@@ -1,15 +1,11 @@
 package ca.uwaterloo.jrefactoring.template;
 
 import ca.uwaterloo.jrefactoring.detect.ClonePairInfo;
-import ca.uwaterloo.jrefactoring.detect.InputMethods;
 import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import ca.uwaterloo.jrefactoring.visitor.MethodVisitor;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.*;
 import org.eclipse.jdt.core.dom.*;
 import org.eclipse.jdt.core.dom.rewrite.ASTRewrite;
@@ -19,6 +15,8 @@ import org.eclipse.text.edits.TextEdit;
 import org.slf4j.Logger;
 
 import java.util.*;
+
+import static org.eclipse.jdt.core.dom.CompilationUnit.IMPORTS_PROPERTY;
 
 public class RFTemplate {
 
@@ -71,9 +69,13 @@ public class RFTemplate {
     private Map<String, Integer> adapterActionNameMap;
     private Map<String, Integer> genericTypeNameMap;
     private boolean innerImplClass;
+    private ICompilationUnit iCU1;
+    private ICompilationUnit iCU2;
+    private IPackageFragmentRoot packageFragmentRoot;
 
     public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
-                      String templateName, String adapterName, String[] adapterImplNamePair) {
+                      String templateName, String adapterName, String[] adapterImplNamePair,
+                      ICompilationUnit iCU1, ICompilationUnit iCU2) {
 
         assert adapterImplNamePair.length == 2;
         this.ast = ast;
@@ -106,6 +108,9 @@ public class RFTemplate {
         this.adapterActionNameMap = new HashMap<>();
         this.genericTypeNameMap = new HashMap<>();
         this.innerImplClass = false;
+        this.iCU1 = iCU1;
+        this.iCU2 = iCU2;
+        this.packageFragmentRoot = (IPackageFragmentRoot) iCU1.getAncestor(3);
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -129,7 +134,7 @@ public class RFTemplate {
             templateMethod.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.STATIC_KEYWORD));
 
             templateClass = ast.newTypeDeclaration();
-            templateClass.setName(ast.newSimpleName(DEFAULT_TEMPLATE_CLASS_NAME));
+            templateClass.setName(ast.newSimpleName(templateName.substring(0, 1).toUpperCase() + templateName.substring(1)));
             templateClass.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PUBLIC_KEYWORD));
             templateClass.bodyDeclarations().add(templateMethod);
 
@@ -264,6 +269,10 @@ public class RFTemplate {
 
     public Type getTypeByInstanceCreation(ClassInstanceCreation instanceCreation) {
         return this.instanceCreationTypeMap.get(instanceCreation);
+    }
+
+    public boolean hasUnrefactorableNodePair() {
+        return unrefactoredList.size() > 0;
     }
 
     public void addUnrefactoredNodePair(Expression node1, Expression node2, RFNodeDifference diff) {
@@ -577,6 +586,12 @@ public class RFTemplate {
 
         // set return type
         methodDeclaration.setReturnType2((Type) ASTNode.copySubtree(ast, returnType));
+
+        // add return type import declaration
+        String returnTypeQualifiedName = (String) returnType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
+        if (returnTypeQualifiedName != null) {
+            addImportDeclaration(adapterInterfaceCU, ASTNodeUtil.createPackageName(ast, returnTypeQualifiedName), false);
+        }
 
         // set interface action name
         methodDeclaration.setName((SimpleName) ASTNode.copySubtree(ast, name));
@@ -948,46 +963,132 @@ public class RFTemplate {
         }
     }
 
-    public void updateSourceFiles(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
+    public void updateSourceFiles() throws Exception {
 
+        /*
         ICompilationUnit cu1 = pairInfo.getICompilationUnitFirst();
         ICompilationUnit cu2 = pairInfo.getICompilationUnitSecond();
         IPackageFragmentRoot packageFragmentRoot =
                 (IPackageFragmentRoot) pairInfo.getICompilationUnitFirst().getAncestor(3);
+                */
 
-        try {
+        if (templateCU == null) {
+            // duplicate methods are in the same file
+            saveMethod(iCU1, templateMethod, templateCUImports, false);
+            insertInnerClass(iCU1, adapterInterfaceCU);
+            insertInnerClass(iCU1, adapterImplCU1);
+            insertInnerClass(iCU1, adapterImplCU2);
+            cleanImportDeclarations(iCU1);
+
+        } else if (packageDeclaration1.getName().getFullyQualifiedName().equals(packageDeclaration2.getName().getFullyQualifiedName())) {
+            // duplicate methods are in the same package but different files
+            ICompilationUnit iCompilationUnit = saveCU(packageFragmentRoot, templateCU, false);
+            insertInnerClass(iCompilationUnit, adapterInterfaceCU);
+            insertInnerClass(iCompilationUnit, adapterImplCU1);
+            insertInnerClass(iCompilationUnit, adapterImplCU2);
+            cleanImportDeclarations(iCompilationUnit);
+
+        } else {
+            // duplicate methods are in the different packages
             saveCU(packageFragmentRoot, adapterInterfaceCU, false);
             saveCU(packageFragmentRoot, adapterImplCU1, false);
             saveCU(packageFragmentRoot, adapterImplCU2, false);
-            if (templateCU != null) {
-                saveCU(packageFragmentRoot, templateCU, false);
-            } else {
-                saveMethod(cu1, templateMethod, templateCUImports);
-            }
-            saveMethod(cu1, method1, cuImports1);
-            saveMethod(cu2, method2, cuImports2);
-
-        } catch (JavaModelException e) {
-            e.printStackTrace();
+            saveCU(packageFragmentRoot, templateCU, false);
         }
 
-        packageFragmentRoot.getJavaProject().getProject().getWorkspace().save(true, null);
+        saveMethod(iCU1, method1, cuImports1, true);
+        saveMethod(iCU2, method2, cuImports2, true);
 
+        packageFragmentRoot.getJavaProject().getProject().getWorkspace().save(true, null);
     }
 
-    private void saveCU(IPackageFragmentRoot packageFragmentRoot, CompilationUnit cu, boolean force)
+    private ICompilationUnit saveCU(IPackageFragmentRoot packageFragmentRoot, CompilationUnit cu, boolean force)
             throws JavaModelException {
         String packageName = cu.getPackage().getName().getFullyQualifiedName();
         String name = ((TypeDeclaration) cu.types().get(0)).getName().getIdentifier() + ".java";
         String contents = cu.toString();
         IPackageFragment packageFragment = packageFragmentRoot.getPackageFragment(packageName);
-        packageFragment.createCompilationUnit(name, contents, force, null);
+        return packageFragment.createCompilationUnit(name, contents, force, null);
     }
 
-    private void saveMethod(ICompilationUnit cu, MethodDeclaration method, List<Name> imports) throws Exception {
+    private void insertInnerClass(ICompilationUnit cu, CompilationUnit classCU) throws Exception {
 
         // creation of a Document
-        Document document= new Document(cu.getSource());
+        Document document = new Document(cu.getSource());
+
+        // creation of DOM/AST from a ICompilationUnit
+        ASTParser parser = ASTParser.newParser(AST.JLS8);
+        parser.setSource(cu);
+        CompilationUnit astRoot = (CompilationUnit) parser.createAST(null);
+
+        // creation of ASTRewrite
+        ASTRewrite rewrite = ASTRewrite.create(astRoot.getAST());
+
+        // description of the change
+        ListRewrite typeDeclarations = rewrite.getListRewrite(astRoot, CompilationUnit.TYPES_PROPERTY);
+        List<AbstractTypeDeclaration> types = classCU.types();
+        for (AbstractTypeDeclaration type : types) {
+            type.modifiers().clear();
+            typeDeclarations.insertLast(type, null);
+        }
+        ListRewrite imports = rewrite.getListRewrite(astRoot, IMPORTS_PROPERTY);
+        List<ImportDeclaration> importDeclarations = classCU.imports();
+        for (ImportDeclaration importDeclaration : importDeclarations) {
+            imports.insertFirst(importDeclaration, null);
+        }
+
+        // computation of the text edits
+        TextEdit edits = rewrite.rewriteAST(document, cu.getJavaProject().getOptions(true));
+
+        // computation of the new source code
+        edits.apply(document);
+        String newSource = document.get();
+
+        // update of the compilation unit
+        cu.getBuffer().setContents(newSource);
+        cu.getBuffer().save(null, true);
+    }
+
+    private void cleanImportDeclarations(ICompilationUnit cu) throws Exception {
+
+        // creation of a Document
+        Document document = new Document(cu.getSource());
+
+        // creation of DOM/AST from a ICompilationUnit
+        ASTParser parser = ASTParser.newParser(AST.JLS8);
+        parser.setSource(cu);
+        CompilationUnit astRoot = (CompilationUnit) parser.createAST(null);
+
+        // creation of ASTRewrite
+        ASTRewrite rewrite = ASTRewrite.create(astRoot.getAST());
+
+        // description of the change
+        ListRewrite imports = rewrite.getListRewrite(astRoot, IMPORTS_PROPERTY);
+        Set<String> uniqueImportsSet = new HashSet<>();
+        List<ImportDeclaration> importDeclarations = astRoot.imports();
+        for (ImportDeclaration importDeclaration : importDeclarations) {
+            if (!uniqueImportsSet.add(importDeclaration.getName().getFullyQualifiedName())) {
+                imports.remove(importDeclaration, null);
+            }
+        }
+
+        // computation of the text edits
+        TextEdit edits = rewrite.rewriteAST(document, cu.getJavaProject().getOptions(true));
+
+        // computation of the new source code
+        edits.apply(document);
+        String newSource = document.get();
+
+        // update of the compilation unit
+        cu.getBuffer().setContents(newSource);
+        cu.getBuffer().save(null, true);
+
+    }
+
+    private void saveMethod(ICompilationUnit cu, MethodDeclaration method, List<Name> imports, boolean replace) throws Exception {
+
+        // creation of a Document
+        Document document = new Document(cu.getSource());
 
         // creation of DOM/AST from a ICompilationUnit
         ASTParser parser = ASTParser.newParser(AST.JLS8);
@@ -1000,12 +1101,16 @@ public class RFTemplate {
         // description of the change
         MethodVisitor methodVisitor = ASTNodeUtil.retrieveMethodDeclaration(astRoot, method);
         if (methodVisitor.getResult() != null) {
-            rewrite.replace(methodVisitor.getResult(), method, null);
+            if (replace) {
+                rewrite.replace(methodVisitor.getResult(), method, null);
+            } else {
+                throw new IllegalStateException("repeated method found when the target method is not replaceable");
+            }
         } else {
-            ListRewrite typeDeclarations = rewrite.getListRewrite(methodVisitor.getTypeDeclaration(),
+            ListRewrite methodDeclarations = rewrite.getListRewrite(methodVisitor.getTypeDeclaration(),
                     TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
-            typeDeclarations.insertFirst(method, null);
-            ListRewrite cuImports = rewrite.getListRewrite(astRoot, CompilationUnit.IMPORTS_PROPERTY);
+            methodDeclarations.insertFirst(method, null);
+            ListRewrite cuImports = rewrite.getListRewrite(astRoot, IMPORTS_PROPERTY);
             for (Name importName : imports) {
                 ImportDeclaration importDeclaration = astRoot.getAST().newImportDeclaration();
                 importDeclaration.setName((Name) ASTNode.copySubtree(astRoot.getAST(), importName));
