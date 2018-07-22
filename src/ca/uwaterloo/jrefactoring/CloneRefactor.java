@@ -23,6 +23,9 @@ public class CloneRefactor {
 
     private static Logger log = FileLogger.getLogger(CloneRefactor.class);
     private static List<RFTemplate> refactorableTemplates = new ArrayList<>();
+    private static int countType1 = 0;
+    private static int countType2 = 0;
+    private static int countType3 = 0;
 
     public static void refactor(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
 
@@ -48,6 +51,8 @@ public class CloneRefactor {
             // perform source-to-source refactoring transformation
             if (!cloneType.equals(CloneType.TYPE_3)) {
                 if (root != null) {
+                    if (cloneType.equals(CloneType.TYPE_1)) countType1++;
+                    if (cloneType.equals(CloneType.TYPE_2)) countType2++;
 
                     // create the refactoring template
                     Statement stmt1 = getStmt1(root);
@@ -91,6 +96,7 @@ public class CloneRefactor {
                 }
 
             } else {
+                countType3++;
                 log.info("Unable to handle CloneType: " + cloneType.toString());
             }
         }
@@ -98,6 +104,9 @@ public class CloneRefactor {
 
     public static void applyChanges() throws Exception {
         log.info("refactoring " + refactorableTemplates.size() + " duplicate method pairs.");
+        log.info("type1 count: " + countType1);
+        log.info("type2 count: " + countType2);
+        log.info("type3 count: " + countType3);
         for (RFTemplate template : refactorableTemplates) {
             template.updateSourceFiles();
         }

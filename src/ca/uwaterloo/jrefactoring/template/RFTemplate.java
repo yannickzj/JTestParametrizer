@@ -965,12 +965,13 @@ public class RFTemplate {
 
     public void updateSourceFiles() throws Exception {
 
-        /*
-        ICompilationUnit cu1 = pairInfo.getICompilationUnitFirst();
-        ICompilationUnit cu2 = pairInfo.getICompilationUnitSecond();
-        IPackageFragmentRoot packageFragmentRoot =
-                (IPackageFragmentRoot) pairInfo.getICompilationUnitFirst().getAncestor(3);
-                */
+        log.info("refactoring method pair: "
+                + packageDeclaration1.getName().getFullyQualifiedName()
+                + compilationUnit1.getJavaElement().getElementName()
+                + "#" + method1.getName().getIdentifier() + " <---> "
+                + packageDeclaration2.getName().getFullyQualifiedName()
+                + compilationUnit2.getJavaElement().getElementName()
+                + "#" + method2.getName().getIdentifier());
 
         if (templateCU == null) {
             // duplicate methods are in the same file
