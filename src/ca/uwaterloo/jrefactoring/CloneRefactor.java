@@ -32,6 +32,16 @@ public class CloneRefactor {
 
     public static void refactor(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
 
+        // skip some cases
+        if (!pairInfo.getFirstPackage().equals(pairInfo.getSecondPackage())) {
+            log.info("skip method pair not in the same package");
+            return;
+        } else if (pairInfo.getFirstClass().equals(pairInfo.getSecondClass())
+                && pairInfo.getFirstMethodSignature().equals(pairInfo.getSecondMethodSignature())) {
+            log.info("skip the pairs with same method");
+            return;
+        }
+
         log.info("start to refactor clone pair");
 
         String templateName = RenameUtil.getTemplateName(pairInfo.getFirstClass(), pairInfo.getFirstMethodSignature(),
