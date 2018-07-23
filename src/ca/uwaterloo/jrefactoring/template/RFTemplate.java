@@ -1058,11 +1058,24 @@ public class RFTemplate {
         ASTRewrite rewrite = ASTRewrite.create(astRoot.getAST());
 
         // description of the change
-        ListRewrite typeDeclarations = rewrite.getListRewrite(astRoot, CompilationUnit.TYPES_PROPERTY);
+        String typeDeclarationName = cu.getElementName().split("\\.")[0];
+        TypeDeclaration typeDeclaration = null;
+        List<TypeDeclaration> typeDeclarations = astRoot.types();
+        for (TypeDeclaration curTypeDeclaration: typeDeclarations) {
+            if (curTypeDeclaration.getName().getIdentifier().equals(typeDeclarationName)) {
+                typeDeclaration = curTypeDeclaration;
+            }
+        }
+
+        if (typeDeclaration == null) {
+            throw new IllegalStateException("cannot find target typeDeclaration: " + typeDeclarationName);
+        }
+
+        ListRewrite innerDeclarations = rewrite.getListRewrite(typeDeclaration, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
         List<AbstractTypeDeclaration> types = classCU.types();
         for (AbstractTypeDeclaration type : types) {
             type.modifiers().clear();
-            typeDeclarations.insertLast(type, null);
+            innerDeclarations.insertLast(type, null);
         }
         ListRewrite imports = rewrite.getListRewrite(astRoot, IMPORTS_PROPERTY);
         List<ImportDeclaration> importDeclarations = classCU.imports();
@@ -1143,7 +1156,7 @@ public class RFTemplate {
         } else {
             ListRewrite methodDeclarations = rewrite.getListRewrite(methodVisitor.getTypeDeclaration(),
                     TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
-            methodDeclarations.insertFirst(method, null);
+            methodDeclarations.insertLast(method, null);
             ListRewrite cuImports = rewrite.getListRewrite(astRoot, IMPORTS_PROPERTY);
             for (Name importName : imports) {
                 ImportDeclaration importDeclaration = astRoot.getAST().newImportDeclaration();
