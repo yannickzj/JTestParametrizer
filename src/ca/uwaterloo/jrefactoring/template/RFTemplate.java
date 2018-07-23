@@ -275,6 +275,11 @@ public class RFTemplate {
         return unrefactoredList.size() > 0;
     }
 
+    public boolean comesFromSamePackage() {
+        return packageDeclaration1.getName().getFullyQualifiedName().equals(
+                packageDeclaration2.getName().getFullyQualifiedName());
+    }
+
     public void addUnrefactoredNodePair(Expression node1, Expression node2, RFNodeDifference diff) {
         NodePair nodePair = new NodePair(node1, node2, diff);
         unrefactoredList.add(nodePair);
@@ -920,11 +925,11 @@ public class RFTemplate {
     }
 
     public void modifyTestMethods() {
-        modifyMethod(method1, adapterImpl1, templateArguments1);
-        modifyMethod(method2, adapterImpl2, templateArguments2);
+        modifyMethod(method1, adapterImpl1, templateArguments1, Pair.member1);
+        modifyMethod(method2, adapterImpl2, templateArguments2, Pair.member2);
     }
 
-    private void modifyMethod(MethodDeclaration method, TypeDeclaration adapterImpl, List<Expression> arguments) {
+    private void modifyMethod(MethodDeclaration method, TypeDeclaration adapterImpl, List<Expression> arguments, Pair pair) {
         // create new method invocation
         MethodInvocation methodInvocation = ast.newMethodInvocation();
         methodInvocation.setName((SimpleName) ASTNode.copySubtree(ast, templateMethod.getName()));
@@ -934,6 +939,21 @@ public class RFTemplate {
 
         // add method arguments
         List<Expression> args = methodInvocation.arguments();
+
+        // add type parameter in template method invocation
+        List<TypeParameter> typeParameters = templateMethod.typeParameters();
+        for (TypeParameter typeParameter : typeParameters) {
+            TypePair typePair = genericTypeMap.get(typeParameter.getName().getIdentifier());
+            if (typePair != null) {
+                Type type;
+                if (pair == Pair.member1) {
+                    type = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
+                } else {
+                    type = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+                }
+                methodInvocation.typeArguments().add(type);
+            }
+        }
 
         if (hasAdapterVariable) {
             ClassInstanceCreation classInstanceCreation = ast.newClassInstanceCreation();
@@ -980,17 +1000,21 @@ public class RFTemplate {
         if (templateCU == null) {
             // duplicate methods are in the same file
             saveMethod(iCU1, templateMethod, templateCUImports, false);
-            insertInnerClass(iCU1, adapterInterfaceCU);
-            insertInnerClass(iCU1, adapterImplCU1);
-            insertInnerClass(iCU1, adapterImplCU2);
+            if (hasAdapterVariable) {
+                insertInnerClass(iCU1, adapterInterfaceCU);
+                insertInnerClass(iCU1, adapterImplCU1);
+                insertInnerClass(iCU1, adapterImplCU2);
+            }
             cleanImportDeclarations(iCU1);
 
         } else if (packageDeclaration1.getName().getFullyQualifiedName().equals(packageDeclaration2.getName().getFullyQualifiedName())) {
             // duplicate methods are in the same package but different files
             ICompilationUnit iCompilationUnit = saveCU(packageFragmentRoot, templateCU, false);
-            insertInnerClass(iCompilationUnit, adapterInterfaceCU);
-            insertInnerClass(iCompilationUnit, adapterImplCU1);
-            insertInnerClass(iCompilationUnit, adapterImplCU2);
+            if (hasAdapterVariable) {
+                insertInnerClass(iCompilationUnit, adapterInterfaceCU);
+                insertInnerClass(iCompilationUnit, adapterImplCU1);
+                insertInnerClass(iCompilationUnit, adapterImplCU2);
+            }
             cleanImportDeclarations(iCompilationUnit);
 
         } else {
@@ -1113,8 +1137,8 @@ public class RFTemplate {
             if (replace) {
                 rewrite.replace(methodVisitor.getResult(), method, null);
             } else {
-                //throw new IllegalStateException("repeated method found when the target method is not replaceable");
-                log.info("repeated method found when the target method is not replaceable");
+                //log.info("repeated method found when the target method is not replaceable");
+                throw new IllegalStateException("repeated method found when the target method is not replaceable");
             }
         } else {
             ListRewrite methodDeclarations = rewrite.getListRewrite(methodVisitor.getTypeDeclaration(),

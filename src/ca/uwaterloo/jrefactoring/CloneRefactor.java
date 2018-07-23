@@ -89,7 +89,8 @@ public class CloneRefactor {
 
                     //template.updateSourceFiles();
                     if (!template.hasUnrefactorableNodePair()
-                            && templateNames.add(template.getTemplatName())) {
+                            && templateNames.add(template.getTemplatName())
+                            && template.comesFromSamePackage()) {
                         refactorableTemplates.add(template);
                     }
 

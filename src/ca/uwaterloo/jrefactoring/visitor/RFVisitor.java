@@ -645,6 +645,14 @@ public class RFVisitor extends ASTVisitor {
         return false;
     }
 
+    private CastExpression wrapCastExpression(Type type, Expression expression) {
+        CastExpression castExpression = ast.newCastExpression();
+        Type curType = ASTNodeUtil.copyTypeWithProperties(ast, type);
+        castExpression.setType(curType);
+        castExpression.setExpression((Expression) ASTNode.copySubtree(ast, expression));
+        return castExpression;
+    }
+
     private void refactorVariableDeclarationFragment(Type type, List<VariableDeclarationFragment> fragments, String prefix) {
 
         for (VariableDeclarationFragment fragment : fragments) {
@@ -671,6 +679,17 @@ public class RFVisitor extends ASTVisitor {
 
                     // refactor initializer
                     initializer.accept(this);
+
+                    // wrap CastExpression if initializer is still ClassInstanceCreation
+                    if (fragment.getInitializer() instanceof ClassInstanceCreation) {
+                        CastExpression castExpression = wrapCastExpression(type, initializer);
+                        replaceNode(initializer, castExpression, type);
+                    }
+
+                } else {
+                    // wrap CastExpression
+                    CastExpression castExpression = wrapCastExpression(type, initializer);
+                    replaceNode(initializer, castExpression, type);
                 }
             }
         }
