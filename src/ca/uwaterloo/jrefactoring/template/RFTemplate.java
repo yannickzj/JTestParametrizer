@@ -963,6 +963,10 @@ public class RFTemplate {
         }
     }
 
+    public String getTemplatName() {
+        return templateMethod.getName().getFullyQualifiedName();
+    }
+
     public void updateSourceFiles() throws Exception {
 
         log.info("refactoring method pair: "
@@ -990,11 +994,15 @@ public class RFTemplate {
             cleanImportDeclarations(iCompilationUnit);
 
         } else {
-            // duplicate methods are in the different packages
+            // duplicate methods are in different packages
+            log.info("duplicate methods are in different packages");
+            return;
+            /*
             saveCU(packageFragmentRoot, adapterInterfaceCU, false);
             saveCU(packageFragmentRoot, adapterImplCU1, false);
             saveCU(packageFragmentRoot, adapterImplCU2, false);
             saveCU(packageFragmentRoot, templateCU, false);
+            */
         }
 
         saveMethod(iCU1, method1, cuImports1, true);
@@ -1105,7 +1113,8 @@ public class RFTemplate {
             if (replace) {
                 rewrite.replace(methodVisitor.getResult(), method, null);
             } else {
-                throw new IllegalStateException("repeated method found when the target method is not replaceable");
+                //throw new IllegalStateException("repeated method found when the target method is not replaceable");
+                log.info("repeated method found when the target method is not replaceable");
             }
         } else {
             ListRewrite methodDeclarations = rewrite.getListRewrite(methodVisitor.getTypeDeclaration(),

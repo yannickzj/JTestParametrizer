@@ -17,12 +17,15 @@ import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CloneRefactor {
 
     private static Logger log = FileLogger.getLogger(CloneRefactor.class);
     private static List<RFTemplate> refactorableTemplates = new ArrayList<>();
+    private static Set<String> templateNames = new HashSet<>();
     private static int countType1 = 0;
     private static int countType2 = 0;
     private static int countType3 = 0;
@@ -85,7 +88,8 @@ public class CloneRefactor {
                             */
 
                     //template.updateSourceFiles();
-                    if (!template.hasUnrefactorableNodePair()) {
+                    if (!template.hasUnrefactorableNodePair()
+                            && templateNames.add(template.getTemplatName())) {
                         refactorableTemplates.add(template);
                     }
 
