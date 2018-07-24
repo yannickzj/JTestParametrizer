@@ -57,12 +57,15 @@ public class ProjectRefactor {
     }
 
     public void refactor(IJavaProject iJavaProject,
-                                File originalExcelFile,
-                                int startFromRow,
-                                boolean appendResults,
-                                int[] cloneGroupIDsToSkip,
-                                int[] cloneGroupIDsToAnalyze,
-                                String[] testPackages, String[] testSourceFolders) throws Exception {
+                         File originalExcelFile,
+                         int startFromRow,
+                         boolean appendResults,
+                         int[] cloneGroupIDsToSkip,
+                         int[] cloneGroupIDsToAnalyze,
+                         String[] testPackages,
+                         String[] testSourceFolders,
+                         String packageName,
+                         boolean applyChanges) throws Exception {
 
         log.info("Testing refactorabiliy of clones in " + originalExcelFile.getAbsolutePath());
 
@@ -289,6 +292,11 @@ public class ProjectRefactor {
 					}
 					*/
 
+					if (packageName != null && !firstPackageName.equals(packageName)) {
+					    log.info("first package name is not equal to target package name: " + packageName);
+					    continue;
+                    }
+
                     IMethod firstIMethod = getIMethod(iJavaProject, firstFullName, firstMethodName, firstMethodSignature);
 
                     int firstStartOffset = getMethodStartPosition(firstIMethod);
@@ -341,7 +349,9 @@ public class ProjectRefactor {
 								((firstStartOffset >= secondStartOffset && firstStartOffset <= secondEndOffset) ||
 								 (secondStartOffset >= firstStartOffset && secondStartOffset <= firstEndOffset)
 								)
-							) {
+							) {if (packageName != null && !firstPackageName.equals(packageName)) {
+					    continue;
+                    }
 							log.warn(String.format("Clones %s and %s in group %s overlap, skipping clone pair at rows %s-%s",
 									firstCloneNumber + 1, secondCloneNumber + 1,
 									cloneGroupID,
@@ -356,6 +366,11 @@ public class ProjectRefactor {
 							continue;
 						}
 						*/
+
+                        if (packageName != null && !secondPackageName.equals(packageName)) {
+                            log.info("second package name is not equal to target package name: " + packageName);
+                            continue;
+                        }
 
                         IMethod secondIMethod = getIMethod(iJavaProject, secondFullName, secondMethodName, secondMethodSignature);
 
@@ -568,8 +583,10 @@ public class ProjectRefactor {
             iJavaProject.getProject().getWorkspace().save(true, new NullProgressMonitor());
         }
 
-        log.info("Applying changes to source files");
-        CloneRefactor.applyChanges();
+        if (applyChanges) {
+            log.info("Applying changes to source files");
+            CloneRefactor.applyChanges();
+        }
 
         log.info("Finished testing refactorabiliy of clones in " + originalExcelFile.getAbsolutePath() + ", output file: " + copyWorkBookFile.getAbsolutePath());
 

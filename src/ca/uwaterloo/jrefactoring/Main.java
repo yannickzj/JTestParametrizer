@@ -99,9 +99,12 @@ public class Main implements IApplication {
             //methodRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
             //        cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
 
+            boolean applyChanges = cliParser.hasApplyChanges();
+            String packageName = cliParser.getRefactoringPackage();
+
             ProjectRefactor projectRefactor = ProjectRefactor.getInstance();
             projectRefactor.refactor(jProject, excelFile, startFrom, appendResults, cloneGroupIDsToSkip,
-                    cloneGroupIdsToAnalyze, testPackages, testSourceFolders);
+                    cloneGroupIdsToAnalyze, testPackages, testSourceFolders, packageName, applyChanges);
         }
         return IApplication.EXIT_OK;
     }

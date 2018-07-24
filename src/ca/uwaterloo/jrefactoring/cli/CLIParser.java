@@ -140,6 +140,20 @@ public class CLIParser {
 
 		options.addOption(OptionBuilder
 				.withArgName("")
+				.withLongOpt("refactoring-package")
+				.withDescription("The name of refactoring packages.")
+				.hasArgs()
+				.create("pkg"));
+
+		options.addOption(OptionBuilder
+				.withArgName("")
+				.withLongOpt("apply-changes")
+				.withDescription("Flag to apply changes to source code.")
+				.hasOptionalArg()
+				.create("ac"));
+
+		options.addOption(OptionBuilder
+				.withArgName("")
 				.withLongOpt("test-packages")
 				.withDescription("A comma-separated list of the name of test packages")
 				.withValueSeparator(',')
@@ -457,5 +471,13 @@ public class CLIParser {
 
 	public String getProjectDescritionFile() {
 		return getValue("project-description");
+	}
+
+	public String getRefactoringPackage() {
+		return getValue("refactoring-package");
+	}
+
+	public boolean hasApplyChanges() {
+		return hasOption("ac");
 	}
 }
