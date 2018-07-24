@@ -49,16 +49,22 @@ public class ImportVisitor extends ASTVisitor {
                     }
                 }
             }
-
         }
 
         if (node.resolveBinding().getKind() == 3) {
             IVariableBinding iVariableBinding = (IVariableBinding) node.resolveBinding();
             if (iVariableBinding.isField()) {
                 log.info("variable field is private: " + Modifier.isPrivate(iVariableBinding.getModifiers()));
-                String name = iVariableBinding.getDeclaringClass().getBinaryName() + "." + iVariableBinding.getName();
-                log.info("type binding name: " + name);
-                template.addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, name), true);
+                String name;
+                boolean isStatic;
+                if (!iVariableBinding.getType().isPrimitive()) {
+                    name = iVariableBinding.getType().getBinaryName();
+                    isStatic = false;
+                } else {
+                    name = iVariableBinding.getDeclaringClass().getBinaryName() + "." + iVariableBinding.getName();
+                    isStatic = true;
+                }
+                template.addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, name), isStatic);
             }
         }
         return false;
