@@ -55,7 +55,30 @@ public class ASTNodeUtil {
         }
 
         // simple or raw type
-        //String qualName = typeBinding.getQualifiedName();
+        if (typeBinding.isNested()) {
+            StringBuilder sb = new StringBuilder();
+            for (String cmp : typeBinding.getBinaryName().split("\\.")) {
+                if (cmp.length() > 0 && Character.isUpperCase(cmp.charAt(0))) {
+                    if (cmp.contains("$")) {
+                        for (String name: cmp.split("\\$")) {
+                            sb.append(name);
+                            sb.append(".");
+                        }
+                    } else {
+                        sb.append(cmp);
+                        sb.append(".");
+                    }
+                }
+            }
+            if (sb.length() > 0) {
+                sb.setLength(sb.length() - 1);
+            }
+            System.out.println("nest type binding name: " + sb.toString());
+            SimpleType simpleType = ast.newSimpleType(createPackageName(ast, sb.toString()));
+            simpleType.setProperty(PROPERTY_QUALIFIED_NAME, typeBinding.getQualifiedName());
+            return simpleType;
+        }
+
         String name = typeBinding.getName();
         if( "".equals(name) ) {
             throw new IllegalArgumentException("No name for type binding.");

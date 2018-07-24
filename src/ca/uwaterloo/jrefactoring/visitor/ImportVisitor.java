@@ -24,7 +24,6 @@ public class ImportVisitor extends ASTVisitor {
     public boolean visit(SimpleType node) {
         if (!ASTNodeUtil.hasPairedNode(node)) {
             if (node.resolveBinding() != null && !node.resolveBinding().getPackage().getName().equals(IGNORE_PACKAGE)) {
-                //log.info("simple type [" + node + "] import: " + node.resolveBinding().getQualifiedName());
                 template.addImportDeclaration(templateCU,
                         ASTNodeUtil.createPackageName(ast, node.resolveBinding().getQualifiedName()), false);
             }
@@ -39,7 +38,6 @@ public class ImportVisitor extends ASTVisitor {
                 if (node.resolveBinding().getKind() == 2) {
                     template.addImportDeclaration(templateCU,
                             ASTNodeUtil.createPackageName(ast, node.resolveTypeBinding().getQualifiedName()), false);
-                    //log.info("simple name[" + node + "] import: " + node.resolveTypeBinding().getQualifiedName());
 
                 } else if (node.resolveBinding().getKind() == 4) {
                     IMethodBinding iMethodBinding = (IMethodBinding) node.resolveBinding();
@@ -48,9 +46,19 @@ public class ImportVisitor extends ASTVisitor {
                         String staticImportName = iMethodBinding.getDeclaringClass().getQualifiedName()
                                 + "." + iMethodBinding.getName();
                         template.addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, staticImportName), true);
-                        //log.info("simple name[" + node + "] static import: " + staticImportName);
                     }
                 }
+            }
+
+        }
+
+        if (node.resolveBinding().getKind() == 3) {
+            IVariableBinding iVariableBinding = (IVariableBinding) node.resolveBinding();
+            if (iVariableBinding.isField()) {
+                log.info("variable field is private: " + Modifier.isPrivate(iVariableBinding.getModifiers()));
+                String name = iVariableBinding.getDeclaringClass().getBinaryName() + "." + iVariableBinding.getName();
+                log.info("type binding name: " + name);
+                template.addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, name), true);
             }
         }
         return false;

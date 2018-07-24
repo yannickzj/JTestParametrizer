@@ -941,17 +941,19 @@ public class RFTemplate {
         List<Expression> args = methodInvocation.arguments();
 
         // add type parameter in template method invocation
-        List<TypeParameter> typeParameters = templateMethod.typeParameters();
-        for (TypeParameter typeParameter : typeParameters) {
-            TypePair typePair = genericTypeMap.get(typeParameter.getName().getIdentifier());
-            if (typePair != null) {
-                Type type;
-                if (pair == Pair.member1) {
-                    type = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
-                } else {
-                    type = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+        if (!hasAdapterVariable && arguments.isEmpty()) {
+            List<TypeParameter> typeParameters = templateMethod.typeParameters();
+            for (TypeParameter typeParameter : typeParameters) {
+                TypePair typePair = genericTypeMap.get(typeParameter.getName().getIdentifier());
+                if (typePair != null) {
+                    Type type;
+                    if (pair == Pair.member1) {
+                        type = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
+                    } else {
+                        type = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+                    }
+                    methodInvocation.typeArguments().add(type);
                 }
-                methodInvocation.typeArguments().add(type);
             }
         }
 
@@ -1001,9 +1003,9 @@ public class RFTemplate {
             // duplicate methods are in the same file
             saveMethod(iCU1, templateMethod, templateCUImports, false);
             if (hasAdapterVariable) {
-                insertInnerClass(iCU1, adapterInterfaceCU);
-                insertInnerClass(iCU1, adapterImplCU1);
-                insertInnerClass(iCU1, adapterImplCU2);
+                insertInnerClass(iCU1, adapterInterfaceCU, true);
+                insertInnerClass(iCU1, adapterImplCU1, true);
+                insertInnerClass(iCU1, adapterImplCU2, true);
             }
             cleanImportDeclarations(iCU1);
 
@@ -1011,9 +1013,9 @@ public class RFTemplate {
             // duplicate methods are in the same package but different files
             ICompilationUnit iCompilationUnit = saveCU(packageFragmentRoot, templateCU, false);
             if (hasAdapterVariable) {
-                insertInnerClass(iCompilationUnit, adapterInterfaceCU);
-                insertInnerClass(iCompilationUnit, adapterImplCU1);
-                insertInnerClass(iCompilationUnit, adapterImplCU2);
+                insertInnerClass(iCompilationUnit, adapterInterfaceCU, false);
+                insertInnerClass(iCU1, adapterImplCU1, true);
+                insertInnerClass(iCU2, adapterImplCU2, true);
             }
             cleanImportDeclarations(iCompilationUnit);
 
@@ -1044,7 +1046,7 @@ public class RFTemplate {
         return packageFragment.createCompilationUnit(name, contents, force, null);
     }
 
-    private void insertInnerClass(ICompilationUnit cu, CompilationUnit classCU) throws Exception {
+    private void insertInnerClass(ICompilationUnit cu, CompilationUnit classCU, boolean inner) throws Exception {
 
         // creation of a Document
         Document document = new Document(cu.getSource());
@@ -1058,24 +1060,29 @@ public class RFTemplate {
         ASTRewrite rewrite = ASTRewrite.create(astRoot.getAST());
 
         // description of the change
-        String typeDeclarationName = cu.getElementName().split("\\.")[0];
-        TypeDeclaration typeDeclaration = null;
-        List<TypeDeclaration> typeDeclarations = astRoot.types();
-        for (TypeDeclaration curTypeDeclaration: typeDeclarations) {
-            if (curTypeDeclaration.getName().getIdentifier().equals(typeDeclarationName)) {
-                typeDeclaration = curTypeDeclaration;
+        ListRewrite classListRewrite;
+        if (inner) {
+            String typeDeclarationName = cu.getElementName().split("\\.")[0];
+            TypeDeclaration typeDeclaration = null;
+            List<TypeDeclaration> typeDeclarations = astRoot.types();
+            for (TypeDeclaration curTypeDeclaration : typeDeclarations) {
+                if (curTypeDeclaration.getName().getIdentifier().equals(typeDeclarationName)) {
+                    typeDeclaration = curTypeDeclaration;
+                }
             }
-        }
 
-        if (typeDeclaration == null) {
-            throw new IllegalStateException("cannot find target typeDeclaration: " + typeDeclarationName);
-        }
+            if (typeDeclaration == null) {
+                throw new IllegalStateException("cannot find target typeDeclaration: " + typeDeclarationName);
+            }
 
-        ListRewrite innerDeclarations = rewrite.getListRewrite(typeDeclaration, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
+            classListRewrite = rewrite.getListRewrite(typeDeclaration, TypeDeclaration.BODY_DECLARATIONS_PROPERTY);
+        } else {
+            classListRewrite = rewrite.getListRewrite(astRoot, CompilationUnit.TYPES_PROPERTY);
+        }
         List<AbstractTypeDeclaration> types = classCU.types();
         for (AbstractTypeDeclaration type : types) {
             type.modifiers().clear();
-            innerDeclarations.insertLast(type, null);
+            classListRewrite.insertLast(type, null);
         }
         ListRewrite imports = rewrite.getListRewrite(astRoot, IMPORTS_PROPERTY);
         List<ImportDeclaration> importDeclarations = classCU.imports();
