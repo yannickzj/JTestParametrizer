@@ -20,12 +20,12 @@ public class RFVisitor extends ASTVisitor {
 
     private RFTemplate template;
     private AST ast;
-    private ImportVisitor importVisitor;
+    private PreprocessVisitor preprocessVisitor;
 
     public RFVisitor(RFTemplate template) {
         this.template = template;
         this.ast = template.getAst();
-        this.importVisitor = new ImportVisitor(template);
+        this.preprocessVisitor = new PreprocessVisitor(template);
     }
 
     private void preVisit(RFEntity node) {
@@ -33,7 +33,7 @@ public class RFVisitor extends ASTVisitor {
             RFStatement rfStatement = (RFStatement) node;
             if (rfStatement.isTopStmt()) {
                 //log.info("statement1: " + rfStatement.getStatement1().toString());
-                rfStatement.getStatement1().accept(importVisitor);
+                rfStatement.getStatement1().accept(preprocessVisitor);
             }
         }
     }
@@ -721,7 +721,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
-            //node.describe();
+            node.describe();
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
 
             // refactor type

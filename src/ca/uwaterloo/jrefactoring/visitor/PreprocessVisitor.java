@@ -6,15 +6,15 @@ import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
-public class ImportVisitor extends ASTVisitor {
+public class PreprocessVisitor extends ASTVisitor {
 
-    private static Logger log = FileLogger.getLogger(ImportVisitor.class);
+    private static Logger log = FileLogger.getLogger(PreprocessVisitor.class);
     private static final String IGNORE_PACKAGE = "java.lang";
     private RFTemplate template;
     private AST ast;
     private CompilationUnit templateCU;
 
-    public ImportVisitor(RFTemplate template) {
+    public PreprocessVisitor(RFTemplate template) {
         this.template = template;
         this.ast = template.getAst();
         this.templateCU = template.getTemplateCU();
@@ -23,11 +23,21 @@ public class ImportVisitor extends ASTVisitor {
     @Override
     public boolean visit(SimpleType node) {
         if (!ASTNodeUtil.hasPairedNode(node)) {
+            if (node.getName() instanceof QualifiedName) {
+                return true;
+            }
             if (node.resolveBinding() != null && !node.resolveBinding().getPackage().getName().equals(IGNORE_PACKAGE)) {
                 template.addImportDeclaration(templateCU,
                         ASTNodeUtil.createPackageName(ast, node.resolveBinding().getQualifiedName()), false);
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean visit(ThisExpression node) {
+        template.markAsUnrefactorable();
+        log.info("Containing unrefactorable ThisExpression: " + node);
         return false;
     }
 
@@ -51,10 +61,16 @@ public class ImportVisitor extends ASTVisitor {
             }
         }
 
+        /*
         if (node.resolveBinding().getKind() == 3) {
             IVariableBinding iVariableBinding = (IVariableBinding) node.resolveBinding();
             if (iVariableBinding.isField()) {
-                log.info("variable field is private: " + Modifier.isPrivate(iVariableBinding.getModifiers()));
+                if (Modifier.isPrivate(iVariableBinding.getModifiers())) {
+                    template.markAsUnrefactorable();
+                    log.info("Containing unrefactorable private field access: " + node);
+                    return false;
+                }
+
                 String name;
                 boolean isStatic;
                 if (!iVariableBinding.getType().isPrimitive()) {
@@ -65,6 +81,19 @@ public class ImportVisitor extends ASTVisitor {
                     isStatic = true;
                 }
                 template.addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, name), isStatic);
+            }
+        }
+        */
+        return false;
+    }
+
+    @Override
+    public boolean visit(QualifiedName node) {
+        if (!ASTNodeUtil.hasPairedNode(node)) {
+            if (node.getQualifier().resolveTypeBinding() != null) {
+                log.info("import qualified name: " + node.getQualifier().resolveTypeBinding().getBinaryName());
+                template.addImportDeclaration(templateCU,
+                        ASTNodeUtil.createPackageName(ast, node.getQualifier().resolveTypeBinding().getBinaryName()), false);
             }
         }
         return false;

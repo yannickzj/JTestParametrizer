@@ -68,10 +68,11 @@ public class RFTemplate {
     private List<NodePair> unrefactoredList;
     private Map<String, Integer> adapterActionNameMap;
     private Map<String, Integer> genericTypeNameMap;
-    private boolean innerImplClass;
+    //private boolean innerImplClass;
     private ICompilationUnit iCU1;
     private ICompilationUnit iCU2;
     private IPackageFragmentRoot packageFragmentRoot;
+    private boolean refactorable;
 
     public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
                       String templateName, String adapterName, String[] adapterImplNamePair,
@@ -107,10 +108,11 @@ public class RFTemplate {
         this.unrefactoredList = new ArrayList<>();
         this.adapterActionNameMap = new HashMap<>();
         this.genericTypeNameMap = new HashMap<>();
-        this.innerImplClass = false;
+        //this.innerImplClass = false;
         this.iCU1 = iCU1;
         this.iCU2 = iCU2;
         this.packageFragmentRoot = (IPackageFragmentRoot) iCU1.getAncestor(3);
+        this.refactorable = true;
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -265,6 +267,14 @@ public class RFTemplate {
 
     public CompilationUnit getTemplateCU() {
         return templateCU;
+    }
+
+    public boolean isRefactorable() {
+        return refactorable;
+    }
+
+    public void markAsUnrefactorable() {
+        refactorable = false;
     }
 
     public Type getTypeByInstanceCreation(ClassInstanceCreation instanceCreation) {
@@ -675,7 +685,13 @@ public class RFTemplate {
             // set method variable declaration type
             SingleVariableDeclaration variableDeclaration = ast.newSingleVariableDeclaration();
             Type curType = argTypes.get(i);
-            if (curType == null) continue;
+            if (curType == null) {
+                if (expr instanceof SimpleName && ((SimpleName) expr).resolveBinding().getKind() == 2) {
+                    // Type static call
+                    methodInvocation.setExpression((Expression) ASTNode.copySubtree(ast, expr));
+                }
+                continue;
+            }
             String argTypeName = curType.toString();
 
             Type argType;
@@ -688,12 +704,9 @@ public class RFTemplate {
                 } else {
                     argType = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
                 }
-                //variableDeclaration.setType((Type) ASTNode.copySubtree(ast, argType));
 
             } else {
                 argType = ASTNodeUtil.copyTypeWithProperties(ast, curType);
-                //variableDeclaration.setType(ASTNodeUtil.copyTypeWithProperties(ast, curType));
-                //variableDeclaration.setType((Type) ASTNode.copySubtree(ast, curType));
             }
             variableDeclaration.setType(argType);
 
@@ -829,11 +842,16 @@ public class RFTemplate {
 
         // copy and resolve method expr
         if (expr != null) {
-            newArgs.add((Expression) ASTNode.copySubtree(ast, expr));
-            argTypes.add(resolveAdapterActionArgumentType(expr, null));
+            if (expr instanceof SimpleName && ((SimpleName) expr).resolveBinding().getKind() == 2) {
+                argTypes.add(null);
+
+            } else {
+                newArgs.add((Expression) ASTNode.copySubtree(ast, expr));
+                argTypes.add(resolveAdapterActionArgumentType(expr, null));
+            }
         } else {
             // mark adapter impl as inner class to make use of class private methods
-            innerImplClass = true;
+            //innerImplClass = true;
             argTypes.add(null);
         }
 

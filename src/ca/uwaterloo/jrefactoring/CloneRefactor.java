@@ -29,6 +29,7 @@ public class CloneRefactor {
     private static int countType1 = 0;
     private static int countType2 = 0;
     private static int countType3 = 0;
+    private static int countSkip = 0;
 
     public static void refactor(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
 
@@ -100,8 +101,11 @@ public class CloneRefactor {
                     //template.updateSourceFiles();
                     if (!template.hasUnrefactorableNodePair()
                             && templateNames.add(template.getTemplatName())
-                            && template.comesFromSamePackage()) {
+                            && template.comesFromSamePackage()
+                            && template.isRefactorable()) {
                         refactorableTemplates.add(template);
+                    } else {
+                        countSkip++;
                     }
 
                     // print out the refactoring template
@@ -119,6 +123,7 @@ public class CloneRefactor {
 
     public static void applyChanges() throws Exception {
         log.info("refactoring " + refactorableTemplates.size() + " duplicate method pairs.");
+        log.info("skipping " + countSkip + " duplicate method pairs.");
         log.info("type1 count: " + countType1);
         log.info("type2 count: " + countType2);
         log.info("type3 count: " + countType3);
