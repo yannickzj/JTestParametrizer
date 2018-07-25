@@ -1,6 +1,5 @@
 package ca.uwaterloo.jrefactoring.template;
 
-import ca.uwaterloo.jrefactoring.detect.ClonePairInfo;
 import ca.uwaterloo.jrefactoring.node.RFNodeDifference;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
@@ -28,6 +27,7 @@ public class RFTemplate {
     private static final String DEFAULT_ADAPTER_VARIABLE_NAME = "adapter";
     private static final String DEFAULT_ADAPTER_METHOD_NAME = "action";
     private static final String DEFAULT_TEMPLATE_CLASS_NAME = "TestTemplates";
+    public static final String NULL_PARAMETER_OBJECT = "nullParameterObject";
 
     private AST ast;
     private MethodDeclaration templateMethod;
@@ -73,6 +73,7 @@ public class RFTemplate {
     private ICompilationUnit iCU2;
     private IPackageFragmentRoot packageFragmentRoot;
     private boolean refactorable;
+    private boolean hasNullParameterObject;
 
     public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
                       String templateName, String adapterName, String[] adapterImplNamePair,
@@ -113,6 +114,7 @@ public class RFTemplate {
         this.iCU2 = iCU2;
         this.packageFragmentRoot = (IPackageFragmentRoot) iCU1.getAncestor(3);
         this.refactorable = true;
+        this.hasNullParameterObject = false;
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -307,6 +309,18 @@ public class RFTemplate {
     public void addInstanceCreation(ClassInstanceCreation instanceCreation, Type type) {
         if (instanceCreation != null) {
             this.instanceCreationTypeMap.put(instanceCreation, type);
+        }
+    }
+
+    public void addNullParameterObject() {
+        if (!hasNullParameterObject) {
+            VariableDeclarationFragment variableDeclarationFragment = ast.newVariableDeclarationFragment();
+            variableDeclarationFragment.setName(ast.newSimpleName(NULL_PARAMETER_OBJECT));
+            variableDeclarationFragment.setInitializer(ast.newNullLiteral());
+            VariableDeclarationStatement variableDeclarationStatement = ast.newVariableDeclarationStatement(variableDeclarationFragment);
+            variableDeclarationStatement.setType(ast.newSimpleType(ast.newSimpleName("Object")));
+            templateMethod.getBody().statements().add(0, variableDeclarationStatement);
+            hasNullParameterObject = true;
         }
     }
 
@@ -647,18 +661,21 @@ public class RFTemplate {
         Expression expr;
         SimpleName name;
         List<Expression> arguments;
+        IMethodBinding iMethodBinding;
 
         switch (pair) {
             case member1:
                 expr = methodInvocationPair.getExpr1();
                 name = methodInvocationPair.getName1();
                 arguments = methodInvocationPair.getArgument1();
+                iMethodBinding = methodInvocationPair.getiMethodBinding1();
                 break;
             case member2:
             default:
                 expr = methodInvocationPair.getExpr2();
                 name = methodInvocationPair.getName2();
                 arguments = methodInvocationPair.getArgument2();
+                iMethodBinding = methodInvocationPair.getiMethodBinding2();
         }
 
         MethodDeclaration method = ast.newMethodDeclaration();
@@ -744,8 +761,29 @@ public class RFTemplate {
 
             if (i == 0) {
                 methodInvocation.setExpression((Expression) ASTNode.copySubtree(ast, curName));
+
             } else {
-                methodInvocation.arguments().add(ASTNode.copySubtree(ast, curName));
+                // check if argType matches iMethodBinding
+                ITypeBinding parameterType = iMethodBinding.getParameterTypes()[i - 1];
+                String qualifiedName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
+
+                if (qualifiedName != null && !parameterType.getBinaryName().equals(qualifiedName)) {
+                    // check if argType is subType of parameterType
+                    if (ASTNodeUtil.hasAncestor(parameterType, qualifiedName)) {
+                        if (!parameterType.isPrimitive()) {
+                            templateCUImports.add(ASTNodeUtil.createPackageName(ast, parameterType.getBinaryName()));
+                        }
+                        CastExpression castExpression = ast.newCastExpression();
+                        castExpression.setExpression((Expression) ASTNode.copySubtree(ast, curName));
+                        castExpression.setType(ASTNodeUtil.typeFromBinding(ast, parameterType));
+                        methodInvocation.arguments().add(castExpression);
+                    } else {
+                        methodInvocation.arguments().add(ASTNode.copySubtree(ast, curName));
+                    }
+
+                } else {
+                    methodInvocation.arguments().add(ASTNode.copySubtree(ast, curName));
+                }
             }
 
         }

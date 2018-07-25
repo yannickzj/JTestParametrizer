@@ -61,7 +61,6 @@ public class PreprocessVisitor extends ASTVisitor {
             }
         }
 
-        /*
         if (node.resolveBinding().getKind() == 3) {
             IVariableBinding iVariableBinding = (IVariableBinding) node.resolveBinding();
             if (iVariableBinding.isField()) {
@@ -83,7 +82,6 @@ public class PreprocessVisitor extends ASTVisitor {
                 template.addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, name), isStatic);
             }
         }
-        */
         return false;
     }
 

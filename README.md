@@ -1,23 +1,10 @@
 # refactor-template
 
-location: 
+## Jfreechart-1.0.10
 
-/Users/yannick/workspace/eclipse/workspace
+### skipped cases
 
-program arguments:
-
--os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog
--p jfreechart-1.0.10
--x jfreechart-1.0.10_detection/jfreechart-1.0.10-ccfinder-1.xls
--m ANALYZE_EXISTING
--l
--g 1001
-
-VM arguments:
-
--XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
--Xms128m -Xmx4096m
-
-working directory:
-
-other: /Users/yannick/workspace/eclipse/workspace
+- no method parameter mapping (JDeodorant): 8816
+- private field access in different files: 1674,3715
+- separate refactoring: 7821
+- TLE, *TestEquals* (JDeodorant): 2356,2889,5249,5315,8572

@@ -5,8 +5,10 @@ import gr.uom.java.ast.*;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.dom.*;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 
 public class ASTNodeUtil {
 
@@ -222,6 +224,30 @@ public class ASTNodeUtil {
         MethodVisitor visitor = new MethodVisitor(cuName.split("\\.")[0], method);
         cu.accept(visitor);
         return visitor;
+    }
+
+    public static boolean hasAncestor(ITypeBinding iTypeBinding, String qualifiedName) {
+        Queue<ITypeBinding> queue = new LinkedList<>();
+        if (iTypeBinding.getSuperclass() != null) {
+            queue.offer(iTypeBinding.getSuperclass());
+        }
+        for (ITypeBinding cur : iTypeBinding.getInterfaces()) {
+            queue.offer(cur);
+        }
+        while(!queue.isEmpty()) {
+            ITypeBinding cur = queue.poll();
+            if (cur.getBinaryName().equals(qualifiedName)) {
+                return true;
+            } else {
+                if (cur.getSuperclass() != null) {
+                    queue.offer(cur.getSuperclass());
+                }
+                for (ITypeBinding curInterface: cur.getInterfaces()) {
+                    queue.offer(curInterface);
+                }
+            }
+        }
+        return false;
     }
 
 }

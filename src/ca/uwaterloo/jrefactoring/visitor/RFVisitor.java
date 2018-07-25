@@ -429,10 +429,18 @@ public class RFVisitor extends ASTVisitor {
                     continue;
 
                 } else if (typeBinding1.isInterface()) {
+                    if (typeBinding2.isPrimitive() || !typeBinding1.isCastCompatible(typeBinding2)) {
+                        template.addUnrefactoredNodePair(node, pairNode, diff);
+                        return false;
+                    }
                     parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, typeBinding1));
                     continue;
 
                 } else if (typeBinding2.isInterface()) {
+                    if (typeBinding1.isPrimitive() || !typeBinding2.isCastCompatible(typeBinding1)) {
+                        template.addUnrefactoredNodePair(node, pairNode, diff);
+                        return false;
+                    }
                     parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, typeBinding2));
                     continue;
                 }
@@ -505,7 +513,13 @@ public class RFVisitor extends ASTVisitor {
                     }
 
                     getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
-                    Expression newArg = (Expression) ASTNode.copySubtree(ast, argument);
+                    Expression newArg;
+                    if (argument instanceof NullLiteral) {
+                        template.addNullParameterObject();
+                        newArg = ast.newSimpleName(template.NULL_PARAMETER_OBJECT);
+                    } else {
+                        newArg = (Expression) ASTNode.copySubtree(ast, argument);
+                    }
                     newInstanceMethodInvocation.arguments().add(newArg);
                 }
 
@@ -721,7 +735,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
-            node.describe();
+            //node.describe();
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
 
             // refactor type
