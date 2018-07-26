@@ -110,7 +110,7 @@ public class CloneRefactor {
 
                     // print out the refactoring template
                     System.out.println("----------------------------------------------------------");
-                    //System.out.println(template);
+                    System.out.println(template);
 
                 }
 

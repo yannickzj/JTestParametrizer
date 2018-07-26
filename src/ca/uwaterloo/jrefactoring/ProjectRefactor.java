@@ -292,7 +292,7 @@ public class ProjectRefactor {
 					}
 					*/
 
-					if (packageName != null && !firstPackageName.equals(packageName)) {
+					if (packageName != null && !firstPackageName.startsWith(packageName)) {
 					    log.info("first package name is not equal to target package name: " + packageName);
 					    continue;
                     }
@@ -367,7 +367,7 @@ public class ProjectRefactor {
 						}
 						*/
 
-                        if (packageName != null && !secondPackageName.equals(packageName)) {
+                        if (packageName != null && !secondPackageName.startsWith(packageName)) {
                             log.info("second package name is not equal to target package name: " + packageName);
                             continue;
                         }

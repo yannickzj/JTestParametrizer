@@ -259,6 +259,10 @@ public class RFTemplate {
         return typeMap.get(typePair);
     }
 
+    public boolean containsGenericNameInMap(String genericName) {
+        return genericTypeMap.containsKey(genericName);
+    }
+
     public List<Expression> getTemplateArguments1() {
         return templateArguments1;
     }

@@ -461,13 +461,33 @@ public class RFVisitor extends ASTVisitor {
 
             // refactor arguments
             List<Expression> arguments = node.arguments();
-            for (Expression argument : arguments) {
+            for (int i = 0; i < arguments.size(); i++) {
+                Expression argument = arguments.get(i);
                 if (ASTNodeUtil.hasPairedNode(argument)) {
                     argument.accept(this);
+
+                    // update current node
+                    argument = arguments.get(i);
+
+                    // wrap cast expression
+                    Type argType = (Type) argument.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+                    String argTypeFullName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
+                    String qualifiedName = (String) parameterTypes.get(i).getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
+                    if (template.containsGenericNameInMap(argType.toString())
+                            || (argTypeFullName != null && !qualifiedName.equals(argTypeFullName))) {
+                        Type castType = parameterTypes.get(i);
+                        String name = (String) castType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
+                        if (name != null) {
+                            template.addImportDeclaration(template.getTemplateCU(),
+                                    ASTNodeUtil.createPackageName(ast, name), false);
+                        }
+                        CastExpression castExpression = wrapCastExpression(castType, argument);
+                        replaceNode(argument, castExpression, castType);
+                    }
                 }
             }
 
-            //RFNodeDifference diff = retrieveDiffInTypeNode(node.getType());
+            // refactor ClassInstanceCreation type
             Type type = node.getType();
             if (ASTNodeUtil.hasPairedNode(type)) {
 
@@ -695,15 +715,19 @@ public class RFVisitor extends ASTVisitor {
                     initializer.accept(this);
 
                     // wrap CastExpression if initializer is still ClassInstanceCreation
-                    if (fragment.getInitializer() instanceof ClassInstanceCreation) {
+                    initializer = fragment.getInitializer();
+                    if (initializer instanceof ClassInstanceCreation
+                            && template.containsGenericNameInMap(type.toString())) {
                         CastExpression castExpression = wrapCastExpression(type, initializer);
                         replaceNode(initializer, castExpression, type);
                     }
 
                 } else {
                     // wrap CastExpression
-                    CastExpression castExpression = wrapCastExpression(type, initializer);
-                    replaceNode(initializer, castExpression, type);
+                    if (template.containsGenericNameInMap(type.toString())) {
+                        CastExpression castExpression = wrapCastExpression(type, initializer);
+                        replaceNode(initializer, castExpression, type);
+                    }
                 }
             }
         }
@@ -735,7 +759,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
-            //node.describe();
+            node.describe();
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
 
             // refactor type

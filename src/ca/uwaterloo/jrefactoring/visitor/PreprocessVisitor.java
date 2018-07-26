@@ -36,8 +36,10 @@ public class PreprocessVisitor extends ASTVisitor {
 
     @Override
     public boolean visit(ThisExpression node) {
-        template.markAsUnrefactorable();
-        log.info("Containing unrefactorable ThisExpression: " + node);
+        if (template.getTemplateCU() != null) {
+            template.markAsUnrefactorable();
+            log.info("Containing unrefactorable ThisExpression: " + node);
+        }
         return false;
     }
 
@@ -64,7 +66,7 @@ public class PreprocessVisitor extends ASTVisitor {
         if (node.resolveBinding().getKind() == 3) {
             IVariableBinding iVariableBinding = (IVariableBinding) node.resolveBinding();
             if (iVariableBinding.isField()) {
-                if (Modifier.isPrivate(iVariableBinding.getModifiers())) {
+                if (Modifier.isPrivate(iVariableBinding.getModifiers()) && template.getTemplateCU() != null) {
                     template.markAsUnrefactorable();
                     log.info("Containing unrefactorable private field access: " + node);
                     return false;
