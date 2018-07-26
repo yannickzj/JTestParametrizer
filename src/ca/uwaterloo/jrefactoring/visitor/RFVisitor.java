@@ -334,6 +334,47 @@ public class RFVisitor extends ASTVisitor {
     }
 
     @Override
+    public boolean visit(Assignment node) {
+
+        // check if left hand side is generic type
+        Expression pairedLeftHandSide = (Expression) node.getLeftHandSide().getProperty(ASTNodeUtil.PROPERTY_PAIR);
+        if (pairedLeftHandSide != null) {
+            TypePair typePair = new TypePair(node.getLeftHandSide().resolveTypeBinding(), pairedLeftHandSide.resolveTypeBinding());
+            if (template.containsTypePair(typePair)) {
+
+                // get generic type
+                String genericTypeName = template.resolveTypePair(typePair, false);
+                Type genericType = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+
+                if (node.getRightHandSide() instanceof CastExpression) {
+                    // set CastExpression Type
+                    CastExpression castExpression = (CastExpression) node.getRightHandSide();
+                    castExpression.setType(genericType);
+                    castExpression.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, genericType);
+
+                    // refactor right hand side CastExpression expr
+                    castExpression.getExpression().accept(this);
+
+                } else if (!(node.getRightHandSide() instanceof NullLiteral)) {
+                    // refactor right hand side
+                    node.getRightHandSide().accept(this);
+
+                    // wrap CastExpression
+                    CastExpression castExpression = wrapCastExpression(genericType, node.getRightHandSide());
+                    replaceNode(node.getRightHandSide(), castExpression, genericType);
+                }
+
+                // refactor left hand side
+                node.getLeftHandSide().accept(this);
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
     public boolean visit(SimpleType node) {
         Name name = node.getName();
         RFNodeDifference diff = (RFNodeDifference) name.getProperty(ASTNodeUtil.PROPERTY_DIFF);
@@ -889,7 +930,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFDefaultStmt node) {
         if (node.hasDifference()) {
-            //node.describe();
+            node.describe();
             node.getStatement1().accept(this);
         }
         return true;
