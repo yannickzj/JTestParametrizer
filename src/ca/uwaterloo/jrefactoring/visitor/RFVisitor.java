@@ -733,7 +733,7 @@ public class RFVisitor extends ASTVisitor {
                 List<String> argTypeNames2 = getArgTypeNames(pairedNode.resolveMethodBinding().getParameterTypes());
                 MethodInvocationPair methodInvocationPair = new MethodInvocationPair(expr1, name1,
                         pairedNode.getExpression(), pairedNode.getName(), argTypeNames1, argTypeNames2,
-                        originalArgs1, originalArgs2, iMethodBinding, pairedNode.resolveMethodBinding());
+                        originalArgs1, originalArgs2, node, pairedNode);
 
                 // refactor the method invocation expression
                 if (expr1 != null) {
@@ -742,9 +742,10 @@ public class RFVisitor extends ASTVisitor {
 
                 // create new method invocation in adapter
                 //Type returnType = ASTNodeUtil.typeFromExpr(ast, node);
-                ITypeBinding returnType = node.resolveTypeBinding();
+                //ITypeBinding returnType = node.resolveTypeBinding();
+                TypePair returnTypePair = new TypePair(node.resolveTypeBinding(), pairedNode.resolveTypeBinding());
                 MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments1,
-                        methodInvocationPair, returnType);
+                        methodInvocationPair, returnTypePair);
 
                 // replace the old method
                 Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());

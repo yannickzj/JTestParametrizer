@@ -1,5 +1,6 @@
 package ca.uwaterloo.jrefactoring.utility;
 
+import ca.uwaterloo.jrefactoring.template.TypePair;
 import ca.uwaterloo.jrefactoring.visitor.MethodVisitor;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
@@ -281,15 +282,22 @@ public class ASTNodeUtil {
             return false;
         }
 
+        if (typeBinding1.isWildcardType() && typeBinding2.isWildcardType()) {
+            log.info("typeBinding1 wildcardType: " + typeBinding1.getQualifiedName());
+            log.info("typeBinding2 wildcardType: " + typeBinding2.getQualifiedName());
+            log.info("typeBinding1 bound: " + typeBinding1.getBound().getQualifiedName());
+            log.info("typeBinding2 bound: " + typeBinding2.getBound().getQualifiedName());
+        }
+
         if (typeBinding1.isCapture() && typeBinding2.isCapture()) {
-            ITypeBinding bound1 = typeBinding1.getWildcard().getBound();
-            ITypeBinding bound2 = typeBinding2.getWildcard().getBound();
-            log.info("typeBinding1 bound: " + bound1.getQualifiedName());
-            log.info("typeBinding2 bound: " + bound2.getQualifiedName());
+            //ITypeBinding bound1 = typeBinding1.getWildcard().getBound();
+            //ITypeBinding bound2 = typeBinding2.getWildcard().getBound();
+            //log.info("typeBinding1 bound: " + bound1.getQualifiedName());
+            //log.info("typeBinding2 bound: " + bound2.getQualifiedName());
             if (typeBinding1.getWildcard().isUpperbound() != typeBinding2.getWildcard().isUpperbound()) {
                 return false;
             }
-            return checkSameITypeBinding(bound1, bound2);
+            return checkSameITypeBinding(typeBinding1.getWildcard(), typeBinding2.getWildcard());
         }
 
         if (typeBinding1.isParameterizedType() && typeBinding2.isParameterizedType()) {
@@ -326,13 +334,21 @@ public class ASTNodeUtil {
         }
 
         if (typeBinding1.getQualifiedName() != null && typeBinding2.getQualifiedName() != null) {
-            log.info("typeBinding1 qualified name: " + typeBinding1.getQualifiedName());
-            log.info("typeBinding2 qualified name: " + typeBinding2.getQualifiedName());
+            //log.info("typeBinding1 qualified name: " + typeBinding1.getQualifiedName());
+            //log.info("typeBinding2 qualified name: " + typeBinding2.getQualifiedName());
             return typeBinding1.getQualifiedName().equals(typeBinding2.getQualifiedName());
         }
 
         return false;
     }
     */
+
+    public static ITypeBinding getAssignmentCompatibleTypeBinding(TypePair typePair) {
+        if (typePair.getType1().isAssignmentCompatible(typePair.getType2())) {
+            return typePair.getType2();
+        } else {
+            return typePair.getType1();
+        }
+    }
 
 }

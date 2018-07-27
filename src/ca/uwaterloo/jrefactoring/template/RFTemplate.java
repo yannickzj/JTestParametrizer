@@ -672,20 +672,23 @@ public class RFTemplate {
         SimpleName name;
         List<Expression> arguments;
         IMethodBinding iMethodBinding;
+        MethodInvocation curMethodInvocation;
 
         switch (pair) {
             case member1:
                 expr = methodInvocationPair.getExpr1();
                 name = methodInvocationPair.getName1();
                 arguments = methodInvocationPair.getArgument1();
-                iMethodBinding = methodInvocationPair.getiMethodBinding1();
+                iMethodBinding = methodInvocationPair.getMethod1().resolveMethodBinding();
+                curMethodInvocation = methodInvocationPair.getMethod1();
                 break;
             case member2:
             default:
                 expr = methodInvocationPair.getExpr2();
                 name = methodInvocationPair.getName2();
                 arguments = methodInvocationPair.getArgument2();
-                iMethodBinding = methodInvocationPair.getiMethodBinding2();
+                iMethodBinding = methodInvocationPair.getMethod2().resolveMethodBinding();
+                curMethodInvocation = methodInvocationPair.getMethod2();
         }
 
         MethodDeclaration method = ast.newMethodDeclaration();
@@ -814,11 +817,11 @@ public class RFTemplate {
             castExpression.setType(ASTNodeUtil.copyTypeWithProperties(ast, returnType));
 
             boolean isSameType = true;
-            if (returnTypeBinding != null && iMethodBinding.getReturnType() != null) {
+            if (returnTypeBinding != null && curMethodInvocation.resolveTypeBinding() != null) {
 
-                if (returnTypeBinding.isParameterizedType() && iMethodBinding.getReturnType().isParameterizedType()) {
+                if (returnTypeBinding.isParameterizedType() && curMethodInvocation.resolveTypeBinding().isParameterizedType()) {
                     ITypeBinding[] typeArgs1 = returnTypeBinding.getTypeArguments();
-                    ITypeBinding[] typeArgs2 = iMethodBinding.getReturnType().getTypeArguments();
+                    ITypeBinding[] typeArgs2 = curMethodInvocation.resolveTypeBinding().getTypeArguments();
                     if (typeArgs1.length != typeArgs2.length) {
                         isSameType = false;
                     } else {
@@ -839,7 +842,7 @@ public class RFTemplate {
                     }
 
                 } else {
-                    if (!returnTypeBinding.getQualifiedName().equals(iMethodBinding.getReturnType().getQualifiedName())) {
+                    if (!returnTypeBinding.getQualifiedName().equals(curMethodInvocation.resolveTypeBinding().getQualifiedName())) {
                         isSameType = false;
                     }
                 }
@@ -902,9 +905,19 @@ public class RFTemplate {
     }
 
     private void addAdapterActionImpl(SimpleName actionName, List<Type> argTypes, MethodInvocationPair pair,
-                                      ITypeBinding returnTypeBinding) {
-        MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding, Pair.member1);
-        MethodDeclaration method2 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding, Pair.member2);
+                                      TypePair returnTypePair) {
+        ITypeBinding returnTypeBinding1;
+        ITypeBinding returnTypeBinding2;
+        if (containsTypePair(returnTypePair)) {
+            returnTypeBinding1 = returnTypePair.getType1();
+            returnTypeBinding2 = returnTypePair.getType2();
+        } else {
+            returnTypeBinding1 = ASTNodeUtil.getAssignmentCompatibleTypeBinding(returnTypePair);
+            returnTypeBinding2 = returnTypeBinding1;
+        }
+
+        MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding1, Pair.member1);
+        MethodDeclaration method2 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding2, Pair.member2);
         adapterImpl1.bodyDeclarations().add(method1);
         adapterImpl2.bodyDeclarations().add(method2);
     }
@@ -924,7 +937,7 @@ public class RFTemplate {
     }
 
     public MethodInvocation createAdapterActionMethod(Expression expr, List<Expression> arguments,
-                                                      MethodInvocationPair pair, ITypeBinding returnTypeBinding) {
+                                                      MethodInvocationPair pair, TypePair returnTypePair) {
 
         addAdapterVariableParameter();
 
@@ -951,7 +964,7 @@ public class RFTemplate {
         }
 
         // copy and resolve arguments
-        ITypeBinding[] iTypeBindings1 = pair.getiMethodBinding1().getParameterTypes();
+        ITypeBinding[] iTypeBindings1 = pair.getMethod1().resolveMethodBinding().getParameterTypes();
         for (int i = 0; i < arguments.size(); i++) {
             Expression argument = arguments.get(i);
             newArgs.add((Expression) ASTNode.copySubtree(ast, argument));
@@ -986,13 +999,41 @@ public class RFTemplate {
             newMethod.setName(ast.newSimpleName(newActionName));
 
             // add method in adapter interface
-            Type returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
+            //TypePair returnTypePair = new TypePair(pair.getiMethodBinding1().getReturnType(),
+            //        pair.getiMethodBinding2().getReturnType());
+            ITypeBinding returnTypeBinding = ASTNodeUtil.getAssignmentCompatibleTypeBinding(returnTypePair);
+            Type returnType;
+
+            if (containsTypePair(returnTypePair)) {
+
+                // add type parameter in adapter interface
+                String genericName = resolveTypePair(returnTypePair, false);
+                returnType = ast.newSimpleType(ast.newSimpleName(genericName));
+                if (!adapterTypes.contains(genericName)) {
+                    TypeParameter typeParameter = ast.newTypeParameter();
+                    typeParameter.setName(ast.newSimpleName(genericName));
+                    adapter.typeParameters().add(typeParameter);
+                    adapterTypes.add(genericName);
+                }
+
+                // add type parameter in adapter impl
+                Type type1 = ASTNodeUtil.typeFromBinding(ast, returnTypePair.getType1());
+                Type type2 = ASTNodeUtil.typeFromBinding(ast, returnTypePair.getType2());
+                addTypeParameterAdapterImpl(type1, adapterImpl1.superInterfaceTypes());
+                addTypeParameterAdapterImpl(type2, adapterImpl2.superInterfaceTypes());
+
+                // add adapter variable
+                addAdapterVariableTypeParameter(returnType);
+
+            } else {
+                returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
+            }
             addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
             newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNodeUtil.copyTypeWithProperties(ast, returnType));
             methodInvocationMap.put(pair, newActionName);
 
             // create adapter action impl
-            addAdapterActionImpl(newMethod.getName(), argTypes, pair, returnTypeBinding);
+            addAdapterActionImpl(newMethod.getName(), argTypes, pair, returnTypePair);
         }
 
         return newMethod;

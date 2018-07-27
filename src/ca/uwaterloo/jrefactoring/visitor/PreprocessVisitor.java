@@ -91,7 +91,7 @@ public class PreprocessVisitor extends ASTVisitor {
     public boolean visit(QualifiedName node) {
         if (!ASTNodeUtil.hasPairedNode(node)) {
             if (node.getQualifier().resolveTypeBinding() != null) {
-                log.info("import qualified name: " + node.getQualifier().resolveTypeBinding().getBinaryName());
+                //log.info("import qualified name: " + node.getQualifier().resolveTypeBinding().getBinaryName());
                 template.addImportDeclaration(templateCU,
                         ASTNodeUtil.createPackageName(ast, node.getQualifier().resolveTypeBinding().getBinaryName()), false);
             }
