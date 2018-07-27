@@ -175,7 +175,7 @@ public class RenameUtil {
         String method1 = getMethodNameFromSignature(methodSig1);
         String method2 = getMethodNameFromSignature(methodSig2);
 
-        String classCommonName = constructCommonName(class1, class2, false);
+        String classCommonName = constructCommonName(class1, class2, true);
         String methodCommonName = constructCommonName(method1, method2, true);
 
         String commonName = classCommonName + methodCommonName;

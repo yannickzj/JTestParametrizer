@@ -1049,6 +1049,8 @@ public class RFTemplate {
         methodInvocation.setName((SimpleName) ASTNode.copySubtree(ast, templateMethod.getName()));
         if (templateClass != null) {
             methodInvocation.setExpression(ast.newSimpleName(templateClass.getName().getIdentifier()));
+        } else {
+            methodInvocation.setExpression(ast.newThisExpression());
         }
 
         // add method arguments
@@ -1091,7 +1093,7 @@ public class RFTemplate {
         //method.getName().setIdentifier(method.getName().getIdentifier() + "RF");
 
         // remove javadoc
-        method.setJavadoc(null);
+        //method.setJavadoc(null);
 
         // add Exception handling if necessary
         if (templateMethod.thrownExceptionTypes().size() > 0 && method.thrownExceptionTypes().size() == 0) {
