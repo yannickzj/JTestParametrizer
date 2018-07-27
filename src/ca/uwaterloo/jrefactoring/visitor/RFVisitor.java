@@ -33,7 +33,6 @@ public class RFVisitor extends ASTVisitor {
         if (node instanceof RFStatement) {
             RFStatement rfStatement = (RFStatement) node;
             if (rfStatement.isTopStmt()) {
-                //log.info("statement1: " + rfStatement.getStatement1().toString());
                 rfStatement.getStatement1().accept(preprocessVisitor);
             }
         }

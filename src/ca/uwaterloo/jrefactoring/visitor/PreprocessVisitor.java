@@ -61,6 +61,9 @@ public class PreprocessVisitor extends ASTVisitor {
                     }
                 }
             }
+            if (node.resolveBinding().getKind() == 3) {
+                template.addVariableName(node.getIdentifier());
+            }
         }
 
         if (node.resolveBinding().getKind() == 3) {

@@ -74,6 +74,7 @@ public class RFTemplate {
     private IPackageFragmentRoot packageFragmentRoot;
     private boolean refactorable;
     private boolean hasNullParameterObject;
+    private Set<String> templateVariableNames;
 
     public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
                       String templateName, String adapterName, String[] adapterImplNamePair,
@@ -115,6 +116,7 @@ public class RFTemplate {
         this.packageFragmentRoot = (IPackageFragmentRoot) iCU1.getAncestor(3);
         this.refactorable = true;
         this.hasNullParameterObject = false;
+        this.templateVariableNames = new HashSet<>();
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -306,6 +308,10 @@ public class RFTemplate {
         this.templateArguments2.add((Expression) ASTNode.copySubtree(ast, arg2));
     }
 
+    public boolean addVariableName(String name) {
+        return templateVariableNames.add(name);
+    }
+
     public void addStatement(Statement statement) {
         templateMethod.getBody().statements().add(statement);
     }
@@ -436,6 +442,9 @@ public class RFTemplate {
 
         if (resolvedName1.equals("")) {
             String commonName = RenameUtil.renameVariable(name1, name2, variableCount++, prefix);
+            while(!templateVariableNames.add(commonName)) {
+                commonName = RenameUtil.renameVariable(name1, name2, variableCount++, prefix);
+            }
             nameMap1.put(name1, commonName);
             nameMap2.put(name2, commonName);
             return commonName;
@@ -588,8 +597,12 @@ public class RFTemplate {
 
     public String addVariableParameter(Type type) {
         int count = parameterMap.getOrDefault(type.toString(), 0) + 1;
-        parameterMap.put(type.toString(), count);
         String variableParameter = RenameUtil.rename(type, count);
+        while(!addVariableName(variableParameter)) {
+            count++;
+            variableParameter = RenameUtil.rename(type, count);
+        }
+        parameterMap.put(type.toString(), count);
         addVariableParameter(type, ast.newSimpleName(variableParameter));
         return variableParameter;
     }
