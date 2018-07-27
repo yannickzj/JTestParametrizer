@@ -533,6 +533,12 @@ public class RFTemplate {
         }
     }
 
+    public void addImportInTemplateImportList(Name name) {
+        if (name != null) {
+            templateCUImports.add(name);
+        }
+    }
+
     public void addGenericTypeBound(String fromType, String toType) {
         List<TypeParameter> typeParameters = templateMethod.typeParameters();
         for (TypeParameter typeParameter : typeParameters) {
@@ -660,7 +666,7 @@ public class RFTemplate {
 
     private MethodDeclaration addMethodInAdapterImpl(SimpleName actionName, List<Type> argTypes,
                                                      MethodInvocationPair methodInvocationPair,
-                                                     Type returnType, Pair pair) {
+                                                     ITypeBinding returnTypeBinding, Pair pair) {
 
         Expression expr;
         SimpleName name;
@@ -686,6 +692,7 @@ public class RFTemplate {
         method.setBody(ast.newBlock());
 
         // set return type
+        Type returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
         method.setReturnType2((Type) ASTNode.copySubtree(ast, returnType));
 
         // set interface action name
@@ -796,10 +803,56 @@ public class RFTemplate {
         Statement statement;
         if (returnType.isPrimitiveType() && ((PrimitiveType) returnType).getPrimitiveTypeCode() == PrimitiveType.VOID) {
             statement = ast.newExpressionStatement(methodInvocation);
+
         } else {
+
             ReturnStatement returnStatement = ast.newReturnStatement();
-            returnStatement.setExpression(methodInvocation);
+
+            // check if return type is compatible
+            CastExpression castExpression = ast.newCastExpression();
+            castExpression.setType(ASTNodeUtil.copyTypeWithProperties(ast, returnType));
+
+            boolean isSameType = true;
+            if (returnTypeBinding != null && iMethodBinding.getReturnType() != null) {
+
+                if (returnTypeBinding.isParameterizedType() && iMethodBinding.getReturnType().isParameterizedType()) {
+                    ITypeBinding[] typeArgs1 = returnTypeBinding.getTypeArguments();
+                    ITypeBinding[] typeArgs2 = iMethodBinding.getReturnType().getTypeArguments();
+                    if (typeArgs1.length != typeArgs2.length) {
+                        isSameType = false;
+                    } else {
+                        for (int i = 0; i < typeArgs1.length; i++) {
+                            ITypeBinding typeArg1 = typeArgs1[i];
+                            ITypeBinding typeArg2 = typeArgs2[i];
+                            if (typeArg1.isCapture()) {
+                                typeArg1 = typeArg1.getWildcard();
+                            }
+                            if (typeArg2.isCapture()) {
+                                typeArg2 = typeArg2.getWildcard();
+                            }
+                            if (!typeArg1.getQualifiedName().equals(typeArg2.getQualifiedName())) {
+                                isSameType = false;
+                                break;
+                            }
+                        }
+                    }
+
+                } else {
+                    if (!returnTypeBinding.getQualifiedName().equals(iMethodBinding.getReturnType().getQualifiedName())) {
+                        isSameType = false;
+                    }
+                }
+            }
+
+            if (isSameType) {
+                returnStatement.setExpression(methodInvocation);
+            } else {
+                castExpression.setExpression(methodInvocation);
+                returnStatement.setExpression(castExpression);
+            }
             statement = returnStatement;
+
+            System.out.println();
         }
         method.getBody().statements().add(statement);
 
@@ -849,9 +902,10 @@ public class RFTemplate {
         return method;
     }
 
-    private void addAdapterActionImpl(SimpleName actionName, List<Type> argTypes, MethodInvocationPair pair, Type returnType) {
-        MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair, returnType, Pair.member1);
-        MethodDeclaration method2 = addMethodInAdapterImpl(actionName, argTypes, pair, returnType, Pair.member2);
+    private void addAdapterActionImpl(SimpleName actionName, List<Type> argTypes, MethodInvocationPair pair,
+                                      ITypeBinding returnTypeBinding) {
+        MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding, Pair.member1);
+        MethodDeclaration method2 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding, Pair.member2);
         adapterImpl1.bodyDeclarations().add(method1);
         adapterImpl2.bodyDeclarations().add(method2);
     }
@@ -871,7 +925,7 @@ public class RFTemplate {
     }
 
     public MethodInvocation createAdapterActionMethod(Expression expr, List<Expression> arguments,
-                                                      MethodInvocationPair pair, Type returnType) {
+                                                      MethodInvocationPair pair, ITypeBinding returnTypeBinding) {
 
         addAdapterVariableParameter();
 
@@ -933,12 +987,13 @@ public class RFTemplate {
             newMethod.setName(ast.newSimpleName(newActionName));
 
             // add method in adapter interface
+            Type returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
             addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
             newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNodeUtil.copyTypeWithProperties(ast, returnType));
             methodInvocationMap.put(pair, newActionName);
 
             // create adapter action impl
-            addAdapterActionImpl(newMethod.getName(), argTypes, pair, returnType);
+            addAdapterActionImpl(newMethod.getName(), argTypes, pair, returnTypeBinding);
         }
 
         return newMethod;

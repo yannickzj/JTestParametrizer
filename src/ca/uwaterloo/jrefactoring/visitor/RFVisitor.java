@@ -17,6 +17,7 @@ public class RFVisitor extends ASTVisitor {
     private static Logger log = FileLogger.getLogger(RFVisitor.class);
     private static final String NEW_INSTANCE_METHOD_NAME = "newInstance";
     private static final String GET_DECLARED_CONSTRUCTOR_METHOD_NAME = "getDeclaredConstructor";
+    private static final String DEFAULT_JAVA_PACKAGE = "java.lang";
 
     private RFTemplate template;
     private AST ast;
@@ -428,6 +429,103 @@ public class RFVisitor extends ASTVisitor {
         return commonInterface;
     }
 
+    private List<ITypeBinding> getParameterTypes(ITypeBinding[] parameterTypes1, ITypeBinding[] parameterTypes2) {
+
+        List<ITypeBinding> parameterTypes = new ArrayList<>();
+        for (int i = 0; i < parameterTypes1.length; i++) {
+            ITypeBinding typeBinding1 = parameterTypes1[i];
+            ITypeBinding typeBinding2 = parameterTypes2[i];
+
+            // check interfaces
+            if (typeBinding1.isInterface() && typeBinding2.isInterface()) {
+                ITypeBinding commonInterface = getCommonInteface(typeBinding1, typeBinding2);
+                if (commonInterface == null) {
+                    throw new IllegalStateException("cannot find common interface: " +
+                            typeBinding1.getBinaryName() + ", " + typeBinding2.getBinaryName());
+                }
+                parameterTypes.add(commonInterface);
+                //parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, commonInterface));
+                continue;
+
+            } else if (typeBinding1.isInterface()) {
+                if (typeBinding2.isPrimitive() || !typeBinding1.isCastCompatible(typeBinding2)) {
+                    template.markAsUnrefactorable();
+                }
+                parameterTypes.add(typeBinding1);
+                //parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, typeBinding1));
+                continue;
+
+            } else if (typeBinding2.isInterface()) {
+                if (typeBinding1.isPrimitive() || !typeBinding2.isCastCompatible(typeBinding1)) {
+                    template.markAsUnrefactorable();
+                }
+                parameterTypes.add(typeBinding2);
+                //parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, typeBinding2));
+                continue;
+            }
+
+            // check common super class
+            if (typeBinding1.getBinaryName().equals(typeBinding2.getBinaryName())) {
+                parameterTypes.add(typeBinding1);
+                //parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, typeBinding1));
+
+            } else {
+                ITypeBinding commonSuperClass = template.getLowestCommonSubClass(new TypePair(typeBinding1, typeBinding2));
+                if (commonSuperClass != null) {
+                    parameterTypes.add(commonSuperClass);
+                    //parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, commonSuperClass));
+                } else {
+                    throw new IllegalStateException("no common super class for parameter types: "
+                            + typeBinding1.getBinaryName() + ", " + typeBinding2.getBinaryName());
+                }
+            }
+        }
+
+        return parameterTypes;
+
+    }
+
+    private void refactorArgsWithCastExpr(List<Expression> arguments, List<ITypeBinding> parameterTypes) {
+        for (int i = 0; i < arguments.size(); i++) {
+            Expression argument = arguments.get(i);
+            if (ASTNodeUtil.hasPairedNode(argument)) {
+                argument.accept(this);
+
+                // update current node
+                argument = arguments.get(i);
+
+                // wrap cast expression
+                Type argType = (Type) argument.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+                if (argType != null) {
+                    String argTypeFullName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
+                    ITypeBinding parameterTypeBinding = parameterTypes.get(i);
+
+                    if (!ASTNodeUtil.hasAncestor(parameterTypeBinding, argTypeFullName)
+                            && !parameterTypeBinding.getBinaryName().startsWith(DEFAULT_JAVA_PACKAGE)) {
+
+                        // get cast type full name
+                        Type castType = ASTNodeUtil.typeFromBinding(ast, parameterTypeBinding);
+                        String name = parameterTypeBinding.getBinaryName();
+
+                        // add import declaration
+                        if (name != null && !name.startsWith(DEFAULT_JAVA_PACKAGE)) {
+                            if (template.getTemplateCU() != null) {
+                                template.addImportDeclaration(template.getTemplateCU(),
+                                        ASTNodeUtil.createPackageName(ast, name), false);
+                            } else {
+                                template.addImportInTemplateImportList(ASTNodeUtil.createPackageName(ast, name));
+                            }
+                        }
+
+                        // replace argument
+                        CastExpression castExpression = wrapCastExpression(castType, argument);
+                        replaceNode(argument, castExpression, castType);
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public boolean visit(ClassInstanceCreation node) {
 
@@ -454,79 +552,15 @@ public class RFVisitor extends ASTVisitor {
                 return false;
             }
 
-            List<Type> parameterTypes = new ArrayList<>();
-            for (int i = 0; i < parameterTypes1.length; i++) {
-                ITypeBinding typeBinding1 = parameterTypes1[i];
-                ITypeBinding typeBinding2 = parameterTypes2[i];
-
-                // check interfaces
-                if (typeBinding1.isInterface() && typeBinding2.isInterface()) {
-                    ITypeBinding commonInterface = getCommonInteface(typeBinding1, typeBinding2);
-                    if (commonInterface == null) {
-                        throw new IllegalStateException("cannot find common interface: " +
-                                typeBinding1.getBinaryName() + ", " + typeBinding2.getBinaryName());
-                    }
-                    parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, commonInterface));
-                    continue;
-
-                } else if (typeBinding1.isInterface()) {
-                    if (typeBinding2.isPrimitive() || !typeBinding1.isCastCompatible(typeBinding2)) {
-                        template.addUnrefactoredNodePair(node, pairNode, diff);
-                        return false;
-                    }
-                    parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, typeBinding1));
-                    continue;
-
-                } else if (typeBinding2.isInterface()) {
-                    if (typeBinding1.isPrimitive() || !typeBinding2.isCastCompatible(typeBinding1)) {
-                        template.addUnrefactoredNodePair(node, pairNode, diff);
-                        return false;
-                    }
-                    parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, typeBinding2));
-                    continue;
-                }
-
-                // check common super class
-                if (typeBinding1.getBinaryName().equals(typeBinding2.getBinaryName())) {
-                    parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, typeBinding1));
-
-                } else {
-                    ITypeBinding commonSuperClass = template.getLowestCommonSubClass(new TypePair(typeBinding1, typeBinding2));
-                    if (commonSuperClass != null) {
-                        parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, commonSuperClass));
-                    } else {
-                        throw new IllegalStateException("no common super class for parameter types in ClassInstanceCreation node: " + node);
-                    }
-                }
+            List<ITypeBinding> parameterTypes = getParameterTypes(parameterTypes1, parameterTypes2);
+            if (!template.isRefactorable()) {
+                template.addUnrefactoredNodePair(node, pairNode, diff);
+                return false;
             }
 
             // refactor arguments
             List<Expression> arguments = node.arguments();
-            for (int i = 0; i < arguments.size(); i++) {
-                Expression argument = arguments.get(i);
-                if (ASTNodeUtil.hasPairedNode(argument)) {
-                    argument.accept(this);
-
-                    // update current node
-                    argument = arguments.get(i);
-
-                    // wrap cast expression
-                    Type argType = (Type) argument.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
-                    String argTypeFullName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
-                    String qualifiedName = (String) parameterTypes.get(i).getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
-                    if (template.containsGenericNameInMap(argType.toString())
-                            || (argTypeFullName != null && !qualifiedName.equals(argTypeFullName))) {
-                        Type castType = parameterTypes.get(i);
-                        String name = (String) castType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
-                        if (name != null) {
-                            template.addImportDeclaration(template.getTemplateCU(),
-                                    ASTNodeUtil.createPackageName(ast, name), false);
-                        }
-                        CastExpression castExpression = wrapCastExpression(castType, argument);
-                        replaceNode(argument, castExpression, castType);
-                    }
-                }
-            }
+            refactorArgsWithCastExpr(arguments, parameterTypes);
 
             // refactor ClassInstanceCreation type
             Type type = node.getType();
@@ -563,7 +597,7 @@ public class RFVisitor extends ASTVisitor {
                     Expression argument = arguments.get(i);
                     TypeLiteral typeLiteral = ast.newTypeLiteral();
                     //typeLiteral.setType(ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding()));
-                    Type parameterType = parameterTypes.get(i);
+                    Type parameterType = ASTNodeUtil.typeFromBinding(ast, parameterTypes.get(i));
                     typeLiteral.setType(parameterType);
 
                     // add import declaration
@@ -618,12 +652,18 @@ public class RFVisitor extends ASTVisitor {
             List<String> argTypeNames1 = getArgTypeNames(iMethodBinding.getParameterTypes());
             List<Expression> originalArgs1 = ASTNode.copySubtrees(ast, arguments1);
 
-            // refactor arguments
-            for (Expression argument : arguments1) {
-                if (ASTNodeUtil.hasPairedNode(argument)) {
-                    argument.accept(this);
-                }
+            // get common parameter types
+            MethodInvocation pairNode = (MethodInvocation) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+            ITypeBinding[] parameterTypes1 = node.resolveMethodBinding().getParameterTypes();
+            ITypeBinding[] parameterTypes2 = pairNode.resolveMethodBinding().getParameterTypes();
+            List<ITypeBinding> parameterTypes = getParameterTypes(parameterTypes1, parameterTypes2);
+            if (!template.isRefactorable()) {
+                template.addUnrefactoredNodePair(node, pairNode, diff);
+                return false;
             }
+
+            // refactor arguments
+            refactorArgsWithCastExpr(arguments1, parameterTypes);
 
             // check if common super class can be used
             if (!ASTNodeUtil.hasPairedNode(name1) && ASTNodeUtil.hasPairedNode(expr1)) {
@@ -671,7 +711,8 @@ public class RFVisitor extends ASTVisitor {
                 }
 
                 // create new method invocation in adapter
-                Type returnType = ASTNodeUtil.typeFromExpr(ast, node);
+                //Type returnType = ASTNodeUtil.typeFromExpr(ast, node);
+                ITypeBinding returnType = node.resolveTypeBinding();
                 MethodInvocation newMethod = template.createAdapterActionMethod(node.getExpression(), arguments1,
                         methodInvocationPair, returnType);
 
@@ -765,7 +806,7 @@ public class RFVisitor extends ASTVisitor {
 
                 } else {
                     // wrap CastExpression
-                    if (template.containsGenericNameInMap(type.toString())) {
+                    if (template.containsGenericNameInMap(type.toString()) && !(initializer instanceof NullLiteral)) {
                         CastExpression castExpression = wrapCastExpression(type, initializer);
                         replaceNode(initializer, castExpression, type);
                     }
@@ -800,7 +841,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
-            node.describe();
+            //node.describe();
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
 
             // refactor type
@@ -930,7 +971,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFDefaultStmt node) {
         if (node.hasDifference()) {
-            node.describe();
+            //node.describe();
             node.getStatement1().accept(this);
         }
         return true;

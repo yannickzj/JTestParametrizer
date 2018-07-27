@@ -1,9 +1,8 @@
 package ca.uwaterloo.jrefactoring.utility;
 
 import ca.uwaterloo.jrefactoring.visitor.MethodVisitor;
-import gr.uom.java.ast.*;
-import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.dom.*;
+import org.slf4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.Queue;
 
 public class ASTNodeUtil {
 
+    private static Logger log = FileLogger.getLogger(ASTNodeUtil.class);
     public static final String PROPERTY_DIFF = "diff";
     public static final String PROPERTY_TYPE_BINDING = "type";
     public static final String PROPERTY_QUALIFIED_NAME = "qualifiedName";
@@ -227,6 +227,9 @@ public class ASTNodeUtil {
     }
 
     public static boolean hasAncestor(ITypeBinding iTypeBinding, String qualifiedName) {
+        if (qualifiedName == null) {
+            return false;
+        }
         Queue<ITypeBinding> queue = new LinkedList<>();
         if (iTypeBinding.getSuperclass() != null) {
             queue.offer(iTypeBinding.getSuperclass());
@@ -249,5 +252,87 @@ public class ASTNodeUtil {
         }
         return false;
     }
+
+    /*
+    public static boolean checkSameMethodSignature(IMethodBinding method1, IMethodBinding method2) {
+        if (method1 == null || method2 == null) return false;
+
+        if (!method1.getName().equals(method2.getName())
+                || method1.getParameterTypes().length != method2.getParameterTypes().length) {
+            return false;
+        }
+
+        ITypeBinding[] parameterTypes1 = method1.getParameterTypes();
+        ITypeBinding[] parameterTypes2 = method1.getParameterTypes();
+        for (int i = 0; i < parameterTypes1.length; i++) {
+            if (!parameterTypes1[i].getBinaryName().equals(parameterTypes2[i].getBinaryName())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    */
+
+    /*
+    public static boolean checkSameITypeBinding(ITypeBinding typeBinding1, ITypeBinding typeBinding2) {
+
+        if (typeBinding1 == null || typeBinding2 == null) {
+            return false;
+        }
+
+        if (typeBinding1.isCapture() && typeBinding2.isCapture()) {
+            ITypeBinding bound1 = typeBinding1.getWildcard().getBound();
+            ITypeBinding bound2 = typeBinding2.getWildcard().getBound();
+            log.info("typeBinding1 bound: " + bound1.getQualifiedName());
+            log.info("typeBinding2 bound: " + bound2.getQualifiedName());
+            if (typeBinding1.getWildcard().isUpperbound() != typeBinding2.getWildcard().isUpperbound()) {
+                return false;
+            }
+            return checkSameITypeBinding(bound1, bound2);
+        }
+
+        if (typeBinding1.isParameterizedType() && typeBinding2.isParameterizedType()) {
+            log.info("typeBinding1: " + typeBinding1.getQualifiedName());
+            log.info("typeBinding2: " + typeBinding2.getQualifiedName());
+
+            if (!checkSameITypeBinding(typeBinding1.getErasure(), typeBinding2.getErasure())) {
+                return false;
+            }
+            ITypeBinding[] typeArgs1 = typeBinding1.getTypeArguments();
+            ITypeBinding[] typeArgs2 = typeBinding1.getTypeArguments();
+            log.info("typeArg1 length: " + typeArgs1.length);
+            log.info("typeArg2 length: " + typeArgs2.length);
+            if (typeArgs1.length != typeArgs2.length) {
+                return false;
+            } else {
+                for (int i = 0; i < typeArgs1.length; i++) {
+                    log.info("typeArgs1: " + typeArgs1[i].isCapture());
+                    log.info("typeArgs1 name: " + typeArgs1[i].getQualifiedName());
+                    log.info("typeArgs1 bound: " + typeArgs1[i].getWildcard().getBound().getQualifiedName());
+                    log.info("typeArgs2: " + typeArgs2[i].isCapture());
+                    log.info("typeArgs2 name: " + typeArgs2[i].getQualifiedName());
+                    log.info("typeArgs2 bound: " + typeArgs2[i].getWildcard().getBound().getQualifiedName());
+                    if (!checkSameITypeBinding(typeArgs1[i], typeArgs2[i])) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        if (typeBinding1.isArray() && typeBinding2.isArray()) {
+            return checkSameITypeBinding(typeBinding1.getElementType(), typeBinding2.getElementType());
+        }
+
+        if (typeBinding1.getQualifiedName() != null && typeBinding2.getQualifiedName() != null) {
+            log.info("typeBinding1 qualified name: " + typeBinding1.getQualifiedName());
+            log.info("typeBinding2 qualified name: " + typeBinding2.getQualifiedName());
+            return typeBinding1.getQualifiedName().equals(typeBinding2.getQualifiedName());
+        }
+
+        return false;
+    }
+    */
 
 }
