@@ -782,7 +782,8 @@ public class RFTemplate {
                     // check if argType is subType of parameterType
                     if (ASTNodeUtil.hasAncestor(parameterType, qualifiedName)) {
                         if (!parameterType.isPrimitive()) {
-                            templateCUImports.add(ASTNodeUtil.createPackageName(ast, parameterType.getBinaryName()));
+                            addImportDeclaration(cu,
+                                    ASTNodeUtil.createPackageName(ast, parameterType.getBinaryName()), false);
                         }
                         CastExpression castExpression = ast.newCastExpression();
                         castExpression.setExpression((Expression) ASTNode.copySubtree(ast, curName));
@@ -851,8 +852,6 @@ public class RFTemplate {
                 returnStatement.setExpression(castExpression);
             }
             statement = returnStatement;
-
-            System.out.println();
         }
         method.getBody().statements().add(statement);
 

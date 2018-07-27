@@ -192,6 +192,16 @@ public class RFVisitor extends ASTVisitor {
     }
 
     @Override
+    public boolean visit(InfixExpression node) {
+        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
+        if (diff != null) {
+            pullUpToParameter(node);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public boolean visit(NullLiteral node) {
         RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
 
@@ -440,7 +450,8 @@ public class RFVisitor extends ASTVisitor {
             if (typeBinding1.isInterface() && typeBinding2.isInterface()) {
                 ITypeBinding commonInterface = getCommonInteface(typeBinding1, typeBinding2);
                 if (commonInterface == null) {
-                    throw new IllegalStateException("cannot find common interface: " +
+                    template.markAsUnrefactorable();
+                    log.info("cannot find common interface: " +
                             typeBinding1.getBinaryName() + ", " + typeBinding2.getBinaryName());
                 }
                 parameterTypes.add(commonInterface);
@@ -470,12 +481,31 @@ public class RFVisitor extends ASTVisitor {
                 //parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, typeBinding1));
 
             } else {
-                ITypeBinding commonSuperClass = template.getLowestCommonSubClass(new TypePair(typeBinding1, typeBinding2));
+                TypePair typePair = new TypePair(typeBinding1, typeBinding2);
+                ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
                 if (commonSuperClass != null) {
                     parameterTypes.add(commonSuperClass);
-                    //parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, commonSuperClass));
+
+                } else if (typeBinding1.isPrimitive() && typeBinding2.isPrimitive()) {
+                    Type t1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
+                    Type t2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+                    Type compatiblePrimitiveType = getCompatibleType(typePair);
+                    byte n1 = getPrimitiveNum((PrimitiveType) t1);
+                    byte n2 = getPrimitiveNum((PrimitiveType) t2);
+                    byte n = getPrimitiveNum((PrimitiveType) compatiblePrimitiveType);
+                    if (n == n1) {
+                        parameterTypes.add(typeBinding1);
+                    } else if (n == n2) {
+                        parameterTypes.add(typeBinding2);
+                    } else {
+                        template.markAsUnrefactorable();
+                        log.info("no common super class for parameter types: "
+                                + typeBinding1.getBinaryName() + ", " + typeBinding2.getBinaryName());
+                    }
+
                 } else {
-                    throw new IllegalStateException("no common super class for parameter types: "
+                    template.markAsUnrefactorable();
+                    log.info("no common super class for parameter types: "
                             + typeBinding1.getBinaryName() + ", " + typeBinding2.getBinaryName());
                 }
             }
@@ -500,15 +530,15 @@ public class RFVisitor extends ASTVisitor {
                     String argTypeFullName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
                     ITypeBinding parameterTypeBinding = parameterTypes.get(i);
 
-                    if (!ASTNodeUtil.hasAncestor(parameterTypeBinding, argTypeFullName)
-                            && !parameterTypeBinding.getBinaryName().startsWith(DEFAULT_JAVA_PACKAGE)) {
+                    if (template.containsGenericNameInMap(argType.toString())
+                            || ASTNodeUtil.hasAncestor(parameterTypeBinding, argTypeFullName)) {
 
                         // get cast type full name
                         Type castType = ASTNodeUtil.typeFromBinding(ast, parameterTypeBinding);
                         String name = parameterTypeBinding.getBinaryName();
 
                         // add import declaration
-                        if (name != null && !name.startsWith(DEFAULT_JAVA_PACKAGE)) {
+                        if (!name.startsWith(DEFAULT_JAVA_PACKAGE) && !parameterTypeBinding.isPrimitive()) {
                             if (template.getTemplateCU() != null) {
                                 template.addImportDeclaration(template.getTemplateCU(),
                                         ASTNodeUtil.createPackageName(ast, name), false);

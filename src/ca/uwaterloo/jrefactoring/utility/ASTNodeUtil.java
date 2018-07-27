@@ -75,7 +75,7 @@ public class ASTNodeUtil {
             if (sb.length() > 0) {
                 sb.setLength(sb.length() - 1);
             }
-            System.out.println("nest type binding name: " + sb.toString());
+            //System.out.println("nest type binding name: " + sb.toString());
             SimpleType simpleType = ast.newSimpleType(createPackageName(ast, sb.toString()));
             simpleType.setProperty(PROPERTY_QUALIFIED_NAME, typeBinding.getQualifiedName());
             return simpleType;
