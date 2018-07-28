@@ -8,7 +8,6 @@ import gr.uom.java.ast.decomposition.StatementType;
 import gr.uom.java.ast.decomposition.cfg.mapping.*;
 import gr.uom.java.ast.decomposition.matching.ASTNodeDifference;
 import gr.uom.java.ast.decomposition.matching.Difference;
-import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.Expression;
 import org.eclipse.jdt.core.dom.Statement;
 import org.slf4j.Logger;
@@ -37,6 +36,11 @@ public class RFStatementBuilder {
     }
 
     private RFStatement build(CloneStructureNode root, RFTemplate template, RFStatement parent) {
+
+        // check if template is refactorable
+        if (!template.isRefactorable()) {
+            return null;
+        }
 
         // build current node
         RFStatement currentNode;
@@ -74,27 +78,17 @@ public class RFStatementBuilder {
             return buildFromPDGElseMapping(nodeMapping, template);
 
         } else if (nodeMapping instanceof PDGNodeGap) {
-            log.error("TO DO: PDG node gap node: ");
-            //log.error(nodeMapping.toString());
-            /*
-            PDGNodeGap pdgNodeGap = (PDGNodeGap) nodeMapping;
-            if (pdgNodeGap.getNodeG1() != null) {
-                log.info("stmt1: " + pdgNodeGap.getNodeG1().getASTStatement());
-            }
-            if (pdgNodeGap.getNodeG2() != null) {
-                log.info("stmt2: " + pdgNodeGap.getNodeG2().getASTStatement());
-            }
-            for (ASTNodeDifference diff: pdgNodeGap.getNodeDifferences()) {
-                log.info(diff.toString());
-            }
-            */
+            template.markAsUnrefactorable();
+            log.error("CloneStructure has PDG gap node.");
             return null;
 
         } else if (nodeMapping instanceof PDGElseGap) {
-            log.error("TO DO: PDG else gap node");
+            template.markAsUnrefactorable();
+            log.error("CloneStructure has PDG else gap node.");
             return null;
 
         } else {
+            template.markAsUnrefactorable();
             log.error("Unknown nodeMapping");
             return null;
         }

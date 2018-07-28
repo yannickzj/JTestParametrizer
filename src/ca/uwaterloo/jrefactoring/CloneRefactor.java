@@ -65,6 +65,8 @@ public class CloneRefactor {
             // perform source-to-source refactoring transformation
             if (!cloneType.equals(CloneType.TYPE_3)) {
                 if (root != null) {
+
+                    // count clone types
                     if (cloneType.equals(CloneType.TYPE_1)) countType1++;
                     if (cloneType.equals(CloneType.TYPE_2)) countType2++;
 
@@ -77,6 +79,7 @@ public class CloneRefactor {
 
                     if (Modifier.isPrivate(method1.getModifiers()) || Modifier.isPrivate(method2.getModifiers())) {
                         log.info("private method pair are not test cases!");
+                        countSkip++;
                         return;
                     }
 
@@ -87,6 +90,10 @@ public class CloneRefactor {
 
                     // construct the refactoring tree
                     RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);
+                    if (!template.isRefactorable()) {
+                        countSkip++;
+                        continue;
+                    }
 
                     rfRoot.accept(new RFVisitor(template));
 
