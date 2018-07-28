@@ -3,6 +3,8 @@ package ca.uwaterloo.jrefactoring.visitor;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
+import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
@@ -13,11 +15,15 @@ public class PreprocessVisitor extends ASTVisitor {
     private RFTemplate template;
     private AST ast;
     private CompilationUnit templateCU;
+    private ICompilationUnit iCU1;
+    private ICompilationUnit iCU2;
 
     public PreprocessVisitor(RFTemplate template) {
         this.template = template;
         this.ast = template.getAst();
         this.templateCU = template.getTemplateCU();
+        this.iCU1 = template.getiCU1();
+        this.iCU2 = template.getiCU2();
     }
 
     @Override
@@ -100,6 +106,32 @@ public class PreprocessVisitor extends ASTVisitor {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean visit(MethodInvocation node) {
+        if (templateCU != null && node.getExpression() == null) {
+            try {
+                String declaringClassName = node.resolveMethodBinding().getDeclaringClass().getQualifiedName();
+                MethodInvocation pairNode = (MethodInvocation) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+                String methodName = node.getName().getIdentifier();
+                for (IType iType : iCU1.getAllTypes()) {
+                    if (declaringClassName.equals(iType.getFullyQualifiedName())) {
+                        if (pairNode != null) {
+                            methodName = methodName + ", " + pairNode.getName().getIdentifier();
+                        }
+                        log.info("different local method access: " + methodName);
+                        template.markAsUnrefactorable();
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+                log.info("cannot get types from iCU1");
+                template.markAsUnrefactorable();
+                return false;
+            }
+        }
+        return true;
     }
 
 }

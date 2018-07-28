@@ -261,6 +261,14 @@ public class RFTemplate {
         return typeMap.get(typePair);
     }
 
+    public ICompilationUnit getiCU1() {
+        return iCU1;
+    }
+
+    public ICompilationUnit getiCU2() {
+        return iCU2;
+    }
+
     public boolean containsGenericNameInMap(String genericName) {
         return genericTypeMap.containsKey(genericName);
     }
@@ -1177,7 +1185,7 @@ public class RFTemplate {
     public void updateSourceFiles() throws Exception {
 
         log.info("refactoring method pair: "
-                + packageDeclaration1.getName().getFullyQualifiedName()
+                + packageDeclaration1.getName().getFullyQualifiedName() + "."
                 + compilationUnit1.getJavaElement().getElementName()
                 + "#" + method1.getName().getIdentifier() + " <---> "
                 + packageDeclaration2.getName().getFullyQualifiedName()
