@@ -107,7 +107,13 @@ public class CloneRefactor {
                     }
 
                     // start refactoring
-                    rfRoot.accept(new RFVisitor(template));
+                    try {
+                        rfRoot.accept(new RFVisitor(template));
+                    } catch (Exception e) {
+                        countNonRefactorable++;
+                        countSkip++;
+                        continue;
+                    }
                     template.modifyTestMethods();
 
                     // check repeated naming
@@ -164,6 +170,10 @@ public class CloneRefactor {
         log.info("type1 count: " + countType1);
         log.info("type2 count: " + countType2);
         log.info("type3 count: " + countType3);
+        int effective = refactorableTemplates.size();
+        int total = effective + countNonRefactorable;
+        log.info(String.format("effective refactoring ratio: %d/%d = %.2f%%",
+                effective, total, effective * 100.0 / total));
     }
 
     private static String getMethodPairInfo(ClonePairInfo pairInfo) {
