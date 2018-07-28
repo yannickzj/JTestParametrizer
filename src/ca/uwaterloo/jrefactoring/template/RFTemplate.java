@@ -286,7 +286,7 @@ public class RFTemplate {
     }
 
     public boolean isRefactorable() {
-        return refactorable;
+        return refactorable && !hasUnrefactorableNodePair();
     }
 
     public void markAsUnrefactorable() {

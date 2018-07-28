@@ -351,4 +351,12 @@ public class ASTNodeUtil {
         }
     }
 
+    public static boolean isVoid(Type type) {
+        return type.isPrimitiveType() && ((PrimitiveType) type).getPrimitiveTypeCode().equals(PrimitiveType.VOID);
+    }
+
+    public static boolean isTestCase(MethodDeclaration method) {
+        return Modifier.isPublic(method.getModifiers()) && method.parameters().size() == 0 && isVoid(method.getReturnType2());
+    }
+
 }

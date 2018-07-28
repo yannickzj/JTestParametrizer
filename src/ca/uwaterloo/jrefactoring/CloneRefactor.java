@@ -6,6 +6,7 @@ import ca.uwaterloo.jrefactoring.detect.InputMethods;
 import ca.uwaterloo.jrefactoring.detect.PDGSubTreeMapperInfo;
 import ca.uwaterloo.jrefactoring.node.RFStatement;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
+import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
@@ -16,20 +17,22 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CloneRefactor {
 
     private static Logger log = FileLogger.getLogger(CloneRefactor.class);
     private static List<RFTemplate> refactorableTemplates = new ArrayList<>();
-    private static Set<String> templateNames = new HashSet<>();
+    private static Map<String, String> templateNamingMap = new HashMap<>();
+    private static List<String[]> repeatedNamingInfo = new ArrayList<>();
     private static int countType1 = 0;
     private static int countType2 = 0;
     private static int countType3 = 0;
     private static int countSkip = 0;
+    private static int countGapNode = 0;
+    private static int countNonTestCase = 0;
+    private static int countNonRefactorable = 0;
+    private static int countRepeatedNaming = 0;
 
     public static void refactor(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
 
@@ -43,8 +46,7 @@ public class CloneRefactor {
             return;
         }
 
-        log.info("start to refactor clone pair");
-
+        // get naming
         String templateName = RenameUtil.getTemplateName(pairInfo.getFirstClass(), pairInfo.getFirstMethodSignature(),
                 pairInfo.getSecondClass(), pairInfo.getSecondMethodSignature());
 
@@ -56,7 +58,10 @@ public class CloneRefactor {
                 pairInfo.getSecondClass(), pairInfo.getFirstMethodSignature(), pairInfo.getSecondMethodSignature());
 
         assert pairInfo.getPDFSubTreeMappersInfoList().size() == 1;
+
+        log.info("start to refactor clone pair");
         for (PDGSubTreeMapperInfo mapperInfo : pairInfo.getPDFSubTreeMappersInfoList()) {
+
             // achieve the clone structure root node and clone type
             DivideAndConquerMatcher matcher = mapperInfo.getMapper();
             CloneType cloneType = matcher.getCloneType();
@@ -77,12 +82,15 @@ public class CloneRefactor {
                     MethodDeclaration method1 = getMethod(stmt1);
                     MethodDeclaration method2 = getMethod(stmt2);
 
-                    if (Modifier.isPrivate(method1.getModifiers()) || Modifier.isPrivate(method2.getModifiers())) {
-                        log.info("private method pair are not test cases!");
+                    // check if methods are test cases
+                    if (!ASTNodeUtil.isTestCase(method1) || !ASTNodeUtil.isTestCase(method2)) {
+                        log.info("method pair are not test cases!");
+                        countNonTestCase++;
                         countSkip++;
                         return;
                     }
 
+                    // init refactoring template
                     ICompilationUnit cu1 = pairInfo.getICompilationUnitFirst();
                     ICompilationUnit cu2 = pairInfo.getICompilationUnitSecond();
                     RFTemplate template = new RFTemplate(ast1, method1, method2, templateName, adapterName,
@@ -90,53 +98,77 @@ public class CloneRefactor {
 
                     // construct the refactoring tree
                     RFStatement rfRoot = RFStatementBuilder.getInstance().build(root, template);
+
+                    // check gap node
                     if (!template.isRefactorable()) {
+                        countGapNode++;
                         countSkip++;
                         continue;
                     }
 
+                    // start refactoring
                     rfRoot.accept(new RFVisitor(template));
-
                     template.modifyTestMethods();
-                    /*
-                    MethodDeclaration method1 = ASTNodeUtil.retrieveMethodDeclarationNode(methodsInfo.getIMethod1(),
-                            methodsInfo.getStartOffset1(), methodsInfo.getEndOffset1(), true);
-                    MethodDeclaration method2 = ASTNodeUtil.retrieveMethodDeclarationNode(methodsInfo.getIMethod2(),
-                            methodsInfo.getStartOffset2(), methodsInfo.getEndOffset2(), true);
-                            */
 
-                    //template.updateSourceFiles();
-                    if (!template.hasUnrefactorableNodePair()
-                            && templateNames.add(template.getTemplatName())
-                            && template.comesFromSamePackage()
-                            && template.isRefactorable()) {
+                    // check repeated naming
+                    if (templateNamingMap.containsKey(template.getTemplatName())) {
+                        String pair1 = templateNamingMap.get(template.getTemplatName());
+                        String pair2 = getMethodPairInfo(pairInfo);
+                        repeatedNamingInfo.add(new String[] {pair1, pair2});
+                        countRepeatedNaming++;
+                        countSkip++;
+                        continue;
+                    } else {
+                        templateNamingMap.put(template.getTemplatName(), getMethodPairInfo(pairInfo));
+                    }
+
+                    // check refactorability
+                    if (template.isRefactorable()) {
                         refactorableTemplates.add(template);
                     } else {
+                        countNonRefactorable++;
                         countSkip++;
                     }
 
-                    // print out the refactoring template
-                    System.out.println("----------------------------------------------------------");
+                    // print out the template
+                    //System.out.println("----------------------------------------------------------");
                     //System.out.println(template);
 
                 }
 
             } else {
                 countType3++;
-                log.info("Unable to handle CloneType: " + cloneType.toString());
+                log.info("Non refactorable CloneType: " + cloneType.toString());
             }
         }
     }
 
     public static void applyChanges() throws Exception {
-        log.info("refactoring " + refactorableTemplates.size() + " duplicate method pairs.");
-        log.info("skipping " + countSkip + " duplicate method pairs.");
-        log.info("type1 count: " + countType1);
-        log.info("type2 count: " + countType2);
-        log.info("type3 count: " + countType3);
+        logRefactoringInfo();
         for (RFTemplate template : refactorableTemplates) {
             template.updateSourceFiles();
         }
+    }
+
+    public static void logRefactoringInfo() {
+        log.info("refactoring " + refactorableTemplates.size() + " clone method pairs.");
+        log.info("skipping " + countSkip + " clone method pairs:");
+        log.info("\t" + countNonTestCase + " not test cases");
+        log.info("\t" + countGapNode + " containing gap nodes (type3)");
+        log.info("\t" + countNonRefactorable + " not refactorable");
+        log.info("\t" + countRepeatedNaming + " repeated naming");
+        for (String[] pair : repeatedNamingInfo) {
+            log.info("\t *" + pair[0]);
+            log.info("\t  " + pair[1]);
+        }
+        log.info("type1 count: " + countType1);
+        log.info("type2 count: " + countType2);
+        log.info("type3 count: " + countType3);
+    }
+
+    private static String getMethodPairInfo(ClonePairInfo pairInfo) {
+        return pairInfo.getFirstPackage() + "." + pairInfo.getFirstClass() + ": " + pairInfo.getFirstMethodSignature() + " <---> "
+                + pairInfo.getSecondPackage() + "." + pairInfo.getSecondClass() + ": " + pairInfo.getSecondMethodSignature();
     }
 
     private static MethodDeclaration getMethod(Statement stmt) {
