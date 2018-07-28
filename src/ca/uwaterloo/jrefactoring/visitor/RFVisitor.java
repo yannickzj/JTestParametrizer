@@ -217,6 +217,12 @@ public class RFVisitor extends ASTVisitor {
     }
 
     @Override
+    public boolean visit(PrefixExpression node) {
+        pullUpToParameter(node);
+        return false;
+    }
+
+    @Override
     public boolean visit(SimpleName node) {
         RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         if (diff != null) {
