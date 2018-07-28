@@ -722,6 +722,14 @@ public class RFTemplate {
         methodInvocation.setName((SimpleName) ASTNode.copySubtree(ast, name));
         Map<String, Integer> argMap = new HashMap<>();
 
+        // get cu
+        CompilationUnit cu;
+        if (pair == Pair.member1) {
+            cu = adapterImplCU1;
+        } else {
+            cu = adapterImplCU2;
+        }
+
         assert argTypes.size() == arguments.size() + 1;
 
         for (int i = 0; i < argTypes.size(); i++) {
@@ -755,12 +763,6 @@ public class RFTemplate {
             variableDeclaration.setType(argType);
 
             // add import declaration
-            CompilationUnit cu;
-            if (pair == Pair.member1) {
-                cu = adapterImplCU1;
-            } else {
-                cu = adapterImplCU2;
-            }
             addImportDeclaration(cu,
                     ASTNodeUtil.createPackageName(ast, (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME)), false);
 
@@ -890,11 +892,24 @@ public class RFTemplate {
 
         assert argTypes.size() == 2;
 
+        // get cu
+        CompilationUnit cu;
+        if (pair == Pair.member1) {
+            cu = adapterImplCU1;
+        } else {
+            cu = adapterImplCU2;
+        }
+
         // set method parameters
         Map<String, Integer> argMap = new HashMap<>();
         for (Type argType : argTypes) {
             SingleVariableDeclaration variableDeclaration = ast.newSingleVariableDeclaration();
             variableDeclaration.setType((Type) ASTNode.copySubtree(ast, argType));
+
+            // add import declaration
+            addImportDeclaration(cu,
+                    ASTNodeUtil.createPackageName(ast, (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME)), false);
+
             int argCount = argMap.getOrDefault(argType.toString(), 1);
             variableDeclaration.setName(ast.newSimpleName(RenameUtil.rename(argType, argCount)));
             argMap.put(argType.toString(), argCount + 1);
@@ -1188,6 +1203,8 @@ public class RFTemplate {
                 insertInnerClass(iCU2, adapterImplCU2, true);
             }
             cleanImportDeclarations(iCompilationUnit);
+            cleanImportDeclarations(iCU1);
+            cleanImportDeclarations(iCU2);
 
         } else {
             // duplicate methods are in different packages
