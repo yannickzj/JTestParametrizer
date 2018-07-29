@@ -1188,7 +1188,7 @@ public class RFTemplate {
                 + packageDeclaration1.getName().getFullyQualifiedName() + "."
                 + compilationUnit1.getJavaElement().getElementName()
                 + "#" + method1.getName().getIdentifier() + " <---> "
-                + packageDeclaration2.getName().getFullyQualifiedName()
+                + packageDeclaration2.getName().getFullyQualifiedName() + "."
                 + compilationUnit2.getJavaElement().getElementName()
                 + "#" + method2.getName().getIdentifier());
 
