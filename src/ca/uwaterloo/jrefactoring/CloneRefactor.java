@@ -2,20 +2,22 @@ package ca.uwaterloo.jrefactoring;
 
 import ca.uwaterloo.jrefactoring.build.RFStatementBuilder;
 import ca.uwaterloo.jrefactoring.detect.ClonePairInfo;
-import ca.uwaterloo.jrefactoring.detect.InputMethods;
 import ca.uwaterloo.jrefactoring.detect.PDGSubTreeMapperInfo;
 import ca.uwaterloo.jrefactoring.node.RFStatement;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
+import ca.uwaterloo.jrefactoring.utility.ExcelFileColumns;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneStructureNode;
 import gr.uom.java.ast.decomposition.cfg.mapping.CloneType;
 import gr.uom.java.ast.decomposition.cfg.mapping.DivideAndConquerMatcher;
+import jxl.write.WritableSheet;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
+import jxl.write.Number;
 
 import java.util.*;
 
@@ -34,7 +36,8 @@ public class CloneRefactor {
     private static int countNonRefactorable = 0;
     private static int countRepeatedNaming = 0;
 
-    public static void refactor(ClonePairInfo pairInfo, InputMethods methodsInfo) throws Exception {
+    public static void refactor(ClonePairInfo pairInfo, int firstCloneNumber, int secondCloneNumber, int firstCloneRow,
+                                WritableSheet copySheet) throws Exception {
 
         // skip some cases
         if (!pairInfo.getFirstPackage().equals(pairInfo.getSecondPackage())) {
@@ -131,7 +134,9 @@ public class CloneRefactor {
                     // check refactorability
                     if (template.isRefactorable()) {
                         refactorableTemplates.add(template);
+                        markRefactorability(firstCloneNumber, secondCloneNumber, firstCloneRow, copySheet, 1.0);
                     } else {
+                        markRefactorability(firstCloneNumber, secondCloneNumber, firstCloneRow, copySheet, -1.0);
                         countNonRefactorable++;
                         countSkip++;
                     }
@@ -174,6 +179,14 @@ public class CloneRefactor {
         int total = effective + countNonRefactorable;
         log.info(String.format("effective refactoring ratio: %d/%d = %.2f%%",
                 effective, total, effective * 100.0 / total));
+    }
+
+    private static void markRefactorability(int firstCloneNumber, int secondCloneNumber, int firstCloneRow,
+                                            WritableSheet copySheet, double val) throws Exception {
+        if (firstCloneNumber == 0 && secondCloneNumber == 1) {
+            Number number = new Number(ExcelFileColumns.REFACTORABILITY.getColumnNumber(), firstCloneRow, val);
+            copySheet.addCell(number);
+        }
     }
 
     private static String getMethodPairInfo(ClonePairInfo pairInfo) {

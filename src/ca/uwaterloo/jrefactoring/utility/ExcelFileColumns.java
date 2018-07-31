@@ -23,7 +23,9 @@ public enum ExcelFileColumns {
 	//NUMBER_OF_NODE_COMPARISONS(17, "#Node comparisons"),
 	//EXECUTION_TIME(18, "Total execution time for group"),
 	NUMBER_OF_REFACTORABLE_PAIRS(17, "#Refactorable Pairs"),
-	DETAILS(18, "Details");
+	DETAILS(18, "Details"),
+	COLORS(19, "Colors"),
+	REFACTORABILITY(20, "Refactorability");
 
 	
 	private final int columnNumber;

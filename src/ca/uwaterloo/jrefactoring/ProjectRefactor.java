@@ -539,7 +539,7 @@ public class ProjectRefactor {
 
 
                         // Write the stuff to the HTML files and CSV files
-                        CloneRefactor.refactor(clonePairInfo, methodsInfo);
+                        CloneRefactor.refactor(clonePairInfo, firstCloneNumber, secondCloneNumber, firstCloneRow, copySheet);
                         //htmlWriter.writeCloneInfo(clonePairInfo);
                         /*
                         for (CloneInfoWriter cloneInfoWriter : infoWriters)
