@@ -273,6 +273,25 @@ public class RFTemplate {
         return genericTypeMap.containsKey(genericName);
     }
 
+    public TypePair getTypePairFromGenericMap(String genericName) {
+        return genericTypeMap.get(genericName);
+    }
+
+    public boolean containTypeBound(String fromType, String toType) {
+        List<TypeParameter> typeParameters = templateMethod.typeParameters();
+        for (TypeParameter typeParameter : typeParameters) {
+            if (typeParameter.getName().getIdentifier().equals(fromType)) {
+                List<Type> typeBounds = typeParameter.typeBounds();
+                for (Type typeBound: typeBounds) {
+                    if (((SimpleType) typeBound).getName().getFullyQualifiedName().equals(toType)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public List<Expression> getTemplateArguments1() {
         return templateArguments1;
     }

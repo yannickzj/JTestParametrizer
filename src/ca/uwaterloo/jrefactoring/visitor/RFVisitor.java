@@ -534,9 +534,19 @@ public class RFVisitor extends ASTVisitor {
                 if (argType != null) {
                     String argTypeFullName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
                     ITypeBinding parameterTypeBinding = parameterTypes.get(i);
+                    TypePair typePair = template.getTypePairFromGenericMap(argType.toString());
 
-                    if (template.containsGenericNameInMap(argType.toString())
-                            || ASTNodeUtil.hasAncestor(parameterTypeBinding, argTypeFullName)) {
+                    // don't wrap cast expression if parameter type is ancestor of generic type bound
+                    if (typePair != null) {
+                        ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
+                        if (commonSuperClass != null
+                                && template.containTypeBound(argType.toString(), commonSuperClass.getName())
+                                && ASTNodeUtil.hasAncestor(commonSuperClass, parameterTypeBinding.getQualifiedName())) {
+                            return;
+                        }
+                    }
+
+                    if (typePair != null || ASTNodeUtil.hasAncestor(parameterTypeBinding, argTypeFullName)) {
 
                         // get cast type full name
                         Type castType = ASTNodeUtil.typeFromBinding(ast, parameterTypeBinding);
