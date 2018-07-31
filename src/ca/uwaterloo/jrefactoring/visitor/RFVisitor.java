@@ -541,7 +541,8 @@ public class RFVisitor extends ASTVisitor {
                         ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
                         if (commonSuperClass != null
                                 && template.containTypeBound(argType.toString(), commonSuperClass.getName())
-                                && ASTNodeUtil.hasAncestor(commonSuperClass, parameterTypeBinding.getQualifiedName())) {
+                                && (ASTNodeUtil.hasAncestor(commonSuperClass, parameterTypeBinding.getQualifiedName())
+                                || commonSuperClass.getQualifiedName().equals(parameterTypeBinding.getQualifiedName()))) {
                             return;
                         }
                     }
