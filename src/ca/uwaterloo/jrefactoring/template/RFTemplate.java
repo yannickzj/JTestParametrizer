@@ -28,6 +28,7 @@ public class RFTemplate {
     private static final String DEFAULT_ADAPTER_METHOD_NAME = "action";
     private static final String DEFAULT_TEMPLATE_CLASS_NAME = "TestTemplates";
     public static final String NULL_PARAMETER_OBJECT = "nullParameterObject";
+    private static final String JAVA_LANG_CLASS = "java.lang.Class";
 
     private AST ast;
     private MethodDeclaration templateMethod;
@@ -282,7 +283,7 @@ public class RFTemplate {
         for (TypeParameter typeParameter : typeParameters) {
             if (typeParameter.getName().getIdentifier().equals(fromType)) {
                 List<Type> typeBounds = typeParameter.typeBounds();
-                for (Type typeBound: typeBounds) {
+                for (Type typeBound : typeBounds) {
                     if (((SimpleType) typeBound).getName().getFullyQualifiedName().equals(toType)) {
                         return true;
                     }
@@ -469,7 +470,7 @@ public class RFTemplate {
 
         if (resolvedName1.equals("")) {
             String commonName = RenameUtil.renameVariable(name1, name2, variableCount++, prefix);
-            while(!templateVariableNames.add(commonName)) {
+            while (!templateVariableNames.add(commonName)) {
                 commonName = RenameUtil.renameVariable(name1, name2, variableCount++, prefix);
             }
             nameMap1.put(name1, commonName);
@@ -625,7 +626,7 @@ public class RFTemplate {
     public String addVariableParameter(Type type) {
         int count = parameterMap.getOrDefault(type.toString(), 0) + 1;
         String variableParameter = RenameUtil.rename(type, count);
-        while(!addVariableName(variableParameter)) {
+        while (!addVariableName(variableParameter)) {
             count++;
             variableParameter = RenameUtil.rename(type, count);
         }
@@ -975,7 +976,8 @@ public class RFTemplate {
                                       TypePair returnTypePair, boolean throwsException) {
         ITypeBinding returnTypeBinding1;
         ITypeBinding returnTypeBinding2;
-        if (containsTypePair(returnTypePair)) {
+        TypePair boundPair = ASTNodeUtil.getJavaLangClassCaptureBounds(returnTypePair);
+        if (containsTypePair(returnTypePair) || (boundPair != null && containsTypePair(boundPair))) {
             returnTypeBinding1 = returnTypePair.getType1();
             returnTypeBinding2 = returnTypePair.getType2();
         } else {
@@ -1067,6 +1069,7 @@ public class RFTemplate {
 
             // add method in adapter interface
             ITypeBinding returnTypeBinding = ASTNodeUtil.getAssignmentCompatibleTypeBinding(returnTypePair);
+            TypePair boundPair = ASTNodeUtil.getJavaLangClassCaptureBounds(returnTypePair);
             Type returnType;
 
             if (containsTypePair(returnTypePair)) {
@@ -1089,6 +1092,15 @@ public class RFTemplate {
 
                 // add adapter variable
                 addAdapterVariableTypeParameter(returnType);
+
+            } else if (boundPair != null && containsTypePair(boundPair)) {
+                String genericName = resolveTypePair(boundPair, false);
+                ParameterizedType parameterizedType =
+                        ast.newParameterizedType(ASTNodeUtil.typeFromBinding(ast, returnTypePair.getType1().getErasure()));
+                WildcardType capType = ast.newWildcardType();
+                capType.setBound(ast.newSimpleType(ast.newSimpleName(genericName)), true);
+                parameterizedType.typeArguments().add(capType);
+                returnType = parameterizedType;
 
             } else {
                 returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);

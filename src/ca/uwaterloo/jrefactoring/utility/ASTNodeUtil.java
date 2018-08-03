@@ -17,6 +17,7 @@ public class ASTNodeUtil {
     public static final String PROPERTY_TYPE_BINDING = "type";
     public static final String PROPERTY_QUALIFIED_NAME = "qualifiedName";
     public static final String PROPERTY_PAIR = "pair";
+    private static final String JAVA_LANG_CLASS = "java.lang.Class";
 
     public static Type typeFromBinding(AST ast, ITypeBinding typeBinding) {
         if( ast == null )
@@ -357,6 +358,29 @@ public class ASTNodeUtil {
 
     public static boolean isTestCase(MethodDeclaration method) {
         return Modifier.isPublic(method.getModifiers()) && method.parameters().size() == 0 && isVoid(method.getReturnType2());
+    }
+
+    public static TypePair getJavaLangClassCaptureBounds(TypePair pair) {
+        if (pair != null) {
+            ITypeBinding type1 = pair.getType1();
+            ITypeBinding type2 = pair.getType2();
+
+            if (type1 != null && type1.isParameterizedType() && type1.getTypeArguments().length == 1
+                    && type2 != null && type2.isParameterizedType() && type2.getTypeArguments().length == 1
+                    && type1.getBinaryName().equals(JAVA_LANG_CLASS) && type2.getBinaryName().equals(JAVA_LANG_CLASS)) {
+                ITypeBinding typeArg1 = type1.getTypeArguments()[0];
+                ITypeBinding typeArg2 = type2.getTypeArguments()[0];
+                if (typeArg1.isCapture() && typeArg2.isCapture()) {
+                    ITypeBinding wildCard1 = typeArg1.getWildcard();
+                    ITypeBinding wildCard2 = typeArg2.getWildcard();
+                    ITypeBinding bound1 = wildCard1.getBound();
+                    ITypeBinding bound2 = wildCard2.getBound();
+                    return new TypePair(bound1, bound2);
+                }
+            }
+        }
+
+        return null;
     }
 
 }
