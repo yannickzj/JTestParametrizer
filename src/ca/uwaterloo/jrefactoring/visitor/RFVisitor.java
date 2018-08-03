@@ -721,7 +721,8 @@ public class RFVisitor extends ASTVisitor {
                     ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
                     if (commonSuperClass != null) {
                         for (IMethodBinding methodBinding : commonSuperClass.getDeclaredMethods()) {
-                            if (methodBinding.getName().equals(name1.getIdentifier())) {
+                            if (methodBinding.getName().equals(name1.getIdentifier())
+                                    && Modifier.isPublic(methodBinding.getModifiers())) {
                                 log.info("Same method found in common super class [" +
                                         commonSuperClass.getQualifiedName() + "]: " + methodBinding.getName());
                                 expr1.accept(this);

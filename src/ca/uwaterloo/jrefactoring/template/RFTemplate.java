@@ -659,7 +659,8 @@ public class RFTemplate {
         }
     }
 
-    private void addMethodInAdapterInterface(SimpleName name, List<Type> argTypes, Type returnType) {
+    private void addMethodInAdapterInterface(SimpleName name, List<Type> argTypes, Type returnType,
+                                             boolean throwsException) {
 
         MethodDeclaration methodDeclaration = ast.newMethodDeclaration();
 
@@ -701,12 +702,18 @@ public class RFTemplate {
             methodDeclaration.parameters().add(arg);
         }
 
+        // add throw exception
+        if (throwsException) {
+            methodDeclaration.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
+        }
+
         adapter.bodyDeclarations().add(methodDeclaration);
     }
 
     private MethodDeclaration addMethodInAdapterImpl(SimpleName actionName, List<Type> argTypes,
                                                      MethodInvocationPair methodInvocationPair,
-                                                     ITypeBinding returnTypeBinding, Pair pair) {
+                                                     ITypeBinding returnTypeBinding, Pair pair,
+                                                     boolean throwsException) {
 
         Expression expr;
         SimpleName name;
@@ -900,6 +907,11 @@ public class RFTemplate {
         }
         method.getBody().statements().add(statement);
 
+        // add throws exception
+        if (throwsException) {
+            method.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
+        }
+
         return method;
     }
 
@@ -960,7 +972,7 @@ public class RFTemplate {
     }
 
     private void addAdapterActionImpl(SimpleName actionName, List<Type> argTypes, MethodInvocationPair pair,
-                                      TypePair returnTypePair) {
+                                      TypePair returnTypePair, boolean throwsException) {
         ITypeBinding returnTypeBinding1;
         ITypeBinding returnTypeBinding2;
         if (containsTypePair(returnTypePair)) {
@@ -971,8 +983,8 @@ public class RFTemplate {
             returnTypeBinding2 = returnTypeBinding1;
         }
 
-        MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding1, Pair.member1);
-        MethodDeclaration method2 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding2, Pair.member2);
+        MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding1, Pair.member1, throwsException);
+        MethodDeclaration method2 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding2, Pair.member2, throwsException);
         adapterImpl1.bodyDeclarations().add(method1);
         adapterImpl2.bodyDeclarations().add(method2);
     }
@@ -1054,8 +1066,6 @@ public class RFTemplate {
             newMethod.setName(ast.newSimpleName(newActionName));
 
             // add method in adapter interface
-            //TypePair returnTypePair = new TypePair(pair.getiMethodBinding1().getReturnType(),
-            //        pair.getiMethodBinding2().getReturnType());
             ITypeBinding returnTypeBinding = ASTNodeUtil.getAssignmentCompatibleTypeBinding(returnTypePair);
             Type returnType;
 
@@ -1083,12 +1093,19 @@ public class RFTemplate {
             } else {
                 returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
             }
-            addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
+
+            // check if it needs to throw exception
+            IMethodBinding methodBinding1 = pair.getMethod1().resolveMethodBinding();
+            IMethodBinding methodBinding2 = pair.getMethod2().resolveMethodBinding();
+            boolean throwsException = methodBinding1.getExceptionTypes().length > 0
+                    || methodBinding2.getExceptionTypes().length > 0;
+
+            addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType, throwsException);
             newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNodeUtil.copyTypeWithProperties(ast, returnType));
             methodInvocationMap.put(pair, newActionName);
 
             // create adapter action impl
-            addAdapterActionImpl(newMethod.getName(), argTypes, pair, returnTypePair);
+            addAdapterActionImpl(newMethod.getName(), argTypes, pair, returnTypePair, throwsException);
         }
 
         return newMethod;
@@ -1112,7 +1129,7 @@ public class RFTemplate {
         argTypes.add(resolveAdapterActionArgumentType(e2, null));
 
         // add method in adapter interface
-        addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType);
+        addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType, false);
 
         // create adapter action impl
         addAdapterActionImpl(newMethod.getName(), argTypes, returnType);
@@ -1120,6 +1137,7 @@ public class RFTemplate {
         return newMethod;
     }
 
+    /*
     public MethodInvocation createAdapterActionMethod(Type returnType) {
 
         addAdapterVariableParameter();
@@ -1133,6 +1151,7 @@ public class RFTemplate {
 
         return newMethod;
     }
+    */
 
     public void modifyTestMethods() {
         modifyMethod(method1, adapterImpl1, templateArguments1, Pair.member1);
