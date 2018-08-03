@@ -207,8 +207,8 @@ public class ProjectRefactor {
                             continue;
                         }
 
-                        int firstStartOffset = Integer.parseInt(originalSheet.getCell(ExcelFileColumns.START_OFFSET.getColumnNumber(), cloneGroupStartingRowNumber + firstCloneNumber).getContents());
-                        int firstEndOffset = Integer.parseInt(originalSheet.getCell(ExcelFileColumns.END_OFFSET.getColumnNumber(), cloneGroupStartingRowNumber + firstCloneNumber).getContents());
+                        //int firstStartOffset = Integer.parseInt(originalSheet.getCell(ExcelFileColumns.START_OFFSET.getColumnNumber(), cloneGroupStartingRowNumber + firstCloneNumber).getContents());
+                        //int firstEndOffset = Integer.parseInt(originalSheet.getCell(ExcelFileColumns.END_OFFSET.getColumnNumber(), cloneGroupStartingRowNumber + firstCloneNumber).getContents());
 
                         for (int secondCloneNumber = firstCloneNumber + 1; secondCloneNumber < cloneGroupSize; secondCloneNumber++) {
                             String fullName2 = originalSheet.getCell(ExcelFileColumns.PACKAGE_NAME.getColumnNumber(), cloneGroupStartingRowNumber + secondCloneNumber).getContents().replace(".", "/") +
@@ -219,8 +219,8 @@ public class ProjectRefactor {
                                         fullName2, cloneGroupStartingRowNumber + firstCloneNumber + 1, cloneGroupStartingRowNumber + secondCloneNumber + 1));
                                 continue;
                             }
-                            int secondStartOffset = Integer.parseInt(originalSheet.getCell(ExcelFileColumns.START_OFFSET.getColumnNumber(), cloneGroupStartingRowNumber + secondCloneNumber).getContents());
-                            int secondEndOffset = Integer.parseInt(originalSheet.getCell(ExcelFileColumns.END_OFFSET.getColumnNumber(), cloneGroupStartingRowNumber + secondCloneNumber).getContents());
+                            //int secondStartOffset = Integer.parseInt(originalSheet.getCell(ExcelFileColumns.START_OFFSET.getColumnNumber(), cloneGroupStartingRowNumber + secondCloneNumber).getContents());
+                            //int secondEndOffset = Integer.parseInt(originalSheet.getCell(ExcelFileColumns.END_OFFSET.getColumnNumber(), cloneGroupStartingRowNumber + secondCloneNumber).getContents());
 
                             ClonePairInfo clonePairInfo = new ClonePairInfo();
                             clonePairInfo.setICompilationUnitFirst(iCompilationUnit1);
@@ -229,10 +229,10 @@ public class ProjectRefactor {
                             clonePairInfo.setProjectName(projectName);
                             clonePairInfo.setCloneFragment1ID(firstCloneNumber + 1);
                             clonePairInfo.setCloneFragment2ID(secondCloneNumber + 1);
-                            clonePairInfo.setStartOffsetOfFirstCodeFragment(firstStartOffset);
-                            clonePairInfo.setEndOffsetOfFirstCodeFragment(firstEndOffset);
-                            clonePairInfo.setStartOffsetOfSecondCodeFragment(secondStartOffset);
-                            clonePairInfo.setEndOffsetOfSecondCodeFragment(secondEndOffset);
+                            //clonePairInfo.setStartOffsetOfFirstCodeFragment(firstStartOffset);
+                            //clonePairInfo.setEndOffsetOfFirstCodeFragment(firstEndOffset);
+                            //clonePairInfo.setStartOffsetOfSecondCodeFragment(secondStartOffset);
+                            //clonePairInfo.setEndOffsetOfSecondCodeFragment(secondEndOffset);
 
                             // Only write information to the HTML report, not the CSV files
                             //CloneRefactor.refactor(clonePairInfo);
@@ -313,7 +313,14 @@ public class ProjectRefactor {
                         log.info(String.format("%s%%: Generating PDG for method \"%s\" in \"%s\"",
                                 Math.round(100 * (float) cloneGroupStartingRowNumber / numberOfRows),
                                 firstMethodName, firstFullName));
-                        pdgArray[firstCloneNumber] = getPDG(firstIMethod);
+                        try {
+                            pdgArray[firstCloneNumber] = getPDG(firstIMethod);
+                        } catch (Exception e) {
+                            log.info(String.format("%s%%: Failed to generate PDG for method \"%s\" in \"%s\"",
+                                    Math.round(100 * (float) cloneGroupStartingRowNumber / numberOfRows),
+                                    firstMethodName, firstFullName));
+                            continue;
+                        }
                     }
 
                     PDG pdg1 = pdgArray[firstCloneNumber];
@@ -391,7 +398,14 @@ public class ProjectRefactor {
                                 log.info(String.format("%s%%: Generating PDG for method \"%s\" in \"%s\"",
                                         Math.round(100 * (float) cloneGroupStartingRowNumber / numberOfRows),
                                         secondMethodName, secondFullName));
-                                pdgArray[secondCloneNumber] = getPDG(secondIMethod);
+                                try {
+                                    pdgArray[secondCloneNumber] = getPDG(secondIMethod);
+                                } catch (Exception e) {
+                                    log.info(String.format("%s%%: Unable to generate PDG for method \"%s\" in \"%s\"",
+                                            Math.round(100 * (float) cloneGroupStartingRowNumber / numberOfRows),
+                                            secondMethodName, secondFullName));
+                                    continue;
+                                }
                             }
 
                             pdg2 = pdgArray[secondCloneNumber];
