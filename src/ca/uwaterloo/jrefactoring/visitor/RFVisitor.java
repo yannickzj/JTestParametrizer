@@ -235,6 +235,12 @@ public class RFVisitor extends ASTVisitor {
                 return false;
             }
 
+            SimpleName pairNode = (SimpleName) diff.getExpr2();
+            if (node.resolveBinding().getKind() == 2 && pairNode.resolveBinding().getKind() == 2) {
+                log.info("Skip refactoring type level SimpleName node pair: " + node + ", " + pairNode);
+                return false;
+            }
+
             String name1 = node.getIdentifier();
             String name2 = ((SimpleName) diff.getExpr2()).getIdentifier();
 
@@ -376,8 +382,11 @@ public class RFVisitor extends ASTVisitor {
                     node.getRightHandSide().accept(this);
 
                     // wrap CastExpression
-                    CastExpression castExpression = wrapCastExpression(genericType, node.getRightHandSide());
-                    replaceNode(node.getRightHandSide(), castExpression, genericType);
+                    Type rightHandType = ASTNodeUtil.typeFromExpr(ast, node.getRightHandSide());
+                    if (!genericTypeName.equals(rightHandType.toString())) {
+                        CastExpression castExpression = wrapCastExpression(genericType, node.getRightHandSide());
+                        replaceNode(node.getRightHandSide(), castExpression, genericType);
+                    }
                 }
 
                 // refactor left hand side
@@ -765,7 +774,10 @@ public class RFVisitor extends ASTVisitor {
                         methodInvocationPair, returnTypePair);
 
                 // replace the old method
-                Type type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
+                Type type = (Type) newMethod.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+                if (type == null) {
+                    type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
+                }
                 replaceNode(node, newMethod, type);
 
             }

@@ -1042,7 +1042,15 @@ public class RFTemplate {
 
         // add method in adapter interface
         if (methodInvocationMap.containsKey(pair)) {
-            newMethod.setName(ast.newSimpleName(methodInvocationMap.get(pair)));
+            String methodName = methodInvocationMap.get(pair);
+            newMethod.setName(ast.newSimpleName(methodName));
+            for (MethodDeclaration methodDeclaration : adapter.getMethods()) {
+                if (methodDeclaration.getName().getIdentifier().equals(methodName)) {
+                    Type returnType = methodDeclaration.getReturnType2();
+                    newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNodeUtil.copyTypeWithProperties(ast, returnType));
+                }
+            }
+
         } else {
 
             // set adapter action name

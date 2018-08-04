@@ -113,6 +113,7 @@ public class CloneRefactor {
                     try {
                         rfRoot.accept(new RFVisitor(template));
                     } catch (Exception e) {
+                        e.printStackTrace();
                         countNonRefactorable++;
                         countSkip++;
                         continue;
@@ -142,7 +143,7 @@ public class CloneRefactor {
                     }
 
                     // print out the template
-                    //System.out.println("----------------------------------------------------------");
+                    System.out.println("----------------------------------------------------------");
                     //System.out.println(template);
 
                 }
