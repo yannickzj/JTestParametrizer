@@ -542,6 +542,8 @@ public class RFTemplate {
                 adapterTypes.add(exprType.toString());
             }
 
+        } else if (iTypeBinding != null) {
+            exprType = ASTNodeUtil.typeFromBinding(ast, iTypeBinding);
         } else {
             exprType = ASTNodeUtil.typeFromBinding(ast, expr.resolveTypeBinding());
         }
