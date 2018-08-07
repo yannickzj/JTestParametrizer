@@ -2,7 +2,6 @@ package ca.uwaterloo.jrefactoring;
 
 import ca.uwaterloo.jrefactoring.cli.CLIParser;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
-import ca.uwaterloo.jrefactoring.utility.RenameUtil;
 import gr.uom.java.ast.ASTReader;
 import gr.uom.java.ast.CompilationErrorDetectedException;
 import org.eclipse.core.resources.IProject;
@@ -112,7 +111,11 @@ public class Main implements IApplication {
     private IJavaProject findJavaProjectInWorkspace(String projectName) throws CoreException {
         IJavaProject jProject = null;
         for (IProject project : ResourcesPlugin.getWorkspace().getRoot().getProjects()) {
-            if (project.isOpen() && project.hasNature(JavaCore.NATURE_ID) && project.getName().equals(projectName)) {
+            if (project.hasNature(JavaCore.NATURE_ID) && project.getName().equals(projectName)) {
+                if (!project.isOpen()) {
+                    log.info("open java project: " + project.getName());
+                    project.open(null);
+                }
                 jProject = JavaCore.create(project);
                 log.info("Project " + projectName + " was found in the workspace");
                 break;
