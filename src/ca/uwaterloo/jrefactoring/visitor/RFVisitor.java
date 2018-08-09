@@ -380,6 +380,19 @@ public class RFVisitor extends ASTVisitor {
         return false;
     }
 
+    @Override
+    public boolean visit(ParameterizedType node) {
+        ParameterizedType pairNode = (ParameterizedType) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+        if (pairNode != null) {
+            TypePair typePair = new TypePair(node.resolveBinding(), pairNode.resolveBinding());
+            String genericTypeName = template.resolveTypePair(typePair, true);
+            Type type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+            type.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, type);
+            replaceNode(node, type, type);
+        }
+        return false;
+    }
+
     private ITypeBinding getCommonInteface(ITypeBinding interface1, ITypeBinding interface2) {
 
         ITypeBinding commonInterface = null;

@@ -218,4 +218,10 @@ public class RenameUtil {
         return namePair;
     }
 
+    public static String encodeParameterizedName(String name) {
+        name = name.replace("<", "");
+        name = name.replace(">", "");
+        return name.replace(",", "");
+    }
+
 }

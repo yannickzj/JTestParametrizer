@@ -30,7 +30,8 @@ public class RFTemplate {
     public static final String NULL_PARAMETER_OBJECT = "nullParameterObject";
     private static final String JAVA_LANG_CLASS = "java.lang.Class";
     private static final String ASSERT_KEYWORD = "assert";
-    private static final String ASSERT_KEYWORD_SUFFIX = "Action";
+    private static final String NEW_KEYWORD = "new";
+    private static final String KEYWORD_SUFFIX = "Action";
 
     private AST ast;
     private MethodDeclaration templateMethod;
@@ -293,8 +294,15 @@ public class RFTemplate {
             if (typeParameter.getName().getIdentifier().equals(fromType)) {
                 List<Type> typeBounds = typeParameter.typeBounds();
                 for (Type typeBound : typeBounds) {
-                    if (((SimpleType) typeBound).getName().getFullyQualifiedName().equals(toType)) {
-                        return true;
+                    if (typeBound.isParameterizedType()) {
+                        if (typeBound.toString().equals(toType)) {
+                            return true;
+                        }
+
+                    } else {
+                        if (((SimpleType) typeBound).getName().getFullyQualifiedName().equals(toType)) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -377,9 +385,18 @@ public class RFTemplate {
             // get common super class
             ITypeBinding commonSuperClass = getLowestCommonSubClass(typePair);
 
+            //
+            if (commonSuperClass == null
+                    && (typePair.getType1().isParameterizedType() || typePair.getType2().isParameterizedType())) {
+                markAsUnrefactorable();
+                throw new IllegalStateException("no common super class for parameterized types: "
+                        + typePair.getType1().getQualifiedName() + ", " + typePair.getType2().getQualifiedName());
+            }
+
             // set type name
             String commonName = RenameUtil.constructCommonName(typePair.getType1().getName(),
                     typePair.getType2().getName(), true);
+            commonName = RenameUtil.encodeParameterizedName(commonName);
             String typeName;
             if (!commonName.equals("")) {
                 int nameCount = genericTypeNameMap.getOrDefault(commonName, 0);
@@ -419,19 +436,37 @@ public class RFTemplate {
             // add common generic type bound
             if (extendsCommonSuperClass) {
                 if (commonSuperClass != null) {
-                    addGenericTypeBound(typeName, commonSuperClass.getName());
+                    if (commonSuperClass.isParameterizedType()) {
+                        List<TypeParameter> typeParameters = templateMethod.typeParameters();
+                        for (TypeParameter typeParameter : typeParameters) {
+                            if (typeParameter.getName().getIdentifier().equals(typeName)) {
+                                typeParameter.typeBounds().add(ASTNodeUtil.typeFromBinding(ast, commonSuperClass));
+                            }
+                        }
+
+                    } else {
+                        addGenericTypeBound(typeName, commonSuperClass.getName());
+                    }
 
                     String commonSuperClassPackageName = commonSuperClass.getPackage().getName();
-                    //log.info("common super class package name: " + commonSuperClassPackageName);
+
+                    // get common super class full name
+                    String commonSuperClassFullName;
+                    if (commonSuperClass.isParameterizedType()) {
+                        commonSuperClassFullName = commonSuperClass.getErasure().getQualifiedName();
+                    } else {
+                        commonSuperClassFullName = commonSuperClass.getQualifiedName();
+                    }
+
                     if (templateCU == null &&
                             !commonSuperClassPackageName.equals(packageDeclaration1.getName().getFullyQualifiedName())) {
-                        templateCUImports.add(ASTNodeUtil.createPackageName(ast, commonSuperClass.getQualifiedName()));
+                        templateCUImports.add(ASTNodeUtil.createPackageName(ast, commonSuperClassFullName));
                     }
 
                     if (templateCU != null &&
                             !commonSuperClassPackageName.equals(templateCU.getPackage().getName().getFullyQualifiedName())) {
                         addImportDeclaration(templateCU,
-                                ASTNodeUtil.createPackageName(ast, commonSuperClass.getQualifiedName()), false);
+                                ASTNodeUtil.createPackageName(ast, commonSuperClassFullName), false);
                     }
                 }
             }
@@ -621,12 +656,22 @@ public class RFTemplate {
         TypePair typePair = genericTypeMap.get(genericTypeName);
         if (typePair != null) {
             TypeLiteral typeLiteral1 = ast.newTypeLiteral();
-            Type type1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
+            Type type1;
+            if (typePair.getType1().isParameterizedType()) {
+                type1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1().getErasure());
+            } else {
+                type1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
+            }
             typeLiteral1.setType(type1);
             templateArguments1.add(typeLiteral1);
 
             TypeLiteral typeLiteral2 = ast.newTypeLiteral();
-            Type type2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+            Type type2;
+            if (typePair.getType2().isParameterizedType()) {
+                type2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2().getErasure());
+            } else {
+                type2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
+            }
             typeLiteral2.setType(type2);
             templateArguments2.add(typeLiteral2);
         }
@@ -727,7 +772,7 @@ public class RFTemplate {
         List<Type> thrownExceptionTypes = methodDeclaration.thrownExceptionTypes();
         for (Type exceptionType : thrownExceptionTypes) {
             ITypeBinding cur = throwsException;
-            while(cur != null) {
+            while (cur != null) {
                 if (cur.getName().equals(exceptionType.toString())) {
                     return;
                 }
@@ -1085,8 +1130,8 @@ public class RFTemplate {
                         pair.getName2().getIdentifier(), false);
                 if (!commonName.equals("")) {
 
-                    if (commonName.equals(ASSERT_KEYWORD)) {
-                        commonName += ASSERT_KEYWORD_SUFFIX;
+                    if (commonName.equals(ASSERT_KEYWORD) || commonName.equals(NEW_KEYWORD)) {
+                        commonName += KEYWORD_SUFFIX;
                     }
 
                     int nameCount = adapterActionNameMap.getOrDefault(commonName, 0);

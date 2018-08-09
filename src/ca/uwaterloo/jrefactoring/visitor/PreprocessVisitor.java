@@ -8,6 +8,8 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
+import java.util.List;
+
 public class PreprocessVisitor extends ASTVisitor {
 
     private static Logger log = FileLogger.getLogger(PreprocessVisitor.class);
@@ -34,7 +36,7 @@ public class PreprocessVisitor extends ASTVisitor {
             }
             if (node.resolveBinding() != null && !node.resolveBinding().getPackage().getName().equals(IGNORE_PACKAGE)) {
                 template.addImportDeclaration(templateCU,
-                        ASTNodeUtil.createPackageName(ast, node.resolveBinding().getQualifiedName()), false);
+                        ASTNodeUtil.createPackageName(ast, node.resolveBinding().getBinaryName()), false);
             }
         }
         return false;
@@ -60,7 +62,8 @@ public class PreprocessVisitor extends ASTVisitor {
                 } else if (node.resolveBinding().getKind() == 4) {
                     IMethodBinding iMethodBinding = (IMethodBinding) node.resolveBinding();
                     int modifier = iMethodBinding.getModifiers();
-                    if (Modifier.isStatic(modifier) && Modifier.isPublic(modifier)) {
+                    if (Modifier.isStatic(modifier) && Modifier.isPublic(modifier)
+                            && !iMethodBinding.getDeclaringClass().getPackage().getName().equals(IGNORE_PACKAGE)) {
                         String staticImportName = iMethodBinding.getDeclaringClass().getQualifiedName()
                                 + "." + iMethodBinding.getName();
                         template.addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, staticImportName), true);
@@ -97,9 +100,22 @@ public class PreprocessVisitor extends ASTVisitor {
     }
 
     @Override
+    public boolean visit(ParameterizedType node) {
+        if (!ASTNodeUtil.hasPairedNode(node)) {
+            ITypeBinding typeBinding = node.getType().resolveBinding();
+            if (typeBinding != null && !typeBinding.getPackage().getName().equals(IGNORE_PACKAGE)) {
+                template.addImportDeclaration(templateCU,
+                        ASTNodeUtil.createPackageName(ast, typeBinding.getBinaryName()), false);
+            }
+        }
+        return true;
+    }
+
+    @Override
     public boolean visit(QualifiedName node) {
         if (!ASTNodeUtil.hasPairedNode(node)) {
-            if (node.getQualifier().resolveTypeBinding() != null) {
+            if (node.getQualifier().resolveTypeBinding() != null && node.getQualifier().resolveBinding().getKind() == 2
+                    && node.resolveBinding().getKind() == 3) {
                 //log.info("import qualified name: " + node.getQualifier().resolveTypeBinding().getBinaryName());
                 template.addImportDeclaration(templateCU,
                         ASTNodeUtil.createPackageName(ast, node.getQualifier().resolveTypeBinding().getBinaryName()), false);
