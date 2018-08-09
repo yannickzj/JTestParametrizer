@@ -18,6 +18,7 @@ public class RFVisitor extends ASTVisitor {
     private static final String NEW_INSTANCE_METHOD_NAME = "newInstance";
     private static final String GET_DECLARED_CONSTRUCTOR_METHOD_NAME = "getDeclaredConstructor";
     private static final String DEFAULT_JAVA_PACKAGE = "java.lang";
+    private static final String CLASS_NAME = "Class";
 
     private RFTemplate template;
     private AST ast;
@@ -217,6 +218,28 @@ public class RFVisitor extends ASTVisitor {
     }
 
     @Override
+    public boolean visit(TypeLiteral node) {
+        RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
+        if (diff != null) {
+            // resolve clazz name
+            TypeLiteral pairNode = (TypeLiteral) diff.getExpr2();
+            TypePair typePair = new TypePair(node.getType().resolveBinding(), pairNode.getType().resolveBinding());
+            String genericTypeName = template.resolveTypePair(typePair, false);
+            String clazzName = template.resolveGenericType(genericTypeName);
+
+            // construct parameterized type
+            Type genericType = ast.newSimpleType(ast.newSimpleName(genericTypeName));
+            Type classType = ast.newSimpleType(ast.newSimpleName(CLASS_NAME));
+            ParameterizedType classTypeWithGenericType = ast.newParameterizedType(classType);
+            classTypeWithGenericType.typeArguments().add(genericType);
+
+            // replace node
+            replaceNode(node, ast.newSimpleName(clazzName), classTypeWithGenericType);
+        }
+        return false;
+    }
+
+    @Override
     public boolean visit(PrefixExpression node) {
         pullUpToParameter(node);
         return false;
@@ -273,69 +296,6 @@ public class RFVisitor extends ASTVisitor {
                     throw new IllegalStateException("unexpected diff in SimpleNode: " + diff.toString());
                 }
             }
-
-            /*
-            Set<DifferenceType> differenceTypes = diff.getDifferenceTypes();
-
-            // resolve type
-            Type type;
-            if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)
-                    || differenceTypes.contains(DifferenceType.VARIABLE_TYPE_MISMATCH)) {
-                String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
-                log.info("genericTypeName: " + genericTypeName);
-                type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
-            } else {
-                type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
-            }
-
-            // resolve name
-            if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)) {
-                String name1 = node.getFullyQualifiedName();
-                String name2 = ((Name) diff.getExpr2()).getFullyQualifiedName();
-                String resolvedName = template.resolveVariableName(name1, name2);
-                SimpleName newNode = ast.newSimpleName(resolvedName);
-                replaceNode(node, newNode, type);
-
-            } else {
-                node.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, type);
-            }
-            */
-
-            /*
-            if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH)) {
-                String name1 = node.getFullyQualifiedName();
-                String name2 = ((Name) diff.getExpr2()).getFullyQualifiedName();
-                String resolvedName = template.resolveVariableName(name1, name2);
-                SimpleName newNode = ast.newSimpleName(resolvedName);
-
-                Type type;
-                if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
-                    String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
-                    type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
-
-                } else {
-                    type = ASTNodeUtil.typeFromBinding(ast, node.resolveTypeBinding());
-                }
-                replaceNode(node, newNode, type);
-
-            } else if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
-                String genericTypeName = template.resolveTypePair(diff.getTypePair(), true);
-                Type type = ast.newSimpleType(ast.newSimpleName(genericTypeName));
-
-                if (node.getParent() instanceof Type) {
-                    replaceNode(node, ast.newSimpleName(genericTypeName), type);
-                } else {
-                    // same variable name but different type
-                    String name = node.getFullyQualifiedName();
-                    template.resolveVariableName(name, name);
-                    node.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, type);
-                }
-
-            } else {
-                throw new IllegalStateException("unexpected name mismatch!");
-            }
-            */
-
         }
         return false;
     }
@@ -544,6 +504,12 @@ public class RFVisitor extends ASTVisitor {
                     String argTypeFullName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
                     ITypeBinding parameterTypeBinding = parameterTypes.get(i);
                     TypePair typePair = template.getTypePairFromGenericMap(argType.toString());
+
+                    // don't wrap cast expression if parameter type is Class parameterized type
+                    if (parameterTypeBinding.isParameterizedType()
+                            && parameterTypeBinding.getErasure().getName().equals(CLASS_NAME)) {
+                        return;
+                    }
 
                     // don't wrap cast expression if parameter type is ancestor of generic type bound
                     if (typePair != null) {
@@ -901,7 +867,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
-            //node.describe();
+            node.describe();
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
 
             // refactor type
