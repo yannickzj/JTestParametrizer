@@ -178,7 +178,11 @@ public class ASTNodeUtil {
     }
 
     private static Name nameCreationHelper(AST ast, String[] nameList, int index) {
-        SimpleName name = ast.newSimpleName(nameList[index]);
+        String component = nameList[index];
+        if (component.contains("$")) {
+            component = component.split("\\$")[0];
+        }
+        SimpleName name = ast.newSimpleName(component);
         if (index == 0) {
             return name;
         } else {

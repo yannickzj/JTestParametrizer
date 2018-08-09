@@ -29,6 +29,8 @@ public class RFTemplate {
     private static final String DEFAULT_TEMPLATE_CLASS_NAME = "TestTemplates";
     public static final String NULL_PARAMETER_OBJECT = "nullParameterObject";
     private static final String JAVA_LANG_CLASS = "java.lang.Class";
+    private static final String ASSERT_KEYWORD = "assert";
+    private static final String ASSERT_KEYWORD_SUFFIX = "Action";
 
     private AST ast;
     private MethodDeclaration templateMethod;
@@ -155,6 +157,11 @@ public class RFTemplate {
             templateCU = null;
             templateMethod.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PRIVATE_KEYWORD));
         }
+
+        if (method1.thrownExceptionTypes().size() > 0 || method2.thrownExceptionTypes().size() > 0) {
+            throwsAllException = true;
+        }
+
     }
 
     private void initAdapter(String adapterName) {
@@ -1077,6 +1084,11 @@ public class RFTemplate {
                 String commonName = RenameUtil.constructCommonName(pair.getName1().getIdentifier(),
                         pair.getName2().getIdentifier(), false);
                 if (!commonName.equals("")) {
+
+                    if (commonName.equals(ASSERT_KEYWORD)) {
+                        commonName += ASSERT_KEYWORD_SUFFIX;
+                    }
+
                     int nameCount = adapterActionNameMap.getOrDefault(commonName, 0);
                     if (nameCount == 0) {
                         newActionName = commonName;

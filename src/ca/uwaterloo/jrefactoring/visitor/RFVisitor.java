@@ -867,7 +867,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFVariableDeclarationStmt node) {
         if (node.hasDifference()) {
-            node.describe();
+            //node.describe();
             VariableDeclarationStatement stmt1 = (VariableDeclarationStatement) node.getStatement1();
 
             // refactor type
