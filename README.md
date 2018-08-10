@@ -1,4 +1,4 @@
-# *Jrefactoring*: parameterization refactoring tool
+# *JRefactoring*: parameterization refactoring tool
 
 ## Summary
 
@@ -8,9 +8,9 @@
 | gson-2.8.5        |     1050    |          39          |           16              |          14         |      10      |        71.4%      |
 
 - Detected clone pairs: clone pairs directly detected from clone detection tools;
-- Parameterized clone pairs: parameterizable clone candidates identified by *Jrefactoring*, still including candidates which are not test cases, and repeated cases;
+- Parameterized clone pairs: parameterizable clone candidates identified by *JRefactoring*, still including candidates which are not test cases, and repeated cases;
 - Effective candidates: test clone pairs without repetition;
-- Refactorable: test clone pairs that are successfully refactored by *Jrefactoring* (passed with same coverage);
+- Refactorable: test clone pairs that are successfully refactored by *JRefactoring* (passed with same coverage);
 - Refactoring ratio: refactorable / effective candidates.
 
 
@@ -25,7 +25,7 @@ VM arguments:
 Working directory:
 /home/yannick/workspace/eclipse
 
-## Jfreechart-1.0.10
+## JFreeChart-1.0.10
 
 skipped cases:
 - TLE, *TestEquals* (JDeodorant): 2356,2889,5249,5315,8572
