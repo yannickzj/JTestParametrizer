@@ -84,6 +84,11 @@ public class ASTNodeUtil {
         }
 
         String name = typeBinding.getName();
+        if (name.equals("?")) {
+            WildcardType wildcardType = ast.newWildcardType();
+            wildcardType.setUpperBound(true);
+            return wildcardType;
+        }
         if( "".equals(name) ) {
             throw new IllegalArgumentException("No name for type binding.");
         }
@@ -349,10 +354,17 @@ public class ASTNodeUtil {
     */
 
     public static ITypeBinding getAssignmentCompatibleTypeBinding(TypePair typePair) {
+        if (typePair.isSame()) {
+            return typePair.getType1();
+        }
         if (typePair.getType1().isAssignmentCompatible(typePair.getType2())) {
             return typePair.getType2();
-        } else {
+        } else if (typePair.getType2().isAssignmentCompatible(typePair.getType1())) {
             return typePair.getType1();
+        } else {
+            log.info("cannot find assignment compatible type binding: " + typePair.getType1().getBinaryName()
+                    + ", " + typePair.getType2().getBinaryName());
+            return null;
         }
     }
 

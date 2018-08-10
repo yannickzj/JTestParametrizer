@@ -32,6 +32,8 @@ public class RFTemplate {
     private static final String ASSERT_KEYWORD = "assert";
     private static final String NEW_KEYWORD = "new";
     private static final String KEYWORD_SUFFIX = "Action";
+    private static final String OBJECT_NAME = "Object";
+    private static final String JAVA_OBJECT_FULL_NAME = "java.lang.Object";
 
     private AST ast;
     private MethodDeclaration templateMethod;
@@ -813,7 +815,13 @@ public class RFTemplate {
         method.setBody(ast.newBlock());
 
         // set return type
-        Type returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
+        Type returnType;
+        if (returnTypeBinding != null) {
+            returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
+        } else {
+            returnType = ast.newSimpleType(ast.newSimpleName(OBJECT_NAME));
+            returnType.setProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME, JAVA_OBJECT_FULL_NAME);
+        }
         method.setReturnType2((Type) ASTNode.copySubtree(ast, returnType));
 
         // set interface action name
@@ -1051,8 +1059,9 @@ public class RFTemplate {
             returnTypeBinding1 = returnTypePair.getType1();
             returnTypeBinding2 = returnTypePair.getType2();
         } else {
-            returnTypeBinding1 = ASTNodeUtil.getAssignmentCompatibleTypeBinding(returnTypePair);
-            returnTypeBinding2 = returnTypeBinding1;
+            ITypeBinding returnTypeBinding = ASTNodeUtil.getAssignmentCompatibleTypeBinding(returnTypePair);
+            returnTypeBinding1 = returnTypeBinding;
+            returnTypeBinding2 = returnTypeBinding;
         }
 
         MethodDeclaration method1 = addMethodInAdapterImpl(actionName, argTypes, pair, returnTypeBinding1, Pair.member1);
@@ -1186,7 +1195,13 @@ public class RFTemplate {
                 returnType = parameterizedType;
 
             } else {
-                returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
+                if (returnTypeBinding == null) {
+                    returnType = ast.newSimpleType(ast.newSimpleName(OBJECT_NAME));
+                    returnType.setProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME, JAVA_OBJECT_FULL_NAME);
+
+                } else {
+                    returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
+                }
             }
 
             // check if it needs to throw exception
