@@ -5,7 +5,7 @@
 |       Benchmark   | Total tests | Detected clone pairs | Parameterized clone pairs |Effective candidates | Refactorable | Refactoring ratio |
 |:-----------------:|:-----------:|:--------------------:|:-------------------------:|:-------------------:|:------------:|:-----------------:|
 | jfreechart-1.0.10 |     3934    |         272          |           71              |          62         |      51      |        82.3%      |
-| gson-2.8.5        |     1050    |          39          |           16              |          14         |      9       |        64.3%      |
+| gson-2.8.5        |     1050    |          39          |           16              |          14         |      10      |        71.4%      |
 
 - Detected clone pairs: clone pairs directly detected from clone detection tools;
 - Parameterized clone pairs: parameterizable clone candidates identified by *Jrefactoring*, still including candidates which are not test cases, and repeated cases;
