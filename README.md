@@ -39,7 +39,7 @@ skipped cases:
 
 Program arguments:
 -p jfreechart-1.0.10
--x refactor-template/results/jfreechart-1.0.10/jfreechart-1.0.10-selected.xls
+-x jrefactoring/results/jfreechart-1.0.10/jfreechart-1.0.10-selected.xls
 -m ANALYZE_EXISTING
 -l
 -s 2356,2889,5249,5315,8572
@@ -50,7 +50,7 @@ Program arguments:
 
 Program arguments:
 -p gson
--x refactor-template/results/gson-2.8.5/gson-2.8.5-deckard-selected.xls
+-x jrefactoring/results/gson-2.8.5/gson-2.8.5-deckard-selected.xls
 -m ANALYZE_EXISTING 
 -l
 -pkg com.google.gson
