@@ -7,14 +7,14 @@
 | jfreechart-1.0.10 |     3934    |         272          |           71              |          62         |      51      |        82.3%      |
 | gson-2.8.5        |     1050    |          39          |           16              |          14         |      9       |        64.3%      |
 
-- Detected clone pairs: clone pairs detected directly from clone detection tools;
-- Parameterized clone pairs: parameterizable clone candidates identified by *Jrefactoring*, still including candidates which are not test cases, and repetition;
+- Detected clone pairs: clone pairs directly detected from clone detection tools;
+- Parameterized clone pairs: parameterizable clone candidates identified by *Jrefactoring*, still including candidates which are not test cases, and repeated cases;
 - Effective candidates: test clone pairs without repetition;
 - Refactorable: test clone pairs that are successfully refactored by *Jrefactoring* (passed with same coverage);
-- Refactoring ratio: refactorable / effective candidates
+- Refactoring ratio: refactorable / effective candidates.
 
 
-## Commmon launch config
+## Common launch config
 
 Workspace Data Location:
 workspace
@@ -27,8 +27,7 @@ Working directory:
 
 ## Jfreechart-1.0.10
 
-### skipped cases
-
+skipped cases:
 - TLE, *TestEquals* (JDeodorant): 2356,2889,5249,5315,8572
 
 <!---
@@ -37,8 +36,6 @@ Working directory:
 - private field access in different files: 1674,3715
 - not test code: 8097
 --->
-
-### launch config
 
 Program arguments:
 -p jfreechart-1.0.10
@@ -50,8 +47,6 @@ Program arguments:
 -ac
 
 ## Gson-2.8.5
-
-### launch config
 
 Program arguments:
 -p gson
