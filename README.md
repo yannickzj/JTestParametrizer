@@ -55,3 +55,10 @@ Program arguments:
 -l
 -pkg com.google.gson
 -ac
+
+## Alternative for data parameterization refactoring
+
+*JUnit Theories* could be better choice when test clone pairs only have data-parameterizable difference:
+
+- [Javadoc](https://junit.org/junit4/javadoc/4.12/org/junit/experimental/theories/Theories.html)
+- [Github Wiki](https://github.com/junit-team/junit4/wiki/theories)
