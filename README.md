@@ -11,7 +11,7 @@
 | jodatime-2.10     |     4222    |         249          |                           |                     |              |                   |
 
 - Detected clone pairs: clone pairs directly detected from clone detection tools;
-- Parameterized clone pairs: parameterizable clone candidates identified by *JRefactoring*, still including candidates which are not test cases, and repeated cases;
+- Parameterized clone pairs: parameterizable clone candidates identified by *JRefactoring*, still including candidates which are not test cases, and repeated naming;
 - Effective candidates: test clone pairs without repetition;
 - Refactorable: test clone pairs that are successfully refactored by *JRefactoring* (passed with same coverage);
 - Refactoring ratio: refactorable / effective candidates.
