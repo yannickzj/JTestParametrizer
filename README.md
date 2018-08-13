@@ -28,7 +28,7 @@ VM arguments:
 Working directory:
 /home/yannick/workspace/eclipse
 
-## JFreeChart-1.0.10
+## JFreeChart 1.0.10
 
 skipped cases:
 - TLE, *TestEquals* (JDeodorant): 2356,2889,5249,5315,8572
@@ -49,7 +49,7 @@ Program arguments:
 -pkg org.jfree
 -ac
 
-## Gson-2.8.5
+## Gson 2.8.5
 
 Program arguments:
 -p gson
@@ -57,6 +57,38 @@ Program arguments:
 -m ANALYZE_EXISTING 
 -l
 -pkg com.google.gson
+-ac
+
+## Apache Commons IO 2.5
+
+Program arguments:
+-p commons-io-2.5
+-x jrefactoring/results/commons-io-2.5/commons-io-2.5-deckard-selected.xls
+-m ANALYZE_EXISTING 
+-l
+-pkg org.apache.commons.io
+-ac
+
+## Apache Commons Lang 3.7
+
+Program arguments:
+-p commons-lang-3.7
+-x jrefactoring/results/commons-lang-3.7/commons-lang-3.7-deckard-selected.xls
+-m ANALYZE_EXISTING 
+-l
+-pkg org.apache.commons.lang3
+-s 16,105
+-ac
+
+## Joda-Time 2.10
+
+Program arguments:
+-p joda-time-2.10
+-x jrefactoring/results/jodatime-2.10/joda-time-2.10-deckard-selected.xls
+-m ANALYZE_EXISTING 
+-l
+-pkg org.joda.time
+-s 3
 -ac
 
 ## Alternative for data parameterization refactoring
