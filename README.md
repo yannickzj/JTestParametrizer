@@ -6,6 +6,9 @@
 |:-----------------:|:-----------:|:--------------------:|:-------------------------:|:-------------------:|:------------:|:-----------------:|
 | jfreechart-1.0.10 |     3934    |         272          |           71              |          62         |      51      |        82.3%      |
 | gson-2.8.5        |     1050    |          39          |           16              |          14         |      10      |        71.4%      |
+| commons-lang-3.7  |     4068    |         203          |                           |                     |              |                   |
+| commons-io-2.5    |     1157    |         108          |                           |                     |              |                   |
+| jodatime-2.10     |     4222    |         337          |                           |                     |              |                   |
 
 - Detected clone pairs: clone pairs directly detected from clone detection tools;
 - Parameterized clone pairs: parameterizable clone candidates identified by *JRefactoring*, still including candidates which are not test cases, and repeated cases;
