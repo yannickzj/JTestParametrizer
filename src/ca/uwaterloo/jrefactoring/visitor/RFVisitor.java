@@ -19,6 +19,7 @@ public class RFVisitor extends ASTVisitor {
     private static final String GET_DECLARED_CONSTRUCTOR_METHOD_NAME = "getDeclaredConstructor";
     private static final String DEFAULT_JAVA_PACKAGE = "java.lang";
     private static final String CLASS_NAME = "Class";
+    private static final String JAVA_OBJECT_FULL_NAME = "java.lang.Object";
 
     private RFTemplate template;
     private AST ast;
@@ -148,9 +149,9 @@ public class RFVisitor extends ASTVisitor {
     }
 
     private Type getCompatibleType(TypePair typePair) {
-        ITypeBinding commonSubClass = template.getLowestCommonSubClass(typePair);
-        if (commonSubClass != null) {
-            return ASTNodeUtil.typeFromBinding(ast, commonSubClass);
+        ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
+        if (commonSuperClass != null) {
+            return ASTNodeUtil.typeFromBinding(ast, commonSuperClass);
         } else {
             Type t1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
             Type t2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
@@ -248,6 +249,28 @@ public class RFVisitor extends ASTVisitor {
     public boolean visit(PrefixExpression node) {
         pullUpToParameter(node);
         return false;
+    }
+
+    @Override
+    public boolean visit(CastExpression node) {
+        Type type = node.getType();
+        CastExpression pairNode = (CastExpression) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+        if (ASTNodeUtil.hasPairedNode(type) && node.getExpression() instanceof NullLiteral
+                && pairNode != null && pairNode.getExpression() instanceof NullLiteral) {
+
+            Type pairType = pairNode.getType();
+            ITypeBinding commonSuperClass = template.getLowestCommonSubClass(
+                    new TypePair(type.resolveBinding(), pairType.resolveBinding()));
+            if (commonSuperClass == null || commonSuperClass.getBinaryName().equals(JAVA_OBJECT_FULL_NAME)) {
+                log.info("unrefactorable castExpr node pair: " + node + ", " + pairNode);
+                template.markAsUnrefactorable();
+                return false;
+            } else {
+                replaceNode(node, ast.newNullLiteral(), ASTNodeUtil.typeFromBinding(ast, commonSuperClass));
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
