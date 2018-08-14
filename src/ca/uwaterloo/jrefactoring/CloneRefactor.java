@@ -114,6 +114,7 @@ public class CloneRefactor {
                         rfRoot.accept(new RFVisitor(template));
                     } catch (Exception e) {
                         e.printStackTrace();
+                        log.info("exception: " + e.toString());
                         countNonRefactorable++;
                         countSkip++;
                         continue;

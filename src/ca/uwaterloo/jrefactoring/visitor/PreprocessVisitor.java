@@ -84,16 +84,20 @@ public class PreprocessVisitor extends ASTVisitor {
                     return false;
                 }
 
-                String name;
+                String name = null;
                 boolean isStatic;
                 if (!iVariableBinding.getType().isPrimitive()) {
-                    name = iVariableBinding.getType().getBinaryName();
+                    if (!iVariableBinding.getType().isArray()) {
+                        name = iVariableBinding.getType().getBinaryName();
+                    }
                     isStatic = false;
                 } else {
                     name = iVariableBinding.getDeclaringClass().getBinaryName() + "." + iVariableBinding.getName();
                     isStatic = true;
                 }
-                template.addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, name), isStatic);
+                if (templateCU != null && name != null) {
+                    template.addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, name), isStatic);
+                }
             }
         }
         return false;
