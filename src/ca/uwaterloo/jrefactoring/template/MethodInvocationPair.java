@@ -20,6 +20,8 @@ public class MethodInvocationPair {
     private Type exprType2;
     private MethodInvocation method1;
     private MethodInvocation method2;
+    private ITypeBinding[] extendArgTypeBinding1;
+    private ITypeBinding[] extendArgTypeBinding2;
 
     public MethodInvocationPair(Expression expr1, SimpleName name1, Expression expr2, SimpleName name2,
                                 List<String> argTypeNames1, List<String> argTypeNames2,
@@ -35,6 +37,8 @@ public class MethodInvocationPair {
         this.argument2 = argument2;
         this.method1 = method1;
         this.method2 = method2;
+        this.extendArgTypeBinding1 = method1.resolveMethodBinding().getTypeParameters();
+        this.extendArgTypeBinding2 = method2.resolveMethodBinding().getTypeParameters();
         if (expr1 != null) {
             this.exprType1 = ASTNodeUtil.typeFromExpr(expr1.getAST(), expr1);
         }
@@ -89,6 +93,22 @@ public class MethodInvocationPair {
 
     public MethodInvocation getMethod2() {
         return method2;
+    }
+
+    public ITypeBinding[] getExtendArgTypeBinding1() {
+        return extendArgTypeBinding1;
+    }
+
+    public ITypeBinding[] getExtendArgTypeBinding2() {
+        return extendArgTypeBinding2;
+    }
+
+    public void setExtendArgTypeBinding1(ITypeBinding[] extendArgTypeBinding1) {
+        this.extendArgTypeBinding1 = extendArgTypeBinding1;
+    }
+
+    public void setExtendArgTypeBinding2(ITypeBinding[] extendArgTypeBinding2) {
+        this.extendArgTypeBinding2 = extendArgTypeBinding2;
     }
 
     @Override

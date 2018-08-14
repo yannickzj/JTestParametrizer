@@ -386,9 +386,10 @@ public class RFTemplate {
 
             // get common super class
             ITypeBinding commonSuperClass = getLowestCommonSubClass(typePair);
+            ITypeBinding commonInterface = getLowestCommonInterface(typePair);
 
             //
-            if (commonSuperClass == null
+            if (commonSuperClass == null && commonInterface == null
                     && (typePair.getType1().isParameterizedType() || typePair.getType2().isParameterizedType())) {
                 markAsUnrefactorable();
                 throw new IllegalStateException("no common super class for parameterized types: "
@@ -398,6 +399,9 @@ public class RFTemplate {
             // set type name
             String commonName = RenameUtil.constructCommonName(typePair.getType1().getName(),
                     typePair.getType2().getName(), true);
+            if (commonInterface != null && commonInterface.isParameterizedType()) {
+                commonName = commonInterface.getName();
+            }
             commonName = RenameUtil.encodeParameterizedName(commonName);
             String typeName;
             if (!commonName.equals("")) {
@@ -437,6 +441,9 @@ public class RFTemplate {
 
             // add common generic type bound
             if (extendsCommonSuperClass) {
+                if (commonSuperClass == null && commonInterface != null) {
+                    commonSuperClass = commonInterface;
+                }
                 if (commonSuperClass != null) {
                     if (commonSuperClass.isParameterizedType()) {
                         List<TypeParameter> typeParameters = templateMethod.typeParameters();
@@ -499,6 +506,20 @@ public class RFTemplate {
             }
         }
 
+        return null;
+    }
+
+    public ITypeBinding getLowestCommonInterface(TypePair typePair) {
+        ITypeBinding p1 = typePair.getType1();
+        ITypeBinding p2 = typePair.getType2();
+
+        for (ITypeBinding t1 : p1.getInterfaces()) {
+            for (ITypeBinding t2 : p2.getInterfaces()) {
+                if (t1.getQualifiedName().equals(t2.getQualifiedName())) {
+                    return t1;
+                }
+            }
+        }
         return null;
     }
 
@@ -795,6 +816,7 @@ public class RFTemplate {
         List<Expression> arguments;
         IMethodBinding iMethodBinding;
         MethodInvocation curMethodInvocation;
+        ITypeBinding[] parameterTypeBinding;
 
         switch (pair) {
             case member1:
@@ -803,6 +825,7 @@ public class RFTemplate {
                 arguments = methodInvocationPair.getArgument1();
                 iMethodBinding = methodInvocationPair.getMethod1().resolveMethodBinding();
                 curMethodInvocation = methodInvocationPair.getMethod1();
+                parameterTypeBinding = methodInvocationPair.getExtendArgTypeBinding1();
                 break;
             case member2:
             default:
@@ -811,6 +834,7 @@ public class RFTemplate {
                 arguments = methodInvocationPair.getArgument2();
                 iMethodBinding = methodInvocationPair.getMethod2().resolveMethodBinding();
                 curMethodInvocation = methodInvocationPair.getMethod2();
+                parameterTypeBinding = methodInvocationPair.getExtendArgTypeBinding2();
         }
 
         MethodDeclaration method = ast.newMethodDeclaration();
@@ -908,7 +932,7 @@ public class RFTemplate {
 
             } else {
                 // check if argType matches iMethodBinding
-                ITypeBinding parameterType = iMethodBinding.getParameterTypes()[i - 1];
+                ITypeBinding parameterType = parameterTypeBinding[i - 1];
                 String qualifiedName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
 
                 if (qualifiedName != null && !parameterType.getBinaryName().equals(qualifiedName)) {
@@ -1086,6 +1110,25 @@ public class RFTemplate {
         }
     }
 
+    private ITypeBinding[] extendParameterTypeBinding(ITypeBinding[] iTypeBindings, int expectedLength) {
+        if (iTypeBindings.length == expectedLength) {
+            return iTypeBindings;
+        }
+
+        List<ITypeBinding> typeBindingList = new ArrayList<>();
+        for (int i = 0; i < iTypeBindings.length; i++) {
+            if (!iTypeBindings[i].isArray()) {
+                typeBindingList.add(iTypeBindings[i]);
+            } else {
+                for (int j = 0; j < expectedLength - i; j++) {
+                    typeBindingList.add(iTypeBindings[i].getElementType());
+                }
+                break;
+            }
+        }
+        return typeBindingList.toArray(new ITypeBinding[0]);
+    }
+
     public MethodInvocation createAdapterActionMethod(Expression expr, List<Expression> arguments,
                                                       MethodInvocationPair pair, TypePair returnTypePair) {
 
@@ -1113,8 +1156,15 @@ public class RFTemplate {
             argTypes.add(null);
         }
 
-        // copy and resolve arguments
+        // extend method parameter types
         ITypeBinding[] iTypeBindings1 = pair.getMethod1().resolveMethodBinding().getParameterTypes();
+        ITypeBinding[] iTypeBindings2 = pair.getMethod2().resolveMethodBinding().getParameterTypes();
+        iTypeBindings1 = extendParameterTypeBinding(iTypeBindings1, arguments.size());
+        iTypeBindings2 = extendParameterTypeBinding(iTypeBindings2, arguments.size());
+        pair.setExtendArgTypeBinding1(iTypeBindings1);
+        pair.setExtendArgTypeBinding2(iTypeBindings2);
+
+        // copy and resolve arguments
         for (int i = 0; i < arguments.size(); i++) {
             Expression argument = arguments.get(i);
             newArgs.add((Expression) ASTNode.copySubtree(ast, argument));
