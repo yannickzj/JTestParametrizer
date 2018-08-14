@@ -150,8 +150,14 @@ public class RFVisitor extends ASTVisitor {
 
     private Type getCompatibleType(TypePair typePair) {
         ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
+        ITypeBinding commonInterface = template.getLowestCommonInterface(typePair);
+
         if (commonSuperClass != null) {
             return ASTNodeUtil.typeFromBinding(ast, commonSuperClass);
+
+        } else if (commonInterface != null) {
+            return ASTNodeUtil.typeFromBinding(ast, commonInterface);
+
         } else {
             Type t1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
             Type t2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
@@ -167,7 +173,6 @@ public class RFVisitor extends ASTVisitor {
                     return ast.newPrimitiveType(getPrimitiveCode(n));
                 }
             }
-
             throw new IllegalStateException("can not get compatible type for type pair: "
                     + typePair.toString());
         }

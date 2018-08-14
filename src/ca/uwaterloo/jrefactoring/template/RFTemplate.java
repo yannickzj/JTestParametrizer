@@ -513,10 +513,41 @@ public class RFTemplate {
         ITypeBinding p1 = typePair.getType1();
         ITypeBinding p2 = typePair.getType2();
 
-        for (ITypeBinding t1 : p1.getInterfaces()) {
-            for (ITypeBinding t2 : p2.getInterfaces()) {
-                if (t1.getQualifiedName().equals(t2.getQualifiedName())) {
-                    return t1;
+        Set<String> interfaceSet = new HashSet<>();
+        Queue<ITypeBinding> queue1 = new ArrayDeque<>();
+        Queue<ITypeBinding> queue2 = new ArrayDeque<>();
+
+        if (p1.isInterface()) {
+            queue1.offer(p1);
+        } else {
+            for (ITypeBinding iTypeBinding : p1.getInterfaces()) {
+                queue1.offer(iTypeBinding);
+            }
+        }
+
+        if (p2.isInterface()) {
+            queue2.offer(p2);
+        } else {
+            for (ITypeBinding iTypeBinding : p2.getInterfaces()) {
+                queue2.offer(iTypeBinding);
+            }
+        }
+
+        while(!queue2.isEmpty()) {
+            ITypeBinding cur = queue2.poll();
+            interfaceSet.add(cur.getQualifiedName());
+            for (ITypeBinding iTypeBinding : cur.getInterfaces()) {
+                queue2.offer(iTypeBinding);
+            }
+        }
+
+        while(!queue1.isEmpty()) {
+            ITypeBinding cur = queue1.poll();
+            if (interfaceSet.contains(cur.getQualifiedName())) {
+                return cur;
+            } else {
+                for (ITypeBinding iTypeBinding : cur.getInterfaces()) {
+                    queue1.offer(iTypeBinding);
                 }
             }
         }
