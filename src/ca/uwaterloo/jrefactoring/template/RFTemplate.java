@@ -765,6 +765,8 @@ public class RFTemplate {
         // add throw exception
         for (ITypeBinding throwsException : thrownExceptions) {
             addThrownExceptionTypesInMethodDeclaration(methodDeclaration, throwsException);
+            addImportDeclaration(templateCU,
+                    ASTNodeUtil.createPackageName(ast, throwsException.getBinaryName()), false);
         }
 
         adapter.bodyDeclarations().add(methodDeclaration);
@@ -1479,7 +1481,11 @@ public class RFTemplate {
         Set<String> uniqueImportsSet = new HashSet<>();
         List<ImportDeclaration> importDeclarations = astRoot.imports();
         for (ImportDeclaration importDeclaration : importDeclarations) {
-            if (!uniqueImportsSet.add(importDeclaration.getName().getFullyQualifiedName())) {
+            String importDeclarationName = importDeclaration.getName().getFullyQualifiedName();
+            if (importDeclaration.isOnDemand()) {
+                importDeclarationName += ".*";
+            }
+            if (!uniqueImportsSet.add(importDeclarationName)) {
                 imports.remove(importDeclaration, null);
             }
         }

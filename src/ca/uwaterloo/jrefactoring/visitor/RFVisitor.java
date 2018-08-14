@@ -72,7 +72,12 @@ public class RFVisitor extends ASTVisitor {
         Expression pairNode = (Expression) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
         if (pairNode != null) {
             template.addTemplateArgumentPair(node, pairNode);
-            Type type = ASTNodeUtil.typeFromExpr(ast, node);
+            Type type;
+            if (node.resolveTypeBinding().isPrimitive() && pairNode.resolveTypeBinding().isPrimitive()) {
+                type = getCompatibleType(new TypePair(node.resolveTypeBinding(), pairNode.resolveTypeBinding()));
+            } else {
+                type = ASTNodeUtil.typeFromExpr(ast, node);
+            }
             if (type.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME) != null) {
                 String qualifiedName = (String) type.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
                 template.addImportDeclaration(template.getTemplateCU(),
@@ -961,8 +966,27 @@ public class RFVisitor extends ASTVisitor {
     public boolean visit(RFTryStmt node) {
         if (node.hasDifference()) {
 
-            // ignore body and finally
+            // ignore body
             TryStatement tryStatement = (TryStatement) node.getStatement1();
+            TryStatement pairTryStmt = (TryStatement) tryStatement.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+
+            // check if finally block has difference
+            if (tryStatement.getFinally() != null && pairTryStmt.getFinally() != null) {
+                List<Statement> finallyStmt = tryStatement.getFinally().statements();
+                List<Statement> pairFinallyStmt = pairTryStmt.getFinally().statements();
+                if (finallyStmt.size() != pairFinallyStmt.size()) {
+                    template.markAsUnrefactorable();
+                    log.info("unrefactorable finally block: " + tryStatement.getFinally() + " <---> " + pairTryStmt.getFinally());
+                    return false;
+                }
+                for (int i = 0; i < finallyStmt.size(); i++) {
+                    if (!finallyStmt.get(i).toString().equals(pairFinallyStmt.get(i).toString())) {
+                        template.markAsUnrefactorable();
+                        log.info("unrefactorable finally block: " + tryStatement.getFinally() + " <---> " + pairTryStmt.getFinally());
+                        return false;
+                    }
+                }
+            }
 
             // refactor resources
             List<Expression> resources = tryStatement.resources();
