@@ -8,8 +8,6 @@ import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.dom.*;
 import org.slf4j.Logger;
 
-import java.util.List;
-
 public class PreprocessVisitor extends ASTVisitor {
 
     private static Logger log = FileLogger.getLogger(PreprocessVisitor.class);
@@ -36,7 +34,8 @@ public class PreprocessVisitor extends ASTVisitor {
             }
             if (node.resolveBinding() != null && !node.resolveBinding().getPackage().getName().equals(IGNORE_PACKAGE)) {
                 template.addImportDeclaration(templateCU,
-                        ASTNodeUtil.createPackageName(ast, node.resolveBinding().getBinaryName()), false);
+                        ASTNodeUtil.createPackageName(ast, node.resolveBinding().getBinaryName().replaceAll("\\$", ".")),
+                        false);
             }
         }
         return false;
