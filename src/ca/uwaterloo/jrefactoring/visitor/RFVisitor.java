@@ -703,7 +703,7 @@ public class RFVisitor extends ASTVisitor {
                 if (differenceTypes.contains(DifferenceType.TYPE_COMPATIBLE_REPLACEMENT)
                         || differenceTypes.contains(DifferenceType.ARGUMENT_NUMBER_MISMATCH)
                         || differenceTypes.contains(DifferenceType.MISSING_METHOD_INVOCATION_EXPRESSION)) {
-                    MethodInvocation pairNode = (MethodInvocation) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
+                    Expression pairNode = (Expression) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
                     template.addUnrefactoredNodePair(node, pairNode, diff);
                     log.info("non-refactored node pair with MethodInvocation node: " + diff.toString());
                     return false;

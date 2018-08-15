@@ -800,7 +800,7 @@ public class RFTemplate {
 
             // add import declaration
             String qualifiedName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
-            if (qualifiedName != null) {
+            if (qualifiedName != null && templateCU != null) {
                 addImportDeclaration(adapterInterfaceCU, ASTNodeUtil.createPackageName(ast, qualifiedName), false);
             }
 
@@ -1082,8 +1082,10 @@ public class RFTemplate {
             variableDeclaration.setType((Type) ASTNode.copySubtree(ast, argType));
 
             // add import declaration
-            addImportDeclaration(cu,
-                    ASTNodeUtil.createPackageName(ast, (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME)), false);
+            if (templateCU != null) {
+                addImportDeclaration(cu,
+                        ASTNodeUtil.createPackageName(ast, (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME)), false);
+            }
 
             int argCount = argMap.getOrDefault(argType.toString(), 1);
             variableDeclaration.setName(ast.newSimpleName(RenameUtil.rename(argType, argCount)));

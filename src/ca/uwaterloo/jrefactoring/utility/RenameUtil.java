@@ -134,7 +134,15 @@ public class RenameUtil {
             return elementTypeName + sb.toString() + count;
 
         } else {
-            String typeName = type.toString().substring(0, 1).toLowerCase() + type.toString().substring(1);
+            String typeName;
+            if (type.toString().contains(".")) {
+                String[] tokens = type.toString().split("\\.");
+                typeName = tokens[tokens.length - 1];
+            } else {
+                typeName = type.toString();
+            }
+            typeName = typeName.substring(0, 1).toLowerCase() + typeName.substring(1);
+            //String typeName = type.toString().substring(0, 1).toLowerCase() + type.toString().substring(1);
             if (endsWithDigit(typeName)) {
                 return typeName + "_" + count;
             } else {
