@@ -1,7 +1,5 @@
-package ca.uwaterloo.jrefactoring.cli;
+package ca.uwaterloo.jrefactoring.utility;
 
-import ca.uwaterloo.jrefactoring.utility.CloneToolParserType;
-import ca.uwaterloo.jrefactoring.utility.Mailer;
 import org.apache.commons.cli.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -97,14 +95,6 @@ public class CLIParser {
 				.hasArgs()
 				.withValueSeparator(',')
 				.create("xargs"));
-
-		options.addOption(OptionBuilder
-				.withArgName("")
-				.withLongOpt("tool")
-				.withDescription("Name of the tool, one of: " + 
-						Arrays.toString(CloneToolParserType.values()))
-				.hasArg()
-				.create("t"));
 
 		options.addOption(OptionBuilder
 				.withArgName("")
@@ -219,14 +209,7 @@ public class CLIParser {
 				.withDescription("SMTP server port number")
 				.hasArg()
 				.create("mport"));
-		
-		options.addOption(OptionBuilder
-				.withArgName("")
-				.withLongOpt("mail-server-security-type")
-				.withDescription("Security type for mail server, one of the values: " + Arrays.toString(Mailer.SecurityType.values()))
-				.hasArg()
-				.create("msectype"));
-		
+
 		options.addOption(OptionBuilder
 				.withArgName("")
 				.withLongOpt("mail-server-authenticated")
@@ -459,14 +442,6 @@ public class CLIParser {
 
 	public String getMailServerPassword() {
 		return getValue("mpass", "");
-	}
-
-	public Mailer.SecurityType getMailServerSecurtyType() {
-		try {
-			return Mailer.SecurityType.valueOf(getValue("msectype", "none").toUpperCase());
-		} catch (IllegalArgumentException ex) {
-			return Mailer.SecurityType.NONE;
-		}
 	}
 
 	public String getProjectDescritionFile() {

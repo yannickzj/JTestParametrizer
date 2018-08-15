@@ -1,4 +1,4 @@
-package ca.uwaterloo.jrefactoring.detect;
+package ca.uwaterloo.jrefactoring.match;
 
 import org.eclipse.core.filebuffers.FileBuffers;
 import org.eclipse.core.filebuffers.ITextFileBuffer;
@@ -461,6 +461,7 @@ public class ClonePairInfo {
 		return null;
 	}
 
+	/*
 	public TestCodeInfo pairTestCodeInfo() {
 		
 		boolean firstCodeIsTestCode = testPackages.contains(getFirstPackage()) || testSourceFolders.contains(getFirstSourceFolder());
@@ -476,6 +477,7 @@ public class ClonePairInfo {
 			return TestCodeInfo.NONE_IS_TEST_CODE;
 		
 	}
+	*/
 
 	public void setTestPackages(String[] testPackages) {
 		this.testPackages.clear();

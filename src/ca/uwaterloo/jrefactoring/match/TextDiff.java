@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package ca.uwaterloo.jrefactoring.diff;
+package ca.uwaterloo.jrefactoring.match;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

@@ -1,4 +1,4 @@
-package ca.uwaterloo.jrefactoring.detect;
+package ca.uwaterloo.jrefactoring.match;
 
 import gr.uom.java.ast.decomposition.cfg.PDG;
 import org.eclipse.jdt.core.IMethod;

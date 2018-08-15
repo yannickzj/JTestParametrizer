@@ -1,9 +1,9 @@
 package ca.uwaterloo.jrefactoring;
 
-import ca.uwaterloo.jrefactoring.detect.ClonePairInfo;
-import ca.uwaterloo.jrefactoring.detect.InputMethods;
-import ca.uwaterloo.jrefactoring.detect.PDGSubTreeMapperInfo;
-import ca.uwaterloo.jrefactoring.diff.TextDiff;
+import ca.uwaterloo.jrefactoring.match.ClonePairInfo;
+import ca.uwaterloo.jrefactoring.match.InputMethods;
+import ca.uwaterloo.jrefactoring.match.PDGSubTreeMapperInfo;
+import ca.uwaterloo.jrefactoring.match.TextDiff;
 import ca.uwaterloo.jrefactoring.utility.ExcelFileColumns;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import gr.uom.java.ast.*;

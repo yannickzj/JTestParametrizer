@@ -1,6 +1,6 @@
 package ca.uwaterloo.jrefactoring;
 
-import ca.uwaterloo.jrefactoring.cli.CLIParser;
+import ca.uwaterloo.jrefactoring.utility.CLIParser;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
 import gr.uom.java.ast.ASTReader;
 import gr.uom.java.ast.CompilationErrorDetectedException;

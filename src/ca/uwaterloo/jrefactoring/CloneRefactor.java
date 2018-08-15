@@ -1,8 +1,8 @@
 package ca.uwaterloo.jrefactoring;
 
 import ca.uwaterloo.jrefactoring.build.RFStatementBuilder;
-import ca.uwaterloo.jrefactoring.detect.ClonePairInfo;
-import ca.uwaterloo.jrefactoring.detect.PDGSubTreeMapperInfo;
+import ca.uwaterloo.jrefactoring.match.ClonePairInfo;
+import ca.uwaterloo.jrefactoring.match.PDGSubTreeMapperInfo;
 import ca.uwaterloo.jrefactoring.node.RFStatement;
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.utility.ASTNodeUtil;
