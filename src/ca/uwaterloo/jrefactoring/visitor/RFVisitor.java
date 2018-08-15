@@ -870,7 +870,7 @@ public class RFVisitor extends ASTVisitor {
 
                     // wrap CastExpression if initializer is still ClassInstanceCreation
                     initializer = fragment.getInitializer();
-                    if (initializer instanceof ClassInstanceCreation
+                    if ((initializer instanceof ClassInstanceCreation || initializer.resolveTypeBinding() != null)
                             && template.containsGenericNameInMap(type.toString())) {
                         CastExpression castExpression = wrapCastExpression(type, initializer);
                         replaceNode(initializer, castExpression, type);
