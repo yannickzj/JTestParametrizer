@@ -1144,10 +1144,6 @@ public class RFTemplate {
     }
 
     private ITypeBinding[] extendParameterTypeBinding(ITypeBinding[] iTypeBindings, int expectedLength) {
-        if (iTypeBindings.length == expectedLength) {
-            return iTypeBindings;
-        }
-
         List<ITypeBinding> typeBindingList = new ArrayList<>();
         for (int i = 0; i < iTypeBindings.length; i++) {
             if (!iTypeBindings[i].isArray()) {
@@ -1192,8 +1188,12 @@ public class RFTemplate {
         // extend method parameter types
         ITypeBinding[] iTypeBindings1 = pair.getMethod1().resolveMethodBinding().getParameterTypes();
         ITypeBinding[] iTypeBindings2 = pair.getMethod2().resolveMethodBinding().getParameterTypes();
-        iTypeBindings1 = extendParameterTypeBinding(iTypeBindings1, arguments.size());
-        iTypeBindings2 = extendParameterTypeBinding(iTypeBindings2, arguments.size());
+        if (pair.getMethod1().resolveMethodBinding().isVarargs()) {
+            iTypeBindings1 = extendParameterTypeBinding(iTypeBindings1, arguments.size());
+        }
+        if (pair.getMethod2().resolveMethodBinding().isVarargs()) {
+            iTypeBindings2 = extendParameterTypeBinding(iTypeBindings2, arguments.size());
+        }
         pair.setExtendArgTypeBinding1(iTypeBindings1);
         pair.setExtendArgTypeBinding2(iTypeBindings2);
 
