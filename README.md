@@ -7,7 +7,7 @@
 | jfreechart-1.0.10 |     3934    |         272          |           71              |          62         |      51      |        82.3%      |
 | gson-2.8.5        |     1050    |          31          |           14              |          14         |      10      |        71.4%      |
 | commons-lang-3.7  |     4068    |         144          |                           |                     |              |                   |
-| commons-io-2.5    |     1157    |          78          |                           |                     |              |                   |
+| commons-io-2.5    |     1157    |          78          |           57              |          56         |      38      |        67.9%      |
 | jodatime-2.10     |     4222    |         249          |                           |                     |              |                   |
 
 - Detected clone pairs: clone pairs directly detected from clone detection tools;
