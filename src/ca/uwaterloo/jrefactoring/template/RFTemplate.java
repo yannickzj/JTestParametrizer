@@ -24,6 +24,7 @@ public class RFTemplate {
     private static final String CLAZZ_NAME_PREFIX = "clazz";
     private static final String CLASS_NAME = "Class";
     private static final String EXCEPTION_NAME = "Exception";
+    private static final String THROWABLE_NAME = "Throwable";
     private static final String DEFAULT_ADAPTER_VARIABLE_NAME = "adapter";
     private static final String DEFAULT_ADAPTER_METHOD_NAME = "action";
     private static final String DEFAULT_TEMPLATE_CLASS_NAME = "TestTemplates";
@@ -1375,11 +1376,33 @@ public class RFTemplate {
     }
     */
 
+    private boolean methodContainsThrowable() {
+        List<Type>  thrownExceptionTypes1 = method1.thrownExceptionTypes();
+        List<Type>  thrownExceptionTypes2 = method2.thrownExceptionTypes();
+        for (Type thrownExceptionType : thrownExceptionTypes1) {
+            if (thrownExceptionType.toString().equals(THROWABLE_NAME)) {
+                return true;
+            }
+        }
+
+        for (Type thrownExceptionType : thrownExceptionTypes2) {
+            if (thrownExceptionType.toString().equals(THROWABLE_NAME)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void modifyTestMethods() {
         if (throwsAllException || templateMethod.thrownExceptionTypes().size() > 1) {
             throwsAllException = true;
             templateMethod.thrownExceptionTypes().clear();
-            templateMethod.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
+            if (methodContainsThrowable()) {
+                templateMethod.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(THROWABLE_NAME)));
+            } else {
+                templateMethod.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
+            }
         }
         modifyMethod(method1, adapterImpl1, templateArguments1, Pair.member1);
         modifyMethod(method2, adapterImpl2, templateArguments2, Pair.member2);
@@ -1440,7 +1463,11 @@ public class RFTemplate {
         // add Exception handling if necessary
         if (throwsAllException) {
             method.thrownExceptionTypes().clear();
-            method.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
+            if (methodContainsThrowable()) {
+                method.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(THROWABLE_NAME)));
+            } else {
+                method.thrownExceptionTypes().add(ast.newSimpleType(ast.newSimpleName(EXCEPTION_NAME)));
+            }
         }
     }
 

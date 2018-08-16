@@ -35,6 +35,7 @@ public class CloneRefactor {
     private static int countNonTestCase = 0;
     private static int countNonRefactorable = 0;
     private static int countRepeatedNaming = 0;
+    private static int parameterNum = 100;
 
     public static void refactor(ClonePairInfo pairInfo, int firstCloneNumber, int secondCloneNumber, int firstCloneRow,
                                 WritableSheet copySheet) throws Exception {
@@ -119,6 +120,15 @@ public class CloneRefactor {
                         countSkip++;
                         continue;
                     }
+
+                    // check template argument size
+                    if (template.getTemplateArguments1().size() > parameterNum) {
+                        log.info("too many parameters");
+                        countNonRefactorable++;
+                        countSkip++;
+                        continue;
+                    }
+
                     template.modifyTestMethods();
 
                     // check repeated naming
@@ -138,7 +148,7 @@ public class CloneRefactor {
                         refactorableTemplates.add(template);
                         markRefactorability(firstCloneNumber, secondCloneNumber, firstCloneRow, copySheet, 1.0);
                     } else {
-                        markRefactorability(firstCloneNumber, secondCloneNumber, firstCloneRow, copySheet, -1.0);
+                        markRefactorability(firstCloneNumber, secondCloneNumber, firstCloneRow, copySheet, 0.0);
                         countNonRefactorable++;
                         countSkip++;
                     }
