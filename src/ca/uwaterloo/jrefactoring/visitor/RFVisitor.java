@@ -297,6 +297,26 @@ public class RFVisitor extends ASTVisitor {
                 return false;
             }
 
+            if (node.resolveBinding().getKind() == 3 && pairNode.resolveBinding().getKind() == 3) {
+                IVariableBinding iVariableBinding1 = (IVariableBinding) node.resolveBinding();
+                IVariableBinding iVariableBinding2 = (IVariableBinding) pairNode.resolveBinding();
+                if (iVariableBinding1.isField() && iVariableBinding2.isField()) {
+                    if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                        template.addUnrefactoredNodePair(node, diff.getExpr2(), diff);
+                        log.info("non-refactored node pair with SimpleName field node: " + diff.toString());
+                    } else {
+                        log.info("Skip refactoring field level SimpleName node pair: " + node + ", " + pairNode);
+                    }
+                    return false;
+
+                } else if (iVariableBinding1.isField() || iVariableBinding2.isField()) {
+                    template.addUnrefactoredNodePair(node, diff.getExpr2(), diff);
+                    log.info("non-refactored node pair with SimpleName field node: " + diff.toString());
+                    return false;
+                }
+            }
+
+
             String name1 = node.getIdentifier();
             String name2 = ((SimpleName) diff.getExpr2()).getIdentifier();
 
@@ -1062,7 +1082,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFDefaultStmt node) {
         if (node.hasDifference()) {
-            //node.describe();
+            node.describe();
             node.getStatement1().accept(this);
         }
         return true;
