@@ -772,7 +772,7 @@ public class RFTemplate {
     }
 
     private void addMethodInAdapterInterface(SimpleName name, List<Type> argTypes, Type returnType,
-                                             List<ITypeBinding> thrownExceptions) {
+                                             List<ITypeBinding> thrownExceptions, boolean isVarargs) {
 
         MethodDeclaration methodDeclaration = ast.newMethodDeclaration();
 
@@ -789,14 +789,21 @@ public class RFTemplate {
         methodDeclaration.setName((SimpleName) ASTNode.copySubtree(ast, name));
 
         Map<String, Integer> argMap = new HashMap<>();
-        for (Type argType : argTypes) {
+        for (int i = 0; i < argTypes.size(); i++) {
 
+            Type argType = argTypes.get(i);
             if (argType == null) continue;
 
             SingleVariableDeclaration arg = ast.newSingleVariableDeclaration();
 
             // set arg type
-            arg.setType((Type) ASTNode.copySubtree(ast, argType));
+            if (i == argTypes.size() - 1 && isVarargs) {
+                ArrayType arrayType = (ArrayType) argType;
+                arg.setType((Type) ASTNode.copySubtree(ast, arrayType.getElementType()));
+                arg.setVarargs(true);
+            } else {
+                arg.setType((Type) ASTNode.copySubtree(ast, argType));
+            }
 
             // add import declaration
             String qualifiedName = (String) argType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
@@ -900,13 +907,15 @@ public class RFTemplate {
             cu = adapterImplCU2;
         }
 
-        assert argTypes.size() == arguments.size() + 1;
-
         for (int i = 0; i < argTypes.size(); i++) {
 
             // set method variable declaration type
             SingleVariableDeclaration variableDeclaration = ast.newSingleVariableDeclaration();
             Type curType = argTypes.get(i);
+            if (i ==  argTypes.size() - 1 && iMethodBinding.isVarargs()) {
+                curType = ((ArrayType) curType).getElementType();
+                variableDeclaration.setVarargs(true);
+            }
             if (curType == null) {
                 if (expr instanceof SimpleName && ((SimpleName) expr).resolveBinding().getKind() == 2) {
                     // Type static call
@@ -947,7 +956,16 @@ public class RFTemplate {
             // set method expr variable name
             SimpleName curName;
             if (curExpr instanceof SimpleName) {
-                curName = (SimpleName) curExpr;
+                SimpleName curExprSimpleName = (SimpleName) curExpr;
+                if (argMap.containsKey(curExprSimpleName.getIdentifier())) {
+                    int argCount = argMap.get(curExprSimpleName.getIdentifier()) + 1;
+                    curName = ast.newSimpleName(curExprSimpleName.getIdentifier() + argCount);
+                    argMap.put(curExprSimpleName.getIdentifier(), argCount);
+
+                } else {
+                    curName = curExprSimpleName;
+                    argMap.put(curExprSimpleName.getIdentifier(), 0);
+                }
 
             } else {
                 String argName = curType.toString().toLowerCase();
@@ -1185,23 +1203,22 @@ public class RFTemplate {
             argTypes.add(null);
         }
 
-        // extend method parameter types
-        ITypeBinding[] iTypeBindings1 = pair.getMethod1().resolveMethodBinding().getParameterTypes();
-        ITypeBinding[] iTypeBindings2 = pair.getMethod2().resolveMethodBinding().getParameterTypes();
-        if (pair.getMethod1().resolveMethodBinding().isVarargs()) {
-            iTypeBindings1 = extendParameterTypeBinding(iTypeBindings1, arguments.size());
-        }
-        if (pair.getMethod2().resolveMethodBinding().isVarargs()) {
-            iTypeBindings2 = extendParameterTypeBinding(iTypeBindings2, arguments.size());
-        }
-        pair.setExtendArgTypeBinding1(iTypeBindings1);
-        pair.setExtendArgTypeBinding2(iTypeBindings2);
 
         // copy and resolve arguments
         for (int i = 0; i < arguments.size(); i++) {
             Expression argument = arguments.get(i);
             newArgs.add((Expression) ASTNode.copySubtree(ast, argument));
-            argTypes.add(resolveAdapterActionArgumentType(argument, iTypeBindings1[i]));
+        }
+
+        ITypeBinding[] iTypeBindings1 = pair.getMethod1().resolveMethodBinding().getParameterTypes();
+        ITypeBinding[] iTypeBindings2 = pair.getMethod2().resolveMethodBinding().getParameterTypes();
+        boolean isVarargs = pair.getMethod1().resolveMethodBinding().isVarargs();
+        for (int i = 0; i < iTypeBindings1.length; i++) {
+            if (iTypeBindings1[i].getQualifiedName().equals(iTypeBindings2[i].getQualifiedName())) {
+                argTypes.add(ASTNodeUtil.typeFromBinding(ast, iTypeBindings1[i]));
+            } else {
+                argTypes.add(resolveAdapterActionArgumentType(arguments.get(i), iTypeBindings1[i]));
+            }
         }
 
         // add method in adapter interface
@@ -1300,7 +1317,7 @@ public class RFTemplate {
                 thrownExceptions.add(iTypeBinding);
             }
 
-            addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType, thrownExceptions);
+            addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType, thrownExceptions, isVarargs);
             newMethod.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, ASTNodeUtil.copyTypeWithProperties(ast, returnType));
             methodInvocationMap.put(pair, newActionName);
 
@@ -1334,7 +1351,7 @@ public class RFTemplate {
         argTypes.add(resolveAdapterActionArgumentType(e2, null));
 
         // add method in adapter interface
-        addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType, new ArrayList<>());
+        addMethodInAdapterInterface(newMethod.getName(), argTypes, returnType, new ArrayList<>(), false);
 
         // create adapter action impl
         addAdapterActionImpl(newMethod.getName(), argTypes, returnType);

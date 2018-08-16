@@ -37,8 +37,8 @@ public class MethodInvocationPair {
         this.argument2 = argument2;
         this.method1 = method1;
         this.method2 = method2;
-        this.extendArgTypeBinding1 = method1.resolveMethodBinding().getTypeParameters();
-        this.extendArgTypeBinding2 = method2.resolveMethodBinding().getTypeParameters();
+        this.extendArgTypeBinding1 = method1.resolveMethodBinding().getParameterTypes();
+        this.extendArgTypeBinding2 = method2.resolveMethodBinding().getParameterTypes();
         if (expr1 != null) {
             this.exprType1 = ASTNodeUtil.typeFromExpr(expr1.getAST(), expr1);
         }
