@@ -301,7 +301,7 @@ public class RFVisitor extends ASTVisitor {
                 IVariableBinding iVariableBinding1 = (IVariableBinding) node.resolveBinding();
                 IVariableBinding iVariableBinding2 = (IVariableBinding) pairNode.resolveBinding();
                 if (iVariableBinding1.isField() && iVariableBinding2.isField()) {
-                    if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH)) {
+                    if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH) && differenceTypes.size() == 1) {
                         template.addUnrefactoredNodePair(node, diff.getExpr2(), diff);
                         log.info("non-refactored node pair with SimpleName field node: " + diff.toString());
                     } else {
@@ -1082,7 +1082,7 @@ public class RFVisitor extends ASTVisitor {
 
     public boolean visit(RFDefaultStmt node) {
         if (node.hasDifference()) {
-            node.describe();
+            //node.describe();
             node.getStatement1().accept(this);
         }
         return true;
