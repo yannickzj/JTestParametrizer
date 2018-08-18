@@ -1164,6 +1164,29 @@ public class RFTemplate {
         }
     }
 
+    private boolean containsTypeVariable(ITypeBinding iTypeBinding) {
+        if (iTypeBinding == null) {
+            return false;
+        }
+
+        if (iTypeBinding.isArray()) {
+            return containsTypeVariable(iTypeBinding.getElementType());
+
+        } else if (iTypeBinding.isParameterizedType()) {
+            for (ITypeBinding typeArg: iTypeBinding.getTypeArguments()) {
+                if (containsTypeVariable(typeArg)) {
+                    return true;
+                }
+            }
+            return containsTypeVariable(iTypeBinding.getErasure());
+
+        } else if (iTypeBinding.isWildcardType()) {
+            return containsTypeVariable(iTypeBinding.getBound());
+        }
+
+        return iTypeBinding.isTypeVariable();
+    }
+
     public MethodInvocation createAdapterActionMethod(Expression expr, List<Expression> arguments,
                                                       MethodInvocationPair pair, TypePair returnTypePair) {
 
@@ -1202,6 +1225,12 @@ public class RFTemplate {
         ITypeBinding[] iTypeBindings2 = pair.getMethod2().resolveMethodBinding().getParameterTypes();
         boolean isVarargs = pair.getMethod1().resolveMethodBinding().isVarargs();
         for (int i = 0; i < iTypeBindings1.length; i++) {
+            if (containsTypeVariable(iTypeBindings1[i]) || containsTypeVariable(iTypeBindings2[i])) {
+                log.info("unable to refactor type pair ["
+                        + iTypeBindings1[i].getQualifiedName() + ", " + iTypeBindings2[i].getQualifiedName()
+                        + "] with type variable when creating adapter action method.");
+                markAsUnrefactorable();
+            }
             if (iTypeBindings1[i].getQualifiedName().equals(iTypeBindings2[i].getQualifiedName())) {
                 argTypes.add(ASTNodeUtil.typeFromBinding(ast, iTypeBindings1[i]));
             } else {
