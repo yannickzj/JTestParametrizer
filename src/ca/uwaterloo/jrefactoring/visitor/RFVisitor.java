@@ -206,7 +206,16 @@ public class RFVisitor extends ASTVisitor {
     public boolean visit(InfixExpression node) {
         RFNodeDifference diff = (RFNodeDifference) node.getProperty(ASTNodeUtil.PROPERTY_DIFF);
         if (diff != null) {
-            pullUpToParameter(node);
+            LocalVisitor localVisitor1 = new LocalVisitor();
+            LocalVisitor localVisitor2 = new LocalVisitor();
+            node.accept(localVisitor1);
+            diff.getExpr2().accept(localVisitor2);
+            if (localVisitor1.containsLocal() || localVisitor2.containsLocal()) {
+                log.info("unrefactorable InfixExpr node pair containing local variables: " + diff.toString());
+                template.markAsUnrefactorable();
+            } else {
+                pullUpToParameter(node);
+            }
             return false;
         }
         return true;
