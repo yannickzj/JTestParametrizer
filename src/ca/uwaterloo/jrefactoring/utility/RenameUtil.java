@@ -4,6 +4,7 @@ import org.eclipse.jdt.core.dom.ArrayType;
 import org.eclipse.jdt.core.dom.ParameterizedType;
 import org.eclipse.jdt.core.dom.PrimitiveType;
 import org.eclipse.jdt.core.dom.Type;
+import org.slf4j.Logger;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -11,6 +12,7 @@ import java.util.regex.Pattern;
 
 public class RenameUtil {
 
+    private static Logger log = FileLogger.getLogger(RenameUtil.class);
     private static final String ADAPTER_INTERFACE_NAME = "Adapter";
     private static final String TEMPLATE_METHOD_NAME = "Template";
     private static final String ADAPTER_IMPL_NAME = "AdapterImpl";
@@ -118,8 +120,13 @@ public class RenameUtil {
 
         } else if (type.isArrayType()) {
             ArrayType arrayType = (ArrayType) type;
-            String elementTypeName = arrayType.getElementType().toString().substring(0, 1).toLowerCase()
-                    + arrayType.getElementType().toString().substring(1);
+            String elementTypeStr;
+            if (arrayType.getElementType().isParameterizedType()) {
+                elementTypeStr = ((ParameterizedType) arrayType.getElementType()).getType().toString();
+            } else {
+                elementTypeStr = arrayType.getElementType().toString();
+            }
+            String elementTypeName = elementTypeStr.substring(0, 1).toLowerCase() + elementTypeStr.substring(1);
             return elementTypeName + ARRAY_NAME + count;
 
         } else if (type.isParameterizedType()) {
@@ -129,7 +136,9 @@ public class RenameUtil {
             StringBuilder sb = new StringBuilder();
             List<Type> typeArgs = parameterizedType.typeArguments();
             for (Type typeArg : typeArgs) {
-                sb.append(typeArg.toString());
+                if (!typeArg.isWildcardType()) {
+                    sb.append(typeArg.toString());
+                }
             }
             return elementTypeName + sb.toString() + count;
 

@@ -443,6 +443,16 @@ public class RFVisitor extends ASTVisitor {
     }
 
     @Override
+    public boolean visit(CatchClause node) {
+        if (ASTNodeUtil.hasPairedNode(node.getException().getName())) {
+            log.info("unable to refactor CatchClause SingleVariableDeclaration name difference");
+            template.markAsUnrefactorable();
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     public boolean visit(ParameterizedType node) {
         ParameterizedType pairNode = (ParameterizedType) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
         if (pairNode != null) {
@@ -720,6 +730,21 @@ public class RFVisitor extends ASTVisitor {
         return false;
     }
 
+    private ITypeBinding[] extendParameterTypeBinding(ITypeBinding[] iTypeBindings, int expectedLength) {
+        List<ITypeBinding> typeBindingList = new ArrayList<>();
+        for (int i = 0; i < iTypeBindings.length; i++) {
+            if (!iTypeBindings[i].isArray()) {
+                typeBindingList.add(iTypeBindings[i]);
+            } else {
+                for (int j = 0; j < expectedLength - i; j++) {
+                    typeBindingList.add(iTypeBindings[i].getElementType());
+                }
+                break;
+            }
+        }
+        return typeBindingList.toArray(new ITypeBinding[0]);
+    }
+
     @Override
     public boolean visit(MethodInvocation node) {
 
@@ -751,7 +776,13 @@ public class RFVisitor extends ASTVisitor {
             // get common parameter types
             MethodInvocation pairNode = (MethodInvocation) node.getProperty(ASTNodeUtil.PROPERTY_PAIR);
             ITypeBinding[] parameterTypes1 = node.resolveMethodBinding().getParameterTypes();
+            if (node.resolveMethodBinding().isVarargs()) {
+                parameterTypes1 = extendParameterTypeBinding(parameterTypes1, arguments1.size());
+            }
             ITypeBinding[] parameterTypes2 = pairNode.resolveMethodBinding().getParameterTypes();
+            if (pairNode.resolveMethodBinding().isVarargs()) {
+                parameterTypes2 = extendParameterTypeBinding(parameterTypes2, pairNode.arguments().size());
+            }
             List<ITypeBinding> parameterTypes = getParameterTypes(parameterTypes1, parameterTypes2);
             if (!template.isRefactorable()) {
                 template.addUnrefactoredNodePair(node, pairNode, diff);

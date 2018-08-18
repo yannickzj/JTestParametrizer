@@ -40,6 +40,15 @@ public class ASTNodeUtil {
             return capType;
         }
 
+        if (typeBinding.isWildcardType()) {
+            WildcardType capType = ast.newWildcardType();
+            ITypeBinding bound = typeBinding.getBound();
+            if( bound != null ) {
+                capType.setBound(typeFromBinding(ast, bound), typeBinding.isUpperbound());
+            }
+            return capType;
+        }
+
         if( typeBinding.isArray() ) {
             Type elType = typeFromBinding(ast, typeBinding.getElementType());
             return ast.newArrayType(elType, typeBinding.getDimensions());

@@ -813,7 +813,7 @@ public class RFTemplate {
             }
 
             // set arg name
-            String argName = argType.toString().toLowerCase();
+            String argName = RenameUtil.rename(argType, 0);
             int argCount = argMap.getOrDefault(argName, 1);
             argMap.put(argName, argCount + 1);
             arg.setName(ast.newSimpleName(RenameUtil.rename(argType, argCount)));
@@ -969,7 +969,7 @@ public class RFTemplate {
                 }
 
             } else {
-                String argName = curType.toString().toLowerCase();
+                String argName = RenameUtil.rename(curType, 0);
                 int argCount = argMap.getOrDefault(argName, 1);
                 curName = ast.newSimpleName(RenameUtil.rename(curType, argCount));
                 argMap.put(argName, argCount + 1);
@@ -1160,21 +1160,6 @@ public class RFTemplate {
             templateMethod.parameters().add(0, adapterVariable);
             hasAdapterVariable = true;
         }
-    }
-
-    private ITypeBinding[] extendParameterTypeBinding(ITypeBinding[] iTypeBindings, int expectedLength) {
-        List<ITypeBinding> typeBindingList = new ArrayList<>();
-        for (int i = 0; i < iTypeBindings.length; i++) {
-            if (!iTypeBindings[i].isArray()) {
-                typeBindingList.add(iTypeBindings[i]);
-            } else {
-                for (int j = 0; j < expectedLength - i; j++) {
-                    typeBindingList.add(iTypeBindings[i].getElementType());
-                }
-                break;
-            }
-        }
-        return typeBindingList.toArray(new ITypeBinding[0]);
     }
 
     public MethodInvocation createAdapterActionMethod(Expression expr, List<Expression> arguments,
