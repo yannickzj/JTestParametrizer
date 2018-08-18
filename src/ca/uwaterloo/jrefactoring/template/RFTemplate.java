@@ -32,6 +32,7 @@ public class RFTemplate {
     private static final String JAVA_LANG_CLASS = "java.lang.Class";
     private static final String ASSERT_KEYWORD = "assert";
     private static final String NEW_KEYWORD = "new";
+    private static final String CASE_KEYWORD = "case";
     private static final String KEYWORD_SUFFIX = "Action";
     private static final String OBJECT_NAME = "Object";
     private static final String JAVA_OBJECT_FULL_NAME = "java.lang.Object";
@@ -1227,7 +1228,8 @@ public class RFTemplate {
                         pair.getName2().getIdentifier(), false);
                 if (!commonName.equals("")) {
 
-                    if (commonName.equals(ASSERT_KEYWORD) || commonName.equals(NEW_KEYWORD)) {
+                    if (commonName.equals(ASSERT_KEYWORD) || commonName.equals(NEW_KEYWORD)
+                            || commonName.equals(CASE_KEYWORD)) {
                         commonName += KEYWORD_SUFFIX;
                     }
 
