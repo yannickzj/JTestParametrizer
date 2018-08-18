@@ -33,6 +33,9 @@ public class RFTemplate {
     private static final String ASSERT_KEYWORD = "assert";
     private static final String NEW_KEYWORD = "new";
     private static final String CASE_KEYWORD = "case";
+    private static final String SHORT_KEYWORD = "short";
+    private static final Set<String> keywords =
+            new HashSet<>(Arrays.asList(ASSERT_KEYWORD, NEW_KEYWORD, CASE_KEYWORD, SHORT_KEYWORD));
     private static final String KEYWORD_SUFFIX = "Action";
     private static final String OBJECT_NAME = "Object";
     private static final String JAVA_OBJECT_FULL_NAME = "java.lang.Object";
@@ -76,7 +79,6 @@ public class RFTemplate {
     private List<NodePair> unrefactoredList;
     private Map<String, Integer> adapterActionNameMap;
     private Map<String, Integer> genericTypeNameMap;
-    //private boolean innerImplClass;
     private ICompilationUnit iCU1;
     private ICompilationUnit iCU2;
     private IPackageFragmentRoot packageFragmentRoot;
@@ -119,7 +121,6 @@ public class RFTemplate {
         this.unrefactoredList = new ArrayList<>();
         this.adapterActionNameMap = new HashMap<>();
         this.genericTypeNameMap = new HashMap<>();
-        //this.innerImplClass = false;
         this.iCU1 = iCU1;
         this.iCU2 = iCU2;
         this.packageFragmentRoot = (IPackageFragmentRoot) iCU1.getAncestor(3);
@@ -1228,8 +1229,7 @@ public class RFTemplate {
                         pair.getName2().getIdentifier(), false);
                 if (!commonName.equals("")) {
 
-                    if (commonName.equals(ASSERT_KEYWORD) || commonName.equals(NEW_KEYWORD)
-                            || commonName.equals(CASE_KEYWORD)) {
+                    if (keywords.contains(commonName)) {
                         commonName += KEYWORD_SUFFIX;
                     }
 
