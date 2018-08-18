@@ -84,13 +84,12 @@ public class PreprocessVisitor extends ASTVisitor {
                 }
 
                 String name = null;
-                boolean isStatic;
+                boolean isStatic = false;
                 if (!iVariableBinding.getType().isPrimitive()) {
                     if (!iVariableBinding.getType().isArray()) {
                         name = iVariableBinding.getType().getBinaryName();
                     }
-                    isStatic = false;
-                } else {
+                } else if (iVariableBinding.getDeclaringClass() != null){
                     name = iVariableBinding.getDeclaringClass().getBinaryName() + "." + iVariableBinding.getName();
                     isStatic = true;
                 }
