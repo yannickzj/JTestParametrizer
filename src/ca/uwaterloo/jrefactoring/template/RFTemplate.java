@@ -34,8 +34,9 @@ public class RFTemplate {
     private static final String NEW_KEYWORD = "new";
     private static final String CASE_KEYWORD = "case";
     private static final String SHORT_KEYWORD = "short";
+    private static final String FOR_KEYWORD = "for";
     private static final Set<String> keywords =
-            new HashSet<>(Arrays.asList(ASSERT_KEYWORD, NEW_KEYWORD, CASE_KEYWORD, SHORT_KEYWORD));
+            new HashSet<>(Arrays.asList(ASSERT_KEYWORD, NEW_KEYWORD, CASE_KEYWORD, SHORT_KEYWORD, FOR_KEYWORD));
     private static final String KEYWORD_SUFFIX = "Action";
     private static final String OBJECT_NAME = "Object";
     private static final String JAVA_OBJECT_FULL_NAME = "java.lang.Object";
