@@ -313,6 +313,8 @@ public class RFVisitor extends ASTVisitor {
                     if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH) && differenceTypes.size() == 1) {
                         template.addUnrefactoredNodePair(node, diff.getExpr2(), diff);
                         log.info("non-refactored node pair with SimpleName field node: " + diff.toString());
+                    } else if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH) && differenceTypes.size() == 1) {
+                        pullUpToParameter(node);
                     } else {
                         log.info("Skip refactoring field level SimpleName node pair: " + node + ", " + pairNode);
                     }
