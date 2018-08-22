@@ -313,7 +313,9 @@ public class RFVisitor extends ASTVisitor {
                     if (differenceTypes.contains(DifferenceType.SUBCLASS_TYPE_MISMATCH) && differenceTypes.size() == 1) {
                         template.addUnrefactoredNodePair(node, diff.getExpr2(), diff);
                         log.info("non-refactored node pair with SimpleName field node: " + diff.toString());
-                    } else if (differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH) && differenceTypes.size() == 1) {
+                    } else if (!Modifier.isAbstract(iVariableBinding1.getDeclaringClass().getModifiers())
+                            && !Modifier.isAbstract(iVariableBinding2.getDeclaringClass().getModifiers())
+                            && differenceTypes.contains(DifferenceType.VARIABLE_NAME_MISMATCH) && differenceTypes.size() == 1) {
                         pullUpToParameter(node);
                     } else {
                         log.info("Skip refactoring field level SimpleName node pair: " + node + ", " + pairNode);
@@ -704,7 +706,6 @@ public class RFVisitor extends ASTVisitor {
                 for (int i = 0; i < arguments.size(); i++) {
                     Expression argument = arguments.get(i);
                     TypeLiteral typeLiteral = ast.newTypeLiteral();
-                    //typeLiteral.setType(ASTNodeUtil.typeFromBinding(ast, argument.resolveTypeBinding()));
                     Type parameterType = ASTNodeUtil.typeFromBinding(ast, parameterTypes.get(i));
                     typeLiteral.setType(parameterType);
 
@@ -715,7 +716,27 @@ public class RFVisitor extends ASTVisitor {
                                 ASTNodeUtil.createPackageName(ast, qualifiedName), false);
                     }
 
-                    getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
+                    if (parameterTypes1[i].isPrimitive() && parameterTypes2[i].isPrimitive()
+                            && !parameterTypes1[i].getName().equals(parameterTypes2[i].getName())) {
+                        // resolve clazz name
+                        TypePair tp = new TypePair(parameterTypes1[i], parameterTypes2[i]);
+                        String genericName = template.resolveTypePair(tp, false);
+                        String cn = template.resolveGenericType(genericName);
+
+                        // construct parameterized type
+                        Type genericType = ast.newSimpleType(ast.newSimpleName(genericName));
+                        Type classType = ast.newSimpleType(ast.newSimpleName(CLASS_NAME));
+                        ParameterizedType classTypeWithGenericType = ast.newParameterizedType(classType);
+                        classTypeWithGenericType.typeArguments().add(genericType);
+                        SimpleName simpleName = ast.newSimpleName(cn);
+                        simpleName.setProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING, classTypeWithGenericType);
+                        getDeclaredConstructorMethodInvocation.arguments().add(simpleName);
+
+                    } else {
+                        getDeclaredConstructorMethodInvocation.arguments().add(typeLiteral);
+                    }
+
+                    // add null parameter object
                     Expression newArg;
                     if (argument instanceof NullLiteral) {
                         template.addNullParameterObject();
