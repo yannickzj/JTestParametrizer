@@ -479,17 +479,17 @@ public class RFVisitor extends ASTVisitor {
             queue.offer(interface2);
             while (!queue.isEmpty()) {
                 ITypeBinding cur = queue.poll();
-                interfaceBinaryNames.add(cur.getBinaryName());
                 for (ITypeBinding iTypeBinding : cur.getInterfaces()) {
                     queue.offer(iTypeBinding);
                 }
+                interfaceBinaryNames.add(cur.getQualifiedName());
             }
 
             queue.clear();
             queue.offer(interface1);
             while (!queue.isEmpty()) {
                 ITypeBinding cur = queue.poll();
-                if (interfaceBinaryNames.contains(cur.getBinaryName())) {
+                if (interfaceBinaryNames.contains(cur.getQualifiedName())) {
                     commonInterface = cur;
                     break;
                 }
@@ -518,7 +518,6 @@ public class RFVisitor extends ASTVisitor {
                             typeBinding1.getBinaryName() + ", " + typeBinding2.getBinaryName());
                 }
                 parameterTypes.add(commonInterface);
-                //parameterTypes.add(ASTNodeUtil.typeFromBinding(ast, commonInterface));
                 continue;
 
             } else if (typeBinding1.isInterface()) {
