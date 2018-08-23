@@ -487,7 +487,7 @@ public class RFTemplate {
         return typeMap.get(typePair);
     }
 
-    public ITypeBinding getLowestCommonSubClass(TypePair typePair) {
+    public static ITypeBinding getLowestCommonSubClass(TypePair typePair) {
         ITypeBinding p1 = typePair.getType1();
         ITypeBinding p2 = typePair.getType2();
 
@@ -513,7 +513,7 @@ public class RFTemplate {
         return null;
     }
 
-    public ITypeBinding getLowestCommonInterface(TypePair typePair) {
+    public static ITypeBinding getLowestCommonInterface(TypePair typePair) {
         ITypeBinding p1 = typePair.getType1();
         ITypeBinding p2 = typePair.getType2();
 
@@ -1049,7 +1049,8 @@ public class RFTemplate {
                     }
 
                 } else {
-                    if (!returnTypeBinding.getQualifiedName().equals(curMethodInvocation.resolveTypeBinding().getQualifiedName())) {
+                    if (!returnTypeBinding.getQualifiedName().equals(curMethodInvocation.resolveTypeBinding().getQualifiedName())
+                            && !curMethodInvocation.resolveTypeBinding().isAssignmentCompatible(returnTypeBinding)) {
                         isSameType = false;
                     }
                 }

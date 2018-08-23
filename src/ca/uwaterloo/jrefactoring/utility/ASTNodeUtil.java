@@ -1,5 +1,6 @@
 package ca.uwaterloo.jrefactoring.utility;
 
+import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.template.TypePair;
 import ca.uwaterloo.jrefactoring.visitor.MethodVisitor;
 import org.eclipse.jdt.core.dom.*;
@@ -371,9 +372,17 @@ public class ASTNodeUtil {
         } else if (typePair.getType2().isAssignmentCompatible(typePair.getType1())) {
             return typePair.getType1();
         } else {
-            log.info("cannot find assignment compatible type binding: " + typePair.getType1().getBinaryName()
-                    + ", " + typePair.getType2().getBinaryName());
-            return null;
+            ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSubClass(typePair);
+            ITypeBinding commonInteface = RFTemplate.getLowestCommonInterface(typePair);
+            if (commonSuperClass != null) {
+                return commonSuperClass;
+            } else if (commonInteface != null) {
+                return commonInteface;
+            } else {
+                log.info("cannot find assignment compatible type binding: " + typePair.getType1().getBinaryName()
+                        + ", " + typePair.getType2().getBinaryName());
+                return null;
+            }
         }
     }
 
