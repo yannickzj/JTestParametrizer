@@ -606,12 +606,6 @@ public class RFTemplate {
 
         } else {
             parameterizedType = (ParameterizedType) interfaceType;
-            List<Type> typeArgs = parameterizedType.typeArguments();
-            for (Type typeArg : typeArgs) {
-                if (typeArg.toString().equals(type.toString())) {
-                    return;
-                }
-            }
             parameterizedType.typeArguments().add(type);
         }
     }
@@ -776,12 +770,6 @@ public class RFTemplate {
 
         } else if (adapterType.isParameterizedType()) {
             ParameterizedType parameterizedType = (ParameterizedType) adapterType;
-            List<Type> typeArgs = parameterizedType.typeArguments();
-            for (Type typeArg : typeArgs) {
-                if (typeArg.toString().equals(type.toString())) {
-                    return;
-                }
-            }
             parameterizedType.typeArguments().add(ASTNode.copySubtree(ast, type));
         } else {
             throw new IllegalStateException("unexpected adapter type");
@@ -1310,17 +1298,18 @@ public class RFTemplate {
                     TypeParameter typeParameter = ast.newTypeParameter();
                     typeParameter.setName(ast.newSimpleName(genericName));
                     adapter.typeParameters().add(typeParameter);
+
+                    // add type parameter in adapter impl
+                    Type type1 = ASTNodeUtil.typeFromBinding(ast, returnTypePair.getType1());
+                    Type type2 = ASTNodeUtil.typeFromBinding(ast, returnTypePair.getType2());
+                    addTypeParameterAdapterImpl(type1, adapterImpl1.superInterfaceTypes());
+                    addTypeParameterAdapterImpl(type2, adapterImpl2.superInterfaceTypes());
+
+                    // add adapter variable
+                    addAdapterVariableTypeParameter(returnType);
+
                     adapterTypes.add(genericName);
                 }
-
-                // add type parameter in adapter impl
-                Type type1 = ASTNodeUtil.typeFromBinding(ast, returnTypePair.getType1());
-                Type type2 = ASTNodeUtil.typeFromBinding(ast, returnTypePair.getType2());
-                addTypeParameterAdapterImpl(type1, adapterImpl1.superInterfaceTypes());
-                addTypeParameterAdapterImpl(type2, adapterImpl2.superInterfaceTypes());
-
-                // add adapter variable
-                addAdapterVariableTypeParameter(returnType);
 
             } else if (boundPair != null && containsTypePair(boundPair)) {
                 String genericName = resolveTypePair(boundPair, false);
