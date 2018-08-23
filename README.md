@@ -4,7 +4,7 @@
 
 |       Benchmark   | Total tests | Detected clone pairs | Parameterized clone pairs |Effective candidates | Refactorable | Refactoring ratio |
 |:-----------------:|:-----------:|:--------------------:|:-------------------------:|:-------------------:|:------------:|:-----------------:|
-| jfreechart-1.0.10 |     3934    |         272          |           71              |          62         |      51      |        82.3%      |
+| jfreechart-1.0.10 |     3934    |         272          |           71              |          62         |      48      |        77.4%      |
 | gson-2.8.5        |     1050    |          31          |           14              |          14         |      10      |        71.4%      |
 | commons-lang-3.7  |     4068    |         144          |          103              |          93         |      65      |        69.9%      |
 | commons-io-2.5    |     1157    |          78          |           57              |          56         |      38      |        67.9%      |
