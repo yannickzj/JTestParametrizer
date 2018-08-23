@@ -40,6 +40,8 @@ public class RFTemplate {
     private static final String KEYWORD_SUFFIX = "Action";
     private static final String OBJECT_NAME = "Object";
     private static final String JAVA_OBJECT_FULL_NAME = "java.lang.Object";
+    private static final Set<String> javaObjectMethodNames = new HashSet<>(Arrays.asList("hashCode", "equals", "clone",
+            "toString", "finalize"));
 
     private AST ast;
     private MethodDeclaration templateMethod;
@@ -1204,6 +1206,18 @@ public class RFTemplate {
 
         List<Expression> newArgs = newMethod.arguments();
         List<Type> argTypes = new ArrayList<>();
+
+        // check expr
+        if (expr != null) {
+            Type exprType = (Type) expr.getProperty(ASTNodeUtil.PROPERTY_TYPE_BINDING);
+            String methodName1 = pair.getMethod1().getName().getIdentifier();
+            String methodName2 = pair.getMethod2().getName().getIdentifier();
+            if (exprType != null && JAVA_OBJECT_FULL_NAME.equals(exprType.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME))
+                    && (!javaObjectMethodNames.contains(methodName1) || !javaObjectMethodNames.contains(methodName2))) {
+                markAsUnrefactorable();
+                log.info("cannot refactor incompatible method calls in java.lang.Object: " + methodName1 + ", " + methodName2);
+            }
+        }
 
         // copy and resolve method expr
         if (expr != null) {
