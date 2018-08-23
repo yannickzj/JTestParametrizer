@@ -8,7 +8,7 @@
 | gson-2.8.5        |     1050    |          31          |           14              |          14         |      10      |        71.4%      |
 | commons-lang-3.7  |     4068    |         144          |          103              |          93         |      65      |        69.9%      |
 | commons-io-2.5    |     1157    |          78          |           57              |          56         |      38      |        67.9%      |
-| jodatime-2.10     |     4222    |         249          |                           |                     |              |                   |
+| jodatime-2.10     |     4222    |         249          |          203              |         187         |     107      |        57.2%      |
 
 - Detected clone pairs: clone pairs directly detected from clone detection tools;
 - Parameterized clone pairs: parameterizable clone candidates identified by *JTestParametrizer*, possibly including candidates which are not test cases, and repeated naming;
