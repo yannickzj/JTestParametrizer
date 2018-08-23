@@ -860,6 +860,14 @@ public class RFTemplate {
         MethodInvocation curMethodInvocation;
         ITypeBinding[] parameterTypeBinding;
 
+        // get cu
+        CompilationUnit cu;
+        if (pair == Pair.member1) {
+            cu = adapterImplCU1;
+        } else {
+            cu = adapterImplCU2;
+        }
+
         switch (pair) {
             case member1:
                 expr = methodInvocationPair.getExpr1();
@@ -885,6 +893,9 @@ public class RFTemplate {
         // set return type
         Type returnType;
         if (returnTypeBinding != null) {
+            if (!returnTypeBinding.isPrimitive() && !returnTypeBinding.getBinaryName().startsWith(JAVA_LANG_CLASS)) {
+                addImportDeclaration(cu, ASTNodeUtil.createPackageName(ast, returnTypeBinding.getBinaryName()), false);
+            }
             returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
         } else {
             returnType = ast.newSimpleType(ast.newSimpleName(OBJECT_NAME));
@@ -902,14 +913,6 @@ public class RFTemplate {
         MethodInvocation methodInvocation = ast.newMethodInvocation();
         methodInvocation.setName((SimpleName) ASTNode.copySubtree(ast, name));
         Map<String, Integer> argMap = new HashMap<>();
-
-        // get cu
-        CompilationUnit cu;
-        if (pair == Pair.member1) {
-            cu = adapterImplCU1;
-        } else {
-            cu = adapterImplCU2;
-        }
 
         for (int i = 0; i < argTypes.size(); i++) {
 
@@ -1321,6 +1324,9 @@ public class RFTemplate {
                     returnType.setProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME, JAVA_OBJECT_FULL_NAME);
 
                 } else {
+                    if (!returnTypeBinding.isPrimitive() && !returnTypeBinding.getBinaryName().startsWith(JAVA_LANG_CLASS)) {
+                        addImportDeclaration(templateCU, ASTNodeUtil.createPackageName(ast, returnTypeBinding.getBinaryName()), false);
+                    }
                     returnType = ASTNodeUtil.typeFromBinding(ast, returnTypeBinding);
                 }
             }
