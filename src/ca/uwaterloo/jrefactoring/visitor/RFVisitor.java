@@ -80,7 +80,7 @@ public class RFVisitor extends ASTVisitor {
                 type = ASTNodeUtil.typeFromExpr(ast, node);
             } else {
                 TypePair typePair = new TypePair(node.resolveTypeBinding(), pairNode.resolveTypeBinding());
-                ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSubClass(typePair);
+                ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSuperClass(typePair);
                 ITypeBinding commonInterface = RFTemplate.getLowestCommonInterface(typePair);
                 if (commonSuperClass != null) {
                     type = ASTNodeUtil.typeFromBinding(ast, commonSuperClass);
@@ -160,8 +160,8 @@ public class RFVisitor extends ASTVisitor {
     }
 
     private Type getCompatibleType(TypePair typePair) {
-        ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
-        ITypeBinding commonInterface = template.getLowestCommonInterface(typePair);
+        ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSuperClass(typePair);
+        ITypeBinding commonInterface = RFTemplate.getLowestCommonInterface(typePair);
 
         if (commonSuperClass != null) {
             return ASTNodeUtil.typeFromBinding(ast, commonSuperClass);
@@ -284,7 +284,7 @@ public class RFVisitor extends ASTVisitor {
                 && pairNode != null && pairNode.getExpression() instanceof NullLiteral) {
 
             Type pairType = pairNode.getType();
-            ITypeBinding commonSuperClass = template.getLowestCommonSubClass(
+            ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSuperClass(
                     new TypePair(type.resolveBinding(), pairType.resolveBinding()));
             if (commonSuperClass == null || commonSuperClass.getBinaryName().equals(JAVA_OBJECT_FULL_NAME)) {
                 log.info("unrefactorable castExpr node pair: " + node + ", " + pairNode);
@@ -555,7 +555,7 @@ public class RFVisitor extends ASTVisitor {
 
             } else {
                 TypePair typePair = new TypePair(typeBinding1, typeBinding2);
-                ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
+                ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSuperClass(typePair);
                 if (commonSuperClass != null) {
                     parameterTypes.add(commonSuperClass);
 
@@ -612,7 +612,7 @@ public class RFVisitor extends ASTVisitor {
 
                     // don't wrap cast expression if parameter type is ancestor of generic type bound
                     if (typePair != null) {
-                        ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
+                        ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSuperClass(typePair);
                         if (commonSuperClass != null
                                 && template.containTypeBound(argType.toString(), commonSuperClass.getName())
                                 && (ASTNodeUtil.hasAncestor(commonSuperClass, parameterTypeBinding.getQualifiedName())
@@ -832,7 +832,7 @@ public class RFVisitor extends ASTVisitor {
                 TypePair typePair = new TypePair(expr1.resolveTypeBinding(), expr2.resolveTypeBinding());
 
                 if (!typePair.isSame()) {
-                    ITypeBinding commonSuperClass = template.getLowestCommonSubClass(typePair);
+                    ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSuperClass(typePair);
                     if (commonSuperClass != null) {
                         for (IMethodBinding methodBinding : commonSuperClass.getDeclaredMethods()) {
                             if (methodBinding.getName().equals(name1.getIdentifier())

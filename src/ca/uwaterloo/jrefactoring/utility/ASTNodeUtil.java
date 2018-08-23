@@ -372,7 +372,7 @@ public class ASTNodeUtil {
         } else if (typePair.getType2().isAssignmentCompatible(typePair.getType1())) {
             return typePair.getType1();
         } else {
-            ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSubClass(typePair);
+            ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSuperClass(typePair);
             ITypeBinding commonInteface = RFTemplate.getLowestCommonInterface(typePair);
             if (commonSuperClass != null) {
                 return commonSuperClass;

@@ -391,7 +391,7 @@ public class RFTemplate {
         if (!typeMap.containsKey(typePair)) {
 
             // get common super class
-            ITypeBinding commonSuperClass = getLowestCommonSubClass(typePair);
+            ITypeBinding commonSuperClass = getLowestCommonSuperClass(typePair);
             ITypeBinding commonInterface = getLowestCommonInterface(typePair);
 
             //
@@ -489,7 +489,7 @@ public class RFTemplate {
         return typeMap.get(typePair);
     }
 
-    public static ITypeBinding getLowestCommonSubClass(TypePair typePair) {
+    public static ITypeBinding getLowestCommonSuperClass(TypePair typePair) {
         ITypeBinding p1 = typePair.getType1();
         ITypeBinding p2 = typePair.getType2();
 
