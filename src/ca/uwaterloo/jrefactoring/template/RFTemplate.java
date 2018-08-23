@@ -606,6 +606,12 @@ public class RFTemplate {
 
         } else {
             parameterizedType = (ParameterizedType) interfaceType;
+            List<Type> typeArgs = parameterizedType.typeArguments();
+            for (Type typeArg : typeArgs) {
+                if (typeArg.toString().equals(type.toString())) {
+                    return;
+                }
+            }
             parameterizedType.typeArguments().add(type);
         }
     }
@@ -769,7 +775,14 @@ public class RFTemplate {
             adapterVariable.setType(parameterizedType);
 
         } else if (adapterType.isParameterizedType()) {
-            ((ParameterizedType) adapterType).typeArguments().add(ASTNode.copySubtree(ast, type));
+            ParameterizedType parameterizedType = (ParameterizedType) adapterType;
+            List<Type> typeArgs = parameterizedType.typeArguments();
+            for (Type typeArg : typeArgs) {
+                if (typeArg.toString().equals(type.toString())) {
+                    return;
+                }
+            }
+            parameterizedType.typeArguments().add(ASTNode.copySubtree(ast, type));
         } else {
             throw new IllegalStateException("unexpected adapter type");
         }
