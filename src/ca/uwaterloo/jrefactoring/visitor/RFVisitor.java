@@ -76,8 +76,19 @@ public class RFVisitor extends ASTVisitor {
             Type type;
             if (node.resolveTypeBinding().isPrimitive() && pairNode.resolveTypeBinding().isPrimitive()) {
                 type = getCompatibleType(new TypePair(node.resolveTypeBinding(), pairNode.resolveTypeBinding()));
-            } else {
+            } else if (node.resolveTypeBinding().getQualifiedName().equals(pairNode.resolveTypeBinding().getQualifiedName())) {
                 type = ASTNodeUtil.typeFromExpr(ast, node);
+            } else {
+                TypePair typePair = new TypePair(node.resolveTypeBinding(), pairNode.resolveTypeBinding());
+                ITypeBinding commonSuperClass = RFTemplate.getLowestCommonSubClass(typePair);
+                ITypeBinding commonInterface = RFTemplate.getLowestCommonInterface(typePair);
+                if (commonSuperClass != null) {
+                    type = ASTNodeUtil.typeFromBinding(ast, commonSuperClass);
+                } else if (commonInterface != null) {
+                    type = ASTNodeUtil.typeFromBinding(ast, commonInterface);
+                } else {
+                    type = ASTNodeUtil.typeFromExpr(ast, node);
+                }
             }
             if (type.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME) != null) {
                 String qualifiedName = (String) type.getProperty(ASTNodeUtil.PROPERTY_QUALIFIED_NAME);
@@ -825,7 +836,8 @@ public class RFVisitor extends ASTVisitor {
                     if (commonSuperClass != null) {
                         for (IMethodBinding methodBinding : commonSuperClass.getDeclaredMethods()) {
                             if (methodBinding.getName().equals(name1.getIdentifier())
-                                    && Modifier.isPublic(methodBinding.getModifiers())) {
+                                    && Modifier.isPublic(methodBinding.getModifiers())
+                                    && methodBinding.getParameterTypes().length == parameterTypes.size()) {
                                 log.info("Same method found in common super class [" +
                                         commonSuperClass.getQualifiedName() + "]: " + methodBinding.getName());
                                 expr1.accept(this);
