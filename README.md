@@ -8,13 +8,22 @@
 | gson-2.8.5        |     1050    |          31          |           14              |          14         |      10      |        71.4%      |
 | commons-lang-3.7  |     4068    |         144          |          103              |          93         |      65      |        69.9%      |
 | commons-io-2.5    |     1157    |          78          |           57              |          56         |      38      |        67.9%      |
-| jodatime-2.10     |     4222    |         249          |          203              |         187         |     107      |        57.2%      |
+| jodatime-2.10     |     4222    |         249          |          203              |         187         |     106      |        56.7%      |
 
 - Detected clone pairs: clone pairs directly detected from clone detection tools;
 - Parameterized clone pairs: parameterizable clone candidates identified by *JTestParametrizer*, possibly including candidates which are not test cases, and repeated naming;
 - Effective candidates: test clone pairs without repetition;
 - Refactorable: test clone pairs that are successfully refactored by *JTestParametrizer* (passed with same coverage);
 - Refactoring ratio: refactorable / effective candidates.
+
+
+|     Benchmark     | Total refactored tests | Compilable ratio | Test failures | Effective refactoring ratio |
+|:-----------------:|:----------------------:|:----------------:|:-------------:|:---------------------------:|
+| jfreechart-1.0.10 |          48            |       100%       |      0        |            100%             |
+| gson-2.8.5        |          10            |       100%       |      0        |            100%             |
+| commons-lang-3.7  |          65            |       100%       |      4        |            93.8%            |
+| commons-io-2.5    |          38            |       100%       |      3        |            92.1%            |
+| jodatime-2.10     |         106            |       100%       |     10        |            90.6%            |
 
 
 ## Common launch config

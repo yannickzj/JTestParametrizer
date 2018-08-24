@@ -152,4 +152,14 @@ public class PreprocessVisitor extends ASTVisitor {
         return true;
     }
 
+    @Override
+    public boolean visit(ClassInstanceCreation node) {
+        if (ASTNodeUtil.hasPairedNode(node) && node.getAnonymousClassDeclaration() != null) {
+            template.markAsUnrefactorable();
+            log.info("cannot refactor ClassInstanceCreation node with with anonymous class declaration");
+            return false;
+        }
+        return true;
+    }
+
 }

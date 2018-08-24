@@ -189,7 +189,7 @@ public class CloneRefactor {
         log.info("type3 count: " + countType3);
         int effective = refactorableTemplates.size();
         int total = effective + countNonRefactorable;
-        log.info(String.format("effective refactoring ratio: %d/%d = %.2f%%",
+        log.info(String.format("effective refactoring ratio: %d/%d = %.1f%%",
                 effective, total, effective * 100.0 / total));
     }
 
