@@ -164,7 +164,7 @@ public class RFTemplate {
         } else {
             templateClass = null;
             templateCU = null;
-            templateMethod.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PRIVATE_KEYWORD));
+            templateMethod.modifiers().add(ast.newModifier(Modifier.ModifierKeyword.PUBLIC_KEYWORD));
         }
 
         if (method1.thrownExceptionTypes().size() > 0 || method2.thrownExceptionTypes().size() > 0) {
