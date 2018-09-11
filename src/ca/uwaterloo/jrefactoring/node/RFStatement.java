@@ -2,6 +2,7 @@ package ca.uwaterloo.jrefactoring.node;
 
 import ca.uwaterloo.jrefactoring.template.RFTemplate;
 import ca.uwaterloo.jrefactoring.utility.FileLogger;
+import ca.uwaterloo.jrefactoring.visitor.RFVisitor;
 import gr.uom.java.ast.decomposition.StatementType;
 import org.eclipse.jdt.core.dom.Statement;
 import org.slf4j.Logger;
@@ -9,7 +10,7 @@ import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class RFStatement extends RFEntity {
+public abstract class RFStatement implements RFEntity {
 
     private static Logger log = FileLogger.getLogger(RFStatement.class);
 
@@ -48,6 +49,24 @@ public abstract class RFStatement extends RFEntity {
             diff.setRfStatement(this);
         }
     }
+
+    @Override
+    public void accept(RFVisitor visitor) {
+        if (visitor == null) {
+            throw new IllegalArgumentException();
+        }
+
+        // begin with the generic pre-visit
+        if (visitor.preVisit2(this)) {
+            // dynamic dispatch to internal method for type-specific visit/endVisit
+            accept0(visitor);
+        }
+
+        // end with the generic post-visit
+        visitor.postVisit(this);
+    }
+
+    abstract void accept0(RFVisitor visitor);
 
     public void setParent(RFStatement parent) {
         this.parent = parent;

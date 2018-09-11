@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RFNodeDifference extends RFEntity {
+public class RFNodeDifference {
 
     private static Logger log = FileLogger.getLogger(RFNodeDifference.class);
 
@@ -52,17 +52,6 @@ public class RFNodeDifference extends RFEntity {
 
     public RFTemplate getTemplate() {
         return rfStatement.getTemplate();
-    }
-
-    void accept0(RFVisitor visitor) {
-        /*
-        boolean visitChildren = visitor.visit(this);
-        if (visitChildren) {
-            // visit children
-            log.info("doing nothing for RFNodeDifference children!");
-        }
-        visitor.endVisit(this);
-        */
     }
 
     public TypePair getTypePair() {
