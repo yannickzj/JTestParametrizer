@@ -35,6 +35,7 @@ public class CloneRefactor {
     private static int countNonTestCase = 0;
     private static int countNonRefactorable = 0;
     private static int countRepeatedNaming = 0;
+    private static int countAccessIssue = 0;
     private static int parameterNum = 100;
 
     public static void refactor(ClonePairInfo pairInfo, int firstCloneNumber, int secondCloneNumber, int firstCloneRow,
@@ -121,6 +122,11 @@ public class CloneRefactor {
                         continue;
                     }
 
+                    // check access issue
+                    if (template.getAccessIssue()) {
+                        countAccessIssue++;
+                    }
+
                     // check template argument size
                     if (template.getTemplateArguments1().size() > parameterNum) {
                         log.info("too many parameters");
@@ -180,6 +186,7 @@ public class CloneRefactor {
         log.info("\t" + countGapNode + " containing gap nodes (type3)");
         log.info("\t" + countNonRefactorable + " not refactorable");
         log.info("\t" + countRepeatedNaming + " repeated naming");
+        log.info("\t" + countAccessIssue + " access issues");
         for (String[] pair : repeatedNamingInfo) {
             log.info("\t *" + pair[0]);
             log.info("\t  " + pair[1]);

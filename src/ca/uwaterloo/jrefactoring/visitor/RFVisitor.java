@@ -170,6 +170,7 @@ public class RFVisitor extends ASTVisitor {
             return ASTNodeUtil.typeFromBinding(ast, commonInterface);
 
         } else {
+            log.info("get compatible primitive type");
             Type t1 = ASTNodeUtil.typeFromBinding(ast, typePair.getType1());
             Type t2 = ASTNodeUtil.typeFromBinding(ast, typePair.getType2());
             if (t1.isPrimitiveType() && t2.isPrimitiveType()) {
@@ -177,6 +178,10 @@ public class RFVisitor extends ASTVisitor {
                 byte n2 = getPrimitiveNum((PrimitiveType) t2);
                 byte n = (byte) Math.max(n1, n2);
                 if (n < 8) {
+
+                    if ((n1 < 6 && n2 >= 6) || (n1 >= 6 && n2 < 6)) {
+                        template.markAsUnrefactorable();
+                    }
 
                     if (n == 3 && n1 != n2) {
                         n += 1;

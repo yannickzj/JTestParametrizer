@@ -89,6 +89,7 @@ public class RFTemplate {
     private boolean hasNullParameterObject;
     private Set<String> templateVariableNames;
     private boolean throwsAllException;
+    private boolean accessIssue;
 
     public RFTemplate(AST ast, MethodDeclaration method1, MethodDeclaration method2,
                       String templateName, String adapterName, String[] adapterImplNamePair,
@@ -131,6 +132,7 @@ public class RFTemplate {
         this.hasNullParameterObject = false;
         this.templateVariableNames = new HashSet<>();
         this.throwsAllException = false;
+        this.accessIssue = false;
         init(templateName, adapterName, adapterImplNamePair);
     }
 
@@ -336,6 +338,14 @@ public class RFTemplate {
 
     public void markAsUnrefactorable() {
         refactorable = false;
+    }
+
+    public void markAccessIssue() {
+        accessIssue = true;
+    }
+
+    public boolean getAccessIssue() {
+        return accessIssue;
     }
 
     public Type getTypeByInstanceCreation(ClassInstanceCreation instanceCreation) {
