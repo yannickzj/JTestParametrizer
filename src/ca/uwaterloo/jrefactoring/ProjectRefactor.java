@@ -45,6 +45,7 @@ public class ProjectRefactor {
 
     private static Logger log = FileLogger.getLogger(ProjectRefactor.class);
     private static ProjectRefactor refactor;
+    private static String IgnoreTag = "Ignore";
 
     private ProjectRefactor() {
     }
@@ -309,6 +310,11 @@ public class ProjectRefactor {
                         continue;
                     }
 
+                    if (firstIMethod.getAnnotation(IgnoreTag).exists()) {
+                        log.info("Ignore method: " + firstMethodName);
+                        continue;
+                    }
+
                     if (pdgArray[firstCloneNumber] == null) {
                         log.info(String.format("%s%%: Generating PDG for method \"%s\" in \"%s\"",
                                 Math.round(100 * (float) cloneGroupStartingRowNumber / numberOfRows),
@@ -388,6 +394,11 @@ public class ProjectRefactor {
                         if (secondIMethod == null) {
                             log.warn(String.format("IMethod could not be retrieved for method %s in %s, skipping clone pair at rows %s-%s",
                                     firstMethodName, firstFullName, firstCloneRow + 1, secondCloneRow + 1));
+                            continue;
+                        }
+
+                        if (secondIMethod.getAnnotation(IgnoreTag).exists()) {
+                            log.info("Ignore method: " + secondMethodName);
                             continue;
                         }
 
