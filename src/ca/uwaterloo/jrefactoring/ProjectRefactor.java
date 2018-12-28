@@ -45,7 +45,7 @@ public class ProjectRefactor {
 
     private static Logger log = FileLogger.getLogger(ProjectRefactor.class);
     private static ProjectRefactor refactor;
-    private static String IgnoreTag = "Ignore";
+    private static String IgnoreTag = "IgnoreClone";
 
     private ProjectRefactor() {
     }
