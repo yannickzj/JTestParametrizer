@@ -1,0 +1,46 @@
+18:10:06.294 [main] INFO  - log file in /home/yannick/workspace/eclipse/jrefactoring/results/commons-io/log.log
+18:10:06.305 [main] INFO  - Testing refactorabiliy of clones in /home/yannick/workspace/eclipse/jrefactoring/results/commons-io/commons-io.xls
+18:10:07.310 [main] INFO  - 14%: Reading information from row 2 (Clone group ID 61, clone #1)
+18:10:07.353 [main] INFO  - 14%: Generating PDG for method "testBelowThreshold" in "org.apache.commons.io.output.DeferredFileOutputStreamTest"
+18:10:07.796 [main] INFO  - 14%: Reading information from row 3 (Clone group ID 61, clone #2)
+18:10:07.797 [main] INFO  - 14%: Generating PDG for method "testAtThreshold" in "org.apache.commons.io.output.DeferredFileOutputStreamTest"
+18:10:07.803 [main] INFO  - 14%: Analyzing Clone #1 (Group 61, Pair 1-2): org.apache.commons.io.output.DeferredFileOutputStreamTest#testBelowThreshold (row 2) and org.apache.commons.io.output.DeferredFileOutputStreamTest#testAtThreshold (row 3)
+18:10:07.819 [main] INFO  - CDT 1 depth = 1, CDT 2 depth = 1
+18:10:07.819 [main] INFO  - CDT 1 leaves = 1, CDT 2 leaves = 1
+18:10:07.837 [main] INFO  - Start mapping
+18:10:07.878 [main] INFO  - End mapping
+18:10:07.884 [main] INFO  - start to refactor clone pair
+18:10:07.914 [main] INFO  - 43%: Reading information from row 4 (Clone group ID 76, clone #1)
+18:10:07.937 [main] INFO  - 43%: Generating PDG for method "testOutputStream" in "org.apache.commons.io.DemuxTestCase"
+18:10:07.943 [main] INFO  - 43%: Reading information from row 5 (Clone group ID 76, clone #2)
+18:10:07.944 [main] INFO  - 43%: Generating PDG for method "testInputStream" in "org.apache.commons.io.DemuxTestCase"
+18:10:07.948 [main] INFO  - 43%: Analyzing Clone #2 (Group 76, Pair 1-2): org.apache.commons.io.DemuxTestCase#testOutputStream (row 4) and org.apache.commons.io.DemuxTestCase#testInputStream (row 5)
+18:10:07.962 [main] INFO  - CDT 1 depth = 0, CDT 2 depth = 0
+18:10:07.962 [main] INFO  - CDT 1 leaves = 1, CDT 2 leaves = 1
+18:10:08.046 [main] INFO  - start to refactor clone pair
+18:10:08.055 [main] INFO  - 71%: Reading information from row 6 (Clone group ID 89, clone #1)
+18:10:08.067 [main] INFO  - 71%: Generating PDG for method "readMulti" in "org.apache.commons.io.input.BoundedReaderTest"
+18:10:08.074 [main] INFO  - 71%: Reading information from row 7 (Clone group ID 89, clone #2)
+18:10:08.074 [main] INFO  - 71%: Generating PDG for method "readMultiWithOffset" in "org.apache.commons.io.input.BoundedReaderTest"
+18:10:08.076 [main] INFO  - 71%: Analyzing Clone #3 (Group 89, Pair 1-2): org.apache.commons.io.input.BoundedReaderTest#readMulti (row 6) and org.apache.commons.io.input.BoundedReaderTest#readMultiWithOffset (row 7)
+18:10:08.084 [main] INFO  - CDT 1 depth = 1, CDT 2 depth = 1
+18:10:08.084 [main] INFO  - CDT 1 leaves = 1, CDT 2 leaves = 1
+18:10:08.085 [main] INFO  - Start mapping
+18:10:08.115 [main] INFO  - End mapping
+18:10:08.116 [main] INFO  - start to refactor clone pair
+18:10:09.029 [main] INFO  - Applying changes to source files
+18:10:09.029 [main] INFO  - refactoring 3 clone method pairs.
+18:10:09.029 [main] INFO  - skipping 0 clone method pairs:
+18:10:09.029 [main] INFO  - 	0 not test cases
+18:10:09.029 [main] INFO  - 	0 containing gap nodes (type3)
+18:10:09.029 [main] INFO  - 	0 not refactorable
+18:10:09.030 [main] INFO  - 	0 repeated naming
+18:10:09.030 [main] INFO  - 	0 access issues
+18:10:09.030 [main] INFO  - type1 count: 0
+18:10:09.030 [main] INFO  - type2 count: 3
+18:10:09.030 [main] INFO  - type3 count: 0
+18:10:09.032 [main] INFO  - effective refactoring ratio: 3/3 = 100.0%
+18:10:09.032 [main] INFO  - refactoring method pair: org.apache.commons.io.output.DeferredFileOutputStreamTest.java#testBelowThreshold <---> org.apache.commons.io.output.DeferredFileOutputStreamTest.java#testAtThreshold
+18:10:09.288 [main] INFO  - refactoring method pair: org.apache.commons.io.DemuxTestCase.java#testOutputStream <---> org.apache.commons.io.DemuxTestCase.java#testInputStream
+18:10:09.478 [main] INFO  - refactoring method pair: org.apache.commons.io.input.BoundedReaderTest.java#readMulti <---> org.apache.commons.io.input.BoundedReaderTest.java#readMultiWithOffset
+18:10:09.617 [main] INFO  - Finished testing refactorabiliy of clones in /home/yannick/workspace/eclipse/jrefactoring/results/commons-io/commons-io.xls, output file: /home/yannick/workspace/eclipse/jrefactoring/results/commons-io/commons-io-analyzed.xls
