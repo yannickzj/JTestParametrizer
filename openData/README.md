@@ -13,6 +13,8 @@ We present the results at each step of benchmark processing.
 
 ## Clone detection (Deckard)
 
+Clone detection reports from *Deckard* for each case study project:
+
 | Project            | Location   |
 |:-------------------|:-----------|
 | JFreeChart         | detection/jfree_cluster_vdb_50_0_allg_0.95_50 | 
@@ -23,6 +25,8 @@ We present the results at each step of benchmark processing.
 
 ## Clone pair candidates (input file)
 
+Clone pair candidates extracted from the *Deckard* detection reports using this [script](https://github.com/yannickzj/JTestParametrizer/blob/master/preprocess/deckard-extraction.ipynb) (paths may need to be reconfigured).
+
 | Project            | Location   |
 |:-------------------|:-----------|
 | JFreeChart         | input/jfreechart-1.0.10-deckard-selected.xls |
@@ -32,6 +36,8 @@ We present the results at each step of benchmark processing.
 | Joda-Time          | input/joda-time-2.10-deckard-selected.xls |
 
 ## Refactoring output
+
+The refactored results using our technique are tagged *refactored* in each benchmark repository. The correctness evaluation in the paper is based on these refactored results. The statistics in log files lead to the applicability table in the paper.
 
 | Project            | Refactored results | log files |
 |:-------------------|:-------------------|:----------|
