@@ -1,0 +1,306 @@
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/ConcurrencyTest.java LINE:67:26 NODE_KIND:113 nVARs:27 NUM_NODE:385 TBID:169 TEID:336
+000000007	dist:5.1	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/ConcurrencyTest.java LINE:98:25 NODE_KIND:113 nVARs:26 NUM_NODE:379 TBID:337 TEID:500
+
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/ConcurrencyTest.java LINE:67:26 NODE_KIND:113 nVARs:27 NUM_NODE:385 TBID:169 TEID:336
+000000005	dist:5.1	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/ConcurrencyTest.java LINE:98:25 NODE_KIND:113 nVARs:26 NUM_NODE:379 TBID:337 TEID:500
+
+000000044	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/MixedStreamTest.java LINE:217:22 NODE_KIND:153 nVARs:9 NUM_NODE:242 TBID:200 TEID:297
+000000026	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/StreamingTypeAdaptersTest.java LINE:218:17 NODE_KIND:182 nVARs:9 NUM_NODE:237 TBID:197 TEID:288
+
+000000039	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/MixedStreamTest.java LINE:217:22 NODE_KIND:153 nVARs:9 NUM_NODE:242 TBID:200 TEID:297
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/StreamingTypeAdaptersTest.java LINE:218:17 NODE_KIND:153 nVARs:9 NUM_NODE:238 TBID:197 TEID:288
+
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonReaderPathTest.java LINE:201:19 NODE_KIND:113 nVARs:13 NUM_NODE:367 TBID:1238 TEID:1394
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonReaderPathTest.java LINE:221:19 NODE_KIND:113 nVARs:11 NUM_NODE:367 TBID:1395 TEID:1551
+
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java LINE:89:15 NODE_KIND:113 nVARs:24 NUM_NODE:266 TBID:435 TEID:538
+000000012	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java LINE:108:15 NODE_KIND:113 nVARs:23 NUM_NODE:269 TBID:539 TEID:644
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:104:15 NODE_KIND:113 nVARs:21 NUM_NODE:462 TBID:659 TEID:814
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:101:15 NODE_KIND:113 nVARs:21 NUM_NODE:462 TBID:620 TEID:775
+
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:130:15 NODE_KIND:113 nVARs:10 NUM_NODE:348 TBID:893 TEID:1018
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:127:15 NODE_KIND:113 nVARs:10 NUM_NODE:348 TBID:854 TEID:979
+
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/metrics/PerformanceTest.java LINE:194:14 NODE_KIND:113 nVARs:20 NUM_NODE:336 TBID:828 TEID:947
+000000027	dist:5.5	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/metrics/PerformanceTest.java LINE:239:15 NODE_KIND:113 nVARs:22 NUM_NODE:354 TBID:1197 TEID:1321
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:104:15 NODE_KIND:113 nVARs:21 NUM_NODE:462 TBID:659 TEID:814
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:101:15 NODE_KIND:113 nVARs:21 NUM_NODE:462 TBID:620 TEID:775
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java LINE:165:14 NODE_KIND:182 nVARs:21 NUM_NODE:190 TBID:875 TEID:974
+000000008	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:121:14 NODE_KIND:182 nVARs:21 NUM_NODE:190 TBID:644 TEID:743
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/metrics/PerformanceTest.java LINE:298:11 NODE_KIND:182 nVARs:9 NUM_NODE:120 TBID:1635 TEID:1689
+000000022	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/metrics/PerformanceTest.java LINE:321:13 NODE_KIND:182 nVARs:10 NUM_NODE:126 TBID:1730 TEID:1788
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:349:13 NODE_KIND:113 nVARs:9 NUM_NODE:118 TBID:2164 TEID:2223
+000000011	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:375:13 NODE_KIND:113 nVARs:9 NUM_NODE:118 TBID:2325 TEID:2384
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:409:13 NODE_KIND:113 nVARs:9 NUM_NODE:118 TBID:2519 TEID:2578
+000000013	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:435:13 NODE_KIND:113 nVARs:9 NUM_NODE:118 TBID:2680 TEID:2739
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:469:13 NODE_KIND:113 nVARs:9 NUM_NODE:118 TBID:2874 TEID:2933
+000000015	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:495:13 NODE_KIND:113 nVARs:9 NUM_NODE:118 TBID:3035 TEID:3094
+
+000000034	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/CommentsTest.java LINE:32:13 NODE_KIND:113 nVARs:12 NUM_NODE:143 TBID:46 TEID:102
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:94:6 NODE_KIND:113 nVARs:9 NUM_NODE:146 TBID:603 TEID:658
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:94:6 NODE_KIND:113 nVARs:9 NUM_NODE:146 TBID:564 TEID:619
+
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java LINE:166:12 NODE_KIND:113 nVARs:19 NUM_NODE:176 TBID:882 TEID:973
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:122:12 NODE_KIND:113 nVARs:19 NUM_NODE:176 TBID:651 TEID:742
+
+000000024	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:40:12 NODE_KIND:113 nVARs:15 NUM_NODE:249 TBID:190 TEID:301
+000000027	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:40:12 NODE_KIND:113 nVARs:15 NUM_NODE:249 TBID:151 TEID:262
+
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/bind/JsonElementReaderTest.java LINE:301:11 NODE_KIND:113 nVARs:14 NUM_NODE:115 TBID:1707 TEID:1769
+000000024	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:601:12 NODE_KIND:113 nVARs:13 NUM_NODE:118 TBID:3091 TEID:3155
+000000025	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:614:12 NODE_KIND:113 nVARs:13 NUM_NODE:118 TBID:3156 TEID:3220
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/CustomTypeAdaptersTest.java LINE:336:11 NODE_KIND:113 nVARs:22 NUM_NODE:269 TBID:2117 TEID:2224
+000000008	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/CustomTypeAdaptersTest.java LINE:374:11 NODE_KIND:113 nVARs:22 NUM_NODE:279 TBID:2409 TEID:2517
+
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterSerializerDeserializerTest.java LINE:81:11 NODE_KIND:182 nVARs:18 NUM_NODE:130 TBID:364 TEID:430
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterSerializerDeserializerTest.java LINE:116:11 NODE_KIND:182 nVARs:18 NUM_NODE:130 TBID:547 TEID:613
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonObjectTest.java LINE:46:11 NODE_KIND:113 nVARs:14 NUM_NODE:181 TBID:140 TEID:204
+000000001	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonObjectTest.java LINE:69:11 NODE_KIND:113 nVARs:14 NUM_NODE:181 TBID:270 TEID:334
+
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/FieldExclusionTest.java LINE:42:11 NODE_KIND:113 nVARs:15 NUM_NODE:252 TBID:76 TEID:167
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/FieldExclusionTest.java LINE:61:11 NODE_KIND:113 nVARs:15 NUM_NODE:252 TBID:223 TEID:314
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterSerializerDeserializerTest.java LINE:81:11 NODE_KIND:182 nVARs:18 NUM_NODE:130 TBID:364 TEID:430
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterSerializerDeserializerTest.java LINE:116:11 NODE_KIND:182 nVARs:18 NUM_NODE:130 TBID:547 TEID:613
+
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:82:11 NODE_KIND:113 nVARs:10 NUM_NODE:334 TBID:492 TEID:602
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:82:11 NODE_KIND:113 nVARs:10 NUM_NODE:334 TBID:453 TEID:563
+
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:72:11 NODE_KIND:113 nVARs:11 NUM_NODE:121 TBID:313 TEID:372
+000000023	dist:3.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:322:8 NODE_KIND:113 nVARs:11 NUM_NODE:117 TBID:1710 TEID:1764
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:107:10 NODE_KIND:113 nVARs:11 NUM_NODE:96 TBID:485 TEID:540
+000000010	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:118:11 NODE_KIND:113 nVARs:12 NUM_NODE:99 TBID:541 TEID:598
+000000011	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:130:11 NODE_KIND:113 nVARs:11 NUM_NODE:99 TBID:599 TEID:656
+000000013	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:561:11 NODE_KIND:113 nVARs:11 NUM_NODE:99 TBID:2909 TEID:2966
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:82:11 NODE_KIND:113 nVARs:10 NUM_NODE:334 TBID:492 TEID:602
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:82:11 NODE_KIND:113 nVARs:10 NUM_NODE:334 TBID:453 TEID:563
+
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/metrics/PerformanceTest.java LINE:209:11 NODE_KIND:113 nVARs:17 NUM_NODE:284 TBID:948 TEID:1044
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/metrics/PerformanceTest.java LINE:255:11 NODE_KIND:113 nVARs:17 NUM_NODE:284 TBID:1322 TEID:1418
+
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:35:10 NODE_KIND:113 nVARs:12 NUM_NODE:268 TBID:142 TEID:227
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:105:10 NODE_KIND:113 nVARs:13 NUM_NODE:268 TBID:660 TEID:745
+
+000000028	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/CustomSerializerTest.java LINE:45:10 NODE_KIND:113 nVARs:22 NUM_NODE:268 TBID:172 TEID:273
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/CustomSerializerTest.java LINE:56:10 NODE_KIND:113 nVARs:22 NUM_NODE:268 TBID:274 TEID:375
+
+000000043	dist:3.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/DefaultDateTypeAdapterTest.java LINE:150:9 NODE_KIND:113 nVARs:19 NUM_NODE:233 TBID:986 TEID:1061
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/CustomTypeAdaptersTest.java LINE:98:10 NODE_KIND:113 nVARs:15 NUM_NODE:237 TBID:503 TEID:581
+
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java LINE:167:10 NODE_KIND:121 nVARs:14 NUM_NODE:140 TBID:905 TEID:972
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:123:10 NODE_KIND:121 nVARs:14 NUM_NODE:140 TBID:674 TEID:741
+
+000000023	dist:4.1	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/CustomDeserializerTest.java LINE:59:7 NODE_KIND:113 nVARs:16 NUM_NODE:179 TBID:235 TEID:297
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:207:10 NODE_KIND:113 nVARs:12 NUM_NODE:178 TBID:1118 TEID:1178
+000000034	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:335:9 NODE_KIND:113 nVARs:12 NUM_NODE:177 TBID:2074 TEID:2132
+
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:241:10 NODE_KIND:113 nVARs:10 NUM_NODE:294 TBID:1484 TEID:1571
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:305:10 NODE_KIND:113 nVARs:10 NUM_NODE:294 TBID:1879 TEID:1966
+
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:96:10 NODE_KIND:113 nVARs:11 NUM_NODE:102 TBID:432 TEID:484
+000000012	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:142:10 NODE_KIND:113 nVARs:11 NUM_NODE:102 TBID:657 TEID:709
+
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:241:10 NODE_KIND:113 nVARs:10 NUM_NODE:294 TBID:1484 TEID:1571
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:305:10 NODE_KIND:113 nVARs:10 NUM_NODE:294 TBID:1879 TEID:1966
+
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java LINE:167:10 NODE_KIND:121 nVARs:14 NUM_NODE:140 TBID:905 TEID:972
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:123:10 NODE_KIND:121 nVARs:14 NUM_NODE:140 TBID:674 TEID:741
+
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:301:9 NODE_KIND:113 nVARs:11 NUM_NODE:147 TBID:1568 TEID:1630
+000000037	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/stream/JsonWriterTest.java LINE:464:10 NODE_KIND:113 nVARs:10 NUM_NODE:149 TBID:2450 TEID:2512
+
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java LINE:74:9 NODE_KIND:113 nVARs:12 NUM_NODE:280 TBID:349 TEID:435
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java LINE:84:9 NODE_KIND:113 nVARs:12 NUM_NODE:280 TBID:436 TEID:522
+
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:55:9 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:290 TEID:363
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:65:9 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:364 TEID:437
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:75:9 NODE_KIND:113 nVARs:14 NUM_NODE:225 TBID:438 TEID:511
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:85:9 NODE_KIND:113 nVARs:14 NUM_NODE:225 TBID:512 TEID:585
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:95:9 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:586 TEID:659
+
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:54:9 NODE_KIND:113 nVARs:17 NUM_NODE:207 TBID:242 TEID:316
+000000016	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:276:7 NODE_KIND:113 nVARs:16 NUM_NODE:204 TBID:1517 TEID:1585
+
+000000028	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:186:9 NODE_KIND:113 nVARs:11 NUM_NODE:212 TBID:1123 TEID:1190
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:196:9 NODE_KIND:113 nVARs:11 NUM_NODE:212 TBID:1191 TEID:1258
+000000030	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:219:9 NODE_KIND:113 nVARs:11 NUM_NODE:212 TBID:1342 TEID:1409
+
+000000046	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/common/MoreAsserts.java LINE:31:9 NODE_KIND:113 nVARs:7 NUM_NODE:210 TBID:27 TEID:104
+000000047	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/common/MoreAsserts.java LINE:41:9 NODE_KIND:113 nVARs:8 NUM_NODE:212 TBID:105 TEID:182
+
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/common/TestTypes.java LINE:78:9 NODE_KIND:182 nVARs:18 NUM_NODE:141 TBID:304 TEID:367
+000000030	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/common/TestTypes.java LINE:87:9 NODE_KIND:182 nVARs:19 NUM_NODE:141 TBID:368 TEID:431
+
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:120:9 NODE_KIND:113 nVARs:10 NUM_NODE:192 TBID:815 TEID:892
+000000035	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:117:9 NODE_KIND:113 nVARs:10 NUM_NODE:192 TBID:776 TEID:853
+
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:55:9 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:290 TEID:363
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:65:9 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:364 TEID:437
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:75:9 NODE_KIND:113 nVARs:14 NUM_NODE:225 TBID:438 TEID:511
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:85:9 NODE_KIND:113 nVARs:14 NUM_NODE:225 TBID:512 TEID:585
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:95:9 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:586 TEID:659
+
+000000024	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:186:9 NODE_KIND:113 nVARs:11 NUM_NODE:212 TBID:1123 TEID:1190
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:196:9 NODE_KIND:113 nVARs:11 NUM_NODE:212 TBID:1191 TEID:1258
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:219:9 NODE_KIND:113 nVARs:11 NUM_NODE:212 TBID:1342 TEID:1409
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java LINE:148:9 NODE_KIND:182 nVARs:13 NUM_NODE:112 TBID:783 TEID:842
+000000001	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:111:9 NODE_KIND:182 nVARs:14 NUM_NODE:112 TBID:584 TEID:643
+000000002	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:151:9 NODE_KIND:182 nVARs:14 NUM_NODE:112 TBID:800 TEID:859
+000000003	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:170:9 NODE_KIND:182 nVARs:14 NUM_NODE:114 TBID:891 TEID:951
+000000004	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:180:9 NODE_KIND:182 nVARs:14 NUM_NODE:114 TBID:952 TEID:1012
+
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/UnsafeAllocatorInstantiationTest.java LINE:39:9 NODE_KIND:113 nVARs:12 NUM_NODE:101 TBID:41 TEID:92
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/UnsafeAllocatorInstantiationTest.java LINE:53:9 NODE_KIND:113 nVARs:12 NUM_NODE:101 TBID:93 TEID:144
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java LINE:74:9 NODE_KIND:113 nVARs:12 NUM_NODE:280 TBID:349 TEID:435
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java LINE:84:9 NODE_KIND:113 nVARs:12 NUM_NODE:280 TBID:436 TEID:522
+
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnClassesTest.java LINE:148:9 NODE_KIND:182 nVARs:13 NUM_NODE:112 TBID:783 TEID:842
+000000005	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:111:9 NODE_KIND:182 nVARs:14 NUM_NODE:112 TBID:584 TEID:643
+000000006	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:151:9 NODE_KIND:182 nVARs:14 NUM_NODE:112 TBID:800 TEID:859
+000000007	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:170:9 NODE_KIND:182 nVARs:14 NUM_NODE:114 TBID:891 TEID:951
+000000008	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:180:9 NODE_KIND:182 nVARs:14 NUM_NODE:114 TBID:952 TEID:1012
+
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/InheritanceTest.java LINE:113:6 NODE_KIND:113 nVARs:16 NUM_NODE:169 TBID:695 TEID:759
+000000012	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java LINE:64:9 NODE_KIND:113 nVARs:18 NUM_NODE:173 TBID:283 TEID:348
+
+000000046	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/LongSerializationPolicyTest.java LINE:29:9 NODE_KIND:113 nVARs:17 NUM_NODE:165 TBID:20 TEID:87
+000000047	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/LongSerializationPolicyTest.java LINE:47:9 NODE_KIND:113 nVARs:17 NUM_NODE:165 TBID:162 TEID:229
+
+000000041	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/common/TestTypes.java LINE:78:9 NODE_KIND:182 nVARs:18 NUM_NODE:141 TBID:304 TEID:367
+000000042	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/common/TestTypes.java LINE:87:9 NODE_KIND:182 nVARs:19 NUM_NODE:141 TBID:368 TEID:431
+
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:31:8 NODE_KIND:113 nVARs:8 NUM_NODE:239 TBID:108 TEID:189
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:31:8 NODE_KIND:113 nVARs:8 NUM_NODE:239 TBID:69 TEID:150
+
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilTest.java LINE:54:8 NODE_KIND:113 nVARs:10 NUM_NODE:179 TBID:161 TEID:217
+000000029	dist:3.9	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/ThrowableFunctionalTest.java LINE:15:8 NODE_KIND:113 nVARs:12 NUM_NODE:182 TBID:65 TEID:124
+000000030	dist:3.9	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/ThrowableFunctionalTest.java LINE:41:8 NODE_KIND:113 nVARs:12 NUM_NODE:182 TBID:234 TEID:293
+
+000000055	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/DefaultInetAddressTypeAdapterTest.java LINE:37:8 NODE_KIND:113 nVARs:12 NUM_NODE:155 TBID:55 TEID:105
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:190:7 NODE_KIND:113 nVARs:12 NUM_NODE:159 TBID:1013 TEID:1068
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonParserTest.java LINE:131:8 NODE_KIND:113 nVARs:12 NUM_NODE:88 TBID:730 TEID:781
+000000002	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:62:7 NODE_KIND:113 nVARs:9 NUM_NODE:87 TBID:350 TEID:400
+000000003	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:62:7 NODE_KIND:113 nVARs:9 NUM_NODE:87 TBID:311 TEID:361
+
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:31:8 NODE_KIND:113 nVARs:8 NUM_NODE:239 TBID:108 TEID:189
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:31:8 NODE_KIND:113 nVARs:8 NUM_NODE:239 TBID:69 TEID:150
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/ThrowableFunctionalTest.java LINE:15:8 NODE_KIND:113 nVARs:12 NUM_NODE:182 TBID:65 TEID:124
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/ThrowableFunctionalTest.java LINE:41:8 NODE_KIND:113 nVARs:12 NUM_NODE:182 TBID:234 TEID:293
+
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:123:8 NODE_KIND:113 nVARs:14 NUM_NODE:104 TBID:770 TEID:823
+000000004	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:132:8 NODE_KIND:113 nVARs:14 NUM_NODE:106 TBID:824 TEID:879
+
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/CustomTypeAdaptersTest.java LINE:431:8 NODE_KIND:182 nVARs:15 NUM_NODE:108 TBID:2793 TEID:2842
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/NullObjectAndFieldTest.java LINE:194:8 NODE_KIND:182 nVARs:16 NUM_NODE:108 TBID:936 TEID:985
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:123:8 NODE_KIND:113 nVARs:14 NUM_NODE:104 TBID:770 TEID:823
+000000011	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/TypeAdapterPrecedenceTest.java LINE:132:8 NODE_KIND:113 nVARs:14 NUM_NODE:106 TBID:824 TEID:879
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:190:7 NODE_KIND:113 nVARs:12 NUM_NODE:159 TBID:1013 TEID:1068
+000000019	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/SecurityTest.java LINE:78:8 NODE_KIND:113 nVARs:15 NUM_NODE:167 TBID:264 TEID:322
+
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/CustomTypeAdaptersTest.java LINE:395:8 NODE_KIND:113 nVARs:15 NUM_NODE:149 TBID:2573 TEID:2629
+000000016	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/VersioningTest.java LINE:64:6 NODE_KIND:113 nVARs:13 NUM_NODE:145 TBID:243 TEID:296
+
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:38:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:124 TEID:182
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:46:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:183 TEID:241
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:80:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:438 TEID:496
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:228:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:1213 TEID:1271
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterSerializerDeserializerTest.java LINE:93:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:431 TEID:489
+
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonParserTest.java LINE:58:7 NODE_KIND:113 nVARs:14 NUM_NODE:186 TBID:224 TEID:294
+000000037	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonParserTest.java LINE:100:7 NODE_KIND:113 nVARs:14 NUM_NODE:199 TBID:489 TEID:563
+
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:38:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:124 TEID:182
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:46:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:183 TEID:241
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:80:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:438 TEID:496
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterAnnotationOnFieldsTest.java LINE:228:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:1213 TEID:1271
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JsonAdapterSerializerDeserializerTest.java LINE:93:7 NODE_KIND:113 nVARs:13 NUM_NODE:170 TBID:431 TEID:489
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java LINE:50:6 NODE_KIND:113 nVARs:11 NUM_NODE:151 TBID:181 TEID:231
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java LINE:57:6 NODE_KIND:113 nVARs:11 NUM_NODE:151 TBID:232 TEID:282
+
+000000039	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:109:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:574 TEID:631
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:116:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:632 TEID:689
+000000041	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:123:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:690 TEID:747
+000000042	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:130:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:748 TEID:805
+000000043	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:137:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:806 TEID:863
+000000044	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:144:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:864 TEID:921
+000000045	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:151:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:922 TEID:976
+000000046	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:158:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:977 TEID:1031
+000000047	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:165:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:1032 TEID:1086
+000000048	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:172:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:1087 TEID:1141
+000000049	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:179:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:1142 TEID:1196
+000000050	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:186:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:1197 TEID:1251
+
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:78:6 NODE_KIND:113 nVARs:6 NUM_NODE:189 TBID:350 TEID:414
+000000027	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:110:6 NODE_KIND:113 nVARs:6 NUM_NODE:190 TBID:564 TEID:628
+000000028	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:129:6 NODE_KIND:113 nVARs:6 NUM_NODE:188 TBID:708 TEID:771
+000000029	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:179:6 NODE_KIND:113 nVARs:6 NUM_NODE:190 TBID:1058 TEID:1122
+
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:102:6 NODE_KIND:113 nVARs:8 NUM_NODE:165 TBID:513 TEID:573
+000000032	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:109:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:574 TEID:631
+000000033	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:116:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:632 TEID:689
+000000034	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:123:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:690 TEID:747
+000000035	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:130:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:748 TEID:805
+000000036	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:137:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:806 TEID:863
+000000037	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:144:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:864 TEID:921
+000000038	dist:3.2	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:151:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:922 TEID:976
+000000039	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:158:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:977 TEID:1031
+000000040	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:165:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:1032 TEID:1086
+
+000000032	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:109:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:574 TEID:631
+000000033	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:116:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:632 TEID:689
+000000034	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:123:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:690 TEID:747
+000000035	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:130:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:748 TEID:805
+000000036	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:137:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:806 TEID:863
+000000037	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:144:6 NODE_KIND:113 nVARs:8 NUM_NODE:162 TBID:864 TEID:921
+000000038	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:151:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:922 TEID:976
+000000039	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:158:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:977 TEID:1031
+000000040	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:165:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:1032 TEID:1086
+000000041	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:172:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:1087 TEID:1141
+000000042	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:179:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:1142 TEID:1196
+000000043	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/JsonPrimitiveTest.java LINE:186:6 NODE_KIND:113 nVARs:8 NUM_NODE:159 TBID:1197 TEID:1251
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java LINE:50:6 NODE_KIND:113 nVARs:11 NUM_NODE:151 TBID:181 TEID:231
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/JavaUtilConcurrentAtomicTest.java LINE:57:6 NODE_KIND:113 nVARs:11 NUM_NODE:151 TBID:232 TEID:282
+
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/ReadersWritersTest.java LINE:58:6 NODE_KIND:113 nVARs:12 NUM_NODE:141 TBID:215 TEID:265
+000000016	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/VersioningTest.java LINE:64:6 NODE_KIND:113 nVARs:13 NUM_NODE:145 TBID:243 TEID:296
+
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:363:6 NODE_KIND:113 nVARs:11 NUM_NODE:146 TBID:2224 TEID:2279
+000000021	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:389:6 NODE_KIND:113 nVARs:11 NUM_NODE:146 TBID:2385 TEID:2440
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:423:6 NODE_KIND:113 nVARs:11 NUM_NODE:146 TBID:2579 TEID:2634
+000000023	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:449:6 NODE_KIND:113 nVARs:11 NUM_NODE:146 TBID:2740 TEID:2795
+000000024	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:483:6 NODE_KIND:113 nVARs:11 NUM_NODE:146 TBID:2934 TEID:2989
+000000025	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/functional/PrimitiveTest.java LINE:509:6 NODE_KIND:113 nVARs:11 NUM_NODE:146 TBID:3095 TEID:3150
+
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:113:5 NODE_KIND:121 nVARs:10 NUM_NODE:162 TBID:764 TEID:813
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:110:5 NODE_KIND:121 nVARs:10 NUM_NODE:162 TBID:725 TEID:774
+
+000000058	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java LINE:31:5 NODE_KIND:113 nVARs:12 NUM_NODE:155 TBID:50 TEID:103
+000000059	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java LINE:37:5 NODE_KIND:113 nVARs:12 NUM_NODE:161 TBID:104 TEID:159
+000000060	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java LINE:43:5 NODE_KIND:113 nVARs:12 NUM_NODE:161 TBID:160 TEID:215
+
+000000028	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:113:5 NODE_KIND:121 nVARs:10 NUM_NODE:162 TBID:764 TEID:813
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:110:5 NODE_KIND:121 nVARs:10 NUM_NODE:162 TBID:725 TEID:774
+
+000000050	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java LINE:37:5 NODE_KIND:113 nVARs:12 NUM_NODE:161 TBID:104 TEID:159
+000000051	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/VersionExclusionStrategyTest.java LINE:43:5 NODE_KIND:113 nVARs:12 NUM_NODE:161 TBID:160 TEID:215
+
+000000032	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedHashTreeMapTest.java LINE:108:4 NODE_KIND:121 nVARs:11 NUM_NODE:189 TBID:705 TEID:763
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/gson-2.8.5/gson/src/test/java/com/google/gson/internal/LinkedTreeMapTest.java LINE:105:4 NODE_KIND:121 nVARs:11 NUM_NODE:189 TBID:666 TEID:724
+

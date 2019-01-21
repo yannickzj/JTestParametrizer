@@ -1,0 +1,997 @@
+000000002	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:24:271 NODE_KIND:182 nVARs:41 NUM_NODE:5206 TBID:32 TEID:1801
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:24:271 NODE_KIND:153 nVARs:41 NUM_NODE:5207 TBID:32 TEID:1801
+
+000000003	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:24:271 NODE_KIND:182 nVARs:41 NUM_NODE:5206 TBID:32 TEID:1801
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:24:271 NODE_KIND:153 nVARs:41 NUM_NODE:5207 TBID:32 TEID:1801
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:89:205 NODE_KIND:113 nVARs:19 NUM_NODE:4642 TBID:300 TEID:1800
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:89:205 NODE_KIND:113 nVARs:19 NUM_NODE:4642 TBID:300 TEID:1800
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:89:205 NODE_KIND:113 nVARs:19 NUM_NODE:4642 TBID:300 TEID:1800
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:89:205 NODE_KIND:113 nVARs:19 NUM_NODE:4642 TBID:300 TEID:1800
+
+000000007	dist:6.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/UnixLineEndingInputStreamTest.java LINE:26:63 NODE_KIND:153 nVARs:25 NUM_NODE:811 TBID:42 TEID:329
+000000004	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/WindowsLineEndingInputStreamTest.java LINE:26:52 NODE_KIND:182 nVARs:24 NUM_NODE:787 TBID:42 TEID:316
+
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/monitor/FileAlterationObserverTestCase.java LINE:157:59 NODE_KIND:113 nVARs:24 NUM_NODE:1595 TBID:941 TEID:1421
+000000004	dist:9.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/monitor/FileAlterationObserverTestCase.java LINE:280:60 NODE_KIND:113 nVARs:27 NUM_NODE:1610 TBID:1879 TEID:2371
+
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:689:57 NODE_KIND:113 nVARs:28 NUM_NODE:1112 TBID:5139 TEID:5505
+000000003	dist:4.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:747:57 NODE_KIND:113 nVARs:29 NUM_NODE:1112 TBID:5506 TEID:5872
+
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2672:53 NODE_KIND:113 nVARs:24 NUM_NODE:789 TBID:15970 TEID:16268
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2889:53 NODE_KIND:113 nVARs:24 NUM_NODE:789 TBID:17302 TEID:17600
+
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:122:51 NODE_KIND:113 nVARs:20 NUM_NODE:652 TBID:615 TEID:859
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:119:51 NODE_KIND:113 nVARs:20 NUM_NODE:652 TBID:570 TEID:814
+
+000000024	dist:4.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:91:50 NODE_KIND:113 nVARs:24 NUM_NODE:734 TBID:313 TEID:608
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:66:50 NODE_KIND:113 nVARs:23 NUM_NODE:724 TBID:247 TEID:534
+
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1058:48 NODE_KIND:113 nVARs:31 NUM_NODE:765 TBID:7567 TEID:7839
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1108:48 NODE_KIND:113 nVARs:31 NUM_NODE:765 TBID:7840 TEID:8112
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1058:48 NODE_KIND:113 nVARs:31 NUM_NODE:765 TBID:7567 TEID:7839
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1108:48 NODE_KIND:113 nVARs:31 NUM_NODE:765 TBID:7840 TEID:8112
+
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TaggedInputStreamTest.java LINE:72:48 NODE_KIND:113 nVARs:17 NUM_NODE:509 TBID:362 TEID:580
+000000022	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TaggedOutputStreamTest.java LINE:57:48 NODE_KIND:113 nVARs:17 NUM_NODE:520 TBID:247 TEID:466
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:64:43 NODE_KIND:113 nVARs:23 NUM_NODE:852 TBID:262 TEID:527
+000000001	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:61:43 NODE_KIND:113 nVARs:23 NUM_NODE:852 TBID:217 TEID:482
+
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:64:43 NODE_KIND:113 nVARs:23 NUM_NODE:852 TBID:262 TEID:527
+000000002	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:61:43 NODE_KIND:113 nVARs:23 NUM_NODE:852 TBID:217 TEID:482
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:609:37 NODE_KIND:113 nVARs:5 NUM_NODE:1300 TBID:6661 TEID:7029
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:656:36 NODE_KIND:113 nVARs:5 NUM_NODE:1300 TBID:7061 TEID:7429
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:699:36 NODE_KIND:113 nVARs:6 NUM_NODE:1300 TBID:7458 TEID:7826
+
+000000027	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1799:37 NODE_KIND:113 nVARs:30 NUM_NODE:706 TBID:10550 TEID:10790
+000000030	dist:7.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2943:33 NODE_KIND:113 nVARs:26 NUM_NODE:701 TBID:17601 TEID:17844
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1799:37 NODE_KIND:113 nVARs:30 NUM_NODE:706 TBID:10550 TEID:10790
+000000014	dist:7.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2943:33 NODE_KIND:113 nVARs:26 NUM_NODE:701 TBID:17601 TEID:17844
+
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:609:37 NODE_KIND:113 nVARs:5 NUM_NODE:1300 TBID:6661 TEID:7029
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:656:36 NODE_KIND:113 nVARs:5 NUM_NODE:1300 TBID:7061 TEID:7429
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:699:36 NODE_KIND:113 nVARs:6 NUM_NODE:1300 TBID:7458 TEID:7826
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:745:34 NODE_KIND:113 nVARs:5 NUM_NODE:1214 TBID:7858 TEID:8202
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:780:34 NODE_KIND:113 nVARs:5 NUM_NODE:1214 TBID:8203 TEID:8547
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:745:34 NODE_KIND:113 nVARs:5 NUM_NODE:1214 TBID:7858 TEID:8202
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:780:34 NODE_KIND:113 nVARs:5 NUM_NODE:1214 TBID:8203 TEID:8547
+
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/DeferredFileOutputStreamTest.java LINE:171:32 NODE_KIND:113 nVARs:25 NUM_NODE:364 TBID:591 TEID:747
+000000037	dist:4.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/DeferredFileOutputStreamTest.java LINE:207:32 NODE_KIND:113 nVARs:26 NUM_NODE:380 TBID:748 TEID:909
+
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:287:26 NODE_KIND:113 nVARs:24 NUM_NODE:316 TBID:1680 TEID:1806
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:314:24 NODE_KIND:113 nVARs:24 NUM_NODE:316 TBID:1807 TEID:1933
+000000013	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:339:25 NODE_KIND:113 nVARs:25 NUM_NODE:314 TBID:1934 TEID:2058
+000000017	dist:3.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:876:30 NODE_KIND:113 nVARs:24 NUM_NODE:306 TBID:5036 TEID:5154
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/CountingInputStreamTest.java LINE:75:29 NODE_KIND:113 nVARs:24 NUM_NODE:359 TBID:305 TEID:454
+000000032	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/CountingOutputStreamTest.java LINE:80:30 NODE_KIND:113 nVARs:24 NUM_NODE:359 TBID:386 TEID:535
+
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/CountingInputStreamTest.java LINE:75:29 NODE_KIND:113 nVARs:24 NUM_NODE:359 TBID:305 TEID:454
+000000037	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/CountingOutputStreamTest.java LINE:80:30 NODE_KIND:113 nVARs:24 NUM_NODE:359 TBID:386 TEID:535
+
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:489:29 NODE_KIND:113 nVARs:24 NUM_NODE:755 TBID:3294 TEID:3563
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:519:29 NODE_KIND:113 nVARs:24 NUM_NODE:755 TBID:3564 TEID:3833
+
+000000066	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/IOFileFilterAbstractTestCase.java LINE:95:29 NODE_KIND:182 nVARs:13 NUM_NODE:263 TBID:543 TEID:656
+000000067	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/IOFileFilterAbstractTestCase.java LINE:125:29 NODE_KIND:153 nVARs:13 NUM_NODE:265 TBID:657 TEID:771
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:489:29 NODE_KIND:113 nVARs:24 NUM_NODE:755 TBID:3294 TEID:3563
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:519:29 NODE_KIND:113 nVARs:24 NUM_NODE:755 TBID:3564 TEID:3833
+
+000000014	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/ExtensionFileComparatorTest.java LINE:30:29 NODE_KIND:182 nVARs:25 NUM_NODE:738 TBID:49 TEID:268
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/NameFileComparatorTest.java LINE:30:29 NODE_KIND:153 nVARs:24 NUM_NODE:739 TBID:49 TEID:268
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/PathFileComparatorTest.java LINE:30:29 NODE_KIND:153 nVARs:25 NUM_NODE:739 TBID:49 TEID:268
+
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:289:28 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:1286 TEID:1432
+000000005	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:391:26 NODE_KIND:113 nVARs:12 NUM_NODE:353 TBID:1787 TEID:1931
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:418:27 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:1932 TEID:2078
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:446:27 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:2079 TEID:2225
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:474:27 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:2226 TEID:2372
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:502:27 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:2373 TEID:2519
+
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:289:28 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:1286 TEID:1432
+000000006	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:391:26 NODE_KIND:113 nVARs:12 NUM_NODE:353 TBID:1787 TEID:1931
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:418:27 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:1932 TEID:2078
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:446:27 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:2079 TEID:2225
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:474:27 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:2226 TEID:2372
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:502:27 NODE_KIND:113 nVARs:12 NUM_NODE:359 TBID:2373 TEID:2519
+
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:287:26 NODE_KIND:113 nVARs:24 NUM_NODE:316 TBID:1680 TEID:1806
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:314:24 NODE_KIND:113 nVARs:24 NUM_NODE:316 TBID:1807 TEID:1933
+000000020	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:339:25 NODE_KIND:113 nVARs:25 NUM_NODE:314 TBID:1934 TEID:2058
+
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOCaseTestCase.java LINE:127:25 NODE_KIND:113 nVARs:11 NUM_NODE:574 TBID:773 TEID:987
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOCaseTestCase.java LINE:166:25 NODE_KIND:113 nVARs:11 NUM_NODE:574 TBID:1085 TEID:1299
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOCaseTestCase.java LINE:205:25 NODE_KIND:113 nVARs:11 NUM_NODE:574 TBID:1397 TEID:1611
+
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:365:25 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:2059 TEID:2187
+000000013	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:391:24 NODE_KIND:113 nVARs:15 NUM_NODE:404 TBID:2188 TEID:2317
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:416:24 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:2318 TEID:2446
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:441:24 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:2447 TEID:2575
+000000016	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:484:25 NODE_KIND:113 nVARs:15 NUM_NODE:400 TBID:2658 TEID:2783
+000000017	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:510:24 NODE_KIND:113 nVARs:15 NUM_NODE:401 TBID:2784 TEID:2910
+000000018	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:535:24 NODE_KIND:113 nVARs:15 NUM_NODE:400 TBID:2911 TEID:3036
+000000019	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:560:24 NODE_KIND:113 nVARs:15 NUM_NODE:400 TBID:3037 TEID:3162
+
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:365:25 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:2059 TEID:2187
+000000014	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:391:24 NODE_KIND:113 nVARs:15 NUM_NODE:404 TBID:2188 TEID:2317
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:416:24 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:2318 TEID:2446
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:441:24 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:2447 TEID:2575
+000000017	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:484:25 NODE_KIND:113 nVARs:15 NUM_NODE:400 TBID:2658 TEID:2783
+000000018	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:510:24 NODE_KIND:113 nVARs:15 NUM_NODE:401 TBID:2784 TEID:2910
+000000019	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:535:24 NODE_KIND:113 nVARs:15 NUM_NODE:400 TBID:2911 TEID:3036
+000000020	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:560:24 NODE_KIND:113 nVARs:15 NUM_NODE:400 TBID:3037 TEID:3162
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TaggedInputStreamTest.java LINE:121:24 NODE_KIND:113 nVARs:19 NUM_NODE:323 TBID:581 TEID:712
+000000035	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TaggedOutputStreamTest.java LINE:106:24 NODE_KIND:113 nVARs:19 NUM_NODE:323 TBID:467 TEID:598
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:56:23 NODE_KIND:121 nVARs:12 NUM_NODE:793 TBID:210 TEID:464
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:92:23 NODE_KIND:121 nVARs:12 NUM_NODE:793 TBID:566 TEID:820
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:127:23 NODE_KIND:121 nVARs:12 NUM_NODE:793 TBID:919 TEID:1173
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:56:23 NODE_KIND:121 nVARs:12 NUM_NODE:750 TBID:224 TEID:464
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:92:23 NODE_KIND:121 nVARs:12 NUM_NODE:750 TBID:580 TEID:820
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:127:23 NODE_KIND:121 nVARs:12 NUM_NODE:750 TBID:933 TEID:1173
+
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BrokenInputStreamTest.java LINE:44:23 NODE_KIND:113 nVARs:9 NUM_NODE:268 TBID:101 TEID:210
+000000056	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/BrokenOutputStreamTest.java LINE:43:23 NODE_KIND:113 nVARs:9 NUM_NODE:279 TBID:96 TEID:206
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:56:23 NODE_KIND:121 nVARs:12 NUM_NODE:750 TBID:224 TEID:464
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:92:23 NODE_KIND:121 nVARs:12 NUM_NODE:750 TBID:580 TEID:820
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:127:23 NODE_KIND:121 nVARs:12 NUM_NODE:750 TBID:933 TEID:1173
+
+000000046	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:738:23 NODE_KIND:113 nVARs:21 NUM_NODE:256 TBID:4519 TEID:4616
+000000059	dist:4.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:3001:15 NODE_KIND:113 nVARs:16 NUM_NODE:254 TBID:17973 TEID:18069
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:623:23 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:3384 TEID:3520
+000000023	dist:4.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:693:22 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:3855 TEID:3991
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:623:23 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:3384 TEID:3520
+000000023	dist:4.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:693:22 NODE_KIND:113 nVARs:15 NUM_NODE:403 TBID:3855 TEID:3991
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:441:23 NODE_KIND:113 nVARs:22 NUM_NODE:545 TBID:2896 TEID:3094
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:465:23 NODE_KIND:113 nVARs:22 NUM_NODE:545 TBID:3095 TEID:3293
+
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:56:23 NODE_KIND:121 nVARs:12 NUM_NODE:793 TBID:210 TEID:464
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:92:23 NODE_KIND:121 nVARs:12 NUM_NODE:793 TBID:566 TEID:820
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:127:23 NODE_KIND:121 nVARs:12 NUM_NODE:793 TBID:919 TEID:1173
+
+000000028	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsCleanSymlinksTestCase.java LINE:215:19 NODE_KIND:113 nVARs:17 NUM_NODE:394 TBID:1093 TEID:1216
+000000029	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsCleanSymlinksTestCase.java LINE:235:22 NODE_KIND:113 nVARs:18 NUM_NODE:399 TBID:1217 TEID:1345
+
+000000032	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:810:21 NODE_KIND:113 nVARs:14 NUM_NODE:279 TBID:4701 TEID:4809
+000000033	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:855:20 NODE_KIND:113 nVARs:14 NUM_NODE:279 TBID:4927 TEID:5035
+
+000000052	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:135:21 NODE_KIND:121 nVARs:16 NUM_NODE:263 TBID:698 TEID:794
+000000053	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:156:21 NODE_KIND:121 nVARs:16 NUM_NODE:263 TBID:804 TEID:900
+
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:135:21 NODE_KIND:121 nVARs:18 NUM_NODE:293 TBID:689 TEID:794
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:156:21 NODE_KIND:121 nVARs:18 NUM_NODE:293 TBID:795 TEID:900
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:368:21 NODE_KIND:121 nVARs:12 NUM_NODE:354 TBID:2079 TEID:2186
+000000022	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:394:20 NODE_KIND:121 nVARs:12 NUM_NODE:355 TBID:2208 TEID:2316
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:419:20 NODE_KIND:121 nVARs:12 NUM_NODE:354 TBID:2338 TEID:2445
+000000024	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:444:20 NODE_KIND:121 nVARs:12 NUM_NODE:354 TBID:2467 TEID:2574
+000000025	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:513:20 NODE_KIND:121 nVARs:12 NUM_NODE:352 TBID:2804 TEID:2909
+
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/CopyUtilsTest.java LINE:148:21 NODE_KIND:113 nVARs:28 NUM_NODE:349 TBID:771 TEID:884
+000000057	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:275:16 NODE_KIND:113 nVARs:27 NUM_NODE:356 TBID:1529 TEID:1649
+000000058	dist:4.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:409:16 NODE_KIND:113 nVARs:25 NUM_NODE:343 TBID:2348 TEID:2464
+000000060	dist:5.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:543:16 NODE_KIND:113 nVARs:26 NUM_NODE:348 TBID:3183 TEID:3303
+
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:368:21 NODE_KIND:121 nVARs:12 NUM_NODE:354 TBID:2079 TEID:2186
+000000027	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:394:20 NODE_KIND:121 nVARs:12 NUM_NODE:355 TBID:2208 TEID:2316
+000000028	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:419:20 NODE_KIND:121 nVARs:12 NUM_NODE:354 TBID:2338 TEID:2445
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:444:20 NODE_KIND:121 nVARs:12 NUM_NODE:354 TBID:2467 TEID:2574
+000000030	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:487:21 NODE_KIND:121 nVARs:12 NUM_NODE:351 TBID:2678 TEID:2782
+000000031	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:513:20 NODE_KIND:121 nVARs:12 NUM_NODE:352 TBID:2804 TEID:2909
+000000032	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:538:20 NODE_KIND:121 nVARs:12 NUM_NODE:351 TBID:2931 TEID:3035
+000000033	dist:2.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:563:20 NODE_KIND:121 nVARs:12 NUM_NODE:351 TBID:3057 TEID:3161
+
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:810:21 NODE_KIND:113 nVARs:14 NUM_NODE:279 TBID:4701 TEID:4809
+000000024	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:855:20 NODE_KIND:113 nVARs:14 NUM_NODE:279 TBID:4927 TEID:5035
+
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:135:21 NODE_KIND:121 nVARs:18 NUM_NODE:293 TBID:689 TEID:794
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:156:21 NODE_KIND:121 nVARs:18 NUM_NODE:293 TBID:795 TEID:900
+
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:174:20 NODE_KIND:113 nVARs:16 NUM_NODE:275 TBID:860 TEID:972
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:171:20 NODE_KIND:113 nVARs:16 NUM_NODE:275 TBID:815 TEID:927
+
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:218:20 NODE_KIND:182 nVARs:14 NUM_NODE:279 TBID:1122 TEID:1254
+000000024	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:215:20 NODE_KIND:182 nVARs:14 NUM_NODE:279 TBID:1077 TEID:1209
+
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:128:20 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:554 TEID:715
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:150:20 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:716 TEID:877
+000000027	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:172:20 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:878 TEID:1039
+000000028	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:194:20 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:1040 TEID:1201
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:216:19 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:1202 TEID:1363
+000000030	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:237:19 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:1364 TEID:1525
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:128:20 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:554 TEID:715
+000000032	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:150:20 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:716 TEID:877
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:172:20 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:878 TEID:1039
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:194:20 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:1040 TEID:1201
+000000035	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:216:19 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:1202 TEID:1363
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:237:19 NODE_KIND:121 nVARs:16 NUM_NODE:512 TBID:1364 TEID:1525
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:174:20 NODE_KIND:113 nVARs:16 NUM_NODE:275 TBID:860 TEID:972
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:171:20 NODE_KIND:113 nVARs:16 NUM_NODE:275 TBID:815 TEID:927
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:218:20 NODE_KIND:182 nVARs:14 NUM_NODE:279 TBID:1122 TEID:1254
+000000016	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:215:20 NODE_KIND:182 nVARs:14 NUM_NODE:279 TBID:1077 TEID:1209
+
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1459:20 NODE_KIND:113 nVARs:19 NUM_NODE:281 TBID:9794 TEID:9908
+000000042	dist:4.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1520:20 NODE_KIND:113 nVARs:20 NUM_NODE:299 TBID:10110 TEID:10231
+
+000000054	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/DeferredFileOutputStreamTest.java LINE:56:19 NODE_KIND:113 nVARs:18 NUM_NODE:266 TBID:137 TEID:240
+000000055	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/DeferredFileOutputStreamTest.java LINE:81:18 NODE_KIND:113 nVARs:18 NUM_NODE:260 TBID:241 TEID:342
+
+000000047	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1654:19 NODE_KIND:113 nVARs:17 NUM_NODE:244 TBID:9599 TEID:9689
+000000063	dist:4.1	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:54:12 NODE_KIND:113 nVARs:19 NUM_NODE:241 TBID:173 TEID:260
+
+000000045	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileCleaningTrackerTestCase.java LINE:106:19 NODE_KIND:113 nVARs:17 NUM_NODE:303 TBID:396 TEID:517
+000000046	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileCleaningTrackerTestCase.java LINE:126:19 NODE_KIND:113 nVARs:17 NUM_NODE:314 TBID:518 TEID:641
+
+000000049	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1654:19 NODE_KIND:113 nVARs:17 NUM_NODE:244 TBID:9599 TEID:9689
+000000064	dist:4.1	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:54:12 NODE_KIND:113 nVARs:19 NUM_NODE:241 TBID:173 TEID:260
+
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:195:19 NODE_KIND:113 nVARs:14 NUM_NODE:457 TBID:973 TEID:1121
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:192:19 NODE_KIND:113 nVARs:14 NUM_NODE:457 TBID:928 TEID:1076
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:195:19 NODE_KIND:113 nVARs:14 NUM_NODE:457 TBID:973 TEID:1121
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:192:19 NODE_KIND:113 nVARs:14 NUM_NODE:457 TBID:928 TEID:1076
+
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ClassLoaderObjectInputStreamTest.java LINE:37:17 NODE_KIND:113 nVARs:26 NUM_NODE:265 TBID:42 TEID:145
+000000021	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ClassLoaderObjectInputStreamTest.java LINE:55:17 NODE_KIND:113 nVARs:24 NUM_NODE:265 TBID:146 TEID:250
+000000022	dist:4.1	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ClassLoaderObjectInputStreamTest.java LINE:73:18 NODE_KIND:113 nVARs:23 NUM_NODE:268 TBID:251 TEID:358
+
+000000045	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1049:18 NODE_KIND:121 nVARs:16 NUM_NODE:236 TBID:5883 TEID:5983
+000000046	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1071:18 NODE_KIND:121 nVARs:16 NUM_NODE:236 TBID:6003 TEID:6103
+000000041	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:823:18 NODE_KIND:121 nVARs:16 NUM_NODE:236 TBID:5990 TEID:6090
+000000042	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:845:18 NODE_KIND:121 nVARs:16 NUM_NODE:236 TBID:6110 TEID:6210
+
+000000047	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1049:18 NODE_KIND:121 nVARs:14 NUM_NODE:202 TBID:5884 TEID:5968
+000000048	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1071:18 NODE_KIND:121 nVARs:14 NUM_NODE:202 TBID:6004 TEID:6088
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:823:18 NODE_KIND:121 nVARs:14 NUM_NODE:202 TBID:5991 TEID:6075
+000000041	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:845:18 NODE_KIND:121 nVARs:14 NUM_NODE:202 TBID:6111 TEID:6195
+
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/DeferredFileOutputStreamTest.java LINE:180:18 NODE_KIND:121 nVARs:14 NUM_NODE:161 TBID:640 TEID:716
+000000041	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/DeferredFileOutputStreamTest.java LINE:216:18 NODE_KIND:121 nVARs:14 NUM_NODE:161 TBID:797 TEID:873
+
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ProxyReaderTest.java LINE:34:18 NODE_KIND:113 nVARs:11 NUM_NODE:199 TBID:53 TEID:142
+000000059	dist:3.9	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:152:18 NODE_KIND:113 nVARs:10 NUM_NODE:194 TBID:738 TEID:831
+
+000000052	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:645:18 NODE_KIND:113 nVARs:23 NUM_NODE:389 TBID:3830 TEID:3954
+000000053	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:704:18 NODE_KIND:113 nVARs:23 NUM_NODE:390 TBID:4218 TEID:4344
+
+000000044	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/DeferredFileOutputStreamTest.java LINE:180:18 NODE_KIND:121 nVARs:14 NUM_NODE:161 TBID:640 TEID:716
+000000045	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/DeferredFileOutputStreamTest.java LINE:216:18 NODE_KIND:121 nVARs:14 NUM_NODE:161 TBID:797 TEID:873
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:197:17 NODE_KIND:113 nVARs:8 NUM_NODE:150 TBID:941 TEID:993
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:215:17 NODE_KIND:113 nVARs:8 NUM_NODE:150 TBID:994 TEID:1046
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:466:17 NODE_KIND:113 nVARs:14 NUM_NODE:216 TBID:2576 TEID:2657
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:585:17 NODE_KIND:113 nVARs:14 NUM_NODE:216 TBID:3163 TEID:3244
+
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DemuxTestCase.java LINE:104:17 NODE_KIND:113 nVARs:18 NUM_NODE:401 TBID:521 TEID:632
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DemuxTestCase.java LINE:122:17 NODE_KIND:113 nVARs:18 NUM_NODE:401 TBID:633 TEID:744
+
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/CopyUtilsTest.java LINE:104:16 NODE_KIND:113 nVARs:25 NUM_NODE:388 TBID:451 TEID:574
+000000007	dist:5.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/CopyUtilsTest.java LINE:121:17 NODE_KIND:113 nVARs:30 NUM_NODE:400 TBID:575 TEID:707
+
+000000024	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:724:17 NODE_KIND:113 nVARs:25 NUM_NODE:397 TBID:4056 TEID:4188
+000000025	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:742:16 NODE_KIND:113 nVARs:24 NUM_NODE:394 TBID:4189 TEID:4318
+000000026	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:759:16 NODE_KIND:113 nVARs:25 NUM_NODE:396 TBID:4319 TEID:4450
+
+000000035	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:109:17 NODE_KIND:121 nVARs:15 NUM_NODE:410 TBID:422 TEID:553
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:277:16 NODE_KIND:121 nVARs:15 NUM_NODE:410 TBID:1668 TEID:1799
+000000039	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:109:17 NODE_KIND:121 nVARs:15 NUM_NODE:410 TBID:422 TEID:553
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:277:16 NODE_KIND:121 nVARs:15 NUM_NODE:410 TBID:1668 TEID:1799
+
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DemuxTestCase.java LINE:104:17 NODE_KIND:113 nVARs:18 NUM_NODE:401 TBID:521 TEID:632
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DemuxTestCase.java LINE:122:17 NODE_KIND:113 nVARs:18 NUM_NODE:401 TBID:633 TEID:744
+
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:109:17 NODE_KIND:121 nVARs:15 NUM_NODE:410 TBID:422 TEID:553
+000000027	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:277:16 NODE_KIND:121 nVARs:15 NUM_NODE:410 TBID:1668 TEID:1799
+000000030	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:109:17 NODE_KIND:121 nVARs:15 NUM_NODE:410 TBID:422 TEID:553
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:277:16 NODE_KIND:121 nVARs:15 NUM_NODE:410 TBID:1668 TEID:1799
+
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/AndFileFilterTestCase.java LINE:258:17 NODE_KIND:121 nVARs:16 NUM_NODE:444 TBID:1526 TEID:1667
+000000024	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/OrFileFilterTestCase.java LINE:258:17 NODE_KIND:121 nVARs:16 NUM_NODE:444 TBID:1526 TEID:1667
+
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:197:17 NODE_KIND:113 nVARs:8 NUM_NODE:150 TBID:941 TEID:993
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:215:17 NODE_KIND:113 nVARs:8 NUM_NODE:150 TBID:994 TEID:1046
+
+000000048	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsCleanSymlinksTestCase.java LINE:181:16 NODE_KIND:113 nVARs:16 NUM_NODE:263 TBID:917 TEID:1005
+000000049	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsCleanSymlinksTestCase.java LINE:198:16 NODE_KIND:113 nVARs:16 NUM_NODE:261 TBID:1006 TEID:1092
+
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:252:16 NODE_KIND:113 nVARs:15 NUM_NODE:497 TBID:1456 TEID:1625
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:424:16 NODE_KIND:113 nVARs:15 NUM_NODE:497 TBID:2726 TEID:2895
+
+000000055	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:128:15 NODE_KIND:113 nVARs:23 NUM_NODE:340 TBID:605 TEID:718
+000000056	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:221:15 NODE_KIND:113 nVARs:22 NUM_NODE:339 TBID:1182 TEID:1294
+000000058	dist:5.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:409:16 NODE_KIND:113 nVARs:25 NUM_NODE:343 TBID:2348 TEID:2464
+000000059	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:489:15 NODE_KIND:113 nVARs:21 NUM_NODE:331 TBID:2834 TEID:2946
+
+000000061	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:616:16 NODE_KIND:113 nVARs:23 NUM_NODE:334 TBID:3640 TEID:3759
+000000062	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:676:16 NODE_KIND:113 nVARs:23 NUM_NODE:345 TBID:4027 TEID:4148
+
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:873:16 NODE_KIND:113 nVARs:5 NUM_NODE:569 TBID:8865 TEID:9029
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:890:16 NODE_KIND:113 nVARs:5 NUM_NODE:569 TBID:9030 TEID:9194
+
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:57:16 NODE_KIND:113 nVARs:12 NUM_NODE:427 TBID:221 TEID:346
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:74:15 NODE_KIND:113 nVARs:12 NUM_NODE:427 TBID:347 TEID:472
+
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:57:16 NODE_KIND:113 nVARs:12 NUM_NODE:427 TBID:221 TEID:346
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:74:15 NODE_KIND:113 nVARs:12 NUM_NODE:427 TBID:347 TEID:472
+
+000000071	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:461:10 NODE_KIND:113 nVARs:5 NUM_NODE:268 TBID:2733 TEID:2813
+000000072	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:472:9 NODE_KIND:113 nVARs:5 NUM_NODE:268 TBID:2814 TEID:2894
+000000042	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:505:9 NODE_KIND:113 nVARs:5 NUM_NODE:268 TBID:5741 TEID:5821
+000000043	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:515:9 NODE_KIND:113 nVARs:5 NUM_NODE:268 TBID:5822 TEID:5902
+000000044	dist:4.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:534:8 NODE_KIND:121 nVARs:3 NUM_NODE:260 TBID:5990 TEID:6063
+000000045	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:818:15 NODE_KIND:113 nVARs:5 NUM_NODE:268 TBID:8548 TEID:8628
+000000046	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:834:9 NODE_KIND:113 nVARs:5 NUM_NODE:268 TBID:8629 TEID:8709
+
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:216:15 NODE_KIND:113 nVARs:18 NUM_NODE:204 TBID:1049 TEID:1139
+000000035	dist:3.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:264:15 NODE_KIND:113 nVARs:17 NUM_NODE:210 TBID:1311 TEID:1407
+000000036	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:296:15 NODE_KIND:113 nVARs:17 NUM_NODE:203 TBID:1489 TEID:1579
+
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:161:7 NODE_KIND:113 nVARs:11 NUM_NODE:175 TBID:772 TEID:830
+000000077	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1277:15 NODE_KIND:113 nVARs:14 NUM_NODE:175 TBID:7070 TEID:7129
+
+000000059	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:138:15 NODE_KIND:121 nVARs:14 NUM_NODE:183 TBID:709 TEID:775
+000000060	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:159:15 NODE_KIND:121 nVARs:14 NUM_NODE:183 TBID:815 TEID:881
+
+000000065	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:184:15 NODE_KIND:113 nVARs:15 NUM_NODE:174 TBID:887 TEID:967
+000000066	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:200:15 NODE_KIND:113 nVARs:16 NUM_NODE:176 TBID:968 TEID:1048
+000000067	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:232:15 NODE_KIND:113 nVARs:14 NUM_NODE:177 TBID:1140 TEID:1223
+000000068	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:248:15 NODE_KIND:113 nVARs:15 NUM_NODE:182 TBID:1224 TEID:1310
+000000069	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:280:15 NODE_KIND:113 nVARs:15 NUM_NODE:175 TBID:1408 TEID:1488
+
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2107:14 NODE_KIND:113 nVARs:22 NUM_NODE:314 TBID:12720 TEID:12819
+000000034	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2122:15 NODE_KIND:113 nVARs:22 NUM_NODE:309 TBID:12820 TEID:12919
+000000035	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2138:14 NODE_KIND:113 nVARs:22 NUM_NODE:303 TBID:12920 TEID:13017
+000000036	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2154:15 NODE_KIND:113 nVARs:22 NUM_NODE:309 TBID:13018 TEID:13117
+000000037	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2170:14 NODE_KIND:113 nVARs:22 NUM_NODE:303 TBID:13118 TEID:13215
+
+000000034	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2122:15 NODE_KIND:113 nVARs:22 NUM_NODE:309 TBID:12820 TEID:12919
+000000035	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2138:14 NODE_KIND:113 nVARs:22 NUM_NODE:303 TBID:12920 TEID:13017
+000000036	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2154:15 NODE_KIND:113 nVARs:22 NUM_NODE:309 TBID:13018 TEID:13117
+000000037	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2170:14 NODE_KIND:113 nVARs:22 NUM_NODE:303 TBID:13118 TEID:13215
+000000038	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2185:15 NODE_KIND:113 nVARs:22 NUM_NODE:298 TBID:13216 TEID:13313
+000000039	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2201:14 NODE_KIND:113 nVARs:22 NUM_NODE:292 TBID:13314 TEID:13409
+
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:307:15 NODE_KIND:113 nVARs:15 NUM_NODE:252 TBID:1967 TEID:2069
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:323:15 NODE_KIND:113 nVARs:15 NUM_NODE:252 TBID:2070 TEID:2172
+000000022	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:339:14 NODE_KIND:113 nVARs:15 NUM_NODE:244 TBID:2173 TEID:2269
+000000023	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:354:14 NODE_KIND:113 nVARs:15 NUM_NODE:244 TBID:2270 TEID:2366
+
+000000046	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:168:15 NODE_KIND:113 nVARs:15 NUM_NODE:193 TBID:788 TEID:874
+000000047	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:202:15 NODE_KIND:113 nVARs:16 NUM_NODE:194 TBID:960 TEID:1047
+000000048	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:219:15 NODE_KIND:113 nVARs:16 NUM_NODE:194 TBID:1048 TEID:1135
+
+000000049	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:138:15 NODE_KIND:121 nVARs:14 NUM_NODE:183 TBID:709 TEID:775
+000000050	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:159:15 NODE_KIND:121 nVARs:14 NUM_NODE:183 TBID:815 TEID:881
+
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/CopyUtilsTest.java LINE:210:14 NODE_KIND:113 nVARs:26 NUM_NODE:327 TBID:1124 TEID:1233
+000000055	dist:4.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:167:14 NODE_KIND:113 nVARs:24 NUM_NODE:322 TBID:843 TEID:952
+000000057	dist:4.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:259:14 NODE_KIND:113 nVARs:23 NUM_NODE:321 TBID:1420 TEID:1528
+000000059	dist:5.1	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:489:15 NODE_KIND:113 nVARs:21 NUM_NODE:331 TBID:2834 TEID:2946
+
+000000047	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2091:15 NODE_KIND:113 nVARs:22 NUM_NODE:320 TBID:12618 TEID:12719
+000000048	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2107:14 NODE_KIND:113 nVARs:22 NUM_NODE:314 TBID:12720 TEID:12819
+
+000000054	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:128:15 NODE_KIND:113 nVARs:23 NUM_NODE:340 TBID:605 TEID:718
+000000056	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:221:15 NODE_KIND:113 nVARs:22 NUM_NODE:339 TBID:1182 TEID:1294
+000000058	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:355:15 NODE_KIND:113 nVARs:20 NUM_NODE:326 TBID:2013 TEID:2121
+000000059	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:489:15 NODE_KIND:113 nVARs:21 NUM_NODE:331 TBID:2834 TEID:2946
+
+000000050	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2185:15 NODE_KIND:113 nVARs:22 NUM_NODE:298 TBID:13216 TEID:13313
+000000051	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2201:14 NODE_KIND:113 nVARs:22 NUM_NODE:292 TBID:13314 TEID:13409
+
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2059:15 NODE_KIND:113 nVARs:24 NUM_NODE:428 TBID:12346 TEID:12482
+000000035	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2075:15 NODE_KIND:113 nVARs:24 NUM_NODE:417 TBID:12483 TEID:12617
+
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:161:7 NODE_KIND:113 nVARs:11 NUM_NODE:175 TBID:772 TEID:830
+000000060	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1195:15 NODE_KIND:113 nVARs:14 NUM_NODE:164 TBID:6629 TEID:6686
+000000061	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1247:15 NODE_KIND:113 nVARs:14 NUM_NODE:164 TBID:6953 TEID:7010
+000000062	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1277:15 NODE_KIND:113 nVARs:14 NUM_NODE:175 TBID:7070 TEID:7129
+
+000000051	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:184:15 NODE_KIND:113 nVARs:15 NUM_NODE:174 TBID:887 TEID:967
+000000052	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:280:15 NODE_KIND:113 nVARs:15 NUM_NODE:175 TBID:1408 TEID:1488
+000000053	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:312:15 NODE_KIND:113 nVARs:13 NUM_NODE:160 TBID:1580 TEID:1657
+
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:339:14 NODE_KIND:113 nVARs:15 NUM_NODE:244 TBID:2173 TEID:2269
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:354:14 NODE_KIND:113 nVARs:15 NUM_NODE:244 TBID:2270 TEID:2366
+
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:88:14 NODE_KIND:113 nVARs:9 NUM_NODE:173 TBID:399 TEID:476
+000000009	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:103:14 NODE_KIND:113 nVARs:9 NUM_NODE:175 TBID:477 TEID:556
+000000010	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:118:14 NODE_KIND:113 nVARs:9 NUM_NODE:173 TBID:557 TEID:634
+
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:90:14 NODE_KIND:113 nVARs:11 NUM_NODE:171 TBID:473 TEID:561
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:143:14 NODE_KIND:113 nVARs:11 NUM_NODE:171 TBID:788 TEID:876
+
+000000046	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1028:14 NODE_KIND:113 nVARs:16 NUM_NODE:180 TBID:5869 TEID:5941
+000000049	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1153:13 NODE_KIND:113 nVARs:16 NUM_NODE:180 TBID:6611 TEID:6683
+
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:199:14 NODE_KIND:113 nVARs:13 NUM_NODE:148 TBID:1032 TEID:1098
+000000037	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:215:14 NODE_KIND:113 nVARs:15 NUM_NODE:150 TBID:1099 TEID:1167
+
+000000038	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:231:14 NODE_KIND:113 nVARs:16 NUM_NODE:163 TBID:1168 TEID:1239
+000000039	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:247:14 NODE_KIND:113 nVARs:16 NUM_NODE:163 TBID:1240 TEID:1311
+
+000000049	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:229:14 NODE_KIND:113 nVARs:16 NUM_NODE:155 TBID:1131 TEID:1200
+000000050	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:306:14 NODE_KIND:113 nVARs:16 NUM_NODE:155 TBID:1497 TEID:1566
+
+000000030	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1758:14 NODE_KIND:121 nVARs:17 NUM_NODE:293 TBID:10262 TEID:10362
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1846:14 NODE_KIND:121 nVARs:17 NUM_NODE:293 TBID:10867 TEID:10967
+
+000000047	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:89:14 NODE_KIND:113 nVARs:23 NUM_NODE:299 TBID:372 TEID:476
+000000048	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:183:14 NODE_KIND:113 nVARs:23 NUM_NODE:298 TBID:953 TEID:1056
+000000049	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:393:14 NODE_KIND:113 nVARs:21 NUM_NODE:308 TBID:2243 TEID:2347
+000000050	dist:4.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:527:14 NODE_KIND:113 nVARs:22 NUM_NODE:313 TBID:3074 TEID:3182
+
+000000050	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1758:14 NODE_KIND:121 nVARs:16 NUM_NODE:246 TBID:10278 TEID:10362
+000000052	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1846:14 NODE_KIND:121 nVARs:16 NUM_NODE:246 TBID:10883 TEID:10967
+
+000000001	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCase.java LINE:420:12 NODE_KIND:182 nVARs:12 NUM_NODE:98 TBID:357 TEID:410
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:411:14 NODE_KIND:182 nVARs:12 NUM_NODE:93 TBID:2309 TEID:2359
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:976:14 NODE_KIND:113 nVARs:13 NUM_NODE:127 TBID:5586 TEID:5647
+000000022	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:991:14 NODE_KIND:113 nVARs:14 NUM_NODE:128 TBID:5648 TEID:5710
+
+000000055	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:167:14 NODE_KIND:113 nVARs:24 NUM_NODE:322 TBID:843 TEID:952
+000000057	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:259:14 NODE_KIND:113 nVARs:23 NUM_NODE:321 TBID:1420 TEID:1528
+000000060	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:527:14 NODE_KIND:113 nVARs:22 NUM_NODE:313 TBID:3074 TEID:3182
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/CopyUtilsTest.java LINE:82:12 NODE_KIND:113 nVARs:24 NUM_NODE:283 TBID:294 TEID:391
+000000060	dist:4.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:89:14 NODE_KIND:113 nVARs:23 NUM_NODE:299 TBID:372 TEID:476
+000000061	dist:4.1	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:183:14 NODE_KIND:113 nVARs:23 NUM_NODE:298 TBID:953 TEID:1056
+000000062	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:317:14 NODE_KIND:113 nVARs:21 NUM_NODE:285 TBID:1792 TEID:1891
+000000063	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:451:14 NODE_KIND:113 nVARs:22 NUM_NODE:290 TBID:2603 TEID:2706
+
+000000046	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1758:14 NODE_KIND:121 nVARs:17 NUM_NODE:293 TBID:10262 TEID:10362
+000000048	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1846:14 NODE_KIND:121 nVARs:17 NUM_NODE:293 TBID:10867 TEID:10967
+
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/ExtensionFileComparatorTest.java LINE:44:14 NODE_KIND:113 nVARs:14 NUM_NODE:546 TBID:113 TEID:267
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/NameFileComparatorTest.java LINE:44:14 NODE_KIND:113 nVARs:14 NUM_NODE:546 TBID:113 TEID:267
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/PathFileComparatorTest.java LINE:44:14 NODE_KIND:113 nVARs:14 NUM_NODE:546 TBID:113 TEID:267
+
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/ExtensionFileComparatorTest.java LINE:44:14 NODE_KIND:113 nVARs:14 NUM_NODE:546 TBID:113 TEID:267
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/NameFileComparatorTest.java LINE:44:14 NODE_KIND:113 nVARs:14 NUM_NODE:546 TBID:113 TEID:267
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/PathFileComparatorTest.java LINE:44:14 NODE_KIND:113 nVARs:14 NUM_NODE:546 TBID:113 TEID:267
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:88:14 NODE_KIND:113 nVARs:9 NUM_NODE:173 TBID:399 TEID:476
+000000011	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:103:14 NODE_KIND:113 nVARs:9 NUM_NODE:175 TBID:477 TEID:556
+000000012	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:118:14 NODE_KIND:113 nVARs:9 NUM_NODE:173 TBID:557 TEID:634
+
+000000030	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:90:14 NODE_KIND:113 nVARs:11 NUM_NODE:171 TBID:473 TEID:561
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:143:14 NODE_KIND:113 nVARs:11 NUM_NODE:171 TBID:788 TEID:876
+
+000000042	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:231:14 NODE_KIND:113 nVARs:16 NUM_NODE:163 TBID:1168 TEID:1239
+000000043	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:247:14 NODE_KIND:113 nVARs:16 NUM_NODE:163 TBID:1240 TEID:1311
+
+000000068	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2417:13 NODE_KIND:113 nVARs:14 NUM_NODE:166 TBID:14600 TEID:14665
+000000069	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/LineIteratorTestCase.java LINE:151:14 NODE_KIND:113 nVARs:14 NUM_NODE:169 TBID:571 TEID:637
+
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/XmlStreamReaderUtilitiesTest.java LINE:174:14 NODE_KIND:113 nVARs:6 NUM_NODE:613 TBID:978 TEID:1118
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/XmlStreamReaderUtilitiesTest.java LINE:189:14 NODE_KIND:113 nVARs:6 NUM_NODE:613 TBID:1119 TEID:1259
+
+000000039	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:199:14 NODE_KIND:113 nVARs:13 NUM_NODE:148 TBID:1032 TEID:1098
+000000040	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/FileWriterWithEncodingTest.java LINE:215:14 NODE_KIND:113 nVARs:15 NUM_NODE:150 TBID:1099 TEID:1167
+
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:907:13 NODE_KIND:113 nVARs:20 NUM_NODE:264 TBID:5155 TEID:5249
+000000035	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:921:13 NODE_KIND:113 nVARs:20 NUM_NODE:275 TBID:5250 TEID:5346
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:108:13 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:528 TEID:614
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:105:13 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:483 TEID:569
+
+000000028	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:935:12 NODE_KIND:113 nVARs:17 NUM_NODE:228 TBID:5347 TEID:5430
+000000029	dist:4.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1066:13 NODE_KIND:113 nVARs:18 NUM_NODE:242 TBID:6097 TEID:6185
+000000030	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1080:12 NODE_KIND:113 nVARs:17 NUM_NODE:239 TBID:6186 TEID:6271
+
+000000064	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:104:13 NODE_KIND:113 nVARs:17 NUM_NODE:243 TBID:477 TEID:566
+000000065	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:560:13 NODE_KIND:113 nVARs:17 NUM_NODE:243 TBID:3304 TEID:3393
+
+000000028	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1066:13 NODE_KIND:113 nVARs:18 NUM_NODE:242 TBID:6097 TEID:6185
+000000029	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1080:12 NODE_KIND:113 nVARs:17 NUM_NODE:239 TBID:6186 TEID:6271
+
+000000065	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:104:13 NODE_KIND:113 nVARs:17 NUM_NODE:243 TBID:477 TEID:566
+000000066	dist:3.9	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:144:13 NODE_KIND:113 nVARs:17 NUM_NODE:248 TBID:719 TEID:805
+000000067	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:292:13 NODE_KIND:113 nVARs:18 NUM_NODE:249 TBID:1650 TEID:1737
+000000068	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:426:13 NODE_KIND:113 nVARs:18 NUM_NODE:249 TBID:2465 TEID:2552
+000000069	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:560:13 NODE_KIND:113 nVARs:17 NUM_NODE:243 TBID:3304 TEID:3393
+000000070	dist:3.9	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:745:13 NODE_KIND:113 nVARs:17 NUM_NODE:248 TBID:4484 TEID:4570
+
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:108:13 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:528 TEID:614
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:105:13 NODE_KIND:113 nVARs:13 NUM_NODE:225 TBID:483 TEID:569
+
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1423:13 NODE_KIND:113 nVARs:22 NUM_NODE:315 TBID:9600 TEID:9703
+000000041	dist:4.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1484:13 NODE_KIND:113 nVARs:23 NUM_NODE:333 TBID:9909 TEID:10019
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:238:13 NODE_KIND:113 nVARs:15 NUM_NODE:390 TBID:1321 TEID:1455
+000000010	dist:4.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:586:13 NODE_KIND:113 nVARs:16 NUM_NODE:376 TBID:4157 TEID:4287
+
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:469:13 NODE_KIND:121 nVARs:11 NUM_NODE:167 TBID:2596 TEID:2656
+000000037	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:588:13 NODE_KIND:121 nVARs:11 NUM_NODE:167 TBID:3183 TEID:3243
+
+000000063	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1441:12 NODE_KIND:113 nVARs:19 NUM_NODE:274 TBID:9704 TEID:9793
+000000064	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1502:12 NODE_KIND:113 nVARs:19 NUM_NODE:274 TBID:10020 TEID:10109
+
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/CountingInputStreamTest.java LINE:134:12 NODE_KIND:113 nVARs:13 NUM_NODE:232 TBID:649 TEID:731
+000000007	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/CountingInputStreamTest.java LINE:177:12 NODE_KIND:113 nVARs:13 NUM_NODE:231 TBID:940 TEID:1021
+
+000000051	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1937:11 NODE_KIND:113 nVARs:17 NUM_NODE:231 TBID:11441 TEID:11521
+000000057	dist:4.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2316:12 NODE_KIND:113 nVARs:17 NUM_NODE:227 TBID:13998 TEID:14073
+
+000000053	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2216:12 NODE_KIND:113 nVARs:15 NUM_NODE:245 TBID:13410 TEID:13486
+000000054	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2229:11 NODE_KIND:113 nVARs:15 NUM_NODE:239 TBID:13487 TEID:13561
+000000055	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2266:12 NODE_KIND:113 nVARs:16 NUM_NODE:245 TBID:13704 TEID:13780
+000000056	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2279:11 NODE_KIND:113 nVARs:16 NUM_NODE:239 TBID:13781 TEID:13855
+
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TaggedInputStreamTest.java LINE:79:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:394 TEID:455
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TaggedInputStreamTest.java LINE:93:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:456 TEID:517
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TaggedInputStreamTest.java LINE:107:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:518 TEID:579
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TaggedOutputStreamTest.java LINE:78:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:342 TEID:403
+000000032	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TaggedOutputStreamTest.java LINE:92:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:404 TEID:465
+
+000000072	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TeeOutputStreamTest.java LINE:56:12 NODE_KIND:113 nVARs:17 NUM_NODE:172 TBID:110 TEID:189
+000000073	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TeeOutputStreamTest.java LINE:73:12 NODE_KIND:113 nVARs:17 NUM_NODE:172 TBID:190 TEID:269
+
+000000043	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:36:12 NODE_KIND:113 nVARs:13 NUM_NODE:160 TBID:70 TEID:141
+000000045	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:68:12 NODE_KIND:113 nVARs:13 NUM_NODE:160 TBID:260 TEID:331
+000000046	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:107:12 NODE_KIND:113 nVARs:13 NUM_NODE:160 TBID:490 TEID:561
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:112:12 NODE_KIND:113 nVARs:9 NUM_NODE:314 TBID:467 TEID:565
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:128:12 NODE_KIND:113 nVARs:9 NUM_NODE:314 TBID:566 TEID:664
+
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:728:12 NODE_KIND:121 nVARs:17 NUM_NODE:303 TBID:4091 TEID:4187
+000000015	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:745:12 NODE_KIND:121 nVARs:17 NUM_NODE:314 TBID:4219 TEID:4317
+000000016	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:762:12 NODE_KIND:121 nVARs:18 NUM_NODE:316 TBID:4349 TEID:4449
+
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2341:12 NODE_KIND:113 nVARs:20 NUM_NODE:299 TBID:14148 TEID:14242
+000000041	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2354:12 NODE_KIND:113 nVARs:20 NUM_NODE:293 TBID:14243 TEID:14335
+
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/CountingInputStreamTest.java LINE:147:12 NODE_KIND:113 nVARs:13 NUM_NODE:254 TBID:732 TEID:818
+000000013	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/CountingInputStreamTest.java LINE:190:12 NODE_KIND:113 nVARs:13 NUM_NODE:253 TBID:1022 TEID:1107
+
+000000054	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2216:12 NODE_KIND:113 nVARs:15 NUM_NODE:245 TBID:13410 TEID:13486
+000000055	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2229:11 NODE_KIND:113 nVARs:15 NUM_NODE:239 TBID:13487 TEID:13561
+000000056	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2266:12 NODE_KIND:113 nVARs:16 NUM_NODE:245 TBID:13704 TEID:13780
+000000057	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2279:11 NODE_KIND:113 nVARs:16 NUM_NODE:239 TBID:13781 TEID:13855
+
+000000037	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:478:9 NODE_KIND:113 nVARs:13 NUM_NODE:120 TBID:2780 TEID:2833
+000000038	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:517:9 NODE_KIND:113 nVARs:13 NUM_NODE:120 TBID:3020 TEID:3073
+000000039	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:574:9 NODE_KIND:113 nVARs:13 NUM_NODE:120 TBID:3394 TEID:3447
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ProxyReaderTest.java LINE:53:12 NODE_KIND:113 nVARs:12 NUM_NODE:131 TBID:143 TEID:201
+
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:909:10 NODE_KIND:121 nVARs:16 NUM_NODE:218 TBID:5175 TEID:5248
+000000026	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:923:10 NODE_KIND:121 nVARs:16 NUM_NODE:229 TBID:5270 TEID:5345
+000000027	dist:4.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:935:12 NODE_KIND:113 nVARs:17 NUM_NODE:228 TBID:5347 TEID:5430
+
+000000048	dist:4.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:216:12 NODE_KIND:113 nVARs:17 NUM_NODE:212 TBID:1053 TEID:1130
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1167:12 NODE_KIND:113 nVARs:17 NUM_NODE:212 TBID:6684 TEID:6763
+
+000000030	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1276:12 NODE_KIND:113 nVARs:13 NUM_NODE:228 TBID:7286 TEID:7364
+000000031	dist:4.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1299:10 NODE_KIND:113 nVARs:14 NUM_NODE:218 TBID:7427 TEID:7504
+
+000000054	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2241:12 NODE_KIND:113 nVARs:15 NUM_NODE:222 TBID:13562 TEID:13633
+000000055	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2254:11 NODE_KIND:113 nVARs:15 NUM_NODE:216 TBID:13634 TEID:13703
+000000056	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2291:12 NODE_KIND:113 nVARs:16 NUM_NODE:222 TBID:13856 TEID:13927
+000000057	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2304:11 NODE_KIND:113 nVARs:16 NUM_NODE:216 TBID:13928 TEID:13997
+000000058	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2316:12 NODE_KIND:113 nVARs:17 NUM_NODE:227 TBID:13998 TEID:14073
+000000059	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2329:11 NODE_KIND:113 nVARs:17 NUM_NODE:221 TBID:14074 TEID:14147
+
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:112:12 NODE_KIND:113 nVARs:9 NUM_NODE:314 TBID:467 TEID:565
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:128:12 NODE_KIND:113 nVARs:9 NUM_NODE:314 TBID:566 TEID:664
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:745:12 NODE_KIND:121 nVARs:17 NUM_NODE:314 TBID:4219 TEID:4317
+000000022	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:762:12 NODE_KIND:121 nVARs:18 NUM_NODE:316 TBID:4349 TEID:4449
+
+000000053	dist:5.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2354:12 NODE_KIND:113 nVARs:20 NUM_NODE:293 TBID:14243 TEID:14335
+000000038	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1360:12 NODE_KIND:113 nVARs:16 NUM_NODE:280 TBID:9278 TEID:9365
+
+000000039	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1441:12 NODE_KIND:113 nVARs:19 NUM_NODE:274 TBID:9704 TEID:9793
+000000041	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:1502:12 NODE_KIND:113 nVARs:19 NUM_NODE:274 TBID:10020 TEID:10109
+
+000000052	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2341:12 NODE_KIND:113 nVARs:20 NUM_NODE:299 TBID:14148 TEID:14242
+000000053	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2354:12 NODE_KIND:113 nVARs:20 NUM_NODE:293 TBID:14243 TEID:14335
+
+000000048	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:36:12 NODE_KIND:113 nVARs:13 NUM_NODE:160 TBID:70 TEID:141
+000000049	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:68:12 NODE_KIND:113 nVARs:13 NUM_NODE:160 TBID:260 TEID:331
+000000050	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/ProxyWriterTest.java LINE:107:12 NODE_KIND:113 nVARs:13 NUM_NODE:160 TBID:490 TEID:561
+
+000000055	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TeeOutputStreamTest.java LINE:56:12 NODE_KIND:113 nVARs:17 NUM_NODE:172 TBID:110 TEID:189
+000000056	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TeeOutputStreamTest.java LINE:73:12 NODE_KIND:113 nVARs:17 NUM_NODE:172 TBID:190 TEID:269
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TaggedInputStreamTest.java LINE:79:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:394 TEID:455
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TaggedInputStreamTest.java LINE:93:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:456 TEID:517
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TaggedInputStreamTest.java LINE:107:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:518 TEID:579
+000000041	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TaggedOutputStreamTest.java LINE:64:12 NODE_KIND:121 nVARs:11 NUM_NODE:151 TBID:279 TEID:341
+000000042	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TaggedOutputStreamTest.java LINE:78:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:342 TEID:403
+000000043	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TaggedOutputStreamTest.java LINE:92:12 NODE_KIND:121 nVARs:11 NUM_NODE:140 TBID:404 TEID:465
+
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:289:11 NODE_KIND:113 nVARs:6 NUM_NODE:229 TBID:2875 TEID:2941
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:452:11 NODE_KIND:113 nVARs:6 NUM_NODE:229 TBID:5141 TEID:5207
+
+000000085	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:67:11 NODE_KIND:113 nVARs:13 NUM_NODE:185 TBID:261 TEID:333
+000000086	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:466:11 NODE_KIND:113 nVARs:13 NUM_NODE:185 TBID:2707 TEID:2779
+000000087	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:505:11 NODE_KIND:113 nVARs:13 NUM_NODE:185 TBID:2947 TEID:3019
+
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOCaseTestCase.java LINE:153:11 NODE_KIND:113 nVARs:12 NUM_NODE:300 TBID:988 TEID:1084
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOCaseTestCase.java LINE:192:11 NODE_KIND:113 nVARs:12 NUM_NODE:300 TBID:1300 TEID:1396
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOCaseTestCase.java LINE:231:11 NODE_KIND:113 nVARs:12 NUM_NODE:300 TBID:1612 TEID:1708
+
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:281:10 NODE_KIND:121 nVARs:14 NUM_NODE:246 TBID:1595 TEID:1686
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:293:10 NODE_KIND:121 nVARs:14 NUM_NODE:246 TBID:1687 TEID:1778
+000000006	dist:4.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:335:11 NODE_KIND:121 nVARs:15 NUM_NODE:262 TBID:1972 TEID:2067
+
+000000075	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:67:11 NODE_KIND:113 nVARs:13 NUM_NODE:185 TBID:261 TEID:333
+000000076	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:198:11 NODE_KIND:113 nVARs:14 NUM_NODE:191 TBID:1057 TEID:1127
+000000077	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:237:11 NODE_KIND:113 nVARs:14 NUM_NODE:191 TBID:1295 TEID:1365
+000000078	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:332:11 NODE_KIND:113 nVARs:14 NUM_NODE:191 TBID:1892 TEID:1962
+000000079	dist:3.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:371:11 NODE_KIND:113 nVARs:14 NUM_NODE:191 TBID:2122 TEID:2192
+000000080	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:466:11 NODE_KIND:113 nVARs:13 NUM_NODE:185 TBID:2707 TEID:2779
+000000081	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:505:11 NODE_KIND:113 nVARs:13 NUM_NODE:185 TBID:2947 TEID:3019
+000000082	dist:3.9	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:604:11 NODE_KIND:113 nVARs:13 NUM_NODE:190 TBID:3570 TEID:3639
+
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:289:11 NODE_KIND:113 nVARs:6 NUM_NODE:229 TBID:2875 TEID:2941
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:452:11 NODE_KIND:113 nVARs:6 NUM_NODE:229 TBID:5141 TEID:5207
+
+000000065	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/LineIteratorTestCase.java LINE:213:10 NODE_KIND:113 nVARs:16 NUM_NODE:213 TBID:877 TEID:943
+000000066	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/LineIteratorTestCase.java LINE:224:10 NODE_KIND:113 nVARs:16 NUM_NODE:213 TBID:944 TEID:1010
+000000067	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/LineIteratorTestCase.java LINE:369:11 NODE_KIND:113 nVARs:16 NUM_NODE:222 TBID:1639 TEID:1710
+
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:931:11 NODE_KIND:113 nVARs:6 NUM_NODE:354 TBID:9383 TEID:9487
+000000030	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:943:11 NODE_KIND:113 nVARs:8 NUM_NODE:365 TBID:9488 TEID:9594
+
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/ThreadMonitorTestCase.java LINE:33:11 NODE_KIND:113 nVARs:12 NUM_NODE:111 TBID:53 TEID:102
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/ThreadMonitorTestCase.java LINE:48:10 NODE_KIND:113 nVARs:12 NUM_NODE:111 TBID:103 TEID:152
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/ThreadMonitorTestCase.java LINE:33:11 NODE_KIND:113 nVARs:12 NUM_NODE:111 TBID:53 TEID:102
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/ThreadMonitorTestCase.java LINE:48:10 NODE_KIND:113 nVARs:12 NUM_NODE:111 TBID:103 TEID:152
+
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:776:10 NODE_KIND:113 nVARs:11 NUM_NODE:234 TBID:4451 TEID:4529
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:787:10 NODE_KIND:113 nVARs:12 NUM_NODE:234 TBID:4530 TEID:4608
+
+000000055	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/LineIteratorTestCase.java LINE:213:10 NODE_KIND:113 nVARs:16 NUM_NODE:213 TBID:877 TEID:943
+000000056	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/LineIteratorTestCase.java LINE:224:10 NODE_KIND:113 nVARs:16 NUM_NODE:213 TBID:944 TEID:1010
+
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:106:10 NODE_KIND:113 nVARs:10 NUM_NODE:139 TBID:562 TEID:626
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:117:10 NODE_KIND:113 nVARs:10 NUM_NODE:139 TBID:627 TEID:691
+
+000000088	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:633:10 NODE_KIND:113 nVARs:15 NUM_NODE:173 TBID:3760 TEID:3829
+000000089	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:693:10 NODE_KIND:113 nVARs:14 NUM_NODE:172 TBID:4149 TEID:4217
+000000090	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:778:10 NODE_KIND:113 nVARs:15 NUM_NODE:173 TBID:4708 TEID:4777
+
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:318:9 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1433 TEID:1482
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:328:9 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1483 TEID:1532
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:339:10 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1533 TEID:1582
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:350:10 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1583 TEID:1632
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:361:10 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1633 TEID:1682
+
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:853:10 NODE_KIND:113 nVARs:5 NUM_NODE:311 TBID:8741 TEID:8833
+000000021	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:908:10 NODE_KIND:113 nVARs:6 NUM_NODE:311 TBID:9195 TEID:9287
+
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:84:10 NODE_KIND:113 nVARs:9 NUM_NODE:254 TBID:297 TEID:381
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:98:10 NODE_KIND:113 nVARs:9 NUM_NODE:254 TBID:382 TEID:466
+
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:170:10 NODE_KIND:121 nVARs:11 NUM_NODE:120 TBID:803 TEID:855
+000000024	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:204:10 NODE_KIND:121 nVARs:12 NUM_NODE:121 TBID:975 TEID:1028
+000000025	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:221:10 NODE_KIND:121 nVARs:12 NUM_NODE:121 TBID:1063 TEID:1116
+
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:853:10 NODE_KIND:113 nVARs:5 NUM_NODE:311 TBID:8741 TEID:8833
+000000026	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:908:10 NODE_KIND:113 nVARs:6 NUM_NODE:311 TBID:9195 TEID:9287
+000000027	dist:4.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FilenameUtilsTestCase.java LINE:919:10 NODE_KIND:113 nVARs:8 NUM_NODE:322 TBID:9288 TEID:9382
+
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:170:10 NODE_KIND:121 nVARs:11 NUM_NODE:120 TBID:803 TEID:855
+000000017	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:187:10 NODE_KIND:121 nVARs:12 NUM_NODE:111 TBID:888 TEID:940
+000000018	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:204:10 NODE_KIND:121 nVARs:12 NUM_NODE:121 TBID:975 TEID:1028
+000000019	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:221:10 NODE_KIND:121 nVARs:12 NUM_NODE:121 TBID:1063 TEID:1116
+
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:318:9 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1433 TEID:1482
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:328:9 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1483 TEID:1532
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:339:10 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1533 TEID:1582
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:350:10 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1583 TEID:1632
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:361:10 NODE_KIND:113 nVARs:10 NUM_NODE:160 TBID:1633 TEID:1682
+000000018	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:372:9 NODE_KIND:113 nVARs:10 NUM_NODE:166 TBID:1683 TEID:1734
+000000019	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileSystemUtilsTestCase.java LINE:382:9 NODE_KIND:113 nVARs:10 NUM_NODE:166 TBID:1735 TEID:1786
+
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:77:10 NODE_KIND:121 nVARs:13 NUM_NODE:166 TBID:305 TEID:368
+000000041	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/LockableFileWriterTest.java LINE:89:10 NODE_KIND:121 nVARs:13 NUM_NODE:166 TBID:369 TEID:432
+
+000000074	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:633:10 NODE_KIND:113 nVARs:15 NUM_NODE:173 TBID:3760 TEID:3829
+000000075	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:693:10 NODE_KIND:113 nVARs:14 NUM_NODE:172 TBID:4149 TEID:4217
+000000076	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:778:10 NODE_KIND:113 nVARs:15 NUM_NODE:173 TBID:4708 TEID:4777
+
+000000024	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:106:10 NODE_KIND:113 nVARs:10 NUM_NODE:139 TBID:562 TEID:626
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:117:10 NODE_KIND:113 nVARs:10 NUM_NODE:139 TBID:627 TEID:691
+
+000000061	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:68:9 NODE_KIND:121 nVARs:8 NUM_NODE:276 TBID:285 TEID:381
+000000069	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/RegexFileFilterTestCase.java LINE:54:9 NODE_KIND:121 nVARs:8 NUM_NODE:276 TBID:197 TEID:293
+
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:174:9 NODE_KIND:113 nVARs:17 NUM_NODE:228 TBID:1053 TEID:1134
+000000023	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestSimple.java LINE:43:9 NODE_KIND:113 nVARs:16 NUM_NODE:228 TBID:103 TEID:184
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:238:9 NODE_KIND:113 nVARs:11 NUM_NODE:132 TBID:1404 TEID:1459
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:251:9 NODE_KIND:113 nVARs:11 NUM_NODE:132 TBID:1460 TEID:1515
+
+000000044	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:937:9 NODE_KIND:121 nVARs:13 NUM_NODE:182 TBID:5367 TEID:5429
+000000047	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1069:9 NODE_KIND:121 nVARs:13 NUM_NODE:182 TBID:6122 TEID:6184
+
+000000052	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/DefaultFileComparatorTest.java LINE:28:9 NODE_KIND:113 nVARs:14 NUM_NODE:179 TBID:31 TEID:88
+000000050	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/ExtensionFileComparatorTest.java LINE:33:9 NODE_KIND:113 nVARs:14 NUM_NODE:179 TBID:55 TEID:112
+000000054	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/NameFileComparatorTest.java LINE:33:9 NODE_KIND:113 nVARs:14 NUM_NODE:179 TBID:55 TEID:112
+000000053	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/PathFileComparatorTest.java LINE:33:9 NODE_KIND:113 nVARs:14 NUM_NODE:179 TBID:55 TEID:112
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:238:9 NODE_KIND:113 nVARs:11 NUM_NODE:132 TBID:1404 TEID:1459
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:251:9 NODE_KIND:113 nVARs:11 NUM_NODE:132 TBID:1460 TEID:1515
+
+000000006	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCase.java LINE:391:9 NODE_KIND:113 nVARs:12 NUM_NODE:126 TBID:236 TEID:295
+000000011	dist:1.7	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCase.java LINE:554:9 NODE_KIND:113 nVARs:13 NUM_NODE:126 TBID:961 TEID:1020
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:378:9 NODE_KIND:113 nVARs:11 NUM_NODE:123 TBID:2196 TEID:2253
+
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:210:9 NODE_KIND:113 nVARs:14 NUM_NODE:128 TBID:1128 TEID:1181
+000000035	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:249:9 NODE_KIND:113 nVARs:14 NUM_NODE:128 TBID:1366 TEID:1419
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:306:9 NODE_KIND:113 nVARs:14 NUM_NODE:128 TBID:1738 TEID:1791
+000000037	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:478:9 NODE_KIND:113 nVARs:13 NUM_NODE:120 TBID:2780 TEID:2833
+000000038	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:517:9 NODE_KIND:113 nVARs:13 NUM_NODE:120 TBID:3020 TEID:3073
+000000039	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:574:9 NODE_KIND:113 nVARs:13 NUM_NODE:120 TBID:3394 TEID:3447
+
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:937:9 NODE_KIND:121 nVARs:13 NUM_NODE:182 TBID:5367 TEID:5429
+000000035	dist:1.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1069:9 NODE_KIND:121 nVARs:13 NUM_NODE:182 TBID:6122 TEID:6184
+000000036	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1082:9 NODE_KIND:121 nVARs:13 NUM_NODE:193 TBID:6206 TEID:6270
+
+000000055	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/StringBuilderWriterTest.java LINE:122:9 NODE_KIND:113 nVARs:11 NUM_NODE:189 TBID:639 TEID:708
+000000056	dist:4.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/StringBuilderWriterTest.java LINE:142:9 NODE_KIND:113 nVARs:10 NUM_NODE:189 TBID:771 TEID:840
+
+000000007	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:174:9 NODE_KIND:113 nVARs:17 NUM_NODE:228 TBID:1053 TEID:1134
+000000020	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestSimple.java LINE:43:9 NODE_KIND:113 nVARs:16 NUM_NODE:228 TBID:103 TEID:184
+
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:719:9 NODE_KIND:113 nVARs:12 NUM_NODE:366 TBID:5063 TEID:5174
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:729:9 NODE_KIND:113 nVARs:12 NUM_NODE:366 TBID:5175 TEID:5286
+
+000000026	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:344:9 NODE_KIND:113 nVARs:12 NUM_NODE:115 TBID:1963 TEID:2012
+000000027	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:383:9 NODE_KIND:113 nVARs:12 NUM_NODE:115 TBID:2193 TEID:2242
+000000028	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:440:9 NODE_KIND:113 nVARs:12 NUM_NODE:115 TBID:2553 TEID:2602
+000000029	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:478:9 NODE_KIND:113 nVARs:13 NUM_NODE:120 TBID:2780 TEID:2833
+000000030	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:517:9 NODE_KIND:113 nVARs:13 NUM_NODE:120 TBID:3020 TEID:3073
+000000031	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsWriteTestCase.java LINE:574:9 NODE_KIND:113 nVARs:13 NUM_NODE:120 TBID:3394 TEID:3447
+
+000000037	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:68:9 NODE_KIND:121 nVARs:8 NUM_NODE:276 TBID:285 TEID:381
+000000043	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/RegexFileFilterTestCase.java LINE:54:9 NODE_KIND:121 nVARs:8 NUM_NODE:276 TBID:197 TEID:293
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:126:8 NODE_KIND:113 nVARs:17 NUM_NODE:255 TBID:742 TEID:821
+000000001	dist:3.5	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:138:8 NODE_KIND:113 nVARs:18 NUM_NODE:267 TBID:822 TEID:904
+000000002	dist:4.1	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:150:8 NODE_KIND:113 nVARs:15 NUM_NODE:264 TBID:905 TEID:987
+
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/UnixLineEndingInputStreamTest.java LINE:79:8 NODE_KIND:113 nVARs:13 NUM_NODE:243 TBID:249 TEID:328
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/WindowsLineEndingInputStreamTest.java LINE:69:8 NODE_KIND:113 nVARs:13 NUM_NODE:243 TBID:236 TEID:315
+
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:114:8 NODE_KIND:121 nVARs:5 NUM_NODE:233 TBID:493 TEID:557
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:130:8 NODE_KIND:121 nVARs:5 NUM_NODE:233 TBID:592 TEID:656
+
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:269:8 NODE_KIND:113 nVARs:12 NUM_NODE:227 TBID:1626 TEID:1701
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:278:8 NODE_KIND:113 nVARs:12 NUM_NODE:227 TBID:1702 TEID:1777
+
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:682:8 NODE_KIND:113 nVARs:12 NUM_NODE:199 TBID:4757 TEID:4826
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:691:8 NODE_KIND:113 nVARs:12 NUM_NODE:199 TBID:4827 TEID:4896
+
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TeeInputStreamTest.java LINE:58:8 NODE_KIND:113 nVARs:10 NUM_NODE:198 TBID:190 TEID:261
+000000016	dist:3.9	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/TeeInputStreamTest.java LINE:89:8 NODE_KIND:113 nVARs:11 NUM_NODE:209 TBID:458 TEID:530
+
+000000038	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:407:8 NODE_KIND:113 nVARs:13 NUM_NODE:211 TBID:2886 TEID:2952
+000000039	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:416:8 NODE_KIND:113 nVARs:13 NUM_NODE:211 TBID:2953 TEID:3019
+
+000000053	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/EndianUtilsTest.java LINE:141:8 NODE_KIND:113 nVARs:9 NUM_NODE:213 TBID:838 TEID:904
+000000054	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/EndianUtilsTest.java LINE:168:8 NODE_KIND:113 nVARs:9 NUM_NODE:213 TBID:1045 TEID:1111
+
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/ThreadMonitorTestCase.java LINE:66:8 NODE_KIND:121 nVARs:11 NUM_NODE:135 TBID:161 TEID:211
+000000003	dist:1.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/ThreadMonitorTestCase.java LINE:76:8 NODE_KIND:121 nVARs:11 NUM_NODE:134 TBID:212 TEID:261
+
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:81:8 NODE_KIND:113 nVARs:11 NUM_NODE:185 TBID:296 TEID:354
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:90:7 NODE_KIND:113 nVARs:10 NUM_NODE:185 TBID:355 TEID:413
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:104:8 NODE_KIND:113 nVARs:11 NUM_NODE:185 TBID:449 TEID:507
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:113:7 NODE_KIND:113 nVARs:10 NUM_NODE:185 TBID:508 TEID:566
+
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:220:8 NODE_KIND:113 nVARs:12 NUM_NODE:184 TBID:1181 TEID:1250
+000000034	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:229:8 NODE_KIND:113 nVARs:12 NUM_NODE:184 TBID:1251 TEID:1320
+
+000000035	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:640:8 NODE_KIND:113 nVARs:13 NUM_NODE:178 TBID:4513 TEID:4568
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:649:8 NODE_KIND:113 nVARs:13 NUM_NODE:178 TBID:4569 TEID:4624
+
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:149:7 NODE_KIND:113 nVARs:10 NUM_NODE:153 TBID:718 TEID:771
+000000055	dist:3.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2543:8 NODE_KIND:113 nVARs:11 NUM_NODE:155 TBID:15280 TEID:15336
+
+000000027	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1170:8 NODE_KIND:121 nVARs:11 NUM_NODE:152 TBID:6709 TEID:6762
+000000033	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/Java7SupportTest.java LINE:48:7 NODE_KIND:121 nVARs:10 NUM_NODE:151 TBID:144 TEID:195
+
+000000052	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1596:8 NODE_KIND:113 nVARs:11 NUM_NODE:152 TBID:9301 TEID:9361
+000000053	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1605:8 NODE_KIND:113 nVARs:11 NUM_NODE:152 TBID:9362 TEID:9422
+
+000000000	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:126:8 NODE_KIND:113 nVARs:17 NUM_NODE:255 TBID:742 TEID:821
+000000001	dist:4.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:162:8 NODE_KIND:113 nVARs:18 NUM_NODE:253 TBID:988 TEID:1066
+
+000000001	dist:2.4	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:162:8 NODE_KIND:113 nVARs:18 NUM_NODE:253 TBID:988 TEID:1066
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:174:8 NODE_KIND:113 nVARs:18 NUM_NODE:247 TBID:1067 TEID:1143
+
+000000025	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/UnixLineEndingInputStreamTest.java LINE:79:8 NODE_KIND:113 nVARs:13 NUM_NODE:243 TBID:249 TEID:328
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/WindowsLineEndingInputStreamTest.java LINE:69:8 NODE_KIND:113 nVARs:13 NUM_NODE:243 TBID:236 TEID:315
+
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:114:8 NODE_KIND:121 nVARs:6 NUM_NODE:247 TBID:489 TEID:557
+000000019	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:130:8 NODE_KIND:121 nVARs:6 NUM_NODE:247 TBID:588 TEID:656
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCase.java LINE:508:8 NODE_KIND:113 nVARs:14 NUM_NODE:123 TBID:747 TEID:802
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCase.java LINE:518:8 NODE_KIND:113 nVARs:14 NUM_NODE:123 TBID:803 TEID:858
+
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:81:8 NODE_KIND:113 nVARs:11 NUM_NODE:185 TBID:296 TEID:354
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:90:7 NODE_KIND:113 nVARs:10 NUM_NODE:185 TBID:355 TEID:413
+000000005	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:104:8 NODE_KIND:113 nVARs:11 NUM_NODE:185 TBID:449 TEID:507
+000000006	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsDirectoryContainsTestCase.java LINE:113:7 NODE_KIND:113 nVARs:10 NUM_NODE:185 TBID:508 TEID:566
+
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:220:8 NODE_KIND:113 nVARs:12 NUM_NODE:184 TBID:1181 TEID:1250
+000000021	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:229:8 NODE_KIND:113 nVARs:12 NUM_NODE:184 TBID:1251 TEID:1320
+
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:682:8 NODE_KIND:113 nVARs:12 NUM_NODE:199 TBID:4757 TEID:4826
+000000024	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:691:8 NODE_KIND:113 nVARs:12 NUM_NODE:199 TBID:4827 TEID:4896
+
+000000071	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/EndianUtilsTest.java LINE:109:8 NODE_KIND:113 nVARs:9 NUM_NODE:191 TBID:606 TEID:668
+000000072	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/EndianUtilsTest.java LINE:132:8 NODE_KIND:113 nVARs:9 NUM_NODE:191 TBID:775 TEID:837
+
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:269:8 NODE_KIND:113 nVARs:12 NUM_NODE:227 TBID:1626 TEID:1701
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:278:8 NODE_KIND:113 nVARs:12 NUM_NODE:227 TBID:1702 TEID:1777
+
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:701:8 NODE_KIND:113 nVARs:11 NUM_NODE:220 TBID:4897 TEID:4979
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:710:8 NODE_KIND:113 nVARs:11 NUM_NODE:220 TBID:4980 TEID:5062
+
+000000044	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:407:8 NODE_KIND:113 nVARs:13 NUM_NODE:211 TBID:2886 TEID:2952
+000000045	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/FileFilterTestCase.java LINE:416:8 NODE_KIND:113 nVARs:13 NUM_NODE:211 TBID:2953 TEID:3019
+
+000000061	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/EndianUtilsTest.java LINE:141:8 NODE_KIND:113 nVARs:9 NUM_NODE:213 TBID:838 TEID:904
+000000062	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/EndianUtilsTest.java LINE:168:8 NODE_KIND:113 nVARs:9 NUM_NODE:213 TBID:1045 TEID:1111
+
+000000007	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCase.java LINE:508:8 NODE_KIND:113 nVARs:14 NUM_NODE:123 TBID:747 TEID:802
+000000008	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCase.java LINE:518:8 NODE_KIND:113 nVARs:14 NUM_NODE:123 TBID:803 TEID:858
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:513:8 NODE_KIND:113 nVARs:14 NUM_NODE:118 TBID:2663 TEID:2715
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:525:8 NODE_KIND:113 nVARs:14 NUM_NODE:118 TBID:2716 TEID:2768
+
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:48:8 NODE_KIND:113 nVARs:8 NUM_NODE:112 TBID:169 TEID:220
+000000013	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedReaderTest.java LINE:158:8 NODE_KIND:113 nVARs:10 NUM_NODE:123 TBID:877 TEID:929
+
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1170:8 NODE_KIND:121 nVARs:11 NUM_NODE:152 TBID:6709 TEID:6762
+000000036	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/Java7SupportTest.java LINE:48:7 NODE_KIND:121 nVARs:10 NUM_NODE:151 TBID:144 TEID:195
+
+000000057	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1526:7 NODE_KIND:113 nVARs:13 NUM_NODE:145 TBID:8827 TEID:8882
+000000058	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1596:8 NODE_KIND:113 nVARs:11 NUM_NODE:152 TBID:9301 TEID:9361
+000000059	dist:3.3	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1605:8 NODE_KIND:113 nVARs:11 NUM_NODE:152 TBID:9362 TEID:9422
+000000015	dist:3.6	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:113:6 NODE_KIND:113 nVARs:15 NUM_NODE:146 TBID:540 TEID:596
+
+000000031	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:193:7 NODE_KIND:113 nVARs:11 NUM_NODE:180 TBID:1007 TEID:1069
+000000032	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:201:7 NODE_KIND:113 nVARs:11 NUM_NODE:180 TBID:1070 TEID:1132
+
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:229:7 NODE_KIND:113 nVARs:8 NUM_NODE:152 TBID:1189 TEID:1253
+000000022	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:226:7 NODE_KIND:113 nVARs:8 NUM_NODE:152 TBID:1144 TEID:1208
+
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1214:7 NODE_KIND:113 nVARs:17 NUM_NODE:152 TBID:6966 TEID:7024
+000000030	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1222:6 NODE_KIND:113 nVARs:16 NUM_NODE:152 TBID:7025 TEID:7081
+
+000000007	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCase.java LINE:457:7 NODE_KIND:113 nVARs:13 NUM_NODE:128 TBID:498 TEID:553
+000000008	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCase.java LINE:466:7 NODE_KIND:113 nVARs:13 NUM_NODE:128 TBID:554 TEID:609
+000000003	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:454:7 NODE_KIND:113 nVARs:13 NUM_NODE:123 TBID:2435 TEID:2487
+000000004	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:465:7 NODE_KIND:113 nVARs:13 NUM_NODE:123 TBID:2488 TEID:2540
+
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:134:7 NODE_KIND:113 nVARs:16 NUM_NODE:189 TBID:703 TEID:772
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:142:7 NODE_KIND:113 nVARs:16 NUM_NODE:189 TBID:773 TEID:842
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:150:7 NODE_KIND:113 nVARs:16 NUM_NODE:189 TBID:843 TEID:912
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:158:7 NODE_KIND:113 nVARs:16 NUM_NODE:189 TBID:913 TEID:982
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:166:7 NODE_KIND:113 nVARs:16 NUM_NODE:189 TBID:983 TEID:1052
+
+000000032	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:778:7 NODE_KIND:121 nVARs:6 NUM_NODE:188 TBID:4471 TEID:4528
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:789:7 NODE_KIND:121 nVARs:6 NUM_NODE:188 TBID:4550 TEID:4607
+
+000000069	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/EndianUtilsTest.java LINE:78:7 NODE_KIND:113 nVARs:9 NUM_NODE:188 TBID:362 TEID:420
+000000070	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/EndianUtilsTest.java LINE:86:7 NODE_KIND:113 nVARs:9 NUM_NODE:188 TBID:421 TEID:479
+
+000000001	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:454:7 NODE_KIND:113 nVARs:13 NUM_NODE:123 TBID:2435 TEID:2487
+000000002	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/DirectoryWalkerTestCaseJava4.java LINE:465:7 NODE_KIND:113 nVARs:13 NUM_NODE:123 TBID:2488 TEID:2540
+
+000000063	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1979:7 NODE_KIND:113 nVARs:12 NUM_NODE:168 TBID:11734 TEID:11791
+000000064	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1987:7 NODE_KIND:113 nVARs:13 NUM_NODE:169 TBID:11792 TEID:11851
+000000065	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1995:7 NODE_KIND:113 nVARs:13 NUM_NODE:169 TBID:11852 TEID:11911
+000000066	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2003:7 NODE_KIND:113 nVARs:12 NUM_NODE:168 TBID:11912 TEID:11969
+000000067	dist:3.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:2011:7 NODE_KIND:113 nVARs:13 NUM_NODE:169 TBID:11970 TEID:12029
+
+000000020	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullInputStreamTest.java LINE:229:7 NODE_KIND:113 nVARs:8 NUM_NODE:152 TBID:1189 TEID:1253
+000000026	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/NullReaderTest.java LINE:226:7 NODE_KIND:113 nVARs:8 NUM_NODE:152 TBID:1144 TEID:1208
+
+000000032	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1191:7 NODE_KIND:113 nVARs:16 NUM_NODE:147 TBID:6826 TEID:6880
+000000033	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1199:6 NODE_KIND:113 nVARs:15 NUM_NODE:147 TBID:6881 TEID:6933
+000000034	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1214:7 NODE_KIND:113 nVARs:17 NUM_NODE:152 TBID:6966 TEID:7024
+
+000000033	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1199:6 NODE_KIND:113 nVARs:15 NUM_NODE:147 TBID:6881 TEID:6933
+000000034	dist:2.8	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1214:7 NODE_KIND:113 nVARs:17 NUM_NODE:152 TBID:6966 TEID:7024
+000000035	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOUtilsTestCase.java LINE:1222:6 NODE_KIND:113 nVARs:16 NUM_NODE:152 TBID:7025 TEID:7081
+
+000000054	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1099:7 NODE_KIND:121 nVARs:13 NUM_NODE:143 TBID:6212 TEID:6264
+000000055	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:1115:7 NODE_KIND:121 nVARs:13 NUM_NODE:143 TBID:6363 TEID:6415
+
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedInputStreamTest.java LINE:84:6 NODE_KIND:113 nVARs:8 NUM_NODE:213 TBID:484 TEID:559
+000000037	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TeeOutputStreamTest.java LINE:112:6 NODE_KIND:113 nVARs:8 NUM_NODE:213 TBID:483 TEID:558
+
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/ComparatorAbstractTestCase.java LINE:74:6 NODE_KIND:113 nVARs:10 NUM_NODE:199 TBID:212 TEID:268
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/ComparatorAbstractTestCase.java LINE:84:6 NODE_KIND:113 nVARs:10 NUM_NODE:199 TBID:269 TEID:325
+
+000000008	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:85:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:328 TEID:380
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:92:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:381 TEID:433
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:99:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:434 TEID:486
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:106:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:487 TEID:539
+000000012	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:120:6 NODE_KIND:113 nVARs:13 NUM_NODE:141 TBID:597 TEID:649
+000000013	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:127:6 NODE_KIND:113 nVARs:13 NUM_NODE:141 TBID:650 TEID:702
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:184:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:1135 TEID:1187
+
+000000036	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:419:6 NODE_KIND:113 nVARs:12 NUM_NODE:141 TBID:2447 TEID:2496
+000000037	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:426:6 NODE_KIND:113 nVARs:12 NUM_NODE:141 TBID:2497 TEID:2546
+000000038	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:439:6 NODE_KIND:113 nVARs:12 NUM_NODE:141 TBID:2586 TEID:2635
+000000039	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:454:6 NODE_KIND:113 nVARs:12 NUM_NODE:141 TBID:2683 TEID:2732
+
+000000027	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:86:6 NODE_KIND:121 nVARs:6 NUM_NODE:187 TBID:319 TEID:373
+000000029	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:100:6 NODE_KIND:121 nVARs:6 NUM_NODE:187 TBID:404 TEID:458
+
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:86:6 NODE_KIND:121 nVARs:6 NUM_NODE:187 TBID:319 TEID:373
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:100:6 NODE_KIND:121 nVARs:6 NUM_NODE:187 TBID:404 TEID:458
+
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/ComparatorAbstractTestCase.java LINE:74:6 NODE_KIND:113 nVARs:10 NUM_NODE:199 TBID:212 TEID:268
+000000041	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/comparator/ComparatorAbstractTestCase.java LINE:84:6 NODE_KIND:113 nVARs:10 NUM_NODE:199 TBID:269 TEID:325
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BoundedInputStreamTest.java LINE:84:6 NODE_KIND:113 nVARs:8 NUM_NODE:213 TBID:484 TEID:559
+000000043	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/output/TeeOutputStreamTest.java LINE:112:6 NODE_KIND:113 nVARs:8 NUM_NODE:213 TBID:483 TEID:558
+
+000000009	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOCaseTestCase.java LINE:66:6 NODE_KIND:113 nVARs:9 NUM_NODE:118 TBID:282 TEID:331
+000000010	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/IOCaseTestCase.java LINE:73:6 NODE_KIND:113 nVARs:9 NUM_NODE:118 TBID:332 TEID:381
+
+000000032	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:86:6 NODE_KIND:121 nVARs:5 NUM_NODE:173 TBID:323 TEID:373
+000000033	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:100:6 NODE_KIND:121 nVARs:5 NUM_NODE:173 TBID:408 TEID:458
+
+000000011	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:85:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:328 TEID:380
+000000012	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:92:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:381 TEID:433
+000000013	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:99:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:434 TEID:486
+000000014	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:106:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:487 TEID:539
+000000015	dist:2.2	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:113:6 NODE_KIND:113 nVARs:15 NUM_NODE:146 TBID:540 TEID:596
+000000016	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:120:6 NODE_KIND:113 nVARs:13 NUM_NODE:141 TBID:597 TEID:649
+000000017	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:127:6 NODE_KIND:113 nVARs:13 NUM_NODE:141 TBID:650 TEID:702
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:184:6 NODE_KIND:113 nVARs:14 NUM_NODE:141 TBID:1135 TEID:1187
+
+000000049	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:419:6 NODE_KIND:113 nVARs:12 NUM_NODE:141 TBID:2447 TEID:2496
+000000050	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:426:6 NODE_KIND:113 nVARs:12 NUM_NODE:141 TBID:2497 TEID:2546
+000000051	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:439:6 NODE_KIND:113 nVARs:12 NUM_NODE:141 TBID:2586 TEID:2635
+000000052	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/FileUtilsTestCase.java LINE:454:6 NODE_KIND:113 nVARs:12 NUM_NODE:141 TBID:2683 TEID:2732
+
+000000015	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:204:5 NODE_KIND:113 nVARs:14 NUM_NODE:136 TBID:1292 TEID:1348
+000000016	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestParamBlockSize.java LINE:210:5 NODE_KIND:113 nVARs:14 NUM_NODE:136 TBID:1349 TEID:1405
+000000026	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestSimple.java LINE:53:5 NODE_KIND:113 nVARs:13 NUM_NODE:136 TBID:185 TEID:241
+000000027	dist:2.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/ReversedLinesFileReaderTestSimple.java LINE:59:5 NODE_KIND:113 nVARs:13 NUM_NODE:136 TBID:242 TEID:298
+
+000000022	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:160:5 NODE_KIND:113 nVARs:17 NUM_NODE:132 TBID:760 TEID:818
+000000023	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:166:5 NODE_KIND:113 nVARs:17 NUM_NODE:132 TBID:819 TEID:877
+
+000000039	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:68:5 NODE_KIND:121 nVARs:5 NUM_NODE:176 TBID:344 TEID:398
+000000040	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:104:5 NODE_KIND:121 nVARs:5 NUM_NODE:176 TBID:700 TEID:754
+000000041	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/HexDumpTest.java LINE:139:5 NODE_KIND:121 nVARs:5 NUM_NODE:176 TBID:1053 TEID:1107
+
+000000074	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/IOFileFilterAbstractTestCase.java LINE:61:5 NODE_KIND:113 nVARs:9 NUM_NODE:182 TBID:338 TEID:407
+000000075	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/IOFileFilterAbstractTestCase.java LINE:67:5 NODE_KIND:113 nVARs:9 NUM_NODE:182 TBID:408 TEID:477
+
+000000017	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:160:5 NODE_KIND:113 nVARs:17 NUM_NODE:132 TBID:760 TEID:818
+000000018	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/input/BOMInputStreamTest.java LINE:166:5 NODE_KIND:113 nVARs:17 NUM_NODE:132 TBID:819 TEID:877
+
+000000061	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/IOFileFilterAbstractTestCase.java LINE:61:5 NODE_KIND:113 nVARs:9 NUM_NODE:182 TBID:338 TEID:407
+000000062	dist:0.0	FILE /home/yannick/workspace/eclipse/workspace/commons-io-2.5/src/test/java/org/apache/commons/io/filefilter/IOFileFilterAbstractTestCase.java LINE:67:5 NODE_KIND:113 nVARs:9 NUM_NODE:182 TBID:408 TEID:477
+
