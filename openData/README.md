@@ -3,13 +3,13 @@ We present the results at each step of benchmark processing.
 
 ## Selected case study projects
 
-| Project            | Repository |
+| Project            | Location |
 |:-------------------|:-----------|
-| JFreeChart         | https://github.com/yannickzj/jfreechart-1.0.10/releases/tag/original |
-| Gson               | https://github.com/yannickzj/gson-2.8.5/releases/tag/original |
-| Apache Commons Lang| https://github.com/yannickzj/commons-lang-3.7/releases/tag/original |
-| Apache Commons IO  | https://github.com/yannickzj/commons-io-2.5/releases/tag/original |
-| Joda-Time          | https://github.com/yannickzj/joda-time-2.10/releases/tag/original |
+| JFreeChart         | original/jfreechart-1.0.10-original.tar.gz |
+| Gson               | original/gson-2.8.5-original.tar.gz |
+| Apache Commons Lang| original/commons-lang-3.7-original.tar.gz |
+| Apache Commons IO  | original/commons-io-2.5-original.tar.gz |
+| Joda-Time          | original/joda-time-2.10-original.tar.gz |
 
 ## Clone detection (Deckard)
 
@@ -25,7 +25,7 @@ Clone detection reports from *Deckard* for each case study project:
 
 ## Clone pair candidates (input file)
 
-Clone pair candidates extracted from the *Deckard* detection reports using this [script](https://github.com/yannickzj/JTestParametrizer/blob/master/preprocess/deckard-extraction.ipynb) (paths may need to be reconfigured).
+Clone pair candidates extracted from the *Deckard* detection reports using the *deckard-extraction.ipynb* script (paths need reconfiguration).
 
 | Project            | Location   |
 |:-------------------|:-----------|
@@ -37,13 +37,13 @@ Clone pair candidates extracted from the *Deckard* detection reports using this 
 
 ## Refactoring output
 
-The refactored results using our technique are tagged *refactored* in each benchmark repository. The correctness evaluation in the paper is based on these refactored results. The statistics in log files lead to the applicability table in the paper.
+The refactored results using our technique are stored under the *refactored* folder. The correctness evaluation in the paper is based on these refactored results. The statistics in log files lead to the applicability table in the paper.
 
 | Project            | Refactored results | log files |
 |:-------------------|:-------------------|:----------|
-| JFreeChart         | https://github.com/yannickzj/jfreechart-1.0.10/releases/tag/refactored | output/jfreechart-1.0.10.log |
-| Gson               | https://github.com/yannickzj/gson-2.8.5/releases/tag/refactored        |output/gson-2.8.5.log |
-| Apache Commons Lang| https://github.com/yannickzj/commons-lang-3.7/releases/tag/refactored  |output/commons-lang-3.7.log |
-| Apache Commons IO  | https://github.com/yannickzj/commons-io-2.5/releases/tag/refactored    |output/commons-io-2.5.log |
-| Joda-Time          | https://github.com/yannickzj/joda-time-2.10/releases/tag/refactored    |output/jodatime-2.10.log |
+| JFreeChart         | refactored/jfreechart-1.0.10-refactored.tar.gz |output/jfreechart-1.0.10.log |
+| Gson               | refactored/gson-2.8.5-refactored.tar.gz        |output/gson-2.8.5.log |
+| Apache Commons Lang| refactored/commons-lang-3.7-refactored.tar.gz  |output/commons-lang-3.7.log |
+| Apache Commons IO  | refactored/commons-io-2.5-refactored.tar.gz    |output/commons-io-2.5.log |
+| Joda-Time          | refactored/joda-time-2.10-refactored.tar.gz    |output/jodatime-2.10.log |
 
